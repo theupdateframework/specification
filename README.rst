@@ -1,8 +1,7 @@
 The Update Framework specification
 ----------------------------------
 
-Latest: version 1.0 (Draft)
-`version 1.0 (Draft) <https://github.com/theupdateframework/specification/blob/master/tuf-spec.md>`_
+Latest: `version 1.0 (Draft) <https://github.com/theupdateframework/specification/blob/master/tuf-spec.md>`_
 
 
 License
