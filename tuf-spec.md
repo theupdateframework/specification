@@ -101,7 +101,7 @@ Version: **1.0 (Draft)**
 
    The framework should enable applications to be secure from all known attacks
    on the software update process.  It is not concerned with exposing
-   information about what software is being updating (and thus what software
+   information about what software is being updated (and thus what software
    the client may be running) or the contents of updates.
 
    The framework should provide means to minimize the impact of key compromise.
