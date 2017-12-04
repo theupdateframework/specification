@@ -463,6 +463,7 @@ Version: **1.0 (Draft)**
        }
 
    where:
+
           ROLE is a dictionary whose "_type" field describes the role type.
 
           KEYID is the identifier of the key signing the ROLE dictionary.
@@ -478,6 +479,7 @@ Version: **1.0 (Draft)**
         }
 
    where:
+
           KEYTYPE is a string denoting a public key signature system, such
           as RSA or ECDSA.
 
@@ -532,7 +534,9 @@ Version: **1.0 (Draft)**
           "keyval" : {"public" : PUBLIC}
         }
 
-   where PUBLIC is in PEM format and a string.
+   where:
+
+        PUBLIC is in PEM format and a string.
 
    The KEYID of a key is the hexdigest of the SHA-256 hash of the
    canonical JSON form of the key.
