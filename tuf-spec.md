@@ -462,7 +462,8 @@ Version: **1.0 (Draft)**
             , ... ]
        }
 
-   where: ROLE is a dictionary whose "_type" field describes the role type.
+   where:
+          ROLE is a dictionary whose "_type" field describes the role type.
 
           KEYID is the identifier of the key signing the ROLE dictionary.
 
@@ -476,7 +477,8 @@ Version: **1.0 (Draft)**
           "keyval" : KEYVAL
         }
 
-   where: KEYTYPE is a string denoting a public key signature system, such
+   where:
+          KEYTYPE is a string denoting a public key signature system, such
           as RSA or ECDSA.
 
           SCHEME is a string denoting a corresponding signature scheme.  For
