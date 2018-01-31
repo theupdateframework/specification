@@ -1,6 +1,6 @@
 # <p align="center">The Update Framework Specification
 
-Last modified: **11 October 2017**
+Last modified: **31 January 2018**
 
 Version: **1.0 (Draft)**
 
@@ -1037,10 +1037,9 @@ Version: **1.0 (Draft)**
     compromised and recovered. A _fast-forward attack_ happens when attackers
     arbitrarily increase the version numbers of: (1) the timestamp metadata,
     (2) the snapshot metadata, and / or (3) the targets, or a delegated
-    targets, metadata file in the snapshot metadata. Please see [the submitted
-    Mercury
-    draft](https://ssl.engineering.nyu.edu/papers/kuppusamy_usenix_17.pdf) for
-    more details.
+    targets, metadata file in the snapshot metadata. Please see [the Mercury
+    paper](https://ssl.engineering.nyu.edu/papers/kuppusamy-mercury-usenix-2017.pdf)
+    for more details.
 
     2. **Download the timestamp metadata file**, up to Y number of bytes
     (because the size is unknown.) The value for Y is set by the authors of the
