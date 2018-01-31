@@ -1037,9 +1037,8 @@ Version: **1.0 (Draft)**
     compromised and recovered. A _fast-forward attack_ happens when attackers
     arbitrarily increase the version numbers of: (1) the timestamp metadata,
     (2) the snapshot metadata, and / or (3) the targets, or a delegated
-    targets, metadata file in the snapshot metadata. Please see [the submitted
-    Mercury
-    draft](https://ssl.engineering.nyu.edu/papers/kuppusamy-mercury-usenix-2017.pdf)
+    targets, metadata file in the snapshot metadata. Please see [the Mercury
+    paper](https://ssl.engineering.nyu.edu/papers/kuppusamy-mercury-usenix-2017.pdf)
     for more details.
 
     2. **Download the timestamp metadata file**, up to Y number of bytes
