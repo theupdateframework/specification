@@ -307,33 +307,33 @@ Version: **1.0 (Draft)**
       Delegated trust can be revoked at any time by the delegating role signing
   new metadata that indicates the delegated role is no longer trusted.
 
- - **2.1.3 Snapshot role**
+  - **2.1.3 Snapshot role**
 
-   The snapshot role signs a metadata file that provides information about the
-   latest version of all of the other metadata on the repository (excluding the
-   timestamp file, discussed below).  This information allows clients to know
-   which metadata files have been updated and also prevents mix-and-match
-   attacks.
+      The snapshot role signs a metadata file that provides information about the
+      latest version of all of the other metadata on the repository (excluding the
+      timestamp file, discussed below).  This information allows clients to know
+      which metadata files have been updated and also prevents mix-and-match
+      attacks.
 
- - **2.1.4 Timestamp role**
+  - **2.1.4 Timestamp role**
 
-   To prevent an adversary from replaying an out-of-date signed metadata file
-   whose signature has not yet expired, an automated process periodically signs
-   a timestamped statement containing the hash of the snapshot file.  Even
-   though this timestamp key must be kept online, the risk posed to clients by
-   compromise of this key is minimal.
+      To prevent an adversary from replaying an out-of-date signed metadata file
+      whose signature has not yet expired, an automated process periodically signs
+      a timestamped statement containing the hash of the snapshot file.  Even
+      though this timestamp key must be kept online, the risk posed to clients by
+      compromise of this key is minimal.
 
- - **2.1.5 Mirrors role**
+  - **2.1.5 Mirrors role**
 
-   Every repository has one or more mirrors from which files can be downloaded
-   by clients.  A software update system using the framework may choose to
-   hard-code the mirror information in their software or they may choose to use
-   mirror metadata files that can optionally be signed by a mirrors role.
+      Every repository has one or more mirrors from which files can be downloaded
+      by clients.  A software update system using the framework may choose to
+      hard-code the mirror information in their software or they may choose to use
+      mirror metadata files that can optionally be signed by a mirrors role.
 
-   The importance of using signed mirror lists depends on the application and
-   the users of that application.  There is minimal risk to the application's
-   security from being tricked into contacting the wrong mirrors.  This is
-   because the framework has very little trust in repositories.
+      The importance of using signed mirror lists depends on the application and
+      the users of that application.  There is minimal risk to the application's
+      security from being tricked into contacting the wrong mirrors.  This is
+      because the framework has very little trust in repositories.
 
 * **2.2. Threat Model And Analysis**
 
