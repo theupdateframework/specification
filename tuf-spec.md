@@ -1,6 +1,6 @@
 # <p align="center">The Update Framework Specification
 
-Last modified: **31 January 2018**
+Last modified: **9 February 2018**
 
 Version: **1.0 (Draft)**
 
@@ -132,62 +132,62 @@ Version: **1.0 (Draft)**
 
    - **1.5.2. Goals to protect against specific attacks**
 
-      Note: When saying the framework protects against an attack,it means
-      the attack will not be successful.  It does not mean that a client will
-      always be able to successfully update during an attack.  Fundamentally, an
-      attacker positioned to intercept and modify a client's communication will
-      always be able to perform a denial of service.  The part we have control
-      over is not allowing an inability to update to go unnoticed.
+      Note: When saying the framework protects against an attack, it means the
+      attack will be unsuccessful.  It does not mean that a client will always
+      successfully update during an attack.  Fundamentally, an attacker
+      positioned to intercept and modify a client's communication can always
+      perform a denial of service.  Nevertheless, the framework must detect
+      when a client is unable to update.
 
-      + **Arbitrary installation attacks.** An attacker installs anything they want on
-      the client system. That is, an attacker can provide arbitrary files in
-      response to download requests and the files will not be detected as
-      illegitimate.
+      + **Arbitrary installation attacks.** An attacker cannot install anything
+      they want on the client system. That is, an attacker cannot provide
+      arbitrary files in response to download requests.
 
-      + **Endless data attacks.**  Attackers should not be able to respond to client
+      + **Endless data attacks.**  An attacker cannot respond to client
       requests with huge amounts of data (extremely large files) that interfere
       with the client's system.
 
-      + **Extraneous dependencies attacks.**  Attackers should not be able to cause
-      clients to download or install software dependencies that are not the
-      intended dependencies.
+      + **Extraneous dependencies attacks.**  An attacker cannot cause clients
+      to download or install software dependencies that are not the intended
+      dependencies.
 
-      + **Fast-forward attacks.**  An attacker arbitrarily increases the version numbers
-      of project metadata files in the snapshot metadata well beyond the current
-      value, thus tricking a software update system into thinking any subsequent
-      updates are trying to rollback the package to a previous, out-of-date version.
-      In some situations, such as those where there is a maximum possible version
-      number, the perpetrator could use a number so high that the system would
-      never be able to match it with the one in the snapshot metadata, and thus
-      new updates could never be downloaded.
+      + **Fast-forward attacks.**  An attacker cannot arbitrarily increase the
+      version numbers of metadata files, listed in the snapshot metadata, well
+      beyond the current value and thus tricking a software update system into
+      thinking any subsequent updates are trying to rollback the package to a
+      previous, out-of-date version.  In some situations, such as those where
+      there is a maximum possible version number, the perpetrator cannot use a
+      number so high that the system would never be able to match it with the
+      one in the snapshot metadata, and thus new updates could never be
+      downloaded.
 
-      + **Indefinite freeze attacks.**  Attackers should not be able to respond to
-      client requests with the same, outdated metadata without the client being
-      aware of the problem.
+      + **Indefinite freeze attacks.**  An attacker cannot respond to client
+      requests with the same, outdated metadata without the client being aware
+      of the problem.
 
-      + **Malicious mirrors preventing updates.**  Repository mirrors should be unable
-      to prevent updates from good mirrors.
+      + **Malicious mirrors preventing updates.**  A repository mirror cannot
+      prevent updates from good mirrors.
 
-      + **Mix-and-match attacks.**  Attackers should not be able to trick clients into
-      using a combination of metadata that never existed together on the
-      repository at the same time.
+      + **Mix-and-match attacks.**  An attacker cannot trick clients into using
+      a combination of metadata that never existed together on the repository
+      at the same time.
 
-      + **Rollback attacks.**  Attackers should not be able to trick clients into
-      installing software that is older than that which the client previously knew
-      to be available.
+      + **Rollback attacks.**  An attacker cannot trick clients into installing
+      software that is older than that which the client previously knew to be
+      available.
 
-      + **Slow retrieval attacks.**  Attackers should not be able to prevent clients
-      from being aware of interference with receiving updates by responding to
+      + **Slow retrieval attacks.**  An attacker cannot prevent clients from
+      being aware of interference with receiving updates by responding to
       client requests so slowly that automated updates never complete.
 
-      + **Vulnerability to key compromises.** An attacker who is able to compromise a
-      single key or less than a given threshold of keys can compromise clients.
-      This includes relying on a single online key (such as only being protected
-      by SSL) or a single offline key (such as most software update systems use to
-      sign files).
+      + **Vulnerability to key compromises.** An attacker, who is able to
+      compromise a single key or less than a given threshold of keys, cannot
+      compromise clients.  This includes compromising a single online key (such
+      as only being protected by SSL) or a single offline key (such as most
+      software update systems use to sign files).
 
-      + **Wrong software installation.**  An attacker provides a client with a trusted
-      file that is not the one the client wanted.
+      + **Wrong software installation.**  An attacker cannot provide a file
+      (trusted or untrusted) that is not the one the client wanted.
 
    - **1.5.3. Goals for PKIs**
 
