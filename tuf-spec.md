@@ -1,6 +1,6 @@
 # <p align="center">The Update Framework Specification
 
-Last modified: **9 February 2018**
+Last modified: **28 February 2018**
 
 Version: **1.0 (Draft)**
 
@@ -298,14 +298,14 @@ Version: **1.0 (Draft)**
   delegated role is only trusted for some of the target files that the
   delegating role is trusted for.
 
-      Delegated developer roles can further delegate trust to other delegated
+      Delegated roles can further delegate trust to other delegated
   roles.  This provides for multiple levels of trust delegation where each
   role can delegate full or partial trust for the target files they are
   trusted for.  The delegating role in these cases is still trusted.  That is,
   a role does not become untrusted when it has delegated trust.
 
-      Delegated trust can be revoked at any time by the delegating role signing
-  new metadata that indicates the delegated role is no longer trusted.
+      Any delegation can be revoked at any time: the delegating role need only
+  sign new metadata that no longer contains that delegation.
 
   - **2.1.3 Snapshot role**
 
