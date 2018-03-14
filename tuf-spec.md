@@ -309,11 +309,11 @@ Version: **1.0 (Draft)**
 
   - **2.1.3 Snapshot role**
 
-      The snapshot role signs a metadata file that provides information about the
-      latest version of all of the other metadata on the repository (excluding the
-      timestamp file, discussed below).  This information allows clients to know
-      which metadata files have been updated and also prevents mix-and-match
-      attacks.
+      The snapshot role signs a metadata file that provides information about
+      the latest version of all of the other metadata on the repository
+      (excluding the timestamp file, discussed below).  This information allows
+      clients to know which metadata files have been updated and also prevents
+      mix-and-match attacks.
 
   - **2.1.4 Timestamp role**
 
@@ -1007,8 +1007,8 @@ Version: **1.0 (Draft)**
     X number of bytes (because the size is unknown). The value for X is set by
     the authors of the application using TUF. For example, X may be tens of
     kilobytes. The filename used to download the root metadata file is of the
-    fixed form VERSION.FILENAME.EXT (e.g., 42.root.json). If this file is not
-    available, then go to step 1.8.
+    fixed form VERSION_NUMBER.FILENAME.EXT (e.g., 42.root.json). If this file
+    is not available, then go to step 1.8.
 
     1.3. **Check signatures.** Version N+1 of the root metadata file MUST have
     been signed by: (1) a threshold of keys specified in the trusted root
@@ -1060,15 +1060,14 @@ Version: **1.0 (Draft)**
     metadata file.
 
     3. **Download and check the snapshot metadata file**, up to the number of
-    bytes specified in the timestamp metadata file.
-    If consistent snapshots are not used (see Section 7), then the filename
-    used to download the snapshot metadata file is of the fixed form
-    FILENAME.EXT (e.g., snapshot.json).
-    Otherwise, the filename is of the form VERSION.FILENAME.EXT (e.g.,
-    42.snapshot.json), where VERSION is the version number of the snapshot
-    metadata file listed in the timestamp metadata file.  In either case,
-    the client MUST write the file to non-volatile storage as
-    FILENAME.EXT.
+    bytes specified in the timestamp metadata file.  If consistent snapshots
+    are not used (see Section 7), then the filename used to download the
+    snapshot metadata file is of the fixed form FILENAME.EXT (e.g.,
+    snapshot.json).  Otherwise, the filename is of the form
+    VERSION_NUMBER.FILENAME.EXT (e.g., 42.snapshot.json), where VERSION_NUMBER
+    is the version number of the snapshot metadata file listed in the timestamp
+    metadata file.  In either case, the client MUST write the file to
+    non-volatile storage as FILENAME.EXT.
 
     3.1. **Check against timestamp metadata.** The hashes and version number
     of the new snapshot metadata file MUST match the hashes and version number
@@ -1100,17 +1099,16 @@ Version: **1.0 (Draft)**
     file.
 
     4. **Download and check the top-level targets metadata file**, up to either
-    the number of bytes specified in the snapshot metadata file, or some
-    Z number of bytes. The value for Z is set by the authors of the application
-    using TUF. For example, Z may be tens of kilobytes.
-    If consistent snapshots are not used (see Section 7), then the filename
-    used to download the targets metadata file is of the fixed form
-    FILENAME.EXT (e.g., targets.json).
-    Otherwise, the filename is of the form VERSION.FILENAME.EXT (e.g.,
-    42.targets.json), where VERSION is the version number of the targets
-    metadata file listed in the snapshot metadata file.
-    In either case, the client MUST write the file to non-volatile storage as
-    FILENAME.EXT.
+    the number of bytes specified in the snapshot metadata file, or some Z
+    number of bytes. The value for Z is set by the authors of the application
+    using TUF. For example, Z may be tens of kilobytes.  If consistent
+    snapshots are not used (see Section 7), then the filename used to download
+    the targets metadata file is of the fixed form FILENAME.EXT (e.g.,
+    targets.json).  Otherwise, the filename is of the form
+    VERSION_NUMBER.FILENAME.EXT (e.g., 42.targets.json), where VERSION_NUMBER
+    is the version number of the targets metadata file listed in the snapshot
+    metadata file.  In either case, the client MUST write the file to
+    non-volatile storage as FILENAME.EXT.
 
     4.1. **Check against snapshot metadata.** The hashes (if any), and version
     number of the new targets metadata file MUST match the trusted snapshot metadata.
@@ -1254,22 +1252,23 @@ Version: **1.0 (Draft)**
 
     Additionally, the timestamp metadata (timestamp.json) should also be
     written to non-volatile storage whenever it is updated. It is optional for
-    an implementation to write identical copies at digest.timestamp.json for
-    record-keeping purposes, because a cryptographic hash of the timestamp
-    metadata is usually not known in advance. The same step applies to the root
-    metadata (root.json), although an implementation must write both root.json
-    and digest.root.json because it is possible to download root metadata both
-    with and without known hashes. These steps are required because these are
-    the only metadata files that may be requested without known hashes.
+    an implementation to write identical copies at
+    version_number.timestamp.json for record-keeping purposes, because a
+    cryptographic hash of the timestamp metadata is usually not known in
+    advance. The same step applies to the root metadata (root.json), although
+    an implementation must write both root.json and version_number.root.json
+    because it is possible to download root metadata both with and without
+    known version numbers. These steps are required because these are the only
+    metadata files that may be requested without known version numbers.
 
     Most importantly, no metadata file format must be updated to refer to the
-    names of metadata or target files with their hashes included. In other
-    words, if a metadata file A refers to another metadata or target file B as
+    names of metadata or target files with their version numbers included. In
+    other words, if a metadata file A refers to another metadata file B as
     filename.ext, then the filename must remain as filename.ext and not
-    digest.filename.ext. This rule is in place so that metadata signed by roles
-    with offline keys will not be forced to sign for the metadata file whenever
-    it is updated. In the next subsection, we will see how clients will
-    reproduce the name of the intended file.
+    version_number.filename.ext. This rule is in place so that metadata signed
+    by roles with offline keys will not be forced to sign for the metadata file
+    whenever it is updated. In the next subsection, we will see how clients
+    will reproduce the name of the intended file.
 
     Finally, the root metadata should write the Boolean "consistent_snapshot"
     attribute at the root level of its keys of attributes. If consistent
