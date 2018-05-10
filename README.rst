@@ -4,6 +4,19 @@ The Update Framework specification
 Latest: `version 1.0 (Draft) <https://github.com/theupdateframework/specification/blob/master/tuf-spec.md>`_
 
 
+Contact
+-------
+
+Please contact us via our `mailing list
+<https://groups.google.com/forum/?fromgroups#!forum/theupdateframework>`_.
+
+Questions, feedback, and suggestions are welcomed on this low volume mailing
+list.  We strive to make the specification easy to implement, so if you come
+across any inconsistencies or experience any difficulty, do let us know by
+sending an email, or by reporting an issue in the `specification repo
+<https://github.com/theupdateframework/specification/issues>`_.
+
+
 License
 -------
 
