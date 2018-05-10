@@ -1,8 +1,15 @@
 # <p align="center">The Update Framework Specification
 
-Last modified: **14 March 2018**
-
+Last modified: **10 May 2018**
 Version: **1.0 (Draft)**
+
+We strive to make the specification easy to implement, so if you come across
+any inconsistencies or experience any difficulty, do let us know by sending an
+email to our [mailing
+list](https://groups.google.com/forum/?fromgroups#!forum/theupdateframework),
+or by reporting an issue in the [specification
+repo](https://github.com/theupdateframework/specification/issues).
+
 
 ## Table of Contents ##
 - [Introduction](#1-introduction)
