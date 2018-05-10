@@ -1,6 +1,7 @@
 # <p align="center">The Update Framework Specification
 
 Last modified: **10 May 2018**
+
 Version: **1.0 (Draft)**
 
 We strive to make the specification easy to implement, so if you come across
