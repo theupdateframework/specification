@@ -994,7 +994,7 @@ repo](https://github.com/theupdateframework/specification/issues).
 
 ## **5. Detailed Workflows**
 
-    **The client application**
+    ### **The client application**
 
     0. **Load the trusted root metadata file.** We assume that a good, trusted
     copy of this file was shipped with the package manager or software updater
