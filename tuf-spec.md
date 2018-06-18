@@ -994,66 +994,65 @@ repo](https://github.com/theupdateframework/specification/issues).
 
 ## **5. Detailed Workflows**
 
-    ### **The client application**
+  **The client application**
 
-    0. **Load the trusted root metadata file.** We assume that a good, trusted
-    copy of this file was shipped with the package manager or software updater
-    using an out-of-band process.  Note that the expiration of the trusted root
-    metadata file does not matter, because we will attempt to update it in the
-    next step.
+  0. **Load the trusted root metadata file.** We assume that a good, trusted
+  copy of this file was shipped with the package manager or software updater
+  using an out-of-band process.  Note that the expiration of the trusted root
+  metadata file does not matter, because we will attempt to update it in the
+  next step.
 
-    1. **Update the root metadata file.** Since it may now be signed using
-    entirely different keys, the client must somehow be able to establish a
-    trusted line of continuity to the latest set of keys (see Section 6.1). To
-    do so, the client MUST download intermediate root metadata files, until the
-    latest available one is reached.
+  1. **Update the root metadata file.** Since it may now be signed using
+  entirely different keys, the client must somehow be able to establish a
+  trusted line of continuity to the latest set of keys (see Section 6.1). To do
+  so, the client MUST download intermediate root metadata files, until the
+  latest available one is reached.
 
-      1.1. Let N denote the version number of the trusted root metadata file.
+    1.1. Let N denote the version number of the trusted root metadata file.
 
-      1.2. **Try downloading version N+1 of the root metadata file**, up to
-      some X number of bytes (because the size is unknown). The value for X is
-      set by the authors of the application using TUF. For example, X may be
-      tens of kilobytes. The filename used to download the root metadata file
-      is of the fixed form VERSION_NUMBER.FILENAME.EXT (e.g., 42.root.json). If
-      this file is not available, then go to step 1.8.
+    1.2. **Try downloading version N+1 of the root metadata file**, up to some
+    X number of bytes (because the size is unknown). The value for X is set by
+    the authors of the application using TUF. For example, X may be tens of
+    kilobytes. The filename used to download the root metadata file is of the
+    fixed form VERSION_NUMBER.FILENAME.EXT (e.g., 42.root.json). If this file
+    is not available, then go to step 1.8.
 
-      1.3. **Check signatures.** Version N+1 of the root metadata file MUST
-      have been signed by: (1) a threshold of keys specified in the trusted
-      root metadata file (version N), and (2) a threshold of keys specified in
-      the new root metadata file being validated (version N+1).
+    1.3. **Check signatures.** Version N+1 of the root metadata file MUST have
+    been signed by: (1) a threshold of keys specified in the trusted root
+    metadata file (version N), and (2) a threshold of keys specified in the new
+    root metadata file being validated (version N+1).
 
-      1.4. **Check for a rollback attack.** The version number of the trusted
-      root metadata file (version N) must be less than or equal to the version
-      number of the new root metadata file (version N+1). Effectively, this
-      means checking that the version number signed in the new root metadata
-      file is indeed N+1.
+    1.4. **Check for a rollback attack.** The version number of the trusted
+    root metadata file (version N) must be less than or equal to the version
+    number of the new root metadata file (version N+1). Effectively, this means
+    checking that the version number signed in the new root metadata file is
+    indeed N+1.
 
-      1.5. Note that the expiration of the new (intermediate) root metadata
-      file does not matter yet, because we will check for it in step 1.8.
+    1.5. Note that the expiration of the new (intermediate) root metadata file
+    does not matter yet, because we will check for it in step 1.8.
 
-      1.6. Set the trusted root metadata file to the new root metadata file.
+    1.6. Set the trusted root metadata file to the new root metadata file.
 
-      1.7. Repeat steps 1.1 to 1.7.
+    1.7. Repeat steps 1.1 to 1.7.
 
-      1.8. **Check for a freeze attack.** The latest known time should be lower
-      than the expiration timestamp in the trusted root metadata file.
+    1.8. **Check for a freeze attack.** The latest known time should be lower
+    than the expiration timestamp in the trusted root metadata file.
 
-      1.9. **If the timestamp and / or snapshot keys have been rotated, then
-      delete the trusted timestamp and snapshot metadata files.** This is done
-      in order to recover from fast-forward attacks after the repository has
-      been compromised and recovered. A _fast-forward attack_ happens when
-      attackers arbitrarily increase the version numbers of: (1) the timestamp
-      metadata, (2) the snapshot metadata, and / or (3) the targets, or a
-      delegated targets, metadata file in the snapshot metadata. Please see
-      [the Mercury
-      paper](https://ssl.engineering.nyu.edu/papers/kuppusamy-mercury-usenix-2017.pdf)
-      for more details.
+    1.9. **If the timestamp and / or snapshot keys have been rotated, then
+    delete the trusted timestamp and snapshot metadata files.** This is done in
+    order to recover from fast-forward attacks after the repository has been
+    compromised and recovered. A _fast-forward attack_ happens when attackers
+    arbitrarily increase the version numbers of: (1) the timestamp metadata,
+    (2) the snapshot metadata, and / or (3) the targets, or a delegated
+    targets, metadata file in the snapshot metadata. Please see [the Mercury
+    paper](https://ssl.engineering.nyu.edu/papers/kuppusamy-mercury-usenix-2017.pdf)
+    for more details.
 
-    2. **Download the timestamp metadata file**, up to Y number of bytes
-    (because the size is unknown.) The value for Y is set by the authors of the
-    application using TUF. For example, Y may be tens of kilobytes. The
-    filename used to download the timestamp metadata file is of the fixed form
-    FILENAME.EXT (e.g., timestamp.json).
+  2. **Download the timestamp metadata file**, up to Y number of bytes (because
+  the size is unknown.) The value for Y is set by the authors of the
+  application using TUF. For example, Y may be tens of kilobytes. The filename
+  used to download the timestamp metadata file is of the fixed form
+  FILENAME.EXT (e.g., timestamp.json).
 
     2.1. **Check signatures.** The new timestamp metadata file must have been
     signed by a threshold of keys specified in the trusted root metadata file.
