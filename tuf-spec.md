@@ -1086,19 +1086,20 @@ non-volatile storage as FILENAME.EXT.
 
   * **3.3**. **Check for a rollback attack.**
 
-  * **3.3.1**. Note that the trusted snapshot metadata file may be checked for
-  authenticity, but its expiration does not matter for the following purposes.
+    * **3.3.1**. Note that the trusted snapshot metadata file may be checked
+    for authenticity, but its expiration does not matter for the following
+    purposes.
 
-  * **3.3.2**. The version number of the trusted snapshot metadata file, if
-  any, MUST be less than or equal to the version number of the new snapshot
-  metadata file.
+    * **3.3.2**. The version number of the trusted snapshot metadata file, if
+    any, MUST be less than or equal to the version number of the new snapshot
+    metadata file.
 
-  * **3.3.3**. The version number of the targets metadata file, and all
-  delegated targets metadata files (if any), in the trusted snapshot metadata
-  file, if any, MUST be less than or equal to its version number in the new
-  snapshot metadata file. Furthermore, any targets metadata filename that was
-  listed in the trusted snapshot metadata file, if any, MUST continue to be
-  listed in the new snapshot metadata file.
+    * **3.3.3**. The version number of the targets metadata file, and all
+    delegated targets metadata files (if any), in the trusted snapshot metadata
+    file, if any, MUST be less than or equal to its version number in the new
+    snapshot metadata file. Furthermore, any targets metadata filename that was
+    listed in the trusted snapshot metadata file, if any, MUST continue to be
+    listed in the new snapshot metadata file.
 
   * **3.4**. **Check for a freeze attack.** The latest known time should be
   lower than the expiration timestamp in the new snapshot metadata file.  If
@@ -1116,69 +1117,68 @@ VERSION_NUMBER is the version number of the targets metadata file listed in the
 snapshot metadata file.  In either case, the client MUST write the file to
 non-volatile storage as FILENAME.EXT.
 
-    4.1. **Check against snapshot metadata.** The hashes (if any), and version
-    number of the new targets metadata file MUST match the trusted snapshot metadata.
-    This is done, in part, to prevent a mix-and-match attack by man-in-the-middle
-    attackers.
+  * **4.1**. **Check against snapshot metadata.** The hashes (if any), and
+  version number of the new targets metadata file MUST match the trusted
+  snapshot metadata.  This is done, in part, to prevent a mix-and-match attack
+  by man-in-the-middle attackers.
 
-    4.2. **Check for an arbitrary software attack.** The new targets metadata file
-    MUST have been signed by a threshold of keys specified in the trusted root
-    metadata file.
+  * **4.2**. **Check for an arbitrary software attack.** The new targets
+  metadata file MUST have been signed by a threshold of keys specified in the
+  trusted root metadata file.
 
-    4.3. **Check for a rollback attack.** The version number of the trusted
-    targets metadata file, if any, MUST be less than or equal to the version
-    number of the new targets metadata file.
+  * **4.3**. **Check for a rollback attack.** The version number of the trusted
+  targets metadata file, if any, MUST be less than or equal to the version
+  number of the new targets metadata file.
 
-    4.4. **Check for a freeze attack.** The latest known time should be lower
-    than the expiration timestamp in the new targets metadata file.  If so,
-    the new targets metadata file becomes the trusted targets metadata file.
+  * **4.4**. **Check for a freeze attack.** The latest known time should be
+  lower than the expiration timestamp in the new targets metadata file.  If so,
+  the new targets metadata file becomes the trusted targets metadata file.
 
-    4.5. **Perform a preorder depth-first search for metadata about the desired
-    target, beginning with the top-level targets role.**
+  * **4.5**. **Perform a preorder depth-first search for metadata about the
+  desired target, beginning with the top-level targets role.**
 
-    4.5.1. If this role has been visited before, then skip this role (so that
-    cycles in the delegation graph are avoided).
-    Otherwise, if an application-specific maximum number of roles have been
-    visited, then go to step 5 (so that attackers cannot cause the client to
-    waste excessive bandwidth or time).
-    Otherwise, if this role contains metadata about the desired target, then go
-    to step 5.
+    * **4.5.1**. If this role has been visited before, then skip this role (so
+    that cycles in the delegation graph are avoided).  Otherwise, if an
+    application-specific maximum number of roles have been visited, then go to
+    step 5 (so that attackers cannot cause the client to waste excessive
+    bandwidth or time).  Otherwise, if this role contains metadata about the
+    desired target, then go to step 5.
 
-    4.5.2. Otherwise, recursively search the list of delegations in order of
-    appearance.
+    * **4.5.2**. Otherwise, recursively search the list of delegations in order
+    of appearance.
 
-    4.5.2.1. If the current delegation is a multi-role delegation, recursively
-    visit each role, and check that each has signed exactly the same non-custom
-    metadata (i.e., length and hashes) about the target (or the lack of any
-    such metadata).
+      * **4.5.2.1**. If the current delegation is a multi-role delegation,
+      recursively visit each role, and check that each has signed exactly the
+      same non-custom metadata (i.e., length and hashes) about the target (or
+      the lack of any such metadata).
 
-    4.5.2.2. If the current delegation is a terminating delegation, then jump
-    to step 5.
+      * **4.5.2.2**. If the current delegation is a terminating delegation,
+      then jump to step 5.
 
-    4.5.2.3. Otherwise, if the current delegation is a non-terminating
-    delegation, continue processing the next delegation, if any. Stop the
-    search, and jump to step 5 as soon as a delegation returns a result.
+      * **4.5.2.3**. Otherwise, if the current delegation is a non-terminating
+      delegation, continue processing the next delegation, if any. Stop the
+      search, and jump to step 5 as soon as a delegation returns a result.
 
-    5. Verify the desired target against its targets metadata
+**5**. **Verify the desired target against its targets metadata**.
 
-    5.1. If there is no targets metadata about this target, then report that
+  * **5.1**. If there is no targets metadata about this target, then report that
     there is no such target.
 
-    5.2. Otherwise, download the target (up to the number of bytes specified in
-    the targets metadata), and verify that its hashes match the targets
-    metadata. (We download up to this number of bytes, because in some cases,
-    the exact number is unknown. This may happen, for example, if an external
-    program is used to compute the root hash of a tree of targets files, and
-    this program does not provide the total size of all of these files.)
-    If consistent snapshots are not used (see Section 7), then the filename
-    used to download the target file is of the fixed form FILENAME.EXT (e.g.,
-    foobar.tar.gz).
-    Otherwise, the filename is of the form HASH.FILENAME.EXT (e.g.,
-    c14aeb4ac9f4a8fc0d83d12482b9197452f6adf3eb710e3b1e2b79e8d14cb681.foobar.tar.gz),
-    where HASH is one of the hashes of the targets file listed in the targets
-    metadata file found earlier in step 4.
-    In either case, the client MUST write the file to non-volatile storage as
-    FILENAME.EXT.
+  * **5.2**. Otherwise, download the target (up to the number of bytes
+  specified in the targets metadata), and verify that its hashes match the
+  targets metadata. (We download up to this number of bytes, because in some
+  cases, the exact number is unknown. This may happen, for example, if an
+  external program is used to compute the root hash of a tree of targets files,
+  and this program does not provide the total size of all of these files.) If
+  consistent snapshots are not used (see Section 7), then the filename used to
+  download the target file is of the fixed form FILENAME.EXT (e.g.,
+  foobar.tar.gz).
+
+  Otherwise, the filename is of the form HASH.FILENAME.EXT (e.g.,
+  c14aeb4ac9f4a8fc0d83d12482b9197452f6adf3eb710e3b1e2b79e8d14cb681.foobar.tar.gz),
+  where HASH is one of the hashes of the targets file listed in the targets
+  metadata file found earlier in step 4.  In either case, the client MUST write
+  the file to non-volatile storage as FILENAME.EXT.
 
 ## **6. Usage**
 
