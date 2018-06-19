@@ -1135,7 +1135,9 @@ non-volatile storage as FILENAME.EXT.
   the new targets metadata file becomes the trusted targets metadata file.
 
   * **4.5**. **Perform a preorder depth-first search for metadata about the
-  desired target, beginning with the top-level targets role.**
+  desired target, beginning with the top-level targets role.**  If any metadata
+  requested in steps 4.5.1 - 4.5.2.3 cannot be downloaded nor validated, end
+  the search and report that the target cannot be found.
 
     * **4.5.1**. If this role has been visited before, then skip this role (so
     that cycles in the delegation graph are avoided).  Otherwise, if an
