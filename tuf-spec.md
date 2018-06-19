@@ -1022,7 +1022,7 @@ repo](https://github.com/theupdateframework/specification/issues).
   metadata file (version N), and (2) a threshold of keys specified in the new
   root metadata file being validated (version N+1).
 
-  * ** 1.4. Check for a rollback attack.** The version number of the trusted
+  * **1.4. Check for a rollback attack.** The version number of the trusted
   root metadata file (version N) must be less than or equal to the version
   number of the new root metadata file (version N+1). Effectively, this means
   checking that the version number signed in the new root metadata file is
@@ -1172,9 +1172,8 @@ non-volatile storage as FILENAME.EXT.
   and this program does not provide the total size of all of these files.) If
   consistent snapshots are not used (see Section 7), then the filename used to
   download the target file is of the fixed form FILENAME.EXT (e.g.,
-  foobar.tar.gz).
-
-  Otherwise, the filename is of the form HASH.FILENAME.EXT (e.g.,
+  foobar.tar.gz).  Otherwise, the filename is of the form HASH.FILENAME.EXT
+  (e.g.,
   c14aeb4ac9f4a8fc0d83d12482b9197452f6adf3eb710e3b1e2b79e8d14cb681.foobar.tar.gz),
   where HASH is one of the hashes of the targets file listed in the targets
   metadata file found earlier in step 4.  In either case, the client MUST write
