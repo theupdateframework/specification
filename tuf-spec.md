@@ -994,128 +994,127 @@ repo](https://github.com/theupdateframework/specification/issues).
 
 ## **5. Detailed Workflows**
 
-  **The client application**
+### **The client application**
 
-  0. **Load the trusted root metadata file.** We assume that a good, trusted
+  **0**. **Load the trusted root metadata file.** We assume that a good, trusted
   copy of this file was shipped with the package manager or software updater
   using an out-of-band process.  Note that the expiration of the trusted root
   metadata file does not matter, because we will attempt to update it in the
   next step.
 
-  1. **Update the root metadata file.** Since it may now be signed using
-  entirely different keys, the client must somehow be able to establish a
-  trusted line of continuity to the latest set of keys (see Section 6.1). To do
-  so, the client MUST download intermediate root metadata files, until the
-  latest available one is reached.
+  **1**. **Update the root metadata file.**
+  Since it may now be signed using entirely different keys, the client must
+  somehow be able to establish a trusted line of continuity to the latest set
+  of keys (see Section 6.1). To do so, the client MUST download intermediate
+  root metadata files, until the latest available one is reached.
 
-    1.1. Let N denote the version number of the trusted root metadata file.
+  * **1.1**. Let N denote the version number of the trusted root metadata file.
 
-    1.2. **Try downloading version N+1 of the root metadata file**, up to some
-    X number of bytes (because the size is unknown). The value for X is set by
-    the authors of the application using TUF. For example, X may be tens of
-    kilobytes. The filename used to download the root metadata file is of the
-    fixed form VERSION_NUMBER.FILENAME.EXT (e.g., 42.root.json). If this file
-    is not available, then go to step 1.8.
+  * **1.2**. **Try downloading version N+1 of the root metadata file**, up to
+  some X number of bytes (because the size is unknown). The value for X is set
+  by the authors of the application using TUF. For example, X may be tens of
+  kilobytes. The filename used to download the root metadata file is of the
+  fixed form VERSION_NUMBER.FILENAME.EXT (e.g., 42.root.json). If this file is
+  not available, then go to step 1.8.
 
-    1.3. **Check signatures.** Version N+1 of the root metadata file MUST have
-    been signed by: (1) a threshold of keys specified in the trusted root
-    metadata file (version N), and (2) a threshold of keys specified in the new
-    root metadata file being validated (version N+1).
+  * **1.3. Check signatures.** Version N+1 of the root metadata file MUST have
+  been signed by: (1) a threshold of keys specified in the trusted root
+  metadata file (version N), and (2) a threshold of keys specified in the new
+  root metadata file being validated (version N+1).
 
-    1.4. **Check for a rollback attack.** The version number of the trusted
-    root metadata file (version N) must be less than or equal to the version
-    number of the new root metadata file (version N+1). Effectively, this means
-    checking that the version number signed in the new root metadata file is
-    indeed N+1.
+  * ** 1.4. Check for a rollback attack.** The version number of the trusted
+  root metadata file (version N) must be less than or equal to the version
+  number of the new root metadata file (version N+1). Effectively, this means
+  checking that the version number signed in the new root metadata file is
+  indeed N+1.
 
-    1.5. Note that the expiration of the new (intermediate) root metadata file
-    does not matter yet, because we will check for it in step 1.8.
+  * **1.5**. Note that the expiration of the new (intermediate) root metadata
+  file does not matter yet, because we will check for it in step 1.8.
 
-    1.6. Set the trusted root metadata file to the new root metadata file.
+  * **1.6**. **Set the trusted root metadata file** to the new root metadata
+  file.
 
-    1.7. Repeat steps 1.1 to 1.7.
+  * **1.7**. **Repeat steps 1.1 to 1.7**.
 
-    1.8. **Check for a freeze attack.** The latest known time should be lower
-    than the expiration timestamp in the trusted root metadata file.
+  * **1.8**. **Check for a freeze attack.** The latest known time should be
+  lower than the expiration timestamp in the trusted root metadata file.
 
-    1.9. **If the timestamp and / or snapshot keys have been rotated, then
-    delete the trusted timestamp and snapshot metadata files.** This is done in
-    order to recover from fast-forward attacks after the repository has been
-    compromised and recovered. A _fast-forward attack_ happens when attackers
-    arbitrarily increase the version numbers of: (1) the timestamp metadata,
-    (2) the snapshot metadata, and / or (3) the targets, or a delegated
-    targets, metadata file in the snapshot metadata. Please see [the Mercury
-    paper](https://ssl.engineering.nyu.edu/papers/kuppusamy-mercury-usenix-2017.pdf)
-    for more details.
+  * **1.9**. **If the timestamp and / or snapshot keys have been rotated, then
+  delete the trusted timestamp and snapshot metadata files.** This is done in
+  order to recover from fast-forward attacks after the repository has been
+  compromised and recovered. A _fast-forward attack_ happens when attackers
+  arbitrarily increase the version numbers of: (1) the timestamp metadata, (2)
+  the snapshot metadata, and / or (3) the targets, or a delegated targets,
+  metadata file in the snapshot metadata. Please see [the Mercury
+  paper](https://ssl.engineering.nyu.edu/papers/kuppusamy-mercury-usenix-2017.pdf)
+  for more details.
 
-  2. **Download the timestamp metadata file**, up to Y number of bytes (because
-  the size is unknown.) The value for Y is set by the authors of the
-  application using TUF. For example, Y may be tens of kilobytes. The filename
-  used to download the timestamp metadata file is of the fixed form
-  FILENAME.EXT (e.g., timestamp.json).
+**2**. **Download the timestamp metadata file**, up to Y number of bytes
+(because the size is unknown.) The value for Y is set by the authors of the
+application using TUF. For example, Y may be tens of kilobytes. The filename
+used to download the timestamp metadata file is of the fixed form FILENAME.EXT
+(e.g., timestamp.json).
 
-    2.1. **Check signatures.** The new timestamp metadata file must have been
-    signed by a threshold of keys specified in the trusted root metadata file.
+  * **2.1**. **Check signatures.** The new timestamp metadata file must have
+  been signed by a threshold of keys specified in the trusted root metadata
+  file.
 
-    2.2. **Check for a rollback attack.** The version number of the trusted
-    timestamp metadata file, if any, must be less than or equal to the version
-    number of the new timestamp metadata file.
+  * **2.2**. **Check for a rollback attack.** The version number of the trusted
+  timestamp metadata file, if any, must be less than or equal to the version
+  number of the new timestamp metadata file.
 
-    2.3. **Check for a freeze attack.** The latest known time should be lower
-    than the expiration timestamp in the new timestamp metadata file.  If so,
-    the new timestamp metadata file becomes the trusted timestamp
-    metadata file.
+  * **2.3**. **Check for a freeze attack.** The latest known time should be
+  lower than the expiration timestamp in the new timestamp metadata file.  If
+  so, the new timestamp metadata file becomes the trusted timestamp metadata
+  file.
 
-    3. **Download and check the snapshot metadata file**, up to the number of
-    bytes specified in the timestamp metadata file.  If consistent snapshots
-    are not used (see Section 7), then the filename used to download the
-    snapshot metadata file is of the fixed form FILENAME.EXT (e.g.,
-    snapshot.json).  Otherwise, the filename is of the form
-    VERSION_NUMBER.FILENAME.EXT (e.g., 42.snapshot.json), where VERSION_NUMBER
-    is the version number of the snapshot metadata file listed in the timestamp
-    metadata file.  In either case, the client MUST write the file to
-    non-volatile storage as FILENAME.EXT.
+**3**. **Download snapshot metadata file**, up to the number of bytes specified
+in the timestamp metadata file.  If consistent snapshots are not used (see
+Section 7), then the filename used to download the snapshot metadata file is of
+the fixed form FILENAME.EXT (e.g., snapshot.json).  Otherwise, the filename is
+of the form VERSION_NUMBER.FILENAME.EXT (e.g., 42.snapshot.json), where
+VERSION_NUMBER is the version number of the snapshot metadata file listed in
+the timestamp metadata file.  In either case, the client MUST write the file to
+non-volatile storage as FILENAME.EXT.
 
-    3.1. **Check against timestamp metadata.** The hashes and version number
-    of the new snapshot metadata file MUST match the hashes and version number
-    listed in timestamp metadata.
+  * **3.1**. **Check against timestamp metadata.** The hashes and version number
+  of the new snapshot metadata file MUST match the hashes and version number
+  listed in timestamp metadata.
 
-    3.2. **Check signatures.** The snapshot metadata file MUST have been signed
-    by a threshold of keys specified in the trusted root metadata file.
+  * **3.2**. **Check signatures.** The snapshot metadata file MUST have been
+  signed by a threshold of keys specified in the trusted root metadata file.
 
-    3.3. **Check for a rollback attack.**
+  * **3.3**. **Check for a rollback attack.**
 
-    3.3.1. Note that the trusted snapshot metadata file may be checked for
-    authenticity, but its expiration does not matter for the following
-    purposes.
+  * **3.3.1**. Note that the trusted snapshot metadata file may be checked for
+  authenticity, but its expiration does not matter for the following purposes.
 
-    3.3.2. The version number of the trusted snapshot metadata file, if any,
-    MUST be less than or equal to the version number of the new snapshot
-    metadata file.
+  * **3.3.2**. The version number of the trusted snapshot metadata file, if
+  any, MUST be less than or equal to the version number of the new snapshot
+  metadata file.
 
-    3.3.3. The version number of the targets metadata file, and all delegated
-    targets metadata files (if any), in the trusted snapshot metadata file, if
-    any, MUST be less than or equal to its version number in the new snapshot
-    metadata file. Furthermore, any targets metadata filename that was listed
-    in the trusted snapshot metadata file, if any, MUST continue to be listed
-    in the new snapshot metadata file.
+  * **3.3.3**. The version number of the targets metadata file, and all
+  delegated targets metadata files (if any), in the trusted snapshot metadata
+  file, if any, MUST be less than or equal to its version number in the new
+  snapshot metadata file. Furthermore, any targets metadata filename that was
+  listed in the trusted snapshot metadata file, if any, MUST continue to be
+  listed in the new snapshot metadata file.
 
-    3.4. **Check for a freeze attack.** The latest known time should be lower
-    than the expiration timestamp in the new snapshot metadata file.  If so,
-    the new snapshot metadata file becomes the trusted snapshot metadata
-    file.
+  * **3.4**. **Check for a freeze attack.** The latest known time should be
+  lower than the expiration timestamp in the new snapshot metadata file.  If
+  so, the new snapshot metadata file becomes the trusted snapshot metadata
+  file.
 
-    4. **Download and check the top-level targets metadata file**, up to either
-    the number of bytes specified in the snapshot metadata file, or some Z
-    number of bytes. The value for Z is set by the authors of the application
-    using TUF. For example, Z may be tens of kilobytes.  If consistent
-    snapshots are not used (see Section 7), then the filename used to download
-    the targets metadata file is of the fixed form FILENAME.EXT (e.g.,
-    targets.json).  Otherwise, the filename is of the form
-    VERSION_NUMBER.FILENAME.EXT (e.g., 42.targets.json), where VERSION_NUMBER
-    is the version number of the targets metadata file listed in the snapshot
-    metadata file.  In either case, the client MUST write the file to
-    non-volatile storage as FILENAME.EXT.
+**4**. **Download the top-level targets metadata file**, up to either the
+number of bytes specified in the snapshot metadata file, or some Z number of
+bytes. The value for Z is set by the authors of the application using TUF. For
+example, Z may be tens of kilobytes.  If consistent snapshots are not used (see
+Section 7), then the filename used to download the targets metadata file is of
+the fixed form FILENAME.EXT (e.g., targets.json).  Otherwise, the filename is
+of the form VERSION_NUMBER.FILENAME.EXT (e.g., 42.targets.json), where
+VERSION_NUMBER is the version number of the targets metadata file listed in the
+snapshot metadata file.  In either case, the client MUST write the file to
+non-volatile storage as FILENAME.EXT.
 
     4.1. **Check against snapshot metadata.** The hashes (if any), and version
     number of the new targets metadata file MUST match the trusted snapshot metadata.
