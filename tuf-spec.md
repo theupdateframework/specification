@@ -1020,13 +1020,18 @@ repo](https://github.com/theupdateframework/specification/issues).
   * **1.3. Check signatures.** Version N+1 of the root metadata file MUST have
   been signed by: (1) a threshold of keys specified in the trusted root
   metadata file (version N), and (2) a threshold of keys specified in the new
-  root metadata file being validated (version N+1).
+  root metadata file being validated (version N+1).  If version N+1 is not
+  signed as required, discard it and report the signature failure.  On the
+  next update cycle, begin at step 0 and version N of the root metadata
+  file.
 
   * **1.4. Check for a rollback attack.** The version number of the trusted
   root metadata file (version N) must be less than or equal to the version
   number of the new root metadata file (version N+1). Effectively, this means
   checking that the version number signed in the new root metadata file is
-  indeed N+1.
+  indeed N+1.  If the new root metadata file is less than the trusted metadat
+  file, discard it and report the rollback attack.  On the next update cycle,
+  begin at step 0 and version N of the root metadata file.
 
   * **1.5**. Note that the expiration of the new (intermediate) root metadata
   file does not matter yet, because we will check for it in step 1.8.
@@ -1037,7 +1042,10 @@ repo](https://github.com/theupdateframework/specification/issues).
   * **1.7**. **Repeat steps 1.1 to 1.7**.
 
   * **1.8**. **Check for a freeze attack.** The latest known time should be
-  lower than the expiration timestamp in the trusted root metadata file.
+  lower than the expiration timestamp in the trusted root metadata file
+  (version N).  If the trusted root metadata file has expired, report the
+  potential freeze attack.  On the next update cycle, begin at step 0 and
+  version N of the root metadata file.
 
   * **1.9**. **If the timestamp and / or snapshot keys have been rotated, then
   delete the trusted timestamp and snapshot metadata files.** This is done in
@@ -1057,11 +1065,14 @@ used to download the timestamp metadata file is of the fixed form FILENAME.EXT
 
   * **2.1**. **Check signatures.** The new timestamp metadata file must have
   been signed by a threshold of keys specified in the trusted root metadata
-  file.
+  file.  If the new timestamp metadata file is not properly signed, discard it
+  and report the signature failure.
 
   * **2.2**. **Check for a rollback attack.** The version number of the trusted
   timestamp metadata file, if any, must be less than or equal to the version
-  number of the new timestamp metadata file.
+  number of the new timestamp metadata file.  If the new timestamp metadata
+  file is older than the trusted timestamp metadata file, discard it and report
+  the potential rollback attack.
 
   * **2.3**. **Check for a freeze attack.** The latest known time should be
   lower than the expiration timestamp in the new timestamp metadata file.  If
