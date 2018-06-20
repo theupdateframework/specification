@@ -996,6 +996,10 @@ repo](https://github.com/theupdateframework/specification/issues).
 
 ### **The client application**
 
+  Note: If a step in the following workflow does not succeed (e.g., a failure
+  is reported because a new metadata file was not signed, the client should
+  not be left in an unrecoverable state.
+
   **0**. **Load the trusted root metadata file.** We assume that a good, trusted
   copy of this file was shipped with the package manager or software updater
   using an out-of-band process.  Note that the expiration of the trusted root
