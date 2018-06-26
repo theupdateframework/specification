@@ -1034,10 +1034,10 @@ repo](https://github.com/theupdateframework/specification/issues).
   root metadata file (version N) must be less than or equal to the version
   number of the new root metadata file (version N+1). Effectively, this means
   checking that the version number signed in the new root metadata file is
-  indeed N+1.  If the new root metadata file is less than the trusted metadata
-  file, discard it, abort the update cycle, and report the rollback attack.  On
-  the next update cycle, begin at step 0 and version N of the root metadata
-  file.
+  indeed N+1.  If the version of the new root metadata file is less than the
+  trusted metadata file, discard it, abort the update cycle, and report the
+  rollback attack.  On the next update cycle, begin at step 0 and version N of
+  the root metadata file.
 
   * **1.5**. Note that the expiration of the new (intermediate) root metadata
   file does not matter yet, because we will check for it in step 1.8.
