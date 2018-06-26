@@ -996,9 +996,10 @@ repo](https://github.com/theupdateframework/specification/issues).
 
 ### **The client application**
 
-  Note: If a step in the following workflow does not succeed (e.g., a failure
-  is reported because a new metadata file was not signed), the client should
-  not be left in an unrecoverable state.
+  Note: If a step in the following workflow does not succeed (e.g., the update
+  is aborted because a new metadata file was not signed), the client should
+  still be able to update again in the future. Errors raised during the update
+  process should not leave clients in an unrecoverable state.
 
   **0**. **Load the trusted root metadata file.** We assume that a good, trusted
   copy of this file was shipped with the package manager or software updater
@@ -1025,17 +1026,18 @@ repo](https://github.com/theupdateframework/specification/issues).
   been signed by: (1) a threshold of keys specified in the trusted root
   metadata file (version N), and (2) a threshold of keys specified in the new
   root metadata file being validated (version N+1).  If version N+1 is not
-  signed as required, discard it and report the signature failure.  On the
-  next update cycle, begin at step 0 and version N of the root metadata
-  file.
+  signed as required, discard it, abort the update cycle, and report the
+  signature failure.  On the next update cycle, begin at step 0 and version N
+  of the root metadata file.
 
   * **1.4. Check for a rollback attack.** The version number of the trusted
   root metadata file (version N) must be less than or equal to the version
   number of the new root metadata file (version N+1). Effectively, this means
   checking that the version number signed in the new root metadata file is
-  indeed N+1.  If the new root metadata file is less than the trusted metadat
-  file, discard it and report the rollback attack.  On the next update cycle,
-  begin at step 0 and version N of the root metadata file.
+  indeed N+1.  If the new root metadata file is less than the trusted metadata
+  file, discard it, abort the update cycle, and report the rollback attack.  On
+  the next update cycle, begin at step 0 and version N of the root metadata
+  file.
 
   * **1.5**. Note that the expiration of the new (intermediate) root metadata
   file does not matter yet, because we will check for it in step 1.8.
@@ -1047,9 +1049,9 @@ repo](https://github.com/theupdateframework/specification/issues).
 
   * **1.8**. **Check for a freeze attack.** The latest known time should be
   lower than the expiration timestamp in the trusted root metadata file
-  (version N).  If the trusted root metadata file has expired, report the
-  potential freeze attack.  On the next update cycle, begin at step 0 and
-  version N of the root metadata file.
+  (version N).  If the trusted root metadata file has expired, abort the update
+  cycle, report the potential freeze attack.  On the next update cycle, begin
+  at step 0 and version N of the root metadata file.
 
   * **1.9**. **If the timestamp and / or snapshot keys have been rotated, then
   delete the trusted timestamp and snapshot metadata files.** This is done in
@@ -1069,20 +1071,20 @@ used to download the timestamp metadata file is of the fixed form FILENAME.EXT
 
   * **2.1**. **Check signatures.** The new timestamp metadata file must have
   been signed by a threshold of keys specified in the trusted root metadata
-  file.  If the new timestamp metadata file is not properly signed, discard it
-  and report the signature failure.
+  file.  If the new timestamp metadata file is not properly signed, discard it,
+  abort the update cycle, and report the signature failure.
 
   * **2.2**. **Check for a rollback attack.** The version number of the trusted
   timestamp metadata file, if any, must be less than or equal to the version
   number of the new timestamp metadata file.  If the new timestamp metadata
-  file is older than the trusted timestamp metadata file, discard it and report
-  the potential rollback attack.
+  file is older than the trusted timestamp metadata file, discard it, abort the
+  update cycle, and report the potential rollback attack.
 
   * **2.3**. **Check for a freeze attack.** The latest known time should be
   lower than the expiration timestamp in the new timestamp metadata file.  If
   so, the new timestamp metadata file becomes the trusted timestamp metadata
-  file.  If the new timestamp metadata file has expired, discard it and report
-  the potential freeze attack.
+  file.  If the new timestamp metadata file has expired, discard it, abort the
+  update cycle, and report the potential freeze attack.
 
 **3**. **Download snapshot metadata file**, up to the number of bytes specified
 in the timestamp metadata file.  If consistent snapshots are not used (see
@@ -1093,15 +1095,16 @@ VERSION_NUMBER is the version number of the snapshot metadata file listed in
 the timestamp metadata file.  In either case, the client MUST write the file to
 non-volatile storage as FILENAME.EXT.
 
-  * **3.1**. **Check against timestamp metadata.** The hashes and version number
+  * **3.1**. **Check against timestamp metadata.** The hashes and version
+  * number
   of the new snapshot metadata file MUST match the hashes and version number
   listed in timestamp metadata.  If hashes and version do not match, discard
-  the new snapshot metadata and report the failure.
+  the new snapshot metadata, abort the update cycle, and report the failure.
 
   * **3.2**. **Check signatures.** The new snapshot metadata file MUST have
   been signed by a threshold of keys specified in the trusted root metadata
   file.  If the new snapshot metadata file is not signed as required, discard
-  it and report the signature failure.
+  it, abort the update cycle, and report the signature failure.
 
   * **3.3**. **Check for a rollback attack.**
 
@@ -1112,7 +1115,8 @@ non-volatile storage as FILENAME.EXT.
     * **3.3.2**. The version number of the trusted snapshot metadata file, if
     any, MUST be less than or equal to the version number of the new snapshot
     metadata file.  If the new snapshot metadata file is older than the trusted
-    metadata file, discard it and report the potential rollback attack.
+    metadata file, discard it, abort the update cycle, and report the potential
+    rollback attack.
 
     * **3.3.3**. The version number of the targets metadata file, and all
     delegated targets metadata files (if any), in the trusted snapshot metadata
@@ -1120,13 +1124,14 @@ non-volatile storage as FILENAME.EXT.
     snapshot metadata file. Furthermore, any targets metadata filename that was
     listed in the trusted snapshot metadata file, if any, MUST continue to be
     listed in the new snapshot metadata file.  If any of these conditions are
-    not met, discard the new snaphot metadadata file and report the failure.
+    not met, discard the new snaphot metadadata file, abort the update cycle,
+    and report the failure.
 
   * **3.4**. **Check for a freeze attack.** The latest known time should be
   lower than the expiration timestamp in the new snapshot metadata file.  If
   so, the new snapshot metadata file becomes the trusted snapshot metadata
-  file. If the new snaphshot metadata file is expired, discard it and report
-  the potential freeze attack.
+  file. If the new snaphshot metadata file is expired, discard it, abort the
+  update cycle, and report the potential freeze attack.
 
 **4**. **Download the top-level targets metadata file**, up to either the
 number of bytes specified in the snapshot metadata file, or some Z number of
@@ -1143,24 +1148,24 @@ non-volatile storage as FILENAME.EXT.
   version number of the new targets metadata file MUST match the trusted
   snapshot metadata.  This is done, in part, to prevent a mix-and-match attack
   by man-in-the-middle attackers.  If the new targets metadata file does not
-  match, discard it and report the failure.
+  match, discard it, abort the update cycle, and report the failure.
 
   * **4.2**. **Check for an arbitrary software attack.** The new targets
   metadata file MUST have been signed by a threshold of keys specified in the
   trusted root metadata file.  If the new targets metadat file is not signed
-  as required, discard it and report the failure.
+  as required, discard it, abort the update cycle, and report the failure.
 
   * **4.3**. **Check for a rollback attack.** The version number of the trusted
   targets metadata file, if any, MUST be less than or equal to the version
-  number of the new targets metadata file.  If the new targets metadata file
-  is older than the trusted targets metadata file, discard it and report
-  the potential rollback attack.
+  number of the new targets metadata file.  If the new targets metadata file is
+  older than the trusted targets metadata file, discard it, abort the update
+  cycle, and report the potential rollback attack.
 
   * **4.4**. **Check for a freeze attack.** The latest known time should be
   lower than the expiration timestamp in the new targets metadata file.  If so,
   the new targets metadata file becomes the trusted targets metadata file.  If
-  the new targets metadata file is expired, discard it and report the potential
-  freeze attack.
+  the new targets metadata file is expired, discard it, abort the update cycle,
+  and report the potential freeze attack.
 
   * **4.5**. **Perform a preorder depth-first search for metadata about the
   desired target, beginning with the top-level targets role.**  Note: If
@@ -1191,8 +1196,8 @@ non-volatile storage as FILENAME.EXT.
 
 **5**. **Verify the desired target against its targets metadata**.
 
-  * **5.1**. If there is no targets metadata about this target, then report that
-    there is no such target.
+  * **5.1**. If there is no targets metadata about this target, abort the
+  update cycle and report that there is no such target.
 
   * **5.2**. Otherwise, download the target (up to the number of bytes
   specified in the targets metadata), and verify that its hashes match the
