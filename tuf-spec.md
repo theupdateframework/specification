@@ -1096,10 +1096,10 @@ the timestamp metadata file.  In either case, the client MUST write the file to
 non-volatile storage as FILENAME.EXT.
 
   * **3.1**. **Check against timestamp metadata.** The hashes and version
-  * number
-  of the new snapshot metadata file MUST match the hashes and version number
-  listed in timestamp metadata.  If hashes and version do not match, discard
-  the new snapshot metadata, abort the update cycle, and report the failure.
+  number of the new snapshot metadata file MUST match the hashes and version
+  number listed in timestamp metadata.  If hashes and version do not match,
+  discard the new snapshot metadata, abort the update cycle, and report the
+  failure.
 
   * **3.2**. **Check signatures.** The new snapshot metadata file MUST have
   been signed by a threshold of keys specified in the trusted root metadata
