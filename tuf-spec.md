@@ -1130,7 +1130,7 @@ non-volatile storage as FILENAME.EXT.
   * **3.4**. **Check for a freeze attack.** The latest known time should be
   lower than the expiration timestamp in the new snapshot metadata file.  If
   so, the new snapshot metadata file becomes the trusted snapshot metadata
-  file. If the new snaphshot metadata file is expired, discard it, abort the
+  file. If the new snapshot metadata file is expired, discard it, abort the
   update cycle, and report the potential freeze attack.
 
 **4**. **Download the top-level targets metadata file**, up to either the
