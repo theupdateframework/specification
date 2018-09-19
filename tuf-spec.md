@@ -584,8 +584,7 @@ repo](https://github.com/theupdateframework/specification/issues).
    written according to version "spec_version" of the specification, and
    clients MUST verify that "spec_version" matches the expected version number.
    Adopters are free to determine what is considered a match (e.g., the version
-   number must exactly exactly, or perhaps only the major version number
-   (major.minor.fix).
+   number exactly, or perhaps only the major version number (major.minor.fix).
 
    CONSISTENT_SNAPSHOT is a boolean indicating whether the repository supports
    consistent snapshots.  Section 7 goes into more detail on the consequences
