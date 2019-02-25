@@ -709,7 +709,7 @@ repo](https://github.com/theupdateframework/specification/issues).
          , ...
        }
 
-   METAPATH is the the metadata file's path on the repository relative to the
+   METAPATH is the metadata file's path on the repository relative to the
    metadata base URL.
 
    VERSION is listed for the root file
