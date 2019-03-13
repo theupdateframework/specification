@@ -32,7 +32,9 @@ Acknowledgements
 ----------------
 
 This project is managed by Prof. Justin Cappos and other members of the `Secure
-Systems Lab <https://ssl.engineering.nyu.edu/>`_ at NYU.
+Systems Lab <https://ssl.engineering.nyu.edu/>`_ at NYU.  We'd like to thank
+Justin Samuel, Roger Dingledine, Nick Matthewson, Trishank Kuppusamy, and
+all of the TAP authors for their contributions to the TUF spec.
 
 This material is based upon work supported by the National Science Foundation
 under Grant Nos. CNS-1345049 and CNS-0959138. Any opinions, findings, and
