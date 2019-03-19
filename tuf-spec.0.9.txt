@@ -865,7 +865,8 @@ Version 0.9
       "hashes": {
        "sha256": "c14aeb4ac9f4a8fc0d83d12482b9197452f6adf3eb710e3b1e2b79e8d14cb681"
       }, 
-      "length": 1007
+      "length": 1007,
+      "version": 1
      }
     }, 
     "version": 1
