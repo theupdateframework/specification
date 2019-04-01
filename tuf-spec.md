@@ -60,18 +60,17 @@ repo](https://github.com/theupdateframework/specification/issues).
    and the [National Science Foundation](https://www.nsf.gov/) (NSF) have
    provided support for the development of TUF.
 
-   TUF's reference implementation is based heavily on
+   TUF's reference implementation is based on prior work on
    [Thandy](https://www.torproject.org/), the application
-   updater for Tor. Its design and this spec are
-   also largely based on Thandy's, with many parts being directly borrowed
-   from Thandy. The Thandy spec can be found at
+   updater for Tor. Its design and this spec
+   also came from ideas jointly developed in discussion with Thandy's authors.
+   The Thandy spec can be found at
    https://gitweb.torproject.org/thandy.git/tree/specs/thandy-spec.txt
 
    Whereas Thandy is an application updater for an individual software project,
    TUF aims to provide a way to secure any software update system. We're very
-   grateful to the Tor Project and the Thandy developers as it is doubtful our
-   design and implementation would have been anywhere near as good without
-   being able to use their great work as a starting point. Thandy is the hard
+   grateful to the Tor Project and the Thandy developers for the early discussion
+   that led to the ideas in Thandy and TUF. Thandy is the hard
    work of Nick Mathewson, Sebastian Hahn, Roger Dingledine, Martin Peck, and
    others.
 
