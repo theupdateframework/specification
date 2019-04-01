@@ -62,8 +62,8 @@ repo](https://github.com/theupdateframework/specification/issues).
 
    TUF's reference implementation is based on prior work on
    [Thandy](https://www.torproject.org/), the application
-   updater for Tor. Its design and this spec are
-   also came from ideas jointly developed in discussion with Thandy's authors. 
+   updater for Tor. Its design and this spec
+   also came from ideas jointly developed in discussion with Thandy's authors.
    The Thandy spec can be found at
    https://gitweb.torproject.org/thandy.git/tree/specs/thandy-spec.txt
 
