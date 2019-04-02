@@ -710,10 +710,10 @@ repo](https://github.com/theupdateframework/specification/issues).
 
 * **4.4. File formats: snapshot.json**
 
-   The snapshot.json file is signed by the snapshot role.  It lists the version
-   numbers of all metadata on the repository, excluding timestamp.json and
-   mirrors.json.  For the root role, the hash(es), size, and version number
-   are listed.
+   The snapshot.json file is signed by the snapshot role. It lists the version
+   numbers, and optionally the size, of all metadata on the repository,
+   excluding root.json, timestamp.json and mirrors.json. For delegated roles,
+   the hash(es) are also listed.
 
    The "signed" portion of snapshot.json is as follows:
 
@@ -727,43 +727,58 @@ repo](https://github.com/theupdateframework/specification/issues).
    METAFILES is an object whose format is the following:
 
        { METAPATH : {
-             "version" : VERSION }
+             "version" : VERSION,
+             "length" : LENGTH,
+             "hashes" : HASHES,
+             ("custom" : { ... }) }
          , ...
        }
 
    METAPATH is the metadata file's path on the repository relative to the
    metadata base URL.
 
-   VERSION is listed for the root file
-   and all other roles available on the repository.
+   VERSION is listed for all roles available on the repository.
+
+   LENGTH is the optional integer length in bytes of the file. It is optional
+   for all roles.
+
+   HASHES is a dictionary that specifies one or more hashes, including
+   the cryptographic hash function.  For example: { "sha256": HASH, ... }. It
+   is required for delegated roles, and optional for all others.
 
    A snapshot.json example file:
 
-       {
-       "signatures": [
-        {
-         "keyid": "66676daa73bdfb4804b56070c8927ae491e2a6c2314f05b854dea94de8ff6bfc",
-         "sig": "f7f03b13e3f4a78a23561419fc0dd741a637e49ee671251be9f8f3fceedfc112e4
-                 4ee3aaff2278fad9164ab039118d4dc53f22f94900dae9a147aa4d35dcfc0f"
-        }
-       ],
-       "signed": {
-        "_type": "snapshot",
-        "spec_version": "1.0.0",
-        "expires": "2030-01-01T00:00:00Z",
-        "meta": {
-         "root.json": {
-          "version": 1
-         },
-         "targets.json": {
-          "version": 1
-         },
-         "project.json": {
-          "version": 1
-          },
+       { "signatures": [
+         {
+          "keyid": "66676daa73bdfb4804b56070c8927ae491e2a6c2314f05b854dea94de8ff6bfc",
+          "sig": "f7f03b13e3f4a78a23561419fc0dd741a637e49ee671251be9f8f3fceedfc112e4
+                  4ee3aaff2278fad9164ab039118d4dc53f22f94900dae9a147aa4d35dcfc0f"
          }
-        "version": 1
-        },
+        ],
+        "signed": {
+         "_type": "snapshot",
+         "spec_version": "1.0.0",
+         "expires": "2030-01-01T00:00:00Z",
+         "meta": {
+          "targets.json": {
+           "version": 1
+          },
+          "project1.json": {
+           "version": 1,
+           "hashes": {
+            "sha256": "f592d072e1193688a686267e8e10d7257b4ebfcf28133350dae88362d82a0c8a"
+           }
+          },
+          "project2.json": {
+           "version": 1,
+           "length": 604,
+           "hashes": {
+            "sha256": "1f812e378264c3085bb69ec5f6663ed21e5882bbece3c3f8a0e8479f205ffb91"
+           }
+          }
+         },
+         "version": 1
+        }
        }
 
 * **4.5. File formats: targets.json and delegated target roles**
