@@ -1150,7 +1150,7 @@ non-volatile storage as FILENAME.EXT.
 
   * **4.2**. **Check for an arbitrary software attack.** The new targets
   metadata file MUST have been signed by a threshold of keys specified in the
-  trusted root metadata file.  If the new targets metadat file is not signed
+  trusted root metadata file.  If the new targets metadata file is not signed
   as required, discard it, abort the update cycle, and report the failure.
 
   * **4.3**. **Check for a rollback attack.** The version number of the trusted
