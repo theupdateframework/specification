@@ -1018,7 +1018,8 @@ repo](https://github.com/theupdateframework/specification/issues).
   by the authors of the application using TUF. For example, X may be tens of
   kilobytes. The filename used to download the root metadata file is of the
   fixed form VERSION_NUMBER.FILENAME.EXT (e.g., 42.root.json). If this file is
-  not available, then go to step 1.8.
+  not available, or we have downloaded more than Y number of root metadata files,
+  then go to step 1.8.
 
   * **1.3. Check signatures.** Version N+1 of the root metadata file MUST have
   been signed by: (1) a threshold of keys specified in the trusted root
