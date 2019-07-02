@@ -1010,7 +1010,8 @@ repo](https://github.com/theupdateframework/specification/issues).
   somehow be able to establish a trusted line of continuity to the latest set
   of keys (see Section 6.1). To do so, the client MUST download intermediate
   root metadata files, until the latest available one is reached. Therefore, it
-  MUST temporarily turn on consistent snapshots.
+  MUST temporarily turn on consistent snapshots in order to download
+  _versioned_ root metadata files as described next.
 
   * **1.1**. Let N denote the version number of the trusted root metadata file.
 
