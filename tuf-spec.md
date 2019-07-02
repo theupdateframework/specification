@@ -1009,7 +1009,9 @@ repo](https://github.com/theupdateframework/specification/issues).
   Since it may now be signed using entirely different keys, the client must
   somehow be able to establish a trusted line of continuity to the latest set
   of keys (see Section 6.1). To do so, the client MUST download intermediate
-  root metadata files, until the latest available one is reached.
+  root metadata files, until the latest available one is reached. Therefore, it
+  MUST temporarily turn on consistent snapshots in order to download
+  _versioned_ root metadata files as described next.
 
   * **1.1**. Let N denote the version number of the trusted root metadata file.
 
@@ -1063,6 +1065,9 @@ repo](https://github.com/theupdateframework/specification/issues).
   metadata file in the snapshot metadata. Please see [the Mercury
   paper](https://ssl.engineering.nyu.edu/papers/kuppusamy-mercury-usenix-2017.pdf)
   for more details.
+
+  * **1.10**. **Set whether consistent snapshots are used as per the trusted
+  root metadata file** (see Section 4.3).
 
 **2**. **Download the timestamp metadata file**, up to Y number of bytes
 (because the size is unknown.) The value for Y is set by the authors of the
