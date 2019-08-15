@@ -928,8 +928,8 @@ repo](https://github.com/theupdateframework/specification/issues).
        }
 
    METAFILES is the same is described for the snapshot.json file.  In the case
-   of the timestamp.json file, this will commonly only include a description of
-   the snapshot.json file.
+   of the timestamp.json file, this MUST only include a description of the
+   snapshot.json file.
 
    A signed timestamp.json example file:
 
