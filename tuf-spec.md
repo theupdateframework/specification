@@ -710,10 +710,10 @@ repo](https://github.com/theupdateframework/specification/issues).
 
 * **4.4. File formats: snapshot.json**
 
-   The snapshot.json file is signed by the snapshot role. It lists the version
-   numbers, and optionally the size, of all metadata on the repository,
-   excluding root.json, timestamp.json and mirrors.json. For delegated roles,
-   the hash(es) are also listed.
+   The snapshot.json file is signed by the snapshot role.  It lists the version
+   numbers of all metadata on the repository, excluding root.json, timestamp.json and
+   mirrors.json.  The metadata length and hashes are OPTIONAL for the top-level and
+   all delegated targets roles.
 
    The "signed" portion of snapshot.json is as follows:
 
@@ -728,9 +728,8 @@ repo](https://github.com/theupdateframework/specification/issues).
 
        { METAPATH : {
              "version" : VERSION,
-             "length" : LENGTH,
-             "hashes" : HASHES,
-             ("custom" : { ... }) }
+             ("length" : LENGTH, |
+              "hashes" : HASHES) }
          , ...
        }
 
@@ -739,12 +738,12 @@ repo](https://github.com/theupdateframework/specification/issues).
 
    VERSION is listed for all roles available on the repository.
 
-   LENGTH is the optional integer length in bytes of the file. It is optional
-   for all roles.
+   LENGTH is the integer length in bytes of the metadata file. It is
+   OPTIONAL for all roles.
 
-   HASHES is a dictionary that specifies one or more hashes, including
-   the cryptographic hash function.  For example: { "sha256": HASH, ... }. It
-   is required for delegated roles, and optional for all others.
+   HASHES is the dictionary that specifies one or more hashes, including
+   the cryptographic hash function.  For example: { "sha256": HASH, ... }. It is
+   OPTIONAL for all roles.
 
    A snapshot.json example file:
 
