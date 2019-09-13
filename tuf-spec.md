@@ -582,7 +582,9 @@ repo](https://github.com/theupdateframework/specification/issues).
              , ... }
        }
 
-   SPEC_VERSION is the version number of the specification.  Metadata is
+   SPEC_VERSION is a string that contains the version number of the TUF
+   specification. Its format follows the [Semantic Versioning 2.0.0
+   (semver)](https://semver.org/spec/v2.0.0.html) specification. Metadata is
    written according to version "spec_version" of the specification, and
    clients MUST verify that "spec_version" matches the expected version number.
    Adopters are free to determine what is considered a match (e.g., the version
