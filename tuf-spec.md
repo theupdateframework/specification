@@ -2,7 +2,7 @@
 
 Last modified: **13 September 2019**
 
-Version: **1.0.0 (Draft)**
+Version: **1.0.0**
 
 We strive to make the specification easy to implement, so if you come across
 any inconsistencies or experience any difficulty, do let us know by sending an
