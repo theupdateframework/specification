@@ -1,7 +1,7 @@
 The Update Framework specification
 ----------------------------------
 
-Latest: `version 1.0 <https://github.com/theupdateframework/specification/blob/master/tuf-spec.md>`_
+Latest: `version 1.0.0 <https://github.com/theupdateframework/specification/blob/master/tuf-spec.md>`_
 
 
 Contact
@@ -27,6 +27,11 @@ Please see `LICENSE-MIT.txt
 and `LICENSE-APACHE.txt
 <https://github.com/theupdateframework/specification/blob/master/LICENSE-APACHE.txt>`_.
 
+Versioning
+----------
+
+The TUF specification uses `Semantic Versioning 2.0.0 <https://semver.org/>`_
+for its version numbers.
 
 Acknowledgements
 ----------------

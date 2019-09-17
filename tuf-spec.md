@@ -1,8 +1,8 @@
 # <p align="center">The Update Framework Specification
 
-Last modified: **19 June 2018**
+Last modified: **13 September 2019**
 
-Version: **1.0 (Draft)**
+Version: **1.0.0**
 
 We strive to make the specification easy to implement, so if you come across
 any inconsistencies or experience any difficulty, do let us know by sending an
@@ -209,6 +209,24 @@ repo](https://github.com/theupdateframework/specification/issues).
 
       * The root of trust must not rely on external PKI.  That is, no authority will
       be derived from keys outside of the framework.
+
+    - **1.5.4. TUF Augmentation Proposal support**
+
+      * This version (1.0.0) of the specification adheres to the following TAPS:
+
+        - [TAP 3](https://github.com/theupdateframework/taps/blob/master/tap3.md): 
+            Multi Role Delegations
+        - [TAP 4](https://github.com/theupdateframework/taps/blob/master/tap4.md):
+            Multiple Repository Consensus on entrusted targets
+        - [TAP 6](https://github.com/theupdateframework/taps/blob/master/tap6.md):
+            Include specification version in metadata
+        - [TAP 9](https://github.com/theupdateframework/taps/blob/master/tap9.md):
+            Mandatory Metadata signing schemes
+        - [Tap 10](https://github.com/theupdateframework/taps/blob/master/tap10.md):
+           Remove native support for compressed metadata
+
+	   Implementations compliant with this version (1.0.0) of the specification
+       must also comply with the TAPs mentioned above.
 
 ## **2. System overview**
 
@@ -582,7 +600,9 @@ repo](https://github.com/theupdateframework/specification/issues).
              , ... }
        }
 
-   SPEC_VERSION is the version number of the specification.  Metadata is
+   SPEC_VERSION is a string that contains the version number of the TUF
+   specification. Its format follows the [Semantic Versioning 2.0.0
+   (semver)](https://semver.org/spec/v2.0.0.html) specification. Metadata is
    written according to version "spec_version" of the specification, and
    clients MUST verify that "spec_version" matches the expected version number.
    Adopters are free to determine what is considered a match (e.g., the version
