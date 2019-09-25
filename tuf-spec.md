@@ -788,7 +788,9 @@ repo](https://github.com/theupdateframework/specification/issues).
        }
 
    Each key of the TARGETS object is a TARGETPATH.  A TARGETPATH is a path to
-   a file that is relative to a mirror's base URL of targets.
+   a file that is relative to a mirror's base URL of targets. It should not
+   have a leading path separator to avoid surprising behavior when constructing
+   paths on disk.
 
    It is allowed to have a TARGETS object with no TARGETPATH elements.  This
    can be used to indicate that no target files are available.
@@ -858,6 +860,8 @@ repo](https://github.com/theupdateframework/specification/issues).
    match file paths "targets/foo.tgz" and "targets/bar.tgz", but not
    "targets/foo.txt".  Likewise, path pattern "foo-version-?.tgz" matches
    "foo-version-2.tgz" and "foo-version-a.tgz", but not "foo-version-alpha.tgz".
+   It should not have a leading path separator to avoid surprising behavior when
+   constructing paths on disk.
 
    Prioritized delegations allow clients to resolve conflicts between delegated
    roles that share responsibility for overlapping target paths.  To resolve
@@ -903,7 +907,7 @@ repo](https://github.com/theupdateframework/specification/issues).
            ],
            "name": "project",
            "paths": [
-            "/project/file3.txt"
+            "project/file3.txt"
            ],
            "threshold": 1
           }
@@ -911,13 +915,13 @@ repo](https://github.com/theupdateframework/specification/issues).
         },
         "expires": "2030-01-01T00:00:00Z",
         "targets": {
-         "/file1.txt": {
+         "file1.txt": {
           "hashes": {
            "sha256": "65b8c67f51c993d898250f40aa57a317d854900b3a04895464313e48785440da"
           },
           "length": 31
          },
-         "/file2.txt": {
+         "dir/file2.txt": {
           "hashes": {
            "sha256": "452ce8308500d83ef44248d8e6062359211992fd837ea9e370e561efb1a4ca99"
           },
