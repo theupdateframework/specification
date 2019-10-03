@@ -1354,8 +1354,8 @@ non-volatile storage as FILENAME.EXT.
     be left unspecified or be set to the False value.  Otherwise, it must be
     set to the True value.
     
-    Regardless of whether consistent snapshots are ever used or not, both
-    versioned and unversioned root metadata files should always be provided
+    Regardless of whether consistent snapshots are ever used or not, all
+    released versions of root metadata files should always be provided
     so that outdated clients can update to the latest available root.
 
     For more details on how this would apply on a community repository, please
