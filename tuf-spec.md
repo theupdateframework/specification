@@ -1353,6 +1353,10 @@ non-volatile storage as FILENAME.EXT.
     snapshots are not written by the repository, then the attribute may either
     be left unspecified or be set to the False value.  Otherwise, it must be
     set to the True value.
+    
+    Regardless of whether consistent snapshots are ever used or not, all
+    released versions of root metadata files should always be provided
+    so that outdated clients can update to the latest available root.
 
     For more details on how this would apply on a community repository, please
     see https://github.com/theupdateframework/pep-on-pypi-with-tuf#producing-consistent-snapshots
