@@ -1304,9 +1304,7 @@ non-volatile storage as FILENAME.EXT.
    high-level idea of the solution is that each snapshot will be contained in a
    so-called consistent snapshot. If a client is reading from one consistent
    snapshot, then the repository is free to write another consistent snapshot
-   without interrupting that client. For more reasons on why we need consistent
-   snapshots, please see
-   https://github.com/theupdateframework/pep-on-pypi-with-tuf#why-do-we-need-consistent-snapshots
+   without interrupting that client.
 
 * **7.1. Writing consistent snapshots**
 
@@ -1358,8 +1356,6 @@ non-volatile storage as FILENAME.EXT.
     released versions of root metadata files should always be provided
     so that outdated clients can update to the latest available root.
 
-    For more details on how this would apply on a community repository, please
-    see https://github.com/theupdateframework/pep-on-pypi-with-tuf#producing-consistent-snapshots
 
 * **7.2. Reading consistent snapshots**
 
