@@ -51,7 +51,7 @@ href="https://github.com/cncf/foundation/blob/master/code-of-conduct.md">CNCF
 Community Code of Conduct</a>.
 
 We'd like to thank
-Justin Samuel, Roger Dingledine, Nick Matthewson, Trishank Kuppusamy, and
+Justin Samuel, Roger Dingledine, Nick Matthewson, Trishank Karthik Kuppusamy, and
 all of the TAP authors for their contributions to the TUF spec.
 
 This material is based upon work supported by the National Science Foundation
