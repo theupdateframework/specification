@@ -645,7 +645,7 @@ repo](https://github.com/theupdateframework/specification/issues).
        ],
        "signed": {
         "_type": "root",
-        "spec_version": "1",
+        "spec_version": "1.0.0",
         "consistent_snapshot": false,
         "expires": "2030-01-01T00:00:00Z",
         "keys": {
@@ -749,7 +749,7 @@ repo](https://github.com/theupdateframework/specification/issues).
        ],
        "signed": {
         "_type": "snapshot",
-        "spec_version": "1",
+        "spec_version": "1.0.0",
         "expires": "2030-01-01T00:00:00Z",
         "meta": {
          "root.json": {
@@ -889,7 +889,7 @@ repo](https://github.com/theupdateframework/specification/issues).
        ],
        "signed": {
         "_type": "targets",
-        "spec_version": "1",
+        "spec_version": "1.0.0",
         "delegations": {
          "keys": {
           "f761033eb880143c52358d941d987ca5577675090e2215e856ba0099bc0ce4f6": {
@@ -967,7 +967,7 @@ repo](https://github.com/theupdateframework/specification/issues).
        ],
        "signed": {
         "_type": "timestamp",
-        "spec_version": "1",
+        "spec_version": "1.0.0",
         "expires": "2030-01-01T00:00:00Z",
         "meta": {
          "snapshot.json": {
