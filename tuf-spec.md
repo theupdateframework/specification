@@ -711,8 +711,8 @@ repo](https://github.com/theupdateframework/specification/issues).
 * **4.4. File formats: snapshot.json**
 
    The snapshot.json file is signed by the snapshot role.  It lists the version
-   numbers of all metadata on the repository, excluding root.json, timestamp.json and
-   mirrors.json.  The metadata length and hashes are OPTIONAL for the top-level and
+   numbers of only the top-level targets and all delegated targets role metadata.
+   The metadata length and hashes are OPTIONAL for the top-level targets and
    all delegated targets roles.
 
    The "signed" portion of snapshot.json is as follows:
@@ -736,7 +736,8 @@ repo](https://github.com/theupdateframework/specification/issues).
    METAPATH is the metadata file's path on the repository relative to the
    metadata base URL.
 
-   VERSION is listed for all roles available on the repository.
+   VERSION is listed for the top-level targets and all delegated targets roles
+   available on the repository.
 
    LENGTH is the integer length in bytes of the metadata file. It is
    OPTIONAL for all roles.
