@@ -36,9 +36,22 @@ for its version numbers.
 Acknowledgements
 ----------------
 
-This project is managed by Prof. Justin Cappos and other members of the `Secure
-Systems Lab <https://ssl.engineering.nyu.edu/>`_ at NYU.  We'd like to thank
-Justin Samuel, Roger Dingledine, Nick Matthewson, Trishank Kuppusamy, and
+This project is managed by the Linux Foundation under the Cloud Native
+Computing Foundation.  The consensus builder for the TUF specification is <a
+href="https://ssl.engineering.nyu.edu/personalpages/jcappos/">Prof. Justin
+Cappos</a>of the <a
+href="https://ssl.engineering.nyu.edu/">Secure Systems Lab</a> at <a
+href="https://engineering.nyu.edu">New York University</a>.  Maintainers include
+<a href="https://github.com/awwad">Sebastien Awwad</a> of 
+<a href="https://docs.conda.io/en/latest/">CONDA</a> and 
+<a href="https://github.com/lukpueh/">Lukas Pühringer</a> of <a
+href="https://ssl.engineering.nyu.edu/">NYU's Secure Systems Lab</a>.  
+Contributors and maintainers are governed by the <a 
+href="https://github.com/cncf/foundation/blob/master/code-of-conduct.md">CNCF
+Community Code of Conduct</a>.
+
+We'd like to thank
+Justin Samuel, Roger Dingledine, Nick Matthewson, Trishank Karthik Kuppusamy, and
 all of the TAP authors for their contributions to the TUF spec.
 
 This material is based upon work supported by the National Science Foundation
