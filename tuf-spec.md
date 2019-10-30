@@ -918,12 +918,16 @@ The "signed" portion of <dfn>targets.json</dfn> is as follows:
   "version" : <a for="role">VERSION</a>,
   "expires" : <a>EXPIRES</a>,
   "targets" : <a>TARGETS</a>,
-  ("delegations" : <a>DELEGATIONS</a>)
+  (<a>"keys_for_delegations"</a>: {
+    <a for="root">KEYID</a> : <a>KEY</a>,
+    ... },
+  <a>"delegations"</a> : [ <a>DELEGATION</a>, ... ])
 }
 </pre>
 
-<a>SPEC_VERSION</a>, <a for="role">VERSION</a> and <a>EXPIRES</a> are the same
-as is described for the <a>root.json</a> file.
+<a>SPEC_VERSION</a>, <a for="role">VERSION</a>, <a>EXPIRES</a>,
+<a for="root">KEYID</a>, and <a>KEY</a> are the same as is described for the
+<a>root.json</a> file.
 
 <dfn for="targets-obj">TARGETS</dfn> is an object whose format is the following:
 
@@ -976,47 +980,37 @@ as is described for the <a>root.json</a> file.
     <a>TARGETPATH</a>.  The application may use this information to guide
     download decisions.
 
-<dfn>DELEGATIONS</dfn> is an object whose format is the following:
+  : <dfn>"keys_for_delegations"</dfn>
+  ::
+    A list of the public keys to verify signatures of delegated targets roles.
+    Revocation and replacement of delegated targets roles keys is done by
+    changing the keys in this field in the delegating role's metadata.
+
+  : <dfn>"delegations"</dfn>
+  ::
+    A list of <dfn>DELEGATION</dfn> objects whose format is the following:
 
 <pre highlight="json">
 {
-  "keys" : {
-      <a for="role">KEYID</a> : <a>KEY</a>,
-      ...
-  },
-  "roles" : [
-    {
-      "name": <a>ROLENAME</a>,
-      "keyids" : [ <a for="role">KEYID</a>, ... ] ,
-      "threshold" : <a>THRESHOLD</a>,
-      (<a>"path_hash_prefixes"</a> : [ <a>HEX_DIGEST</a>, ... ] |
-      <a for="delegation-role">"paths"</a> : [ <a>PATHPATTERN</a>, ... ]),
-      "terminating": <a>TERMINATING</a>,
-    },
-    ...
-  ]
+  "name": <a>DELEGATION_NAME</a>,
+  (<a>"path_hash_prefixes"</a> : [ <a>HEX_DIGEST</a>, ... ] |
+  <a for="delegation-role">"paths"</a> : [ <a>PATHPATTERN</a>, ... ]),
+  "terminating": <a>TERMINATING</a>,
+  "min_roles_in_agreement": <a>NUM_ROLES</a>,
+  "roleinfo" : [{
+      "rolename": <a>ROLENAME</a>,
+      "keyids" : [ <a for="root">KEYID</a>, ... ] ,
+      "threshold" : <a>THRESHOLD</a>
+    }, ... ]
 }
 </pre>
 
-  <a for="root">KEYID</a> and <a>KEY</a> are the same as is described for the
-  <a>root.json</a> file.
+  <a for="root">KEYID</a> and <a>THRESHOLD</a> are the same as is described
+  for the <a>root.json</a> file.
 
-  : <dfn>ROLENAME</dfn>
+  : <dfn>DELEGATION_NAME</dfn>
   ::
-    A string giving the name of the delegated role.  For example, "projects".
-
-  : <dfn>TERMINATING</dfn>
-  ::
-    A boolean indicating whether subsequent delegations should be considered.
-
-    As explained in the [Diplomat paper
-    ](https://theupdateframework.io/papers/protect-community-repositories-nsdi2016.pdf),
-    terminating delegations instruct the client not to consider future trust
-    statements that match the delegation's pattern, which stops the delegation
-    processing once this delegation (and its descendants) have been processed.
-    A terminating delegation for a package causes any further statements about a
-    package that are not made by the delegated party or its descendants to be
-    ignored.
+    A string giving the name of the delegation. For example, "projects-delegation".
 
 In order to discuss target paths, a role MUST specify only one of the
 <a>"path_hash_prefixes"</a> or <a for="delegation-role">"paths"</a> attributes, each of which we
@@ -1052,19 +1046,43 @@ discuss next.
     directory separator and does not start with a directory separator, akin to
     <a>TARGETPATH</a>.
 
+  : <dfn>TERMINATING</dfn>
+  ::
+    A boolean indicating whether subsequent delegations should be considered.
 
-Prioritized delegations allow clients to resolve conflicts between delegated
-roles that share responsibility for overlapping target paths.  To resolve
-conflicts, clients must consider metadata in order of appearance of delegations;
-we treat the order of delegations such that the first delegation is trusted
-over the second one, the second delegation is trusted more than the third
-one, and so on. Likewise, the metadata of the first delegation will override that
-of the second delegation, the metadata of the second delegation will override
-that of the third one, etc. In order to accommodate prioritized
-delegations, the "roles" key in the <a>DELEGATIONS</a> object above points to an array
-of delegated roles, rather than to a hash table.
+    As explained in the [Diplomat paper
+    ](https://theupdateframework.io/papers/protect-community-repositories-nsdi2016.pdf),
+    terminating delegations instruct the client not to consider future trust
+    statements that match the delegation's pattern, which stops the delegation
+    processing once this delegation (and its descendants) have been processed.
+    A terminating delegation for a package causes any further statements about a
+    package that are not made by the delegated party or its descendants to be
+    ignored.
 
-The metadata files for delegated target roles has the same format as the
+  : <dfn>NUM_ROLES</dfn>
+  ::
+    An integer describing the minimum number of delegated targets roles that
+    must be in agreement about targets hashes and lengths entrusted by the
+    delegation. The delegated targets roles for a given delegation are listed
+    in its "roleinfo" field.
+
+  : <dfn>ROLENAME</dfn>
+  ::
+    A string giving the name of the delegated role.  For example, "projects".
+
+
+Prioritization exists both for delegations and delegated targets roles. That
+is, if delegations handle overlapping targets paths, clients MUST consider
+them in the order of their appearance in the "delegations" field. The
+first delegation is trusted over the second one, the second delegation is
+trusted over the third one, and so on. Likewise, in a multi-role delegation,
+if <a>NUM_ROLES</a> is less than or equal to half the number of roles in
+"roleinfo", different groups of roles may have different agreements
+on targets hashes or lengths. Such conflicts must be
+resolved by prioritizing the first role in the list, that specifies target
+metadata agreed to by at least <a>NUM_ROLES</a>.
+
+The metadata files for delegated targets roles have the same format as the
 top-level <a>targets.json</a> metadata file.
 
 <div class="example" id="example-targets.json">
@@ -1082,29 +1100,34 @@ A <a>targets.json</a> example file:
   "signed": {
     "_type": "targets",
     "spec_version": "1.0.0",
-    "delegations": {
-      "keys": {
-        "f761033eb880143c52358d941d987ca5577675090e2215e856ba0099bc0ce4f6": {
-          "keytype": "ed25519",
-          "scheme": "ed25519",
-          "keyval": {
-            "public": "b6e40fb71a6041212a3d84331336ecaa1f48a0c523f80ccc762a034c727606fa"
-          }
+    "keys_for_delegations": {
+      "f761033eb880143c52358d941d987ca5577675090e2215e856ba0099bc0ce4f6": {
+        "keytype": "ed25519",
+        "scheme": "ed25519",
+        "keyval": {
+          "public": "b6e40fb71a6041212a3d84331336ecaa1f48a0c523f80ccc762a034c727606fa"
         }
-      },
-      "roles": [
-        {
-          "keyids": [
-            "f761033eb880143c52358d941d987ca5577675090e2215e856ba0099bc0ce4f6"
-          ],
-          "name": "project",
-          "paths": [
-            "project/file3.txt"
-          ],
-          "threshold": 1
-        }
-      ]
+      }
     },
+    "delegations": [
+      {
+        "name": "project-delegation",
+        "paths": [
+          "project/file3.txt"
+        ],
+        "terminating": true,
+        "min_roles_in_agreement": 1,
+        "roleinfo": [
+          {
+            "name": "project",
+            "keyids": [
+              "f761033eb880143c52358d941d987ca5577675090e2215e856ba0099bc0ce4f6"
+            ],
+            "threshold": 1
+          }
+        ]
+      }
+    ],
     "expires": "2030-01-01T00:00:00Z",
     "targets": {
       "file1.txt": {
