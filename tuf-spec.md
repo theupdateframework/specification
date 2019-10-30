@@ -789,7 +789,10 @@ repo](https://github.com/theupdateframework/specification/issues).
          "version" : VERSION,
          "expires" : EXPIRES,
          "targets" : TARGETS,
-         ("delegations" : DELEGATIONS)
+         ("keys_for_delegations" : {
+             KEYID : KEY,
+             ... },
+         "delegations" : [ DELEGATION, ... ])
        }
 
    TARGETS is an object whose format is the following:
@@ -824,27 +827,27 @@ repo](https://github.com/theupdateframework/specification/issues).
    TARGETPATH.  The application may use this information to guide download
    decisions.
 
-   DELEGATIONS is an object whose format is the following:
+   "keys_for_delegations" lists the public keys to verify signatures of
+   delegated targets roles. Revocation and replacement of delegated targets
+   roles keys is done by changing the keys in this field in the delegating
+   role's metadata.
 
-       { "keys" : {
-             KEYID : KEY,
-             ... },
-         "roles" : [{
-             "name": ROLENAME,
-             "keyids" : [ KEYID, ... ] ,
-             "threshold" : THRESHOLD,
-             ("path_hash_prefixes" : [ HEX_DIGEST, ... ] |
-              "paths" : [ PATHPATTERN, ... ]),
-             "terminating": TERMINATING,
-         }, ... ]
-       }
+   "delegations" is a list of DELEGATION objects whose format is the following:
 
-   "keys" lists the public keys to verify signatures of delegated targets roles.
-   Revocation and replacement of delegated targets roles keys is done by
-   changing the keys in this field in the delegating role's metadata.
+        {
+          "name": DELEGATION_NAME,
+          ("path_hash_prefixes" : [ HEX_DIGEST, ... ] |
+          "paths" : [ PATHPATTERN, ... ]),
+          "terminating": TERMINATING,
+          "min_roles_in_agreement" : NUM_ROLES,
+          "roleinfo": [{
+            "rolename": ROLENAME,
+            "keyids": [ KEYID ],
+            "threshold": THRESHOLD,
+          }, ... ]
+        }
 
-   ROLENAME is the name of the delegated role.  For example,
-   "projects".
+   DELEGATION_NAME is the name of the delegation.
 
    TERMINATING is a boolean indicating whether subsequent delegations should be
    considered.
@@ -887,18 +890,29 @@ repo](https://github.com/theupdateframework/specification/issues).
    TARGETSPATH.
 
 
-   Prioritized delegations allow clients to resolve conflicts between delegated
-   roles that share responsibility for overlapping target paths.  To resolve
-   conflicts, clients must consider metadata in order of appearance of delegations;
-   we treat the order of delegations such that the first delegation is trusted
-   over the second one, the second delegation is trusted more than the third
-   one, and so on. Likewise, the metadata of the first delegation will override that
-   of the second delegation, the metadata of the second delegation will override
-   that of the third one, etc. In order to accommodate prioritized
-   delegations, the "roles" key in the DELEGATIONS object above points to an array
-   of delegated roles, rather than to a hash table.
 
-   The metadata files for delegated target roles has the same format as the
+   NUM_ROLES is the minimum number of delegated targets roles that must be in
+   agreement about targets hashes and lengths entrusted by the delegation. The
+   delegated targets roles for a given delegation are listed in its "roleinfo"
+   field.
+
+   ROLENAME is the name of the delegated targets role, e.g. "projects", KEYID
+   identifies a key that is authorized to sign for that role, and THRESHOLD
+   defines how many keys must sign for that role.
+
+   Prioritization exists both for delegations and delegated targets roles. That
+   is, if delegations handle overlapping targets paths, clients MUST consider
+   them in the order of their appearance in the "delegations" field. The
+   first delegation is trusted over the second one, the second delegation is
+   trusted over the third one, and so on. Likewise, in a multi-role delegation,
+   if NUM_ROLES is less than or equal to half the number of roles in
+   "roleinfo", different groups of roles may have different agreements
+   on targets hashes or lengths. Such conflicts must be
+   resolved by priorizing the first role in the list, that specifies target
+   metadata agreed to by at least NUM_ROLES.
+
+
+   The metadata files for delegated targets roles has the same format as the
    top-level targets.json metadata file.
 
    A targets.json example file:
@@ -914,29 +928,34 @@ repo](https://github.com/theupdateframework/specification/issues).
        "signed": {
         "_type": "targets",
         "spec_version": "1.0.0",
-        "delegations": {
-         "keys": {
-          "f761033eb880143c52358d941d987ca5577675090e2215e856ba0099bc0ce4f6": {
-           "keytype": "ed25519",
-           "scheme": "ed25519",
-           "keyval": {
-            "public": "b6e40fb71a6041212a3d84331336ecaa1f48a0c523f80ccc762a034c727606fa"
-           }
+        "keys_for_delegations": {
+         "f761033eb880143c52358d941d987ca5577675090e2215e856ba0099bc0ce4f6": {
+          "keytype": "ed25519",
+          "scheme": "ed25519",
+          "keyval": {
+           "public": "b6e40fb71a6041212a3d84331336ecaa1f48a0c523f80ccc762a034c727606fa"
           }
-         },
-         "roles": [
-          {
-           "keyids": [
-            "f761033eb880143c52358d941d987ca5577675090e2215e856ba0099bc0ce4f6"
-           ],
-           "name": "project",
-           "paths": [
-            "project/file3.txt"
-           ],
-           "threshold": 1
-          }
-         ]
+         }
         },
+        "delegations": [
+         {
+          "name": "project-delegation",
+          "paths": [
+           "project/file3.txt"
+          ],
+          "terminating": true,
+          "min_roles_in_agreement" : 1,
+          "roleinfo": [
+           {
+            "name": "project",
+            "keyids": [
+             "f761033eb880143c52358d941d987ca5577675090e2215e856ba0099bc0ce4f6"
+            ],
+            "threshold": 1
+           }
+          ]
+         }
+        ],
         "expires": "2030-01-01T00:00:00Z",
         "targets": {
          "file1.txt": {
