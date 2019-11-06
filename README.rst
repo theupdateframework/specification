@@ -37,18 +37,16 @@ Acknowledgements
 ----------------
 
 This project is managed by the Linux Foundation under the Cloud Native
-Computing Foundation.  The consensus builder for the TUF specification is <a
-href="https://ssl.engineering.nyu.edu/personalpages/jcappos/">Prof. Justin
-Cappos</a>of the <a
-href="https://ssl.engineering.nyu.edu/">Secure Systems Lab</a> at <a
-href="https://engineering.nyu.edu">New York University</a>.  Maintainers include
-<a href="https://github.com/awwad">Sebastien Awwad</a> of 
-<a href="https://docs.conda.io/en/latest/">CONDA</a> and 
-<a href="https://github.com/lukpueh/">Lukas Pühringer</a> of <a
-href="https://ssl.engineering.nyu.edu/">NYU's Secure Systems Lab</a>.  
-Contributors and maintainers are governed by the <a 
-href="https://github.com/cncf/foundation/blob/master/code-of-conduct.md">CNCF
-Community Code of Conduct</a>.
+Computing Foundation. The consensus builder for the TUF specification is
+`Prof. Justin Cappos <https://ssl.engineering.nyu.edu/personalpages/jcappos/>`_
+of the `Secure Systems Lab <https://ssl.engineering.nyu.edu/>`_ at
+`New York University <https://engineering.nyu.edu>`_. Maintainers include
+`Sebastien Awwad <https://github.com/awwad>`_ of
+`CONDA <https://docs.conda.io/en/latest/>`_ and
+`Lukas Pühringer <https://github.com/lukpueh/>`_ of
+`NYU's Secure Systems Lab <https://ssl.engineering.nyu.edu/>`_. Contributors
+and maintainers are governed by the
+`CNCF Community Code of Conduct <https://github.com/cncf/foundation/blob/master/code-of-conduct.md>`_.
 
 We'd like to thank
 Justin Samuel, Roger Dingledine, Nick Matthewson, Trishank Karthik Kuppusamy, and
