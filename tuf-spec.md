@@ -789,7 +789,7 @@ repo](https://github.com/theupdateframework/specification/issues).
          "version" : VERSION,
          "expires" : EXPIRES,
          "targets" : TARGETS,
-         ("keys_for_delegations" : {
+         ("keys" : {
              KEYID : KEY,
              ... },
          "delegations" : [ DELEGATION, ... ])
@@ -827,10 +827,9 @@ repo](https://github.com/theupdateframework/specification/issues).
    TARGETPATH.  The application may use this information to guide download
    decisions.
 
-   "keys_for_delegations" lists the public keys to verify signatures of
-   delegated targets roles. Revocation and replacement of delegated targets
-   roles keys is done by changing the keys in this field in the delegating
-   role's metadata.
+   "keys" lists the public keys to verify signatures of delegated targets
+   roles. Revocation and replacement of delegated targets roles keys is done by
+   changing the keys in this field in the delegating role's metadata.
 
    "delegations" is a list of DELEGATION objects whose format is the following:
 
@@ -840,7 +839,7 @@ repo](https://github.com/theupdateframework/specification/issues).
           "paths" : [ PATHPATTERN, ... ]),
           "terminating": TERMINATING,
           "min_roles_in_agreement" : NUM_ROLES,
-          "roleinfo": [{
+          "roles": [{
             "rolename": ROLENAME,
             "keyids": [ KEYID ],
             "threshold": THRESHOLD,
@@ -893,7 +892,7 @@ repo](https://github.com/theupdateframework/specification/issues).
 
    NUM_ROLES is the minimum number of delegated targets roles that must be in
    agreement about targets hashes and lengths entrusted by the delegation. The
-   delegated targets roles for a given delegation are listed in its "roleinfo"
+   delegated targets roles for a given delegation are listed in its "roles"
    field.
 
    ROLENAME is the name of the delegated targets role, e.g. "projects", KEYID
@@ -905,8 +904,8 @@ repo](https://github.com/theupdateframework/specification/issues).
    them in the order of their appearance in the "delegations" field. The
    first delegation is trusted over the second one, the second delegation is
    trusted over the third one, and so on. Likewise, in a multi-role delegation,
-   if NUM_ROLES is less than or equal to half the number of roles in
-   "roleinfo", different groups of roles may have different agreements
+   if NUM_ROLES is less than or equal to half the number of roles in the
+   "roles" field, different groups of roles may have different agreements
    on targets hashes or lengths. Such conflicts must be
    resolved by priorizing the first role in the list, that specifies target
    metadata agreed to by at least NUM_ROLES.
@@ -928,7 +927,7 @@ repo](https://github.com/theupdateframework/specification/issues).
        "signed": {
         "_type": "targets",
         "spec_version": "1.0.0",
-        "keys_for_delegations": {
+        "keys": {
          "f761033eb880143c52358d941d987ca5577675090e2215e856ba0099bc0ce4f6": {
           "keytype": "ed25519",
           "scheme": "ed25519",
@@ -945,7 +944,7 @@ repo](https://github.com/theupdateframework/specification/issues).
           ],
           "terminating": true,
           "min_roles_in_agreement" : 1,
-          "roleinfo": [
+          "roles": [
            {
             "name": "project",
             "keyids": [
@@ -1259,9 +1258,9 @@ non-volatile storage as FILENAME.EXT.
     of appearance.
 
       * **4.4.2.1**. If the current delegation is a multi-role delegation,
-      recursively visit each role, and check that a defined threshold of
-      roles has signed exactly the same non-custom metadata (i.e., length and
-      hashes) about the target (or the lack of any such metadata).
+      recursively visit each role, and check that a defined minimum number of
+      roles agrees about non-custom metadata, i.e. length and hashes of the
+      target (or the lack of any such metadata).
 
       * **4.4.2.2**. If the current delegation is a terminating delegation,
       then jump to step 5.
