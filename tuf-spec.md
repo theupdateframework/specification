@@ -462,6 +462,9 @@ repo](https://github.com/theupdateframework/specification/issues).
 
     /ANOTHER_ROLE.json
 
+   Delegated target roles are authorized by the keys listed in the directly
+   delegating target role.
+
 ## **4. Document formats**
 
    All of the formats described below include the ability to add more
@@ -836,6 +839,10 @@ repo](https://github.com/theupdateframework/specification/issues).
              "terminating": TERMINATING,
          }, ... ]
        }
+
+   "keys" lists the public keys to verify signatures of delegated targets roles.
+   Revocation and replacement of delegated targets roles keys is done by
+   changing the keys in this field in the delegating role's metadata.
 
    ROLENAME is the name of the delegated role.  For example,
    "projects".
