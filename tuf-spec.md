@@ -931,7 +931,7 @@ The "signed" portion of <dfn>targets.json</dfn> is as follows:
   "version" : <a for="role">VERSION</a>,
   "expires" : <a>EXPIRES</a>,
   "targets" : <a>TARGETS</a>,
-  (<a>"keys_for_delegations"</a>: {
+  (<a>"keys"</a>: {
     <a for="root">KEYID</a> : <a>KEY</a>,
     ... },
   <a>"delegations"</a> : [ <a>DELEGATION</a>, ... ])
@@ -993,7 +993,7 @@ The "signed" portion of <dfn>targets.json</dfn> is as follows:
     <a>TARGETPATH</a>.  The application may use this information to guide
     download decisions.
 
-  : <dfn>"keys_for_delegations"</dfn>
+  : <dfn>"keys"</dfn>
   ::
     A list of the public keys to verify signatures of delegated targets roles.
     Revocation and replacement of delegated targets roles keys is done by
@@ -1008,7 +1008,7 @@ format:
   <a for="delegation-role">"paths"</a> : [ <a>PATHPATTERN</a>, ... ]),
   "terminating": <a>TERMINATING</a>,
   "min_roles_in_agreement": <a>NUM_ROLES</a>,
-  "roleinfo" : [{
+  "roles" : [{
       "rolename": <a>ROLENAME</a>,
       "keyids" : [ <a for="root">KEYID</a>, ... ] ,
       "threshold" : <a>THRESHOLD</a>
@@ -1083,7 +1083,7 @@ attributes are OPTIONAL, if used, exactly one of them should be set.
     An integer describing the minimum number of delegated targets roles that
     must be in agreement about targets hashes and lengths entrusted by the
     delegation. The delegated targets roles for a given delegation are listed
-    in its "roleinfo" field.
+    in its "roles" field.
 
   : <dfn>ROLENAME</dfn>
   ::
@@ -1098,7 +1098,7 @@ them in the order of their appearance in the "delegations" field. The
 first delegation is trusted over the second one, the second delegation is
 trusted over the third one, and so on. Likewise, in a multi-role delegation,
 if <a>NUM_ROLES</a> is less than or equal to half the number of roles in
-"roleinfo", different groups of roles may have different agreements
+"roles" field, different groups of roles may have different agreements
 on targets hashes or lengths. Such conflicts must be
 resolved by prioritizing the first role in the list, that specifies target
 metadata agreed to by at least <a>NUM_ROLES</a>.
@@ -1121,7 +1121,7 @@ A <a>targets.json</a> example file:
   "signed": {
     "_type": "targets",
     "spec_version": "1.0.0",
-    "keys_for_delegations": {
+    "keys": {
       "f761033eb880143c52358d941d987ca5577675090e2215e856ba0099bc0ce4f6": {
         "keytype": "ed25519",
         "scheme": "ed25519",
@@ -1138,7 +1138,7 @@ A <a>targets.json</a> example file:
         ],
         "terminating": true,
         "min_roles_in_agreement": 1,
-        "roleinfo": [
+        "roles": [
           {
             "name": "project",
             "keyids": [
