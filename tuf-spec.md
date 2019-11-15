@@ -1296,19 +1296,20 @@ non-volatile storage as FILENAME.EXT.
 
    Clients that have outdated root keys can update to the latest set of trusted
    root keys, by incrementally downloading all intermediate root metadata
-   files, and verifying that each root metadata at a given version is signed by
-   a threshold of keys defined in the previous version of root, and a threshold
-   of keys defined in that given version of root.
+   files, and verifying that each current version of the root metadata is
+   signed by a threshold of keys specified by its immediate predecessor as well
+   as a threshold of keys specified by itself.
    For example, if there is a 1.root.json that has threshold 2 and a
    2.root.json that has threshold 3, 2.root.json MUST be signed by at least 2
-   keys defined in 1.root.json and at least 3 keys defined in 2.root.json.
-   The client starts the root keys update update process with the latest
-   version of root metadata available on the client, and stops when no newer
-   root metadata is available from the repository. This ensures that an
-   outdated client can always correctly re-trace the chain of trust across
-   multiple root key updates, even if the latest set of root keys on the client
-   dates back multiple root metadata versions. See step 1 of the client
-   application workflow in Section 5 for more details.
+   keys defined in 1.root.json and at least 3 keys defined in 2.root.json. The
+   client starts the root key update process with the latest version of root
+   metadata available on the client, and stops when no version N+1 (where N is
+   the latest trusted version) of the root metadata is available from the
+   repository. This ensures that an outdated client can always correctly
+   re-trace the chain of trust across multiple root key updates, even if the
+   latest set of root keys on the client dates back multiple root metadata
+   versions. See step 1 of the client application workflow in Section 5 for
+   more details.
 
    To replace a delegated developer key, the role that delegated to that key
    just replaces that key with another in the signed metadata where the
