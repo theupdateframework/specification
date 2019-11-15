@@ -1292,22 +1292,29 @@ non-volatile storage as FILENAME.EXT.
    role.  When replacing root keys, an application will sign the new root.json
    file with both the new and old root keys. Any time such a change is
    required, the root.json file is versioned and accessible by version number,
-   e.g., 3.root.json. Clients update the set of trusted root keys by requesting
-   the current root.json and all previous root.json versions, until one is
-   found that has been signed by a threshold of keys that the client already
-   trusts. This is to ensure that outdated clients remain able to update,
-   without requiring all previous root keys to be kept to sign new root.json
-   metadata.
+   e.g., 3.root.json.
 
-   In the event that the keys being updated are root keys, it is important to
-   note that the new root.json must at least be signed by the keys listed as
-   root keys in the previous version of root.json, up to the threshold listed
-   for root in the previous version of root.json. If this is not the case,
-   clients will (correctly) not validate the new root.json file.  For example,
-   if there is a 1.root.json that has threshold 2 and a 2.root.json that has
-   threshold 3, 2.root.json MUST be signed by at least 2 keys defined in
-   1.root.json and at least 3 keys defined in 2.root.json. See step 1 in
-   Section 5.1 for more details.
+   Clients that have outdated root keys can update to the latest set of trusted
+   root keys, by incrementally downloading all intermediate root metadata
+   files, and verifying that each current version of the root metadata is
+   signed by a threshold of keys specified by its immediate predecessor as well
+   as a threshold of keys specified by itself.
+   For example, if there is a 1.root.json that has threshold 2 and a
+   2.root.json that has threshold 3, 2.root.json MUST be signed by at least 2
+   keys defined in 1.root.json and at least 3 keys defined in 2.root.json. The
+   client starts the root key update process with the latest version of root
+   metadata available on the client, and stops when no version N+1 (where N is
+   the latest trusted version) of the root metadata is available from the
+   repository. This ensures that an outdated client can always correctly
+   re-trace the chain of trust across multiple root key updates, even if the
+   latest set of root keys on the client dates back multiple root metadata
+   versions. See step 1 of the client application workflow in Section 5 for
+   more details.
+
+   Note that an attacker, who controls the repository, can launch freeze
+   attacks by withholding new root metadata. The attacker does not need to
+   compromise root keys to do so. However, these freeze attacks are limited by
+   the expiration time of the latest root metadata available to the client.
 
    To replace a delegated developer key, the role that delegated to that key
    just replaces that key with another in the signed metadata where the
