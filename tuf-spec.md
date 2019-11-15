@@ -1311,6 +1311,11 @@ non-volatile storage as FILENAME.EXT.
    versions. See step 1 of the client application workflow in Section 5 for
    more details.
 
+   Note that an attacker, who controls the repository, can launch freeze
+   attacks by withholding new root metadata. The attacker does not need to
+   compromise root keys to do so. However, these freeze attacks are limited by
+   the expiration time of the latest root metadata available to the client.
+
    To replace a delegated developer key, the role that delegated to that key
    just replaces that key with another in the signed metadata where the
    delegation is done.
