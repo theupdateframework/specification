@@ -329,8 +329,8 @@ repo](https://github.com/theupdateframework/specification/issues).
   trusted for.  The delegating role in these cases is still trusted.  That is,
   a role does not become untrusted when it has delegated trust.
 
-      Any delegation can be revoked at any time: the delegating role need only
-  sign new metadata that no longer contains that delegation.
+      Any delegation can be revoked at any time: the delegating role needs only
+  to sign new metadata that no longer contains that delegation.
 
   - **2.1.3 Snapshot role**
 
