@@ -806,9 +806,13 @@ repo](https://github.com/theupdateframework/specification/issues).
        }
 
    Each key of the TARGETS object is a TARGETPATH.  A TARGETPATH is a path to
-   a file that is relative to a mirror's base URL of targets. It should not
-   have a leading path separator to avoid surprising behavior when constructing
-   paths on disk.
+   a file that is relative to a mirror's base URL of targets. To avoid
+   surprising behavior when resolving paths, it is RECOMMENDED that a
+   TARGETPATH uses the forward slash (/) as directory separator and does not
+   start with a directory separator. The recommendation for TARGETPATH aligns
+   with the ["path-relative-URL string"
+   definition](https://url.spec.whatwg.org/#path-relative-url-string) in the
+   WHATWG URL specification.
 
    It is allowed to have a TARGETS object with no TARGETPATH elements.  This
    can be used to indicate that no target files are available.
@@ -881,8 +885,11 @@ repo](https://github.com/theupdateframework/specification/issues).
    match file paths "targets/foo.tgz" and "targets/bar.tgz", but not
    "targets/foo.txt".  Likewise, path pattern "foo-version-?.tgz" matches
    "foo-version-2.tgz" and "foo-version-a.tgz", but not "foo-version-alpha.tgz".
-   It should not have a leading path separator to avoid surprising behavior when
-   constructing paths on disk.
+   To avoid surprising behavior when matching targets with PATHPATTERN, it is
+   RECOMMENDED that PATHPATTERN uses the forward slash (/) as directory
+   separator and does not start with a directory separator, akin to
+   TARGETSPATH.
+
 
    Prioritized delegations allow clients to resolve conflicts between delegated
    roles that share responsibility for overlapping target paths.  To resolve
