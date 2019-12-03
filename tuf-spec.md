@@ -1133,7 +1133,8 @@ repo](https://github.com/theupdateframework/specification/issues).
 (because the size is unknown.) The value for Y is set by the authors of the
 application using TUF. For example, Y may be tens of kilobytes. The filename
 used to download the timestamp metadata file is of the fixed form FILENAME.EXT
-(e.g., timestamp.json).
+(e.g., timestamp.json). The client MUST write the file to non-volatile storage
+as FILENAME.EXT.
 
   * **2.1**. **Check signatures.** The new timestamp metadata file must have
   been signed by a threshold of keys specified in the trusted root metadata
