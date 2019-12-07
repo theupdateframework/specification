@@ -1235,9 +1235,8 @@ non-volatile storage as FILENAME.EXT.
   and report the potential freeze attack.
 
   * **4.5**. **Perform a preorder depth-first search for metadata about the
-  desired target, beginning with the top-level targets role.**  Note: If
-  any metadata requested in steps 4.5.1 - 4.5.2.3 cannot be downloaded nor
-  validated, end the search and report that the target cannot be found.
+  desired target.** Let TARGETS be the current metadata, beginning with the
+  top-level targets metadata role.
 
     * **4.5.1**. If this role has been visited before, then skip this role (so
     that cycles in the delegation graph are avoided).  Otherwise, if an
@@ -1249,17 +1248,54 @@ non-volatile storage as FILENAME.EXT.
     * **4.5.2**. Otherwise, recursively search the list of delegations in order
     of appearance.
 
-      * **4.5.2.1**. If the current delegation is a multi-role delegation,
+      * **4.5.2.1**. Let DELEGATE denote the current target role TARGETS is
+      delegating to.
+
+      * **4.5.2.2**. **Download the DELEGATE tarets metadata file**, up to either
+      the number of bytes specified in the snapshot metadata file, or some Z
+      number of bytes. The value for Z is set by the authors of the application
+      using TUF. For example, Z may be tens of kilobytes. IF DELEGATE cannot be
+      found, end the search and report the target cannot be found.  If
+      consistent snapshots are not used (see Section 7), then the filename used
+      to download the targets metadata file is of the fixed form FILENAME.EXT
+      (e.g., delegated_rol.json).  Otherwise, the filename is of the form
+      VERSION_NUMBER.FILENAME.EXT (e.g., 42.delegated_role.json), where
+      VERSION_NUMBER is the version number of the DELEGATE metadata file listed
+      in the snapshot metadata file.  In either case, the client MUST write the
+      file to non-volatile storage as FILENAME.EXT.
+
+      * **4.5.2.3**. **Check against snapshot metadata.** The hashes (if any), and
+      version number of the new DELEGATE metadata file MUST match the trusted
+      snapshot metadata.  This is done, in part, to prevent a mix-and-match
+      attack by man-in-the-middle attackers. If the new DELEGATE metadata file
+      does not match, discard it, end the search, and report the target cannot
+      be found.
+
+      * **4.5.2.4**. **Check for an arbitrary software attack.** The new DELEGATE
+      metadata file MUST have been signed by a threshold of keys specified in the
+      TARGETS metadata file.  If the new DELEGATE metadata file is not signed
+      as required, discard it, end the search, and report the target cannot be
+      found.
+
+      * **4.5.2.5**. **Check for a rollback attack.** The version number of the
+      trusted DELEGATE metadata file, if any, MUST be less than or equal to the
+      version number of the new DELEGATE metadata file.  If the new DELEGATE
+      `metadata file is older than the trusted DELEGATE metadata file, discard
+      it, end the search, and report the target cannot be found.
+
+      * **4.5.2.6**. If the current delegation is a multi-role delegation,
       recursively visit each role, and check that each has signed exactly the
       same non-custom metadata (i.e., length and hashes) about the target (or
-      the lack of any such metadata).
+      the lack of any such metadata). Otherwise, discard it, end the search,
+      and report the target cannot be found.
 
-      * **4.5.2.2**. If the current delegation is a terminating delegation,
+      * **4.5.2.7**. If the current delegation is a terminating delegation,
       then jump to step 5.
 
-      * **4.5.2.3**. Otherwise, if the current delegation is a non-terminating
-      delegation, continue processing the next delegation, if any. Stop the
-      search, and jump to step 5 as soon as a delegation returns a result.
+      * **4.5.2.8**. Otherwise, if the current delegation is a non-terminating
+      delegation, continue processing the next delegation, if any, by repeating
+      step 4.5 with DELEGATE as the current TARGET role. Stop the search, and
+      jump to step 5 as soon as a delegation returns a result.
 
 **5**. **Verify the desired target against its targets metadata**.
 
