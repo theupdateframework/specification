@@ -1464,10 +1464,9 @@ it in the next step.
 6. **Persist targets metadata**. The client MUST write the file to
   non-volatile storage as FILENAME.EXT (e.g. targets.json).
 
-7. **Perform a pre-order depth-first search for metadata about the
-  desired target, beginning with the top-level targets role.** Note: If
-  any metadata requested in steps 5.6.7.1 - 5.6.7.2 cannot be downloaded nor
-  validated, end the search and report that the target cannot be found.
+7. **Perform a preorder depth-first search for metadata about the
+  desired target.** Let TARGETS be the current metadata, beginning with the
+  top-level targets metadata role.
 
   1. If this role has been visited before, then skip this role
      (so that cycles in the delegation graph are avoided).  Otherwise, if an
@@ -1479,13 +1478,55 @@ it in the next step.
   2. Otherwise, recursively search the list of delegations in
      order of appearance.
 
-    1. If the current delegation is a terminating delegation,
-       then jump to step [[#fetch-target]].
+    1. Let DELEGATE denote the current target role TARGETS is
+       delegating to.
 
-    2. Otherwise, if the current delegation is a
-       non-terminating delegation, continue processing the next delegation, if
-       any. Stop the search, and jump to step [[#fetch-target]] as soon as a delegation
-       returns a result.
+    2. **Download the DELEGATE tarets metadata file**, up to either
+       the number of bytes specified in the snapshot metadata file, or some Z
+       number of bytes. The value for Z is set by the authors of the application
+       using TUF. For example, Z may be tens of kilobytes. IF DELEGATE cannot be
+       found, end the search and report the target cannot be found.  If
+       consistent snapshots are not used (see Section 7), then the filename used
+       to download the targets metadata file is of the fixed form FILENAME.EXT
+       (e.g., delegated_rol.json).  Otherwise, the filename is of the form
+       VERSION_NUMBER.FILENAME.EXT (e.g., 42.delegated_role.json), where
+       VERSION_NUMBER is the version number of the DELEGATE metadata file listed
+       in the snapshot metadata file.  In either case, the client MUST write the
+       file to non-volatile storage as FILENAME.EXT.
+
+    3. **Check against snapshot metadata.** The hashes (if any), and
+       version number of the new DELEGATE metadata file MUST match the trusted
+       snapshot metadata.  This is done, in part, to prevent a mix-and-match
+       attack by man-in-the-middle attackers. If the new DELEGATE metadata file
+       does not match, discard it, end the search, and report the target cannot
+       be found.
+
+    4. **Check for an arbitrary software attack.** The new DELEGATE
+       metadata file MUST have been signed by a threshold of keys specified in the
+       TARGETS metadata file.  If the new DELEGATE metadata file is not signed
+       as required, discard it, end the search, and report the target cannot be
+       found.
+
+    5. **Check for a rollback attack.** The version number of the
+       trusted DELEGATE metadata file, if any, MUST be less than or equal to the
+       version number of the new DELEGATE metadata file.  If the new DELEGATE
+       metadata file is older than the trusted DELEGATE metadata file, discard
+       it, end the search, and report the target cannot be found.
+
+    6. If the current delegation is a multi-role delegation,
+       recursively visit each role, and check that each has signed exactly the
+       same non-custom metadata (i.e., length and hashes) about the target (or
+       the lack of any such metadata). Otherwise, discard it, end the search,
+       and report the target cannot be found.
+
+    7. If the current delegation is a terminating delegation,
+       then jump to step [[#fetch-target]]..
+
+    8. Otherwise, if the current delegation is a non-terminating
+       delegation, continue processing the next delegation, if any, by repeating
+       the preorder depth-first search with DELEGATE as the current TARGET role.
+       Stop the search, and jump to step [[#fetch-target]]. as soon as a
+       delegation returns a result.
 
 ## Fetch target ## {#fetch-target}
 
