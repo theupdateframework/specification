@@ -214,7 +214,7 @@ repo](https://github.com/theupdateframework/specification/issues).
 
       * This version (1.0.0) of the specification adheres to the following TAPS:
 
-        - [TAP 3](https://github.com/theupdateframework/taps/blob/master/tap3.md): 
+        - [TAP 3](https://github.com/theupdateframework/taps/blob/master/tap3.md):
             Multi Role Delegations
         - [TAP 4](https://github.com/theupdateframework/taps/blob/master/tap4.md):
             Multiple Repository Consensus on entrusted targets
@@ -1116,7 +1116,7 @@ repo](https://github.com/theupdateframework/specification/issues).
   cycle, report the potential freeze attack.  On the next update cycle, begin
   at step 0 and version N of the root metadata file.
 
-  * **1.9**. **If the timestamp and / or snapshot keys have been rotated, then
+  * **1.9**. **If a threshold of timestamp and / or snapshot keys have been removed, then
   delete the trusted timestamp and snapshot metadata files.** This is done in
   order to recover from fast-forward attacks after the repository has been
   compromised and recovered. A _fast-forward attack_ happens when attackers
@@ -1387,7 +1387,7 @@ non-volatile storage as FILENAME.EXT.
     snapshots are not written by the repository, then the attribute may either
     be left unspecified or be set to the False value.  Otherwise, it must be
     set to the True value.
-    
+
     Regardless of whether consistent snapshots are ever used or not, all
     released versions of root metadata files should always be provided
     so that outdated clients can update to the latest available root.
