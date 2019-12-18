@@ -1116,7 +1116,8 @@ repo](https://github.com/theupdateframework/specification/issues).
   cycle, report the potential freeze attack.  On the next update cycle, begin
   at step 0 and version N of the root metadata file.
 
-  * **1.9**. **If a threshold of timestamp and / or snapshot keys have been removed, then
+  * **1.9**. **If a threshold of timestamp and / or snapshot keys have been
+  removed (compared to verion N of the root metadata), then
   delete the trusted timestamp and snapshot metadata files.** This is done in
   order to recover from fast-forward attacks after the repository has been
   compromised and recovered. A _fast-forward attack_ happens when attackers
