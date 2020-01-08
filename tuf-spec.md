@@ -173,9 +173,10 @@ repo](https://github.com/theupdateframework/specification/issues).
       of the problem.
 
       + **Malicious mirrors preventing updates.**  A repository mirror cannot
-      prevent updates from good mirrors. This includes mirrors that have been
-      taken down due to a DoS attack, malware, or pressure on administrators
-      (known as a permanent takedown threat).
+      prevent updates from good mirrors (such as by sharing malicious files).
+      Malicious mirrors include mirrors that have been taken down due to a
+      DoS attack, malware, or pressure on administrators (known as a permanent
+      takedown threat).
 
       + **Mix-and-match attacks.**  An attacker cannot trick clients into using
       a combination of metadata that never existed together on the repository
