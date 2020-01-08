@@ -173,7 +173,9 @@ repo](https://github.com/theupdateframework/specification/issues).
       of the problem.
 
       + **Malicious mirrors preventing updates.**  A repository mirror cannot
-      prevent updates from good mirrors.
+      prevent updates from good mirrors. This includes mirrors that have been
+      taken down due to a DoS attack, malware, or pressure on administrators
+      (known as a permanent takedown threat).
 
       + **Mix-and-match attacks.**  An attacker cannot trick clients into using
       a combination of metadata that never existed together on the repository
@@ -214,7 +216,7 @@ repo](https://github.com/theupdateframework/specification/issues).
 
       * This version (1.0.0) of the specification adheres to the following TAPS:
 
-        - [TAP 3](https://github.com/theupdateframework/taps/blob/master/tap3.md): 
+        - [TAP 3](https://github.com/theupdateframework/taps/blob/master/tap3.md):
             Multi Role Delegations
         - [TAP 4](https://github.com/theupdateframework/taps/blob/master/tap4.md):
             Multiple Repository Consensus on entrusted targets
@@ -1387,7 +1389,7 @@ non-volatile storage as FILENAME.EXT.
     snapshots are not written by the repository, then the attribute may either
     be left unspecified or be set to the False value.  Otherwise, it must be
     set to the True value.
-    
+
     Regardless of whether consistent snapshots are ever used or not, all
     released versions of root metadata files should always be provided
     so that outdated clients can update to the latest available root.
