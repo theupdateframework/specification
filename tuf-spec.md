@@ -1133,15 +1133,27 @@ repo](https://github.com/theupdateframework/specification/issues).
   cycle, report the potential freeze attack.  On the next update cycle, begin
   at step 0 and version N of the root metadata file.
 
-  * **1.9**. **If the timestamp and / or snapshot keys have been rotated, then
-  delete the trusted timestamp and snapshot metadata files.** This is done in
-  order to recover from fast-forward attacks after the repository has been
-  compromised and recovered. A _fast-forward attack_ happens when attackers
-  arbitrarily increase the version numbers of: (1) the timestamp metadata, (2)
-  the snapshot metadata, and / or (3) the targets, or a delegated targets,
-  metadata file in the snapshot metadata. Please see [the Mercury
+  * **1.9**. **Fast-forward attack recovery** A _fast-forward attack_ happens
+  when attackers arbitrarily increase the version numbers in any of the
+  timestamp, snapshot, targets, or delegated targets metadata. To recover from
+  fast-forward attacks after the repository has been compromised and recovered,
+  certain metadata files need to be deleted as specified in this section.
+  Please see [the Mercury
   paper](https://ssl.engineering.nyu.edu/papers/kuppusamy-mercury-usenix-2017.pdf)
   for more details.
+
+    * **1.9.1**. **Targets recovery** If a threshold of targets keys are removed
+    from the root metadata, delete the old top-level targets, snapshot, and
+    timestamp metadata files.
+
+    * **1.9.2**. **Snapshot recovery** If a threshold of snapshot keys have
+    been removed in the new trusted root metadata compared to the previous
+    trusted root metadata, delete the old snapshot and timestamp metadata
+    files.
+
+    * **1.9.3**. **Timestamp recovery** If a threshold of timestamp keys have
+    been removed from the new trusted root metadata compared to the previous
+    trusted root metadata, delete the old timestamp metadata file.
 
   * **1.10**. **Set whether consistent snapshots are used as per the trusted
   root metadata file** (see Section 4.3).
