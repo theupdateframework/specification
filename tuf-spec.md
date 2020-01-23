@@ -214,7 +214,7 @@ repo](https://github.com/theupdateframework/specification/issues).
 
       * This version (1.0.0) of the specification adheres to the following TAPS:
 
-        - [TAP 3](https://github.com/theupdateframework/taps/blob/master/tap3.md): 
+        - [TAP 3](https://github.com/theupdateframework/taps/blob/master/tap3.md):
             Multi Role Delegations
         - [TAP 4](https://github.com/theupdateframework/taps/blob/master/tap4.md):
             Multiple Repository Consensus on entrusted targets
@@ -1119,7 +1119,7 @@ repo](https://github.com/theupdateframework/specification/issues).
   * **1.9**. **Fast-forward attack recovery** A _fast-forward attack_ happens
   when attackers arbitrarily increase the version numbers of: (1) the timestamp
   metadata, (2) the snapshot metadata, and / or (3) the targets, or a delegated
-  targets, metadata file in the snapshot metadata. To recover from fast-forward
+  targets, metadata file. To recover from fast-forward
   attacks after the repository has been compromised and recovered, certain
   metadata files need to be deleted as specified in this section. Please see
   [the Mercury paper](https://ssl.engineering.nyu.edu/papers/kuppusamy-mercury-usenix-2017.pdf)
