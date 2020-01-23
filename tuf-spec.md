@@ -1126,8 +1126,8 @@ repo](https://github.com/theupdateframework/specification/issues).
   for more details.
 
     * **1.9.1**. **Targets recovery** If a threshold of targets keys are removed
-    from the root metadata, delete the old targets, snapshot, and timestamp
-    metadata files.
+    from the root metadata, delete the old top-level targets, snapshot, and
+    timestamp metadata files.
 
     * **1.9.2**. **Snapshot recovery** If a threshold of snapshot keys are
     removed from the root metadata, delete the old snapshot and timestamp
@@ -1244,35 +1244,35 @@ non-volatile storage as FILENAME.EXT.
   the new targets metadata file is expired, discard it, abort the update cycle,
   and report the potential freeze attack.
 
-  * **4.5**. **Fast-forward attack recovery** If a threshold of delegated
-  targets keys for a role are removed from the delegating targets metadata,
-  delete the old delegated targets metadata for that role along with the
-  snapshot and timestamp metadata.
-
-  * **4.6**. **Perform a preorder depth-first search for metadata about the
+  * **4.5**. **Perform a preorder depth-first search for metadata about the
   desired target, beginning with the top-level targets role.**  Note: If
   any metadata requested in steps 4.4.1 - 4.4.2.3 cannot be downloaded nor
   validated, end the search and report that the target cannot be found.
 
-    * **4.6.1**. If this role has been visited before, then skip this role (so
+    * **4.5.1**. If this role has been visited before, then skip this role (so
     that cycles in the delegation graph are avoided).  Otherwise, if an
     application-specific maximum number of roles have been visited, then go to
     step 5 (so that attackers cannot cause the client to waste excessive
     bandwidth or time).  Otherwise, if this role contains metadata about the
     desired target, then go to step 5.
 
-    * **4.6.2**. Otherwise, recursively search the list of delegations in order
+    * **4.5.2**. Otherwise, recursively search the list of delegations in order
     of appearance.
 
-      * **4.6.2.1**. If the current delegation is a multi-role delegation,
+      * **4.5.2.1**. **Fast-forward attack recovery** If a threshold of
+      delegated targets keys for the current delegation are removed from the
+      delegating targets metadata, delete the old delegated targets metadata for
+      the current delegation along with the snapshot and timestamp metadata.
+
+      * **4.5.2.1**. If the current delegation is a multi-role delegation,
       recursively visit each role, and check that each has signed exactly the
       same non-custom metadata (i.e., length and hashes) about the target (or
       the lack of any such metadata).
 
-      * **4.6.2.2**. If the current delegation is a terminating delegation,
+      * **4.5.2.2**. If the current delegation is a terminating delegation,
       then jump to step 5.
 
-      * **4.6.2.3**. Otherwise, if the current delegation is a non-terminating
+      * **4.5.2.3**. Otherwise, if the current delegation is a non-terminating
       delegation, continue processing the next delegation, if any. Stop the
       search, and jump to step 5 as soon as a delegation returns a result.
 
