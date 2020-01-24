@@ -1261,8 +1261,11 @@ non-volatile storage as FILENAME.EXT.
 
       * **4.5.2.1**. **Fast-forward attack recovery** If a threshold of
       delegated targets keys for the current delegation are removed from the
-      delegating targets metadata, delete the old delegated targets metadata for
-      the current delegation along with the snapshot and timestamp metadata.
+      delegating targets metadata (either the top-level targets or delegated
+      targets metadata that provided the current delegation), delete the old
+      delegated targets metadata for the current delegation along with the
+      snapshot and timestamp metadata. Skip this step if the current delegation
+      is the top-level targets role.
 
       * **4.5.2.1**. If the current delegation is a multi-role delegation,
       recursively visit each role, and check that each has signed exactly the
