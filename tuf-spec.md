@@ -1306,16 +1306,22 @@ non-volatile storage as FILENAME.EXT.
       metadata file is older than the trusted DELEGATE metadata file, discard
       it, end the search, and report the target cannot be found.
 
-      * **4.5.2.6**. If the current delegation is a multi-role delegation,
+      * **4.5.2.6**. **Check for a freeze attack.** The latest known time
+      should be lower than the expiration timestamp in the new DELEGATE
+      metadata file. If so, the new DELEGATE file becomes the trusted DELEGATE
+      file. If the new DELEGATE metadata file is expired, discard it, end the
+      search, and report the target cannot be found.
+
+      * **4.5.2.7**. If the current delegation is a multi-role delegation,
       recursively visit each role, and check that each has signed exactly the
       same non-custom metadata (i.e., length and hashes) about the target (or
       the lack of any such metadata). Otherwise, discard it, end the search,
       and report the target cannot be found.
 
-      * **4.5.2.7**. If the current delegation is a terminating delegation,
+      * **4.5.2.8**. If the current delegation is a terminating delegation,
       then jump to step 5.
 
-      * **4.5.2.8**. Otherwise, if the current delegation is a non-terminating
+      * **4.5.2.9**. Otherwise, if the current delegation is a non-terminating
       delegation, continue processing the next delegation, if any, by repeating
       step 4.5 with DELEGATE as the current TARGET role. Stop the search, and
       jump to step 5 as soon as a delegation returns a result.
