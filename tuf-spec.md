@@ -1291,32 +1291,30 @@ non-volatile storage as FILENAME.EXT.
       version number of the new DELEGATE metadata file MUST match the trusted
       snapshot metadata.  This is done, in part, to prevent a mix-and-match
       attack by man-in-the-middle attackers. If the new DELEGATE metadata file
-      does not match, discard it, end the search, and report the target cannot
-      be found.
+      does not match, abort the update cycle, and report the failure.
 
       * **4.5.2.4**. **Check for an arbitrary software attack.** The new DELEGATE
       metadata file MUST have been signed by a threshold of keys specified in the
       TARGETS metadata file.  If the new DELEGATE metadata file is not signed
-      as required, discard it, end the search, and report the target cannot be
-      found.
+      as required, abort the update cycle, and report the failure.
 
       * **4.5.2.5**. **Check for a rollback attack.** The version number of the
       trusted DELEGATE metadata file, if any, MUST be less than or equal to the
       version number of the new DELEGATE metadata file.  If the new DELEGATE
       metadata file is older than the trusted DELEGATE metadata file, discard
-      it, end the search, and report the target cannot be found.
+      it, abort the update cycle, and report the potential rollback attack.
 
       * **4.5.2.6**. **Check for a freeze attack.** The latest known time
       should be lower than the expiration timestamp in the new DELEGATE
       metadata file. If so, the new DELEGATE file becomes the trusted DELEGATE
-      file. If the new DELEGATE metadata file is expired, discard it, end the
-      search, and report the target cannot be found.
+      file. If the new DELEGATE metadata file is expired, abort the update
+      cycle, and report the potential freeze attack.
 
       * **4.5.2.7**. If the current delegation is a multi-role delegation,
       recursively visit each role, and check that each has signed exactly the
       same non-custom metadata (i.e., length and hashes) about the target (or
-      the lack of any such metadata). Otherwise, discard it, end the search,
-      and report the target cannot be found.
+      the lack of any such metadata). Otherwise, abort the update cycle, and
+      report the failure.
 
       * **4.5.2.8**. If the current delegation is a terminating delegation,
       then jump to step 5.
