@@ -1274,14 +1274,14 @@ non-volatile storage as FILENAME.EXT.
       * **4.5.2.1**. Let DELEGATE denote the current target role TARGETS is
       delegating to.
 
-      * **4.5.2.2**. **Download the DELEGATE tarets metadata file**, up to either
+      * **4.5.2.2**. **Download the DELEGATE targets metadata file**, up to either
       the number of bytes specified in the snapshot metadata file, or some Z
       number of bytes. The value for Z is set by the authors of the application
       using TUF. For example, Z may be tens of kilobytes. IF DELEGATE cannot be
       found, end the search and report the target cannot be found.  If
       consistent snapshots are not used (see Section 7), then the filename used
       to download the targets metadata file is of the fixed form FILENAME.EXT
-      (e.g., delegated_rol.json).  Otherwise, the filename is of the form
+      (e.g., delegated_role.json).  Otherwise, the filename is of the form
       VERSION_NUMBER.FILENAME.EXT (e.g., 42.delegated_role.json), where
       VERSION_NUMBER is the version number of the DELEGATE metadata file listed
       in the snapshot metadata file.  In either case, the client MUST write the
@@ -1303,7 +1303,7 @@ non-volatile storage as FILENAME.EXT.
       * **4.5.2.5**. **Check for a rollback attack.** The version number of the
       trusted DELEGATE metadata file, if any, MUST be less than or equal to the
       version number of the new DELEGATE metadata file.  If the new DELEGATE
-      `metadata file is older than the trusted DELEGATE metadata file, discard
+      metadata file is older than the trusted DELEGATE metadata file, discard
       it, end the search, and report the target cannot be found.
 
       * **4.5.2.6**. If the current delegation is a multi-role delegation,
