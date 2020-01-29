@@ -1336,9 +1336,10 @@ it in the next step.
   paper](https://ssl.engineering.nyu.edu/papers/kuppusamy-mercury-usenix-2017.pdf)
   for more details.
 
-    1. **Targets recovery** If a threshold of targets keys are removed
-    from the root metadata, delete the old top-level targets, snapshot, and
-    timestamp metadata files.
+    1. **Targets recovery** If a threshold of targets keys have been
+    removed in the new trusted root metadata compared to the previous trusted
+    root metadata, delete the old top-level targets and snapshot metadata
+    files.
 
     2. **Snapshot recovery** If a threshold of snapshot keys have
     been removed in the new trusted root metadata compared to the previous
