@@ -1513,16 +1513,22 @@ it in the next step.
        metadata file is older than the trusted DELEGATE metadata file, discard
        it, end the search, and report the target cannot be found.
 
-    6. If the current delegation is a multi-role delegation,
+    6. **Check for a freeze attack.** The latest known time
+       should be lower than the expiration timestamp in the new DELEGATE
+       metadata file. If so, the new DELEGATE file becomes the trusted DELEGATE
+       file. If the new DELEGATE metadata file is expired, discard it, end the
+       search, and report the target cannot be found.
+
+    7. If the current delegation is a multi-role delegation,
        recursively visit each role, and check that each has signed exactly the
        same non-custom metadata (i.e., length and hashes) about the target (or
        the lack of any such metadata). Otherwise, discard it, end the search,
        and report the target cannot be found.
 
     7. If the current delegation is a terminating delegation,
-       then jump to step [[#fetch-target]]..
+       then jump to step [[#fetch-target]].
 
-    8. Otherwise, if the current delegation is a non-terminating
+    9. Otherwise, if the current delegation is a non-terminating
        delegation, continue processing the next delegation, if any, by repeating
        the preorder depth-first search with DELEGATE as the current TARGET role.
        Stop the search, and jump to step [[#fetch-target]]. as soon as a
