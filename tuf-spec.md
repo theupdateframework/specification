@@ -1245,36 +1245,42 @@ non-volatile storage as FILENAME.EXT.
   trusted root metadata file.  If the new targets metadata file is not signed
   as required, discard it, abort the update cycle, and report the failure.
 
-  * **4.3**. **Check for a freeze attack.** The latest known time should be
+  * **4.3**. **Check for a rollback attack.** The version number of the trusted
+  targets metadata file, if any, MUST be less than or equal to the version
+  number of the new targets metadata file.  If the new targets metadata file is
+  older than the trusted targets metadata file, discard it, abort the update
+  cycle, and report the potential rollback attack.
+
+  * **4.4**. **Check for a freeze attack.** The latest known time should be
   lower than the expiration timestamp in the new targets metadata file.  If so,
   the new targets metadata file becomes the trusted targets metadata file.  If
   the new targets metadata file is expired, discard it, abort the update cycle,
   and report the potential freeze attack.
 
-  * **4.4**. **Perform a preorder depth-first search for metadata about the
+  * **4.5**. **Perform a preorder depth-first search for metadata about the
   desired target, beginning with the top-level targets role.**  Note: If
-  any metadata requested in steps 4.4.1 - 4.4.2.3 cannot be downloaded nor
+  any metadata requested in steps 4.5.1 - 4.5.2.3 cannot be downloaded nor
   validated, end the search and report that the target cannot be found.
 
-    * **4.4.1**. If this role has been visited before, then skip this role (so
+    * **4.5.1**. If this role has been visited before, then skip this role (so
     that cycles in the delegation graph are avoided).  Otherwise, if an
     application-specific maximum number of roles have been visited, then go to
     step 5 (so that attackers cannot cause the client to waste excessive
     bandwidth or time).  Otherwise, if this role contains metadata about the
     desired target, then go to step 5.
 
-    * **4.4.2**. Otherwise, recursively search the list of delegations in order
+    * **4.5.2**. Otherwise, recursively search the list of delegations in order
     of appearance.
 
-      * **4.4.2.1**. If the current delegation is a multi-role delegation,
+      * **4.5.2.1**. If the current delegation is a multi-role delegation,
       recursively visit each role, and check that each has signed exactly the
       same non-custom metadata (i.e., length and hashes) about the target (or
       the lack of any such metadata).
 
-      * **4.4.2.2**. If the current delegation is a terminating delegation,
+      * **4.5.2.2**. If the current delegation is a terminating delegation,
       then jump to step 5.
 
-      * **4.4.2.3**. Otherwise, if the current delegation is a non-terminating
+      * **4.5.2.3**. Otherwise, if the current delegation is a non-terminating
       delegation, continue processing the next delegation, if any. Stop the
       search, and jump to step 5 as soon as a delegation returns a result.
 
