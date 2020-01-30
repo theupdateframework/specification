@@ -1435,7 +1435,6 @@ it in the next step.
   file.  If the new snapshot metadata file is expired, discard it, abort the
   update cycle, and report the potential freeze attack.
 
-
 7. **Persist snapshot metadata**. The client MUST write the file to
   non-volatile storage as FILENAME.EXT (e.g. snapshot.json).
 
@@ -1494,7 +1493,18 @@ it in the next step.
     1. Let DELEGATE denote the current target role TARGETS is
        delegating to.
 
-    2. **Download the DELEGATE targets metadata file**, up to either
+    2. **Fast-forward attack recovery.** If a threshold of
+    delegated targets keys for the current delegation are removed from the
+    TARGETS metadata, delete the trusted DELEGATE metadata, if any, and the
+    previously trusted snapshot metadata.
+
+    3. **Check for a rollback attack via snapshot.** The version number of the
+    DELEGATE metadata in the previous trusted snapshot metadata, if any, MUST
+    be less than or equal to its version number in the new trusted snapshot
+    metadata. If this is not the case, abort the update cycle, and report the
+    potential rollback attack.
+
+    4. **Download the DELEGATE targets metadata file**, up to either
        the number of bytes specified in the snapshot metadata file, or some Z
        number of bytes. The value for Z is set by the authors of the application
        using TUF. For example, Z may be tens of kilobytes. IF DELEGATE cannot be
@@ -1507,39 +1517,40 @@ it in the next step.
        in the snapshot metadata file.  In either case, the client MUST write the
        file to non-volatile storage as FILENAME.EXT.
 
-    3. **Check against snapshot metadata.** The hashes (if any), and
+    5. **Check against snapshot metadata.** The hashes (if any), and
        version number of the new DELEGATE metadata file MUST match the trusted
-       snapshot metadata.  This is done, in part, to prevent a mix-and-match
+       snapshot metadata, if any.  This is done, in part, to prevent a mix-and-match
        attack by man-in-the-middle attackers. If the new DELEGATE metadata file
        does not match, abort the update cycle, and report the failure.
 
-    4. **Check for an arbitrary software attack.** The new DELEGATE
+    6. **Check for an arbitrary software attack.** The new DELEGATE
        metadata file MUST have been signed by a threshold of keys specified in the
        TARGETS metadata file.  If the new DELEGATE metadata file is not signed
        as required, abort the update cycle, and report the failure.
 
-    5. **Check for a rollback attack.** The version number of the
-       trusted DELEGATE metadata file, if any, MUST be less than or equal to the
-       version number of the new DELEGATE metadata file.  If the new DELEGATE
-       metadata file is older than the trusted DELEGATE metadata file, discard
-       it, abort the update cycle, and report the potential rollback attack.
+    7. **Check for a rollback attack on the DELEGATE metadata.**
+       The version number of the trusted DELEGATE metadata file, if any, MUST be
+       less than or equal to the version number of the new DELEGATE metadata
+       file.  If the new DELEGATE metadata file is older than the trusted
+       DELEGATE metadata file abort the update cycle, and report the potential
+       rollback attack.
 
-    6. **Check for a freeze attack.** The latest known time
+    8. **Check for a freeze attack.** The latest known time
        should be lower than the expiration timestamp in the new DELEGATE
        metadata file. If so, the new DELEGATE file becomes the trusted DELEGATE
        file. If the new DELEGATE metadata file is expired, abort the update
        cycle, and report the potential freeze attack.
 
-    7. If the current delegation is a multi-role delegation,
+    9. If the current delegation is a multi-role delegation,
        recursively visit each role, and check that each has signed exactly the
        same non-custom metadata (i.e., length and hashes) about the target (or
        the lack of any such metadata). Otherwise, abort the update cycle, and
        report the failure.
 
-    7. If the current delegation is a terminating delegation,
+    10. If the current delegation is a terminating delegation,
        then jump to step [[#fetch-target]].
 
-    9. Otherwise, if the current delegation is a non-terminating
+    11. Otherwise, if the current delegation is a non-terminating
        delegation, continue processing the next delegation, if any, by repeating
        the preorder depth-first search with DELEGATE as the current TARGET role.
        Stop the search, and jump to step [[#fetch-target]]. as soon as a
