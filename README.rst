@@ -1,7 +1,10 @@
 The Update Framework specification
 ----------------------------------
 
-Latest: `version 1.0.0 <https://github.com/theupdateframework/specification/blob/master/tuf-spec.md>`_
+- `latest stable <https://github.com/theupdateframework/specification/blob/master/tuf-spec.md>`_
+- `current draft <https://github.com/theupdateframework/specification/blob/draft/tuf-spec.md>`_
+- `new changes since latest stable <https://github.com/theupdateframework/specification/compare/master..draft>`_
+- `release history <https://github.com/theupdateframework/specification/tags>`_
 
 
 Contact
@@ -31,7 +34,33 @@ Versioning
 ----------
 
 The TUF specification uses `Semantic Versioning 2.0.0 <https://semver.org/>`_
-for its version numbers.
+(semver) for its version numbers, and a gitflow-based release management:
+
+- The 'master' branch of this repository always points to the latest stable
+  version of the specification.
+- The 'draft' branch of this repository always points to the latest development
+  version of the specification and must always be based off of the latest
+  'master' branch.
+- Contributors must submit changes as pull requests against these branches,
+  depending on the type of the change (see semver rules).
+- For patch-type changes, pull requests may be submitted directly against the
+  'master' branch.
+- For major- and minor-type changes, pull requests must be submitted against
+  the 'draft' branch.
+- Maintainers may, from time to time, decide that the 'draft' branch is ready
+  for a new major or minor release, and submit a pull request from 'draft'
+  against 'master'.
+- Before merging a branch with 'master' the 'last modified date' and 'version'
+  in the specification header must be bumped.
+- Merges with 'master' that originate from the 'draft' branch must bump either
+  the major or minor version number.
+- Merges with 'master' that originate from any other branch must bump the patch
+  version number.
+- Merges with 'master' must be followed by a git tag for the new version
+  number.
+- Merges with 'master' must be followed by a rebase of 'draft' onto 'master'.
+
+
 
 Acknowledgements
 ----------------
