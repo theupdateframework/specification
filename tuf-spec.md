@@ -1135,12 +1135,15 @@ repo](https://github.com/theupdateframework/specification/issues).
 
   * **1.9**. **Fast-forward attack recovery** A _fast-forward attack_ happens
   when attackers arbitrarily increase the version numbers in any of the
-  timestamp, snapshot, targets, or delegated targets metadata. To recover from
+  timestamp, snapshot, targets, or delegated targets metadata. The attacker goal
+  is to cause clients to refuse to update the metadata later because the attacker's
+  listed metadata version number (possibly MAX_INT) is greater than the new valid 
+  version.  To recover from
   fast-forward attacks after the repository has been compromised and recovered,
   certain metadata files need to be deleted as specified in this section.
   Please see [the Mercury
   paper](https://ssl.engineering.nyu.edu/papers/kuppusamy-mercury-usenix-2017.pdf)
-  for more details.
+  for more details on fast-forward attacks.
 
     * **1.9.1**. **Targets recovery** If a threshold of targets keys have been
     removed in the new trusted root metadata compared to the previous trusted
