@@ -54,7 +54,7 @@ repo](https://github.com/theupdateframework/specification/issues).
    Work on TUF began in late 2009.  The core ideas are based off of previous
    work done by Justin Cappos and Justin Samuel that identified security flaws
    in all popular Linux package managers.  More information and current
-   versions of this document can be found at https://www.updateframework.com/
+   versions of this document can be found at https://theupdateframework.io/
 
    The [Global Environment for Network Innovations](https://www.geni.net/) (GENI)
    and the [National Science Foundation](https://www.nsf.gov/) (NSF) have
@@ -1277,7 +1277,7 @@ non-volatile storage as FILENAME.EXT.
 
 ## **6. Usage**
 
-   See https://www.theupdateframework.com/ for discussion of recommended usage
+   See https://theupdateframework.io/ for discussion of recommended usage
    in various situations.
 
 * **6.1. Key management and migration**
