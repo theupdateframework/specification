@@ -975,9 +975,30 @@ repo](https://github.com/theupdateframework/specification/issues).
          "meta" : METAFILES
        }
 
-   METAFILES is the same as is described for the snapshot.json file.  In the
-   case of the timestamp.json file, this MUST only include a description of the
-   snapshot.json file and the LENGTH of the snapshot.json file is REQUIRED.
+   METAFILES is an object whose format is the following:
+
+       { METAPATH : {
+             "version" : VERSION,
+             "length" : LENGTH, |
+             "hashes" : HASHES }
+         , ...
+       }
+
+   METAPATH is the snapshot.json file's path on the repository relative to the
+   metadata base URL.
+
+   VERSION is the version of the snapshot metadata as listed in the
+   snapshot.json file.
+
+   LENGTH is the integer length in bytes of the snapshot metadata file.
+
+   HASHES is the dictionary that specifies one or more hashes of the snapshot
+   metadata file, including the cryptographic hash function.  For example:
+   { "sha256": HASH, ... }.
+
+   Note: METAFILES is the same as is described for the snapshot.json file, only
+   the LENGTH and HASHES are not optional and in the case of the timestamp.json
+   file, this MUST only include a description of the snapshot.json file.
 
    A signed timestamp.json example file:
 
