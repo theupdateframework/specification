@@ -975,9 +975,9 @@ repo](https://github.com/theupdateframework/specification/issues).
          "meta" : METAFILES
        }
 
-   METAFILES is the same is described for the snapshot.json file.  In the case
-   of the timestamp.json file, this MUST only include a description of the
-   snapshot.json file.
+   METAFILES is the same as is described for the snapshot.json file.  In the
+   case of the timestamp.json file, this MUST only include a description of the
+   snapshot.json file and the LENGTH of the snapshot.json file is REQUIRED.
 
    A signed timestamp.json example file:
 
