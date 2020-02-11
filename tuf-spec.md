@@ -1286,55 +1286,55 @@ non-volatile storage as FILENAME.EXT.
     * **4.5.2**. Otherwise, recursively search the list of delegations in order
     of appearance.
 
-      * **4.5.2.1**. Let DELEGATE denote the current target role TARGETS is
+      * **4.5.2.1**. Let DELEGATEE denote the current target role TARGETS is
       delegating to.
 
       * **4.5.2.2**. **Fast-forward attack recovery.** If a threshold of
       delegated targets keys for the current delegation are removed from the
-      TARGETS metadata, delete the trusted DELEGATE metadata, if any, and the
+      TARGETS metadata, delete the trusted DELEGATEE metadata, if any, and the
       previously trusted snapshot metadata.
 
       * **4.5.2.3**. **Check for a rollback attack via snapshot.** The version number of the
-      DELEGATE metadata in the previous trusted snapshot metadata, if any, MUST
+      DELEGATEE metadata in the previous trusted snapshot metadata, if any, MUST
       be less than or equal to its version number in the new trusted snapshot
       metadata. If this is not the case, abort the update cycle, and report the
       potential rollback attack.
 
-      * **4.5.2.4**. **Download the DELEGATE targets metadata file**, up to either
+      * **4.5.2.4**. **Download the DELEGATEE targets metadata file**, up to either
       the number of bytes specified in the snapshot metadata file, or some Z
       number of bytes. The value for Z is set by the authors of the application
-      using TUF. For example, Z may be tens of kilobytes. IF DELEGATE cannot be
+      using TUF. For example, Z may be tens of kilobytes. IF DELEGATEE cannot be
       found, end the search and report the target cannot be found.  If
       consistent snapshots are not used (see Section 7), then the filename used
       to download the targets metadata file is of the fixed form FILENAME.EXT
       (e.g., delegated_role.json).  Otherwise, the filename is of the form
       VERSION_NUMBER.FILENAME.EXT (e.g., 42.delegated_role.json), where
-      VERSION_NUMBER is the version number of the DELEGATE metadata file listed
+      VERSION_NUMBER is the version number of the DELEGATEE metadata file listed
       in the snapshot metadata file.  In either case, the client MUST write the
       file to non-volatile storage as FILENAME.EXT.
 
       * **4.5.2.5**. **Check against snapshot metadata.** The hashes (if any), and
-      version number of the new DELEGATE metadata file MUST match the trusted
+      version number of the new DELEGATEE metadata file MUST match the trusted
       snapshot metadata, if any.  This is done, in part, to prevent a mix-and-match
-      attack by man-in-the-middle attackers. If the new DELEGATE metadata file
+      attack by man-in-the-middle attackers. If the new DELEGATEE metadata file
       does not match, abort the update cycle, and report the failure.
 
-      * **4.5.2.6**. **Check for an arbitrary software attack.** The new DELEGATE
+      * **4.5.2.6**. **Check for an arbitrary software attack.** The new DELEGATEE
       metadata file MUST have been signed by a threshold of keys specified in the
-      TARGETS metadata file.  If the new DELEGATE metadata file is not signed
+      TARGETS metadata file.  If the new DELEGATEE metadata file is not signed
       as required, abort the update cycle, and report the failure.
 
-      * **4.5.2.7**. **Check for a rollback attack on the DELEGATE metadata.**
-      The version number of the trusted DELEGATE metadata file, if any, MUST be
-      less than or equal to the version number of the new DELEGATE metadata
-      file.  If the new DELEGATE metadata file is older than the trusted
-      DELEGATE metadata file abort the update cycle, and report the potential
+      * **4.5.2.7**. **Check for a rollback attack on the DELEGATEE metadata.**
+      The version number of the trusted DELEGATEE metadata file, if any, MUST be
+      less than or equal to the version number of the new DELEGATEE metadata
+      file.  If the new DELEGATEE metadata file is older than the trusted
+      DELEGATEE metadata file abort the update cycle, and report the potential
       rollback attack.
 
       * **4.5.2.8**. **Check for a freeze attack.** The latest known time
-      should be lower than the expiration timestamp in the new DELEGATE
-      metadata file. If so, the new DELEGATE file becomes the trusted DELEGATE
-      file. If the new DELEGATE metadata file is expired, abort the update
+      should be lower than the expiration timestamp in the new DELEGATEE
+      metadata file. If so, the new DELEGATEE file becomes the trusted DELEGATEE
+      file. If the new DELEGATEE metadata file is expired, abort the update
       cycle, and report the potential freeze attack.
 
       * **4.5.2.9**. If the current delegation is a multi-role delegation,
@@ -1348,7 +1348,7 @@ non-volatile storage as FILENAME.EXT.
 
       * **4.5.2.11**. Otherwise, if the current delegation is a non-terminating
       delegation, continue processing the next delegation, if any, by repeating
-      step 4.5 with DELEGATE as the current TARGET role. Stop the search, and
+      step 4.5 with DELEGATEE as the current TARGET role. Stop the search, and
       jump to step 5 as soon as a delegation returns a result.
 
 **5**. **Verify the desired target against its targets metadata**.
