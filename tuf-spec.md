@@ -709,10 +709,9 @@ repo](https://github.com/theupdateframework/specification/issues).
 
 * **4.4. File formats: snapshot.json**
 
-   The snapshot.json file is signed by the snapshot role.  It lists the version
-   numbers of only the top-level targets and all delegated targets role metadata.
-   The metadata length and hashes are OPTIONAL for the top-level targets and
-   all delegated targets roles.
+   The snapshot.json file is signed by the snapshot role. It MUST list the
+   version numbers of the top-level targets metadata and all delegated targets
+   metadata. It MAY also list their lengths and file hashes.
 
    The "signed" portion of snapshot.json is as follows:
 
@@ -732,18 +731,23 @@ repo](https://github.com/theupdateframework/specification/issues).
          , ...
        }
 
-   METAPATH is the metadata file's path on the repository relative to the
-   metadata base URL.
+   METAPATH is the file path of the metadata on the repository relative to the
+   metadata base URL. For snapshot.json, these are top-level targets metadata
+   and delegated targets metadata.
 
-   VERSION is listed for the top-level targets and all delegated targets roles
-   available on the repository.
+   VERSION is the integer version number as shown in the metadata file at
+   METAPATH.
 
-   LENGTH is the integer length in bytes of the metadata file. It is
-   OPTIONAL for all roles.
+   LENGTH is the integer length in bytes of the metadata file at METAPATH. It
+   is OPTIONAL and can be omitted to reduce the snapshot metadata file size. In
+   that case the client MUST use a custom download limit for the listed
+   metadata.
 
-   HASHES is the dictionary that specifies one or more hashes, including
-   the cryptographic hash function.  For example: { "sha256": HASH, ... }. It is
-   OPTIONAL for all roles.
+   HASHES is a dictionary that specifies one or more hashes of the metadata
+   file at METAPATH, including their cryptographic hash function. For example:
+   { "sha256": HASH, ... }. HASHES is OPTIONAL and can be omitted to reduce
+   the snapshot metadata file size.  In that case the repository MUST guarantee
+   that VERSION alone unambiguously identifies the metadata at METAPATH.
 
    A snapshot.json example file:
 
@@ -958,8 +962,8 @@ repo](https://github.com/theupdateframework/specification/issues).
 
 * **4.6. File formats: timestamp.json**
 
-   The timestamp file is signed by a timestamp key.  It indicates the
-   latest versions of other files and is frequently resigned to limit the
+   The timestamp file is signed by a timestamp key.  It indicates the latest
+   versions the snapshot metadata and is frequently resigned to limit the
    amount of time a client can be kept unaware of interference with obtaining
    updates.
 
