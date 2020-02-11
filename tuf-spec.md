@@ -1149,8 +1149,10 @@ as FILENAME.EXT.
   file.  If the new timestamp metadata file has expired, discard it, abort the
   update cycle, and report the potential freeze attack.
 
-**3**. **Download snapshot metadata file**, up to the number of bytes specified
-in the timestamp metadata file.  If consistent snapshots are not used (see
+**3**. **Download snapshot metadata file**, up to the number of bytes
+specified in the timestamp metadata file. If not specified, download up to a
+number of bytes set by the authors of the application using TUF. This may be
+tens of kilobytes. If consistent snapshots are not used (see
 Section 7), then the filename used to download the snapshot metadata file is of
 the fixed form FILENAME.EXT (e.g., snapshot.json).  Otherwise, the filename is
 of the form VERSION_NUMBER.FILENAME.EXT (e.g., 42.snapshot.json), where
