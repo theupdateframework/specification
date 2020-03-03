@@ -1076,8 +1076,8 @@ repo](https://github.com/theupdateframework/specification/issues).
   * **1.1**. Let N denote the version number of the trusted root metadata file.
 
   * **1.2**. **Try downloading version N+1 of the root metadata file**, up to
-  some X number of bytes (because the size is unknown). The value for X is set
-  by the authors of the application using TUF. For example, X may be tens of
+  some W number of bytes (because the size is unknown). The value for W is set
+  by the authors of the application using TUF. For example, W may be tens of
   kilobytes. The filename used to download the root metadata file is of the
   fixed form VERSION_NUMBER.FILENAME.EXT (e.g., 42.root.json). If this file is
   not available, or we have downloaded more than Y number of root metadata files
@@ -1129,9 +1129,9 @@ repo](https://github.com/theupdateframework/specification/issues).
   * **1.10**. **Set whether consistent snapshots are used as per the trusted
   root metadata file** (see Section 4.3).
 
-**2**. **Download the timestamp metadata file**, up to Y number of bytes
-(because the size is unknown.) The value for Y is set by the authors of the
-application using TUF. For example, Y may be tens of kilobytes. The filename
+**2**. **Download the timestamp metadata file**, up to X number of bytes
+(because the size is unknown). The value for X is set by the authors of the
+application using TUF. For example, X may be tens of kilobytes. The filename
 used to download the timestamp metadata file is of the fixed form FILENAME.EXT
 (e.g., timestamp.json). The client MUST write the file to non-volatile storage
 as FILENAME.EXT.
@@ -1153,9 +1153,9 @@ as FILENAME.EXT.
   file.  If the new timestamp metadata file has expired, discard it, abort the
   update cycle, and report the potential freeze attack.
 
-**3**. **Download snapshot metadata file**, up to the number of bytes
-specified in the timestamp metadata file. If not specified, download up to a
-number of bytes set by the authors of the application using TUF. This may be
+**3**. **Download snapshot metadata file**, up to either the number of bytes
+specified in the timestamp metadata file, or some Y number of bytes. The value
+for Y is set by the authors of the application using TUF. For example, Y may be
 tens of kilobytes. If consistent snapshots are not used (see
 Section 7), then the filename used to download the snapshot metadata file is of
 the fixed form FILENAME.EXT (e.g., snapshot.json).  Otherwise, the filename is
