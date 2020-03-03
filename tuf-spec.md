@@ -214,10 +214,6 @@ repo](https://github.com/theupdateframework/specification/issues).
 
       * This version (1.0.0) of the specification adheres to the following TAPS:
 
-        - [TAP 3](https://github.com/theupdateframework/taps/blob/master/tap3.md): 
-            Multi Role Delegations
-        - [TAP 4](https://github.com/theupdateframework/taps/blob/master/tap4.md):
-            Multiple Repository Consensus on entrusted targets
         - [TAP 6](https://github.com/theupdateframework/taps/blob/master/tap6.md):
             Include specification version in metadata
         - [TAP 9](https://github.com/theupdateframework/taps/blob/master/tap9.md):
