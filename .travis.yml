@@ -1,0 +1,17 @@
+language: python
+
+# Disable auto-cloning and ...
+git:
+  clone: false
+
+# ... instead manually fetch and checkout the pull request source branch, which
+# is expected by check_release.py
+# https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/checking-out-pull-requests-locally
+install:
+  - git clone --depth=50 https://github.com/${TRAVIS_REPO_SLUG}.git ${TRAVIS_REPO_SLUG}
+  - cd ${TRAVIS_REPO_SLUG}
+  - git fetch origin pull/${TRAVIS_PULL_REQUEST}/head:${TRAVIS_PULL_REQUEST_BRANCH}
+  - git checkout -qf ${TRAVIS_PULL_REQUEST_BRANCH}
+
+script:
+  - python check_release.py
