@@ -963,7 +963,7 @@ repo](https://github.com/theupdateframework/specification/issues).
 * **4.6. File formats: timestamp.json**
 
    The timestamp file is signed by a timestamp key.  It indicates the latest
-   versions the snapshot metadata and is frequently resigned to limit the
+   version of the snapshot metadata and is frequently resigned to limit the
    amount of time a client can be kept unaware of interference with obtaining
    updates.
 
