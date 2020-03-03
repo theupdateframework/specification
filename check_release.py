@@ -152,7 +152,8 @@ def main():
 
   print("*"*68)
   print("thanks for correctly bumping version and last modified date. :)")
-  print("don't forget to tag the release and to sync 'draft' with master!! :P")
+  if os.environ["TRAVIS_PULL_REQUEST_BRANCH"] == "draft":
+    print("don't forget to tag the release and to sync 'draft' with master!! :P")
   print("*"*68)
 
 
