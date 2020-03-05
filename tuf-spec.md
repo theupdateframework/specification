@@ -1165,10 +1165,10 @@ the timestamp metadata file.  In either case, the client MUST write the file to
 non-volatile storage as FILENAME.EXT.
 
   * **3.1**. **Check against timestamp metadata.** The hashes and version
-  number of the new snapshot metadata file MUST match the hashes and version
-  number listed in timestamp metadata.  If hashes and version do not match,
-  discard the new snapshot metadata, abort the update cycle, and report the
-  failure.
+  number of the new snapshot metadata file MUST match the hashes (if any) and
+  version number listed in the trusted timestamp metadata.  If hashes and
+  version do not match, discard the new snapshot metadata, abort the update
+  cycle, and report the failure.
 
   * **3.2**. **Check signatures.** The new snapshot metadata file MUST have
   been signed by a threshold of keys specified in the trusted root metadata
@@ -1213,11 +1213,12 @@ VERSION_NUMBER is the version number of the targets metadata file listed in the
 snapshot metadata file.  In either case, the client MUST write the file to
 non-volatile storage as FILENAME.EXT.
 
-  * **4.1**. **Check against snapshot metadata.** The hashes (if any), and
-  version number of the new targets metadata file MUST match the trusted
-  snapshot metadata.  This is done, in part, to prevent a mix-and-match attack
-  by man-in-the-middle attackers.  If the new targets metadata file does not
-  match, discard it, abort the update cycle, and report the failure.
+  * **4.1**. **Check against snapshot metadata.** The hashes and version
+  number of the new targets metadata file MUST match the hashes (if any) and
+  version number listed in the trusted snapshot metadata.  This is done, in
+  part, to prevent a mix-and-match attack by man-in-the-middle attackers.  If
+  the new targets metadata file does not match, discard it, abort the update
+  cycle, and report the failure.
 
   * **4.2**. **Check for an arbitrary software attack.** The new targets
   metadata file MUST have been signed by a threshold of keys specified in the
