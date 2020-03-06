@@ -1,8 +1,8 @@
 # <p align="center">The Update Framework Specification
 
-Last modified: **5 March 2020**
+Last modified: **6 March 2020**
 
-Version: **1.0.0**
+Version: **1.0.1**
 
 We strive to make the specification easy to implement, so if you come across
 any inconsistencies or experience any difficulty, do let us know by sending an
@@ -709,10 +709,9 @@ repo](https://github.com/theupdateframework/specification/issues).
 
 * **4.4. File formats: snapshot.json**
 
-   The snapshot.json file is signed by the snapshot role.  It lists the version
-   numbers of only the top-level targets and all delegated targets role metadata.
-   The metadata length and hashes are OPTIONAL for the top-level targets and
-   all delegated targets roles.
+   The snapshot.json file is signed by the snapshot role. It MUST list the
+   version numbers of the top-level targets metadata and all delegated targets
+   metadata. It MAY also list their lengths and file hashes.
 
    The "signed" portion of snapshot.json is as follows:
 
@@ -732,18 +731,23 @@ repo](https://github.com/theupdateframework/specification/issues).
          , ...
        }
 
-   METAPATH is the metadata file's path on the repository relative to the
-   metadata base URL.
+   METAPATH is the file path of the metadata on the repository relative to the
+   metadata base URL. For snapshot.json, these are top-level targets metadata
+   and delegated targets metadata.
 
-   VERSION is listed for the top-level targets and all delegated targets roles
-   available on the repository.
+   VERSION is the integer version number as shown in the metadata file at
+   METAPATH.
 
-   LENGTH is the integer length in bytes of the metadata file. It is
-   OPTIONAL for all roles.
+   LENGTH is the integer length in bytes of the metadata file at METAPATH. It
+   is OPTIONAL and can be omitted to reduce the snapshot metadata file size. In
+   that case the client MUST use a custom download limit for the listed
+   metadata.
 
-   HASHES is the dictionary that specifies one or more hashes, including
-   the cryptographic hash function.  For example: { "sha256": HASH, ... }. It is
-   OPTIONAL for all roles.
+   HASHES is a dictionary that specifies one or more hashes of the metadata
+   file at METAPATH, including their cryptographic hash function. For example:
+   { "sha256": HASH, ... }. HASHES is OPTIONAL and can be omitted to reduce
+   the snapshot metadata file size.  In that case the repository MUST guarantee
+   that VERSION alone unambiguously identifies the metadata at METAPATH.
 
    A snapshot.json example file:
 
@@ -958,8 +962,8 @@ repo](https://github.com/theupdateframework/specification/issues).
 
 * **4.6. File formats: timestamp.json**
 
-   The timestamp file is signed by a timestamp key.  It indicates the
-   latest versions of other files and is frequently resigned to limit the
+   The timestamp file is signed by a timestamp key.  It indicates the latest
+   version of the snapshot metadata and is frequently resigned to limit the
    amount of time a client can be kept unaware of interference with obtaining
    updates.
 
@@ -1072,8 +1076,8 @@ repo](https://github.com/theupdateframework/specification/issues).
   * **1.1**. Let N denote the version number of the trusted root metadata file.
 
   * **1.2**. **Try downloading version N+1 of the root metadata file**, up to
-  some X number of bytes (because the size is unknown). The value for X is set
-  by the authors of the application using TUF. For example, X may be tens of
+  some W number of bytes (because the size is unknown). The value for W is set
+  by the authors of the application using TUF. For example, W may be tens of
   kilobytes. The filename used to download the root metadata file is of the
   fixed form VERSION_NUMBER.FILENAME.EXT (e.g., 42.root.json). If this file is
   not available, or we have downloaded more than Y number of root metadata files
@@ -1125,9 +1129,9 @@ repo](https://github.com/theupdateframework/specification/issues).
   * **1.10**. **Set whether consistent snapshots are used as per the trusted
   root metadata file** (see Section 4.3).
 
-**2**. **Download the timestamp metadata file**, up to Y number of bytes
-(because the size is unknown.) The value for Y is set by the authors of the
-application using TUF. For example, Y may be tens of kilobytes. The filename
+**2**. **Download the timestamp metadata file**, up to X number of bytes
+(because the size is unknown). The value for X is set by the authors of the
+application using TUF. For example, X may be tens of kilobytes. The filename
 used to download the timestamp metadata file is of the fixed form FILENAME.EXT
 (e.g., timestamp.json). The client MUST write the file to non-volatile storage
 as FILENAME.EXT.
@@ -1149,8 +1153,10 @@ as FILENAME.EXT.
   file.  If the new timestamp metadata file has expired, discard it, abort the
   update cycle, and report the potential freeze attack.
 
-**3**. **Download snapshot metadata file**, up to the number of bytes specified
-in the timestamp metadata file.  If consistent snapshots are not used (see
+**3**. **Download snapshot metadata file**, up to either the number of bytes
+specified in the timestamp metadata file, or some Y number of bytes. The value
+for Y is set by the authors of the application using TUF. For example, Y may be
+tens of kilobytes. If consistent snapshots are not used (see
 Section 7), then the filename used to download the snapshot metadata file is of
 the fixed form FILENAME.EXT (e.g., snapshot.json).  Otherwise, the filename is
 of the form VERSION_NUMBER.FILENAME.EXT (e.g., 42.snapshot.json), where
@@ -1159,10 +1165,10 @@ the timestamp metadata file.  In either case, the client MUST write the file to
 non-volatile storage as FILENAME.EXT.
 
   * **3.1**. **Check against timestamp metadata.** The hashes and version
-  number of the new snapshot metadata file MUST match the hashes and version
-  number listed in timestamp metadata.  If hashes and version do not match,
-  discard the new snapshot metadata, abort the update cycle, and report the
-  failure.
+  number of the new snapshot metadata file MUST match the hashes (if any) and
+  version number listed in the trusted timestamp metadata.  If hashes and
+  version do not match, discard the new snapshot metadata, abort the update
+  cycle, and report the failure.
 
   * **3.2**. **Check signatures.** The new snapshot metadata file MUST have
   been signed by a threshold of keys specified in the trusted root metadata
@@ -1207,11 +1213,12 @@ VERSION_NUMBER is the version number of the targets metadata file listed in the
 snapshot metadata file.  In either case, the client MUST write the file to
 non-volatile storage as FILENAME.EXT.
 
-  * **4.1**. **Check against snapshot metadata.** The hashes (if any), and
-  version number of the new targets metadata file MUST match the trusted
-  snapshot metadata.  This is done, in part, to prevent a mix-and-match attack
-  by man-in-the-middle attackers.  If the new targets metadata file does not
-  match, discard it, abort the update cycle, and report the failure.
+  * **4.1**. **Check against snapshot metadata.** The hashes and version
+  number of the new targets metadata file MUST match the hashes (if any) and
+  version number listed in the trusted snapshot metadata.  This is done, in
+  part, to prevent a mix-and-match attack by man-in-the-middle attackers.  If
+  the new targets metadata file does not match, discard it, abort the update
+  cycle, and report the failure.
 
   * **4.2**. **Check for an arbitrary software attack.** The new targets
   metadata file MUST have been signed by a threshold of keys specified in the
