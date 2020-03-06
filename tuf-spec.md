@@ -1313,11 +1313,12 @@ non-volatile storage as FILENAME.EXT.
       in the snapshot metadata file.  In either case, the client MUST write the
       file to non-volatile storage as FILENAME.EXT.
 
-      * **4.5.2.5**. **Check against snapshot metadata.** The hashes (if any), and
-      version number of the new DELEGATEE metadata file MUST match the trusted
-      snapshot metadata, if any.  This is done, in part, to prevent a mix-and-match
-      attack by man-in-the-middle attackers. If the new DELEGATEE metadata file
-      does not match, abort the update cycle, and report the failure.
+      * **4.5.2.5**. **Check against snapshot metadata.**  The hashes and
+      version number of the new DELEGATEE metadata file MUST match the hashes
+      (if any) and version number listed in the trusted snapshot metadata. This
+      is done, in part, to prevent a mix-and-match attack by man-in-the-middle
+      attackers. If the new DELEGATEE metadata file does not match, abort the
+      update cycle, and report the failure.
 
       * **4.5.2.6**. **Check for an arbitrary software attack.** The new DELEGATEE
       metadata file MUST have been signed by a threshold of keys specified in the
