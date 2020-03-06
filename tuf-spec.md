@@ -1,6 +1,6 @@
 # <p align="center">The Update Framework Specification
 
-Last modified: **5 March 2020**
+Last modified: **6 March 2020**
 
 Version: **1.0.1**
 
