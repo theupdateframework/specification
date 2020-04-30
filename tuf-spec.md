@@ -331,8 +331,8 @@ repo](https://github.com/theupdateframework/specification/issues).
   - **2.1.3 Snapshot role**
 
       The snapshot role signs a metadata file that provides information about
-      the latest version of all of the other metadata on the repository
-      (excluding the timestamp file, discussed below).  This information allows
+      the latest version of all targets metadata on the repository
+      (the top-level targets.json and all delegated roles).  This information allows
       clients to know which metadata files have been updated and also prevents
       mix-and-match attacks.
 
@@ -422,7 +422,8 @@ repo](https://github.com/theupdateframework/specification/issues).
     /snapshot.json
 
          Signed by the snapshot role's keys.  Lists the version numbers of all
-         metadata files other than timestamp.json.
+         target metadata files: the top-level targets.json and all delegated
+         roles.
 
     /targets.json
 
@@ -1384,7 +1385,7 @@ non-volatile storage as FILENAME.EXT.
     snapshots are not written by the repository, then the attribute may either
     be left unspecified or be set to the False value.  Otherwise, it must be
     set to the True value.
-    
+
     Regardless of whether consistent snapshots are ever used or not, all
     released versions of root metadata files should always be provided
     so that outdated clients can update to the latest available root.
