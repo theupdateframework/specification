@@ -428,7 +428,8 @@ repo](https://github.com/theupdateframework/specification/issues).
     /targets.json
 
          Signed by the target role's keys.  Lists hashes and sizes of target
-         files.
+         files. Specifies delegation information and trusted keys for delegated
+         target roles.
 
     /timestamp.json
 
