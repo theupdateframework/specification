@@ -724,6 +724,8 @@ repo](https://github.com/theupdateframework/specification/issues).
          "meta" : METAFILES
        }
 
+   SPEC_VERSION, VERSION and EXPIRES are the same as is described for the root.json file.
+
    METAFILES is an object whose format is the following:
 
        { METAPATH : {
@@ -797,6 +799,8 @@ repo](https://github.com/theupdateframework/specification/issues).
          "targets" : TARGETS,
          ("delegations" : DELEGATIONS)
        }
+
+   SPEC_VERSION, VERSION and EXPIRES are the same as is described for the root.json file.
 
    TARGETS is an object whose format is the following:
 
@@ -980,6 +984,8 @@ repo](https://github.com/theupdateframework/specification/issues).
          "expires" : EXPIRES,
          "meta" : METAFILES
        }
+
+   SPEC_VERSION, VERSION and EXPIRES are the same as is described for the root.json file.
 
    METAFILES is the same as described for the snapshot.json file.  In the case
    of the timestamp.json file, this MUST only include a description of the
