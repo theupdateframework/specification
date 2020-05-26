@@ -823,6 +823,8 @@ repo](https://github.com/theupdateframework/specification/issues).
    It is allowed to have a TARGETS object with no TARGETPATH elements.  This
    can be used to indicate that no target files are available.
 
+   LENGTH is the integer length in bytes of the target file at TARGETPATH.
+
    HASHES is a dictionary that specifies one or more hashes, including the
    cryptographic hash function.  For example: { "sha256": HASH, ... }. HASH is
    the hexdigest of the cryptographic function computed on the target file.
