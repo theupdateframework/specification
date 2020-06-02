@@ -1,8 +1,8 @@
 # <p align="center">The Update Framework Specification
 
-Last modified: **4 May 2020**
+Last modified: **2 June 2020**
 
-Version: **1.0.2**
+Version: **1.0.3**
 
 We strive to make the specification easy to implement, so if you come across
 any inconsistencies or experience any difficulty, do let us know by sending an
