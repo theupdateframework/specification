@@ -1,8 +1,8 @@
 # <p align="center">The Update Framework Specification
 
-Last modified: **4 May 2020**
+Last modified: **2 June 2020**
 
-Version: **1.0.2**
+Version: **1.0.3**
 
 We strive to make the specification easy to implement, so if you come across
 any inconsistencies or experience any difficulty, do let us know by sending an
@@ -428,7 +428,8 @@ repo](https://github.com/theupdateframework/specification/issues).
     /targets.json
 
          Signed by the target role's keys.  Lists hashes and sizes of target
-         files.
+         files. Specifies delegation information and trusted keys for delegated
+         target roles.
 
     /timestamp.json
 
@@ -723,6 +724,8 @@ repo](https://github.com/theupdateframework/specification/issues).
          "meta" : METAFILES
        }
 
+   SPEC_VERSION, VERSION and EXPIRES are the same as is described for the root.json file.
+
    METAFILES is an object whose format is the following:
 
        { METAPATH : {
@@ -797,6 +800,8 @@ repo](https://github.com/theupdateframework/specification/issues).
          ("delegations" : DELEGATIONS)
        }
 
+   SPEC_VERSION, VERSION and EXPIRES are the same as is described for the root.json file.
+
    TARGETS is an object whose format is the following:
 
        { TARGETPATH : {
@@ -817,6 +822,8 @@ repo](https://github.com/theupdateframework/specification/issues).
 
    It is allowed to have a TARGETS object with no TARGETPATH elements.  This
    can be used to indicate that no target files are available.
+
+   LENGTH is the integer length in bytes of the target file at TARGETPATH.
 
    HASHES is a dictionary that specifies one or more hashes, including the
    cryptographic hash function.  For example: { "sha256": HASH, ... }. HASH is
@@ -980,7 +987,9 @@ repo](https://github.com/theupdateframework/specification/issues).
          "meta" : METAFILES
        }
 
-   METAFILES is the same is described for the snapshot.json file.  In the case
+   SPEC_VERSION, VERSION and EXPIRES are the same as is described for the root.json file.
+
+   METAFILES is the same as described for the snapshot.json file.  In the case
    of the timestamp.json file, this MUST only include a description of the
    snapshot.json file.
 
