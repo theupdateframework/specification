@@ -411,34 +411,36 @@ repo](https://github.com/theupdateframework/specification/issues).
  + **3.1.2 Metadata files**
 
    The filenames and directory structure of repository metadata are strictly
-   defined.  The following are the metadata files of top-level roles relative
+   defined.  All metadata filenames will have an extension based on the
+   metaformat, for example json metadata files would have an EXT of json.
+   The following are the metadata files of top-level roles relative
    to the base URL of metadata available from a given repository mirror.
 
-    /root.json
+    /root.EXT
 
          Signed by the root keys; specifies trusted keys for the other
          top-level roles.
 
-    /snapshot.json
+    /snapshot.EXT
 
          Signed by the snapshot role's keys.  Lists the version numbers of all
-         target metadata files: the top-level targets.json and all delegated
+         target metadata files: the top-level targets.EXT and all delegated
          roles.
 
-    /targets.json
+    /targets.EXT
 
          Signed by the target role's keys.  Lists hashes and sizes of target
          files. Specifies delegation information and trusted keys for delegated
          target roles.
 
-    /timestamp.json
+    /timestamp.EXT
 
          Signed by the timestamp role's keys.  Lists hash(es), size, and version
          number of the snapshot file.  This is the first and potentially only
          file that needs to be downloaded when clients poll for the existence
          of updates.
 
-    /mirrors.json (optional)
+    /mirrors.EXT (optional)
 
          Signed by the mirrors role's keys.  Lists information about available
          mirrors and the content available from each mirror.
@@ -452,13 +454,13 @@ repo](https://github.com/theupdateframework/specification/issues).
 
    A delegated role file is located at:
 
-    /DELEGATED_ROLE.json
+    /DELEGATED_ROLE.EXT
 
    where DELEGATED_ROLE is the name of the delegated role that has been
-   specified in targets.json.  If this role further delegates trust to a role
+   specified in targets.EXT.  If this role further delegates trust to a role
    named ANOTHER_ROLE, that role's signed metadata file is made available at:
 
-    /ANOTHER_ROLE.json
+    /ANOTHER_ROLE.EXT
 
    Delegated target roles are authorized by the keys listed in the directly
    delegating target role.
@@ -472,7 +474,9 @@ repo](https://github.com/theupdateframework/specification/issues).
 
 * **4.1. Metaformat**
 
-   All documents use a subset of the JSON object format, with
+   Implementers of TUF may use any data format for metadata files as long as
+   all fields in this specification are included. The examples in this document
+   use a subset of the JSON object format, with
    floating-point numbers omitted.  When calculating the digest of an
    object, we use the "canonical JSON" subdialect as described at
         http://wiki.laptop.org/go/Canonical_JSON
