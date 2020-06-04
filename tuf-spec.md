@@ -332,7 +332,7 @@ repo](https://github.com/theupdateframework/specification/issues).
 
       The snapshot role signs a metadata file that provides information about
       the latest version of all targets metadata on the repository
-      (the top-level targets.json and all delegated roles).  This information allows
+      (the top-level targets role and all delegated roles).  This information allows
       clients to know which metadata files have been updated and also prevents
       mix-and-match attacks.
 
@@ -498,8 +498,7 @@ repo](https://github.com/theupdateframework/specification/issues).
 
           KEYID is the identifier of the key signing the ROLE dictionary.
 
-          SIGNATURE is a hex-encoded signature of the canonical JSON form of
-          ROLE.
+          SIGNATURE is a hex-encoded signature of the metadata for ROLE.
 
 
    All keys have the format:
@@ -572,7 +571,7 @@ repo](https://github.com/theupdateframework/specification/issues).
         PUBLIC is in PEM format and a string.
 
    The KEYID of a key is the hexdigest of the SHA-256 hash of the
-   canonical JSON form of the key.
+   metadata format encoding of the key.
 
    Metadata date-time data follows the ISO 8601 standard.  The expected format
    of the combined date and time string is "YYYY-MM-DDTHH:MM:SSZ".  Time is
