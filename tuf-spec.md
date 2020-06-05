@@ -475,8 +475,11 @@ repo](https://github.com/theupdateframework/specification/issues).
 * **4.1. Metaformat**
 
    Implementers of TUF may use any data format for metadata files as long as
-   all fields in this specification are included. The examples in this document
-   use a subset of the JSON object format, with
+   all fields in this specification are included and TUF clients are able to
+   interpret them without ambiguity. Implementers should choose a data format
+   that allows for canonicalization, or one that will decode data
+   deterministically by default so that signatures can be accurately verified.
+   The examples in this document use a subset of the JSON object format, with
    floating-point numbers omitted.  When calculating the digest of an
    object, we use the "canonical JSON" subdialect as described at
         http://wiki.laptop.org/go/Canonical_JSON
@@ -498,7 +501,8 @@ repo](https://github.com/theupdateframework/specification/issues).
 
           KEYID is the identifier of the key signing the ROLE dictionary.
 
-          SIGNATURE is a hex-encoded signature of the metadata for ROLE.
+          SIGNATURE is a hex-encoded signature of the canonical form of
+          the metadata for ROLE.
 
 
    All keys have the format:
