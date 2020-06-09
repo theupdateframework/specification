@@ -412,7 +412,7 @@ repo](https://github.com/theupdateframework/specification/issues).
 
    The filenames and directory structure of repository metadata are strictly
    defined.  All metadata filenames will have an extension (EXT) based on the
-   metaformat, for example json metadata files would have an EXT of json.
+   metaformat, for example JSON metadata files would have an EXT of json.
    The following are the metadata files of top-level roles relative
    to the base URL of metadata available from a given repository mirror.
 
