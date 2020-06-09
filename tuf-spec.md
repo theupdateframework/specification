@@ -575,7 +575,7 @@ repo](https://github.com/theupdateframework/specification/issues).
         PUBLIC is in PEM format and a string.
 
    The KEYID of a key is the hexdigest of the SHA-256 hash of the
-   metadata format encoding of the key.
+   canonical form of the key.
 
    Metadata date-time data follows the ISO 8601 standard.  The expected format
    of the combined date and time string is "YYYY-MM-DDTHH:MM:SSZ".  Time is
