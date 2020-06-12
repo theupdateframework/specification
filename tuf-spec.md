@@ -1,8 +1,8 @@
 # <p align="center">The Update Framework Specification
 
-Last modified: **2 June 2020**
+Last modified: **9 June 2020**
 
-Version: **1.0.3**
+Version: **1.0.4**
 
 We strive to make the specification easy to implement, so if you come across
 any inconsistencies or experience any difficulty, do let us know by sending an
@@ -332,7 +332,7 @@ repo](https://github.com/theupdateframework/specification/issues).
 
       The snapshot role signs a metadata file that provides information about
       the latest version of all targets metadata on the repository
-      (the top-level targets.json and all delegated roles).  This information allows
+      (the top-level targets role and all delegated roles).  This information allows
       clients to know which metadata files have been updated and also prevents
       mix-and-match attacks.
 
@@ -411,34 +411,36 @@ repo](https://github.com/theupdateframework/specification/issues).
  + **3.1.2 Metadata files**
 
    The filenames and directory structure of repository metadata are strictly
-   defined.  The following are the metadata files of top-level roles relative
+   defined.  All metadata filenames will have an extension (EXT) based on the
+   metaformat, for example JSON metadata files would have an EXT of json.
+   The following are the metadata files of top-level roles relative
    to the base URL of metadata available from a given repository mirror.
 
-    /root.json
+    /root.EXT
 
          Signed by the root keys; specifies trusted keys for the other
          top-level roles.
 
-    /snapshot.json
+    /snapshot.EXT
 
          Signed by the snapshot role's keys.  Lists the version numbers of all
-         target metadata files: the top-level targets.json and all delegated
+         target metadata files: the top-level targets.EXT and all delegated
          roles.
 
-    /targets.json
+    /targets.EXT
 
          Signed by the target role's keys.  Lists hashes and sizes of target
          files. Specifies delegation information and trusted keys for delegated
          target roles.
 
-    /timestamp.json
+    /timestamp.EXT
 
          Signed by the timestamp role's keys.  Lists hash(es), size, and version
          number of the snapshot file.  This is the first and potentially only
          file that needs to be downloaded when clients poll for the existence
          of updates.
 
-    /mirrors.json (optional)
+    /mirrors.EXT (optional)
 
          Signed by the mirrors role's keys.  Lists information about available
          mirrors and the content available from each mirror.
@@ -452,13 +454,13 @@ repo](https://github.com/theupdateframework/specification/issues).
 
    A delegated role file is located at:
 
-    /DELEGATED_ROLE.json
+    /DELEGATED_ROLE.EXT
 
    where DELEGATED_ROLE is the name of the delegated role that has been
-   specified in targets.json.  If this role further delegates trust to a role
+   specified in targets.EXT.  If this role further delegates trust to a role
    named ANOTHER_ROLE, that role's signed metadata file is made available at:
 
-    /ANOTHER_ROLE.json
+    /ANOTHER_ROLE.EXT
 
    Delegated target roles are authorized by the keys listed in the directly
    delegating target role.
@@ -472,7 +474,12 @@ repo](https://github.com/theupdateframework/specification/issues).
 
 * **4.1. Metaformat**
 
-   All documents use a subset of the JSON object format, with
+   Implementers of TUF may use any data format for metadata files as long as
+   all fields in this specification are included and TUF clients are able to
+   interpret them without ambiguity. Implementers should choose a data format
+   that allows for canonicalization, or one that will decode data
+   deterministically by default so that signatures can be accurately verified.
+   The examples in this document use a subset of the JSON object format, with
    floating-point numbers omitted.  When calculating the digest of an
    object, we use the "canonical JSON" subdialect as described at
         http://wiki.laptop.org/go/Canonical_JSON
@@ -494,8 +501,8 @@ repo](https://github.com/theupdateframework/specification/issues).
 
           KEYID is the identifier of the key signing the ROLE dictionary.
 
-          SIGNATURE is a hex-encoded signature of the canonical JSON form of
-          ROLE.
+          SIGNATURE is a hex-encoded signature of the canonical form of
+          the metadata for ROLE.
 
 
    All keys have the format:
@@ -568,7 +575,7 @@ repo](https://github.com/theupdateframework/specification/issues).
         PUBLIC is in PEM format and a string.
 
    The KEYID of a key is the hexdigest of the SHA-256 hash of the
-   canonical JSON form of the key.
+   canonical form of the key.
 
    Metadata date-time data follows the ISO 8601 standard.  The expected format
    of the combined date and time string is "YYYY-MM-DDTHH:MM:SSZ".  Time is
