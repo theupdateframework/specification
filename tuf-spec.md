@@ -1,6 +1,6 @@
 # <p align="center">The Update Framework Specification
 
-Last modified: **9 June 2020**
+Last modified: **26 August 2020**
 
 Version: **1.0.4**
 
@@ -1160,7 +1160,7 @@ as FILENAME.EXT.
 
   * **2.2**. **Check for a rollback attack.**
 
-    * **3.3.1**. Note that the trusted timestamp metadata file may be checked
+    * **2.2.1**. Note that the trusted timestamp metadata file may be checked
     for authenticity, but its expiration does not matter for the following
     purposes.
 
