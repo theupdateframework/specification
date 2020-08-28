@@ -1160,17 +1160,13 @@ as FILENAME.EXT.
 
   * **2.2**. **Check for a rollback attack.**
 
-    * **2.2.1**. Note that the trusted timestamp metadata file may be checked
-    for authenticity, but its expiration does not matter for the following
-    purposes.
-
-    * **2.2.2**. The version number of the trusted timestamp metadata file, if
+    * **2.2.1**. The version number of the trusted timestamp metadata file, if
     any, must be less than or equal to the version number of the new timestamp
     metadata file.  If the new timestamp metadata file is older than the
     trusted timestamp metadata file, discard it, abort the update cycle, and
     report the potential rollback attack.
 
-    * **2.2.3**. The version number of the snapshot metadata file in the
+    * **2.2.2**. The version number of the snapshot metadata file in the
     trusted timestamp metadata file, if any, MUST be less than or equal to its
     version number in the new timestamp metadata file.  If not, discard the new
     timestamp metadadata file, abort the update cycle, and report the failure.
@@ -1205,17 +1201,13 @@ non-volatile storage as FILENAME.EXT.
 
   * **3.3**. **Check for a rollback attack.**
 
-    * **3.3.1**. Note that the trusted snapshot metadata file may be checked
-    for authenticity, but its expiration does not matter for the following
-    purposes.
-
-    * **3.3.2**. The version number of the trusted snapshot metadata file, if
+    * **3.3.1**. The version number of the trusted snapshot metadata file, if
     any, MUST be less than or equal to the version number of the new snapshot
     metadata file.  If the new snapshot metadata file is older than the trusted
     metadata file, discard it, abort the update cycle, and report the potential
     rollback attack.
 
-    * **3.3.3**. The version number of the targets metadata file, and all
+    * **3.3.2**. The version number of the targets metadata file, and all
     delegated targets metadata files (if any), in the trusted snapshot metadata
     file, if any, MUST be less than or equal to its version number in the new
     snapshot metadata file. Furthermore, any targets metadata filename that was
