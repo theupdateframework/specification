@@ -1,8 +1,8 @@
 # <p align="center">The Update Framework Specification
 
-Last modified: **9 June 2020**
+Last modified: **26 August 2020**
 
-Version: **1.0.4**
+Version: **1.0.5**
 
 We strive to make the specification easy to implement, so if you come across
 any inconsistencies or experience any difficulty, do let us know by sending an
@@ -1158,11 +1158,18 @@ as FILENAME.EXT.
   file.  If the new timestamp metadata file is not properly signed, discard it,
   abort the update cycle, and report the signature failure.
 
-  * **2.2**. **Check for a rollback attack.** The version number of the trusted
-  timestamp metadata file, if any, must be less than or equal to the version
-  number of the new timestamp metadata file.  If the new timestamp metadata
-  file is older than the trusted timestamp metadata file, discard it, abort the
-  update cycle, and report the potential rollback attack.
+  * **2.2**. **Check for a rollback attack.**
+
+    * **2.2.1**. The version number of the trusted timestamp metadata file, if
+    any, must be less than or equal to the version number of the new timestamp
+    metadata file.  If the new timestamp metadata file is older than the
+    trusted timestamp metadata file, discard it, abort the update cycle, and
+    report the potential rollback attack.
+
+    * **2.2.2**. The version number of the snapshot metadata file in the
+    trusted timestamp metadata file, if any, MUST be less than or equal to its
+    version number in the new timestamp metadata file.  If not, discard the new
+    timestamp metadadata file, abort the update cycle, and report the failure.
 
   * **2.3**. **Check for a freeze attack.** The latest known time should be
   lower than the expiration timestamp in the new timestamp metadata file.  If
@@ -1194,23 +1201,19 @@ non-volatile storage as FILENAME.EXT.
 
   * **3.3**. **Check for a rollback attack.**
 
-    * **3.3.1**. Note that the trusted snapshot metadata file may be checked
-    for authenticity, but its expiration does not matter for the following
-    purposes.
-
-    * **3.3.2**. The version number of the trusted snapshot metadata file, if
+    * **3.3.1**. The version number of the trusted snapshot metadata file, if
     any, MUST be less than or equal to the version number of the new snapshot
     metadata file.  If the new snapshot metadata file is older than the trusted
     metadata file, discard it, abort the update cycle, and report the potential
     rollback attack.
 
-    * **3.3.3**. The version number of the targets metadata file, and all
+    * **3.3.2**. The version number of the targets metadata file, and all
     delegated targets metadata files (if any), in the trusted snapshot metadata
     file, if any, MUST be less than or equal to its version number in the new
     snapshot metadata file. Furthermore, any targets metadata filename that was
     listed in the trusted snapshot metadata file, if any, MUST continue to be
     listed in the new snapshot metadata file.  If any of these conditions are
-    not met, discard the new snaphot metadadata file, abort the update cycle,
+    not met, discard the new snapshot metadadata file, abort the update cycle,
     and report the failure.
 
   * **3.4**. **Check for a freeze attack.** The latest known time should be
