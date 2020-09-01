@@ -1148,7 +1148,10 @@ repo](https://github.com/theupdateframework/specification/issues).
     * **1.9.1**. **Targets recovery** If a threshold of targets keys have been
     removed in the new trusted root metadata compared to the previous trusted
     root metadata, delete the old top-level targets and snapshot metadata
-    files.
+    files. Note that delegated targets are suceptible to fast forward attacks,
+    because snapshot must be checked before a key rotation in the delegating
+    target role is known to the client. To fix this, nuke delegation or make
+    repository rotate the the snapshot key.
 
     * **1.9.2**. **Snapshot recovery** If a threshold of snapshot keys have
     been removed in the new trusted root metadata compared to the previous
@@ -1223,9 +1226,9 @@ non-volatile storage as FILENAME.EXT.
     metadata file, discard it, abort the update cycle, and report the potential
     rollback attack.
 
-    * **3.3.2**. The version number of the top-level targets metadata file, in
+    * **3.3.2**. The version number of all targets metadata files in
     the trusted snapshot metadata file, if any, MUST be less than or equal to
-    its version number in the new snapshot metadata file. Furthermore, any
+    their version numbers in the new snapshot metadata file. Furthermore, any
     targets metadata filename that was listed in the trusted snapshot metadata
     file, if any, MUST continue to be listed in the new snapshot metadata file.
     If any of these conditions are not met, discard the new snapshot metadadata
@@ -1289,18 +1292,7 @@ non-volatile storage as FILENAME.EXT.
       * **4.5.2.1**. Let DELEGATEE denote the current target role TARGETS is
       delegating to.
 
-      * **4.5.2.2**. **Fast-forward attack recovery.** If a threshold of
-      delegated targets keys for the current delegation are removed from the
-      TARGETS metadata, delete the trusted DELEGATEE metadata, if any, and the
-      previously trusted snapshot metadata.
-
-      * **4.5.2.3**. **Check for a rollback attack via snapshot.** The version number of the
-      DELEGATEE metadata in the previous trusted snapshot metadata, if any, MUST
-      be less than or equal to its version number in the new trusted snapshot
-      metadata. If this is not the case, abort the update cycle, and report the
-      potential rollback attack.
-
-      * **4.5.2.4**. **Download the DELEGATEE targets metadata file**, up to either
+      * **4.5.2.2**. **Download the DELEGATEE targets metadata file**, up to either
       the number of bytes specified in the snapshot metadata file, or some Z
       number of bytes. The value for Z is set by the authors of the application
       using TUF. For example, Z may be tens of kilobytes. IF DELEGATEE cannot be
@@ -1313,41 +1305,41 @@ non-volatile storage as FILENAME.EXT.
       in the snapshot metadata file.  In either case, the client MUST write the
       file to non-volatile storage as FILENAME.EXT.
 
-      * **4.5.2.5**. **Check against snapshot metadata.**  The hashes and
+      * **4.5.2.3**. **Check against snapshot metadata.**  The hashes and
       version number of the new DELEGATEE metadata file MUST match the hashes
       (if any) and version number listed in the trusted snapshot metadata. This
       is done, in part, to prevent a mix-and-match attack by man-in-the-middle
       attackers. If the new DELEGATEE metadata file does not match, abort the
       update cycle, and report the failure.
 
-      * **4.5.2.6**. **Check for an arbitrary software attack.** The new DELEGATEE
+      * **4.5.2.4**. **Check for an arbitrary software attack.** The new DELEGATEE
       metadata file MUST have been signed by a threshold of keys specified in the
       TARGETS metadata file.  If the new DELEGATEE metadata file is not signed
       as required, abort the update cycle, and report the failure.
 
-      * **4.5.2.7**. **Check for a rollback attack on the DELEGATEE metadata.**
+      * **4.5.2.5**. **Check for a rollback attack.**
       The version number of the trusted DELEGATEE metadata file, if any, MUST be
       less than or equal to the version number of the new DELEGATEE metadata
       file.  If the new DELEGATEE metadata file is older than the trusted
       DELEGATEE metadata file abort the update cycle, and report the potential
       rollback attack.
 
-      * **4.5.2.8**. **Check for a freeze attack.** The latest known time
+      * **4.5.2.6**. **Check for a freeze attack.** The latest known time
       should be lower than the expiration timestamp in the new DELEGATEE
       metadata file. If so, the new DELEGATEE file becomes the trusted DELEGATEE
       file. If the new DELEGATEE metadata file is expired, abort the update
       cycle, and report the potential freeze attack.
 
-      * **4.5.2.9**. If the current delegation is a multi-role delegation,
+      * **4.5.2.7**. If the current delegation is a multi-role delegation,
       recursively visit each role, and check that each has signed exactly the
       same non-custom metadata (i.e., length and hashes) about the target (or
       the lack of any such metadata). Otherwise, abort the update cycle, and
       report the failure.
 
-      * **4.5.2.10**. If the current delegation is a terminating delegation,
+      * **4.5.2.8**. If the current delegation is a terminating delegation,
       then jump to step 5.
 
-      * **4.5.2.11**. Otherwise, if the current delegation is a non-terminating
+      * **4.5.2.9**. Otherwise, if the current delegation is a non-terminating
       delegation, continue processing the next delegation, if any, by repeating
       step 4.5 with DELEGATEE as the current TARGET role. Stop the search, and
       jump to step 5 as soon as a delegation returns a result.
