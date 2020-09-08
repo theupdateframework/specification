@@ -183,10 +183,6 @@ repo](https://github.com/theupdateframework/specification/issues).
       software that is older than that which the client previously knew to be
       available.
 
-      + **Slow retrieval attacks.**  An attacker cannot prevent clients from
-      being aware of interference with receiving updates by responding to
-      client requests so slowly that automated updates never complete.
-
       + **Vulnerability to key compromises.** An attacker, who is able to
       compromise a single key or less than a given threshold of keys, cannot
       compromise clients.  This includes compromising a single online key (such
