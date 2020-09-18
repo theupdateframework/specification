@@ -2,7 +2,7 @@
 
 Last modified: **29 September 2020**
 
-Version: **1.0.7**
+Version: **1.0.8**
 
 We strive to make the specification easy to implement, so if you come across
 any inconsistencies or experience any difficulty, do let us know by sending an
@@ -1121,15 +1121,18 @@ repo](https://github.com/theupdateframework/specification/issues).
   * **1.6**. **Set the trusted root metadata file** to the new root metadata
   file.
 
-  * **1.7**. **Repeat steps 1.1 to 1.7**.
+  * **1.7**. **Persist root metadata.** The client MUST write the file to
+  non-volatile storage as FILENAME.EXT (e.g. root.json).
 
-  * **1.8**. **Check for a freeze attack.** The latest known time should be
+  * **1.8**. **Repeat steps 1.1 to 1.8**.
+
+  * **1.9**. **Check for a freeze attack.** The latest known time should be
   lower than the expiration timestamp in the trusted root metadata file
   (version N).  If the trusted root metadata file has expired, abort the update
   cycle, report the potential freeze attack.  On the next update cycle, begin
   at step 0 and version N of the root metadata file.
 
-  * **1.9**. **If the timestamp and / or snapshot keys have been rotated, then
+  * **1.10**. **If the timestamp and / or snapshot keys have been rotated, then
   delete the trusted timestamp and snapshot metadata files.** This is done in
   order to recover from fast-forward attacks after the repository has been
   compromised and recovered. A _fast-forward attack_ happens when attackers
@@ -1139,15 +1142,14 @@ repo](https://github.com/theupdateframework/specification/issues).
   paper](https://ssl.engineering.nyu.edu/papers/kuppusamy-mercury-usenix-2017.pdf)
   for more details.
 
-  * **1.10**. **Set whether consistent snapshots are used as per the trusted
+  * **1.11**. **Set whether consistent snapshots are used as per the trusted
   root metadata file** (see Section 4.3).
 
 **2**. **Download the timestamp metadata file**, up to X number of bytes
 (because the size is unknown). The value for X is set by the authors of the
 application using TUF. For example, X may be tens of kilobytes. The filename
 used to download the timestamp metadata file is of the fixed form FILENAME.EXT
-(e.g., timestamp.json). The client MUST write the file to non-volatile storage
-as FILENAME.EXT.
+(e.g., timestamp.json).
 
   * **2.1**. **Check signatures.** The new timestamp metadata file must have
   been signed by a threshold of keys specified in the trusted root metadata
@@ -1173,6 +1175,9 @@ as FILENAME.EXT.
   file.  If the new timestamp metadata file has expired, discard it, abort the
   update cycle, and report the potential freeze attack.
 
+  * **2.4**. **Persist timestamp metadata.** The client MUST write the file to
+  non-volatile storage as FILENAME.EXT (e.g. timestamp.json).
+
 **3**. **Download snapshot metadata file**, up to either the number of bytes
 specified in the timestamp metadata file, or some Y number of bytes. The value
 for Y is set by the authors of the application using TUF. For example, Y may be
@@ -1181,8 +1186,7 @@ Section 7), then the filename used to download the snapshot metadata file is of
 the fixed form FILENAME.EXT (e.g., snapshot.json).  Otherwise, the filename is
 of the form VERSION_NUMBER.FILENAME.EXT (e.g., 42.snapshot.json), where
 VERSION_NUMBER is the version number of the snapshot metadata file listed in
-the timestamp metadata file.  In either case, the client MUST write the file to
-non-volatile storage as FILENAME.EXT.
+the timestamp metadata file.
 
   * **3.1**. **Check against timestamp metadata.** The hashes and version
   number of the new snapshot metadata file MUST match the hashes (if any) and
@@ -1210,6 +1214,9 @@ non-volatile storage as FILENAME.EXT.
   file. If the new snapshot metadata file is expired, discard it, abort the
   update cycle, and report the potential freeze attack.
 
+  * **3.5**. **Persist snapshot metadata.** The client MUST write the file to
+  non-volatile storage as FILENAME.EXT (e.g. snapshot.json).
+
 **4**. **Download the top-level targets metadata file**, up to either the
 number of bytes specified in the snapshot metadata file, or some Z number of
 bytes. The value for Z is set by the authors of the application using TUF. For
@@ -1218,8 +1225,7 @@ Section 7), then the filename used to download the targets metadata file is of
 the fixed form FILENAME.EXT (e.g., targets.json).  Otherwise, the filename is
 of the form VERSION_NUMBER.FILENAME.EXT (e.g., 42.targets.json), where
 VERSION_NUMBER is the version number of the targets metadata file listed in the
-snapshot metadata file.  In either case, the client MUST write the file to
-non-volatile storage as FILENAME.EXT.
+snapshot metadata file.
 
   * **4.1**. **Check against snapshot metadata.** The hashes and version
   number of the new targets metadata file MUST match the hashes (if any) and
@@ -1239,30 +1245,33 @@ non-volatile storage as FILENAME.EXT.
   the new targets metadata file is expired, discard it, abort the update cycle,
   and report the potential freeze attack.
 
-  * **4.4**. **Perform a preorder depth-first search for metadata about the
+  * **4.4**. **Persist targets metadata.** The client MUST write the file to
+  non-volatile storage as FILENAME.EXT (e.g. targets.json).
+
+  * **4.5**. **Perform a preorder depth-first search for metadata about the
   desired target, beginning with the top-level targets role.**  Note: If
   any metadata requested in steps 4.4.1 - 4.4.2.3 cannot be downloaded nor
   validated, end the search and report that the target cannot be found.
 
-    * **4.4.1**. If this role has been visited before, then skip this role (so
+    * **4.5.1**. If this role has been visited before, then skip this role (so
     that cycles in the delegation graph are avoided).  Otherwise, if an
     application-specific maximum number of roles have been visited, then go to
     step 5 (so that attackers cannot cause the client to waste excessive
     bandwidth or time).  Otherwise, if this role contains metadata about the
     desired target, then go to step 5.
 
-    * **4.4.2**. Otherwise, recursively search the list of delegations in order
+    * **4.5.2**. Otherwise, recursively search the list of delegations in order
     of appearance.
 
-      * **4.4.2.1**. If the current delegation is a multi-role delegation,
+      * **4.5.2.1**. If the current delegation is a multi-role delegation,
       recursively visit each role, and check that each has signed exactly the
       same non-custom metadata (i.e., length and hashes) about the target (or
       the lack of any such metadata).
 
-      * **4.4.2.2**. If the current delegation is a terminating delegation,
+      * **4.5.2.2**. If the current delegation is a terminating delegation,
       then jump to step 5.
 
-      * **4.4.2.3**. Otherwise, if the current delegation is a non-terminating
+      * **4.5.2.3**. Otherwise, if the current delegation is a non-terminating
       delegation, continue processing the next delegation, if any. Stop the
       search, and jump to step 5 as soon as a delegation returns a result.
 
