@@ -1,8 +1,8 @@
 # <p align="center">The Update Framework Specification
 
-Last modified: **23 September 2020**
+Last modified: **29 September 2020**
 
-Version: **1.0.6**
+Version: **1.0.7**
 
 We strive to make the specification easy to implement, so if you come across
 any inconsistencies or experience any difficulty, do let us know by sending an
@@ -182,10 +182,6 @@ repo](https://github.com/theupdateframework/specification/issues).
       + **Rollback attacks.**  An attacker cannot trick clients into installing
       software that is older than that which the client previously knew to be
       available.
-
-      + **Slow retrieval attacks.**  An attacker cannot prevent clients from
-      being aware of interference with receiving updates by responding to
-      client requests so slowly that automated updates never complete.
 
       + **Vulnerability to key compromises.** An attacker, who is able to
       compromise a single key or less than a given threshold of keys, cannot
