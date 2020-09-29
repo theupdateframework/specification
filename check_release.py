@@ -126,9 +126,11 @@ def main():
   version_prev = get_version(spec_head)
 
   # Assert date update
-  if not date_new > date_prev:
+  if not (date_new > date_prev or
+      date_new.date() == date_prev.date() == datetime.date.today()):
     raise SpecError("new 'last modified date' ({:%d %B %Y}) must be greater"
-        " than the previous one ({:%d %B %Y})".format(date_new, date_prev))
+        " than the previous one ({:%d %B %Y}) or both must be today.".format(
+        date_new, date_prev))
 
   # Assert version bump type depending on the PR originating branch
   # - if the originating branch is 'draft', it must be a major (x)or minor bump
