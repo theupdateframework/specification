@@ -1096,17 +1096,17 @@ repo](https://github.com/theupdateframework/specification/issues).
   kilobytes. The filename used to download the root metadata file is of the
   fixed form VERSION_NUMBER.FILENAME.EXT (e.g., 42.root.json). If this file is
   not available, or we have downloaded more than Y number of root metadata
-  files (because the exact number is as yet unknown), then go to step 1.8. The
-  value for Y is set by the authors of the application using TUF. For example,
-  Y may be 2^10.
+  files (because the exact number is as yet unknown), then go to step 5.1.9.
+  The value for Y is set by the authors of the application using TUF. For
+  example, Y may be 2^10.
 
   * **5.1.3. Check for an arbitrary software attack.** Version N+1 of the root
   metadata file MUST have been signed by: (1) a threshold of keys specified in
   the trusted root metadata file (version N), and (2) a threshold of keys
   specified in the new root metadata file being validated (version N+1).  If
   version N+1 is not signed as required, discard it, abort the update cycle,
-  and report the signature failure.  On the next update cycle, begin at step 0
-  and version N of the root metadata file.
+  and report the signature failure.  On the next update cycle, begin at step
+  5.0 and version N of the root metadata file.
 
   * **5.1.4. Check for a rollback attack.** The version number of the trusted
   root metadata file (version N) MUST be less than or equal to the version
@@ -1114,11 +1114,11 @@ repo](https://github.com/theupdateframework/specification/issues).
   checking that the version number signed in the new root metadata file is
   indeed N+1.  If the version of the new root metadata file is less than the
   trusted metadata file, discard it, abort the update cycle, and report the
-  rollback attack.  On the next update cycle, begin at step 0 and version N of
-  the root metadata file.
+  rollback attack.  On the next update cycle, begin at step 5.0 and version N
+  of the root metadata file.
 
   * **5.1.5**. Note that the expiration of the new (intermediate) root metadata
-  file does not matter yet, because we will check for it in step 5.1.8.
+  file does not matter yet, because we will check for it in step 5.1.9.
 
   * **5.1.6**. **Set the trusted root metadata file** to the new root metadata
   file.
@@ -1132,7 +1132,7 @@ repo](https://github.com/theupdateframework/specification/issues).
   lower than the expiration timestamp in the trusted root metadata file
   (version N).  If the trusted root metadata file has expired, abort the update
   cycle, report the potential freeze attack.  On the next update cycle, begin
-  at step 0 and version N of the root metadata file.
+  at step 5.0 and version N of the root metadata file.
 
   * **5.1.10**. **If the timestamp and / or snapshot keys have been rotated,
   then delete the trusted timestamp and snapshot metadata files.** This is done
@@ -1254,15 +1254,15 @@ snapshot metadata file.
 
   * **5.4.5**. **Perform a pre-order depth-first search for metadata about the
   desired target, beginning with the top-level targets role.**  Note: If
-  any metadata requested in steps 5.4.4.1 - 5.4.4.2.3 cannot be downloaded nor
+  any metadata requested in steps 5.4.5.1 - 5.4.5.2 cannot be downloaded nor
   validated, end the search and report that the target cannot be found.
 
     * **5.4.5.1**. If this role has been visited before, then skip this role
     (so that cycles in the delegation graph are avoided).  Otherwise, if an
     application-specific maximum number of roles have been visited, then go to
-    step 5 (so that attackers cannot cause the client to waste excessive
+    step 5.5 (so that attackers cannot cause the client to waste excessive
     bandwidth or time).  Otherwise, if this role contains metadata about the
-    desired target, then go to step 5.
+    desired target, then go to step 5.5.
 
     * **5.4.5.2**. Otherwise, recursively search the list of delegations in
     order of appearance.
@@ -1273,12 +1273,12 @@ snapshot metadata file.
       the lack of any such metadata).
 
       * **5.4.5.2.2**. If the current delegation is a terminating delegation,
-      then jump to step 5.
+      then jump to step 5.5.
 
       * **5.4.5.2.3**. Otherwise, if the current delegation is a
       non-terminating delegation, continue processing the next delegation, if
-      any. Stop the search, and jump to step 5 as soon as a delegation returns
-      a result.
+      any. Stop the search, and jump to step 5.5 as soon as a delegation
+      returns a result.
 
 **5.5**. **Verify the desired target against its targets metadata**.
 
