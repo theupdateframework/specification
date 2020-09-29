@@ -13,14 +13,14 @@ repo](https://github.com/theupdateframework/specification/issues).
 
 
 ## Table of Contents ##
-- [Introduction](#1-introduction)
-- [System Overview](#2-system-overview)
-- [The Repository](#3-the-repository)
-- [Document Formats](#4-document-formats)
-- [Detailed Workflows](#5-detailed-workflows)
-- [Usage](#6-usage)
-- [Consistent Snapshots](#7-consistent-snapshots)
-- [Future Directions and Open Questions](#f-future-directions-and-open-questions)
+- [1. Introduction](#1-introduction)
+- [2. System Overview](#2-system-overview)
+- [3. The Repository](#3-the-repository)
+- [4. Document Formats](#4-document-formats)
+- [5. Detailed Workflows](#5-detailed-workflows)
+- [6. Usage](#6-usage)
+- [7. Consistent Snapshots](#7-consistent-snapshots)
+- [F. Future Directions and Open Questions](#f-future-directions-and-open-questions)
 
 ## **1. Introduction**
 * **1.1. Scope**
