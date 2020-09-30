@@ -78,7 +78,8 @@ def get_version(spec_head):
     raise SpecError("expected to match '{}' (regex) in line {}, but got '{}'."
         .format(VERSION_PATTERN, VERSION_LINENO, version_line))
 
-  return  version_match.groups()
+  major, minor, patch = version_match.groups()
+  return int(major), int(minor), int(patch)
 
 
 def main():
