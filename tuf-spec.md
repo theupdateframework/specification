@@ -17,7 +17,7 @@ repo](https://github.com/theupdateframework/specification/issues).
 - [2. System Overview](#2-system-overview)
 - [3. The Repository](#3-the-repository)
 - [4. Document Formats](#4-document-formats)
-- [5. Detailed Workflows](#5-detailed-workflows)
+- [5. Detailed Client Workflow](#5-detailed-client-workflow)
 - [6. Usage](#6-usage)
 - [7. Consistent Snapshots](#7-consistent-snapshots)
 - [F. Future Directions and Open Questions](#f-future-directions-and-open-questions)
@@ -1064,9 +1064,7 @@ repo](https://github.com/theupdateframework/specification/issues).
    This behavior can be modified by the client code that uses the framework to,
    for example, randomly select from the listed mirrors.
 
-## **5. Detailed Workflows**
-
-### **The client application**
+## **5. Detailed Client Workflow**
 
   Note: If a step in the following workflow does not succeed (e.g., the update
   is aborted because a new metadata file was not signed), the client should
