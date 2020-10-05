@@ -1,8 +1,8 @@
 # <p align="center">The Update Framework Specification
 
-Last modified: **30 September 2020**
+Last modified: **06 October 2020**
 
-Version: **1.0.9**
+Version: **1.0.10**
 
 We strive to make the specification easy to implement, so if you come across
 any inconsistencies or experience any difficulty, do let us know by sending an
@@ -461,6 +461,19 @@ repo](https://github.com/theupdateframework/specification/issues).
 
    Delegated target roles are authorized by the keys listed in the directly
    delegating target role.
+
+* **3.2 Repository metadata creation**
+
+   Metadata SHOULD be generated in the following sequence, in order to ensure
+   that metadata are not referenced in the repository before they have been
+   created.  The below sequence assumes that all targets files referenced by
+   the metadata are available to the repository before the metadata is written.
+
+     * **3.2.1** delegated targets metadata (DELEGATED_ROLE.EXT)
+     * **3.2.2** root metadata (root.EXT)
+     * **3.2.3** top-level targets metadata (targets.EXT)
+     * **3.2.4** snapshot metadata (snapshot.EXT)
+     * **3.2.5** timestamp metadata (timestamp.EXT)
 
 ## **4. Document formats**
 
