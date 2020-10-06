@@ -14,13 +14,13 @@ repo](https://github.com/theupdateframework/specification/issues).
 
 ## Table of Contents ##
 - [1. Introduction](#1-introduction)
-- [2. System Overview](#2-system-overview)
-- [3. The Repository](#3-the-repository)
-- [4. Document Formats](#4-document-formats)
-- [5. Detailed Workflows](#5-detailed-workflows)
+- [2. System overview](#2-system-overview)
+- [3. The repository](#3-the-repository)
+- [4. Document formats](#4-document-formats)
+- [5. Detailed workflows](#5-detailed-workflows)
 - [6. Usage](#6-usage)
-- [7. Consistent Snapshots](#7-consistent-snapshots)
-- [F. Future Directions and Open Questions](#f-future-directions-and-open-questions)
+- [7. Consistent snapshots](#7-consistent-snapshots)
+- [F. Future directions and open questions](#f-future-directions-and-open-questions)
 
 ## **1. Introduction**
 * **1.1. Scope**
@@ -282,7 +282,7 @@ repo](https://github.com/theupdateframework/specification/issues).
    All roles can use one or more keys and require a threshold of signatures of
    the role's keys in order to trust a given metadata file.
 
-  - **2.1.1. Root Role**
+  - **2.1.1. Root role**
 
       + The root role delegates trust to specific keys trusted for all other
    top-level roles used in the system.
@@ -353,7 +353,7 @@ repo](https://github.com/theupdateframework/specification/issues).
       security from being tricked into contacting the wrong mirrors.  This is
       because the framework has very little trust in repositories.
 
-* **2.2. Threat Model And Analysis**
+* **2.2. Threat model and analysis**
 
    We assume an adversary who can respond to client requests, whether by acting
    as a man-in-the-middle or through compromising repository mirrors.  At
@@ -1064,7 +1064,7 @@ repo](https://github.com/theupdateframework/specification/issues).
    This behavior can be modified by the client code that uses the framework to,
    for example, randomly select from the listed mirrors.
 
-## **5. Detailed Workflows**
+## **5. Detailed workflows**
 
 ### **The client application**
 
@@ -1357,7 +1357,7 @@ snapshot metadata file.
    just replaces that key with another in the signed metadata where the
    delegation is done.
 
-## **7. Consistent Snapshots**
+## **7. Consistent snapshots**
 
    So far, we have considered a TUF repository that is relatively static (in
    terms of how often metadata and target files are updated). The problem is
