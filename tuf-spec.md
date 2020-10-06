@@ -1309,7 +1309,7 @@ snapshot metadata file.
   (e.g.,
   c14aeb4ac9f4a8fc0d83d12482b9197452f6adf3eb710e3b1e2b79e8d14cb681.foobar.tar.gz),
   where HASH is one of the hashes of the targets file listed in the targets
-  metadata file found earlier in step 4.  In either case, the client MUST write
+  metadata file found earlier in step 5.4.  In either case, the client MUST write
   the file to non-volatile storage as FILENAME.EXT.
 
 ## **6. Usage**
