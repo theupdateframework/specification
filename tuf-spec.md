@@ -1,8 +1,8 @@
 # <p align="center">The Update Framework Specification
 
-Last modified: **06 October 2020**
+Last modified: **07 October 2020**
 
-Version: **1.0.11**
+Version: **1.0.12**
 
 We strive to make the specification easy to implement, so if you come across
 any inconsistencies or experience any difficulty, do let us know by sending an
@@ -811,7 +811,7 @@ repo](https://github.com/theupdateframework/specification/issues).
        { TARGETPATH : {
              "length" : LENGTH,
              "hashes" : HASHES,
-             ("custom" : { ... }) }
+             ("custom" : CUSTOM) }
          , ...
        }
 
@@ -833,12 +833,13 @@ repo](https://github.com/theupdateframework/specification/issues).
    cryptographic hash function.  For example: { "sha256": HASH, ... }. HASH is
    the hexdigest of the cryptographic function computed on the target file.
 
-   If defined, the elements and values of "custom" will be made available to the
-   client application.  The information in "custom" is opaque to the framework
-   and can include version numbers, dependencies, requirements, and any other
-   data that the application wants to include to describe the file at
-   TARGETPATH.  The application may use this information to guide download
-   decisions.
+   If defined, the elements and values of the CUSTOM object will be made
+   available to the client application.  The format of the CUSTOM object is
+   opaque to the framework, which only needs to know that the "custom"
+   attribute maps to an object.  The CUSTOM object may include version
+   numbers, dependencies, requirements, or any other data that the application
+   wants to include to describe the file at TARGETPATH.  The application may
+   use this information to guide download decisions.
 
    DELEGATIONS is an object whose format is the following:
 
