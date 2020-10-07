@@ -468,12 +468,16 @@ repo](https://github.com/theupdateframework/specification/issues).
    that metadata are not referenced in the repository before they have been
    created.  The below sequence assumes that all targets files referenced by
    the metadata are available to the repository before the metadata is written.
+   When mirrors metadata is published by a repository it MAY be written at
+   any point after the initial metadata for the mirrored repository has been
+   created.
 
      * **3.2.1** delegated targets metadata (DELEGATED_ROLE.EXT)
      * **3.2.2** root metadata (root.EXT)
      * **3.2.3** top-level targets metadata (targets.EXT)
      * **3.2.4** snapshot metadata (snapshot.EXT)
      * **3.2.5** timestamp metadata (timestamp.EXT)
+     * **3.2.6** mirrors metadata (mirrors.EXT)
 
 ## **4. Document formats**
 
