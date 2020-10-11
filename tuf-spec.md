@@ -1,4 +1,13 @@
-# <p align="center">The Update Framework Specification
+<pre class=metadata>
+Status: DREAM
+Shortname: tuf
+Abstract: todo
+Group: tuf
+Title: The Update Framework Specification
+Editor: foo
+Indent: 2
+Boilerplate: idl-index no, property-index no, copyright no
+</pre>
 
 Last modified: **30 September 2020**
 
@@ -128,15 +137,15 @@ repo](https://github.com/theupdateframework/specification/issues).
    - **1.5.1 Goals for implementation**
 
       + The client side of the framework must be straightforward to implement in any
-   programming language and for any platform with the requisite networking and
-   crypto support.
+        programming language and for any platform with the requisite networking and
+        crypto support.
 
       +  The process by which developers push updates to the repository must be
-   simple.
+         simple.
 
       + The framework must be secure to use in environments that lack support for
-   SSL (TLS).  This does not exclude the optional use of SSL when available,
-   but the framework will be designed without it.
+        SSL (TLS).  This does not exclude the optional use of SSL when available,
+        but the framework will be designed without it.
 
    - **1.5.2. Goals to protect against specific attacks**
 
@@ -148,64 +157,64 @@ repo](https://github.com/theupdateframework/specification/issues).
       when a client is unable to update.
 
       + **Arbitrary installation attacks.** An attacker cannot install anything
-      they want on the client system. That is, an attacker cannot provide
-      arbitrary files in response to download requests.
+        they want on the client system. That is, an attacker cannot provide
+        arbitrary files in response to download requests.
 
       + **Endless data attacks.**  An attacker cannot respond to client
-      requests with huge amounts of data (extremely large files) that interfere
-      with the client's system.
+        requests with huge amounts of data (extremely large files) that interfere
+        with the client's system.
 
       + **Extraneous dependencies attacks.**  An attacker cannot cause clients
-      to download or install software dependencies that are not the intended
-      dependencies.
+        to download or install software dependencies that are not the intended
+        dependencies.
 
       + **Fast-forward attacks.**  An attacker cannot arbitrarily increase the
-      version numbers of metadata files, listed in the snapshot metadata, well
-      beyond the current value and thus tricking a software update system into
-      thinking any subsequent updates are trying to rollback the package to a
-      previous, out-of-date version.  In some situations, such as those where
-      there is a maximum possible version number, the perpetrator cannot use a
-      number so high that the system would never be able to match it with the
-      one in the snapshot metadata, and thus new updates could never be
-      downloaded.
+        version numbers of metadata files, listed in the snapshot metadata, well
+        beyond the current value and thus tricking a software update system into
+        thinking any subsequent updates are trying to rollback the package to a
+        previous, out-of-date version.  In some situations, such as those where
+        there is a maximum possible version number, the perpetrator cannot use a
+        number so high that the system would never be able to match it with the
+        one in the snapshot metadata, and thus new updates could never be
+        downloaded.
 
       + **Indefinite freeze attacks.**  An attacker cannot respond to client
-      requests with the same, outdated metadata without the client being aware
-      of the problem.
+        requests with the same, outdated metadata without the client being aware
+        of the problem.
 
       + **Malicious mirrors preventing updates.**  A repository mirror cannot
-      prevent updates from good mirrors.
+        prevent updates from good mirrors.
 
       + **Mix-and-match attacks.**  An attacker cannot trick clients into using
-      a combination of metadata that never existed together on the repository
-      at the same time.
+        a combination of metadata that never existed together on the repository
+        at the same time.
 
       + **Rollback attacks.**  An attacker cannot trick clients into installing
-      software that is older than that which the client previously knew to be
-      available.
+        software that is older than that which the client previously knew to be
+        available.
 
       + **Vulnerability to key compromises.** An attacker, who is able to
-      compromise a single key or less than a given threshold of keys, cannot
-      compromise clients.  This includes compromising a single online key (such
-      as only being protected by SSL) or a single offline key (such as most
-      software update systems use to sign files).
+        compromise a single key or less than a given threshold of keys, cannot
+        compromise clients.  This includes compromising a single online key (such
+        as only being protected by SSL) or a single offline key (such as most
+        software update systems use to sign files).
 
       + **Wrong software installation.**  An attacker cannot provide a file
-      (trusted or untrusted) that is not the one the client wanted.
+        (trusted or untrusted) that is not the one the client wanted.
 
    - **1.5.3. Goals for PKIs**
 
       * Software update systems using the framework's client code interface should
-      never have to directly manage keys.
+        never have to directly manage keys.
 
       * All keys must be easily and safely revocable.  Trusting new keys for a role
-      must be easy.
+        must be easy.
 
       * For roles where trust delegation is meaningful, a role should be able to
-      delegate full or limited trust to another role.
+        delegate full or limited trust to another role.
 
       * The root of trust must not rely on external PKI.  That is, no authority will
-      be derived from keys outside of the framework.
+        be derived from keys outside of the framework.
 
     - **1.5.4. TUF Augmentation Proposal support**
 
@@ -216,10 +225,10 @@ repo](https://github.com/theupdateframework/specification/issues).
         - [TAP 9](https://github.com/theupdateframework/taps/blob/master/tap9.md):
             Mandatory Metadata signing schemes
         - [Tap 10](https://github.com/theupdateframework/taps/blob/master/tap10.md):
-           Remove native support for compressed metadata
+            Remove native support for compressed metadata
 
-	   Implementations compliant with this version (1.0.0) of the specification
-       must also comply with the TAPs mentioned above.
+        Implementations compliant with this version (1.0.0) of the specification
+        must also comply with the TAPs mentioned above.
 
 ## **2. System overview**
 
@@ -285,22 +294,22 @@ repo](https://github.com/theupdateframework/specification/issues).
   - **2.1.1. Root Role**
 
       + The root role delegates trust to specific keys trusted for all other
-   top-level roles used in the system.
+        top-level roles used in the system.
 
       + The client-side of the framework MUST ship with trusted root keys for each
-   configured repository.
+        configured repository.
 
       + The root role's private keys MUST be kept very secure and thus should be
-   kept offline.  If less than a threshold of Root keys are compromised, the
-   repository should revoke trust on the compromised keys.  This can be
-   accomplished with a normal rotation of root keys, covered in section 6.1
-   (Key management and migration). If a threshold of root keys is compromised,
-   the Root keys should be updated out-of-band, however, the threshold should
-   be chosen so that this is extremely unlikely.  In the unfortunate event that
-   a threshold of keys are compromised, it is safest to assume that attackers
-   have installed malware and taken over affected machines.  For this reason,
-   making it difficult for attackers to compromise all of the offline keys is
-   important because safely recovering from it is nearly impossible.
+        kept offline.  If less than a threshold of Root keys are compromised, the
+        repository should revoke trust on the compromised keys.  This can be
+        accomplished with a normal rotation of root keys, covered in section 6.1
+        (Key management and migration). If a threshold of root keys is compromised,
+        the Root keys should be updated out-of-band, however, the threshold should
+        be chosen so that this is extremely unlikely.  In the unfortunate event that
+        a threshold of keys are compromised, it is safest to assume that attackers
+        have installed malware and taken over affected machines.  For this reason,
+        making it difficult for attackers to compromise all of the offline keys is
+        important because safely recovering from it is nearly impossible.
 
 
   - **2.1.2 Targets role**
@@ -310,20 +319,20 @@ repo](https://github.com/theupdateframework/specification/issues).
       the actual target files themselves.
 
       In addition, the targets role can delegate full or partial trust to other
-  roles.  Delegating trust means that the targets role indicates another role
-  (that is, another set of keys and the threshold required for trust) is
-  trusted to sign target file metadata.  Partial trust delegation is when the
-  delegated role is only trusted for some of the target files that the
-  delegating role is trusted for.
+      roles.  Delegating trust means that the targets role indicates another role
+      (that is, another set of keys and the threshold required for trust) is
+      trusted to sign target file metadata.  Partial trust delegation is when the
+      delegated role is only trusted for some of the target files that the
+      delegating role is trusted for.
 
       Delegated roles can further delegate trust to other delegated
-  roles.  This provides for multiple levels of trust delegation where each
-  role can delegate full or partial trust for the target files they are
-  trusted for.  The delegating role in these cases is still trusted.  That is,
-  a role does not become untrusted when it has delegated trust.
+      roles.  This provides for multiple levels of trust delegation where each
+      role can delegate full or partial trust for the target files they are
+      trusted for.  The delegating role in these cases is still trusted.  That is,
+      a role does not become untrusted when it has delegated trust.
 
       Any delegation can be revoked at any time: the delegating role needs only
-  to sign new metadata that no longer contains that delegation.
+      to sign new metadata that no longer contains that delegation.
 
   - **2.1.3 Snapshot role**
 
@@ -396,7 +405,7 @@ repo](https://github.com/theupdateframework/specification/issues).
    The filesystem layout in the repository is used for two purposes:
      - To give mirrors an easy way to mirror only some of the repository.
      - To specify which parts of the repository a given role has authority
-       to sign/provide.
+         to sign/provide.
 
  + **3.1.1 Target files**
 
@@ -1088,217 +1097,217 @@ repo](https://github.com/theupdateframework/specification/issues).
   described next.
 
   * **5.1.1**. Let N denote the version number of the trusted root metadata
-  file.
+    file.
 
   * **5.1.2**. **Try downloading version N+1 of the root metadata file**, up to
-  some W number of bytes (because the size is unknown). The value for W is set
-  by the authors of the application using TUF. For example, W may be tens of
-  kilobytes. The filename used to download the root metadata file is of the
-  fixed form VERSION_NUMBER.FILENAME.EXT (e.g., 42.root.json). If this file is
-  not available, or we have downloaded more than Y number of root metadata
-  files (because the exact number is as yet unknown), then go to step 5.1.9.
-  The value for Y is set by the authors of the application using TUF. For
-  example, Y may be 2^10.
+    some W number of bytes (because the size is unknown). The value for W is set
+    by the authors of the application using TUF. For example, W may be tens of
+    kilobytes. The filename used to download the root metadata file is of the
+    fixed form VERSION_NUMBER.FILENAME.EXT (e.g., 42.root.json). If this file is
+    not available, or we have downloaded more than Y number of root metadata
+    files (because the exact number is as yet unknown), then go to step 5.1.9.
+    The value for Y is set by the authors of the application using TUF. For
+    example, Y may be 2^10.
 
   * **5.1.3. Check for an arbitrary software attack.** Version N+1 of the root
-  metadata file MUST have been signed by: (1) a threshold of keys specified in
-  the trusted root metadata file (version N), and (2) a threshold of keys
-  specified in the new root metadata file being validated (version N+1).  If
-  version N+1 is not signed as required, discard it, abort the update cycle,
-  and report the signature failure.  On the next update cycle, begin at step
-  5.0 and version N of the root metadata file.
+    metadata file MUST have been signed by: (1) a threshold of keys specified in
+    the trusted root metadata file (version N), and (2) a threshold of keys
+    specified in the new root metadata file being validated (version N+1).  If
+    version N+1 is not signed as required, discard it, abort the update cycle,
+    and report the signature failure.  On the next update cycle, begin at step
+    5.0 and version N of the root metadata file.
 
   * **5.1.4. Check for a rollback attack.** The version number of the trusted
-  root metadata file (version N) MUST be less than or equal to the version
-  number of the new root metadata file (version N+1). Effectively, this means
-  checking that the version number signed in the new root metadata file is
-  indeed N+1.  If the version of the new root metadata file is less than the
-  trusted metadata file, discard it, abort the update cycle, and report the
-  rollback attack.  On the next update cycle, begin at step 5.0 and version N
-  of the root metadata file.
+    root metadata file (version N) MUST be less than or equal to the version
+    number of the new root metadata file (version N+1). Effectively, this means
+    checking that the version number signed in the new root metadata file is
+    indeed N+1.  If the version of the new root metadata file is less than the
+    trusted metadata file, discard it, abort the update cycle, and report the
+    rollback attack.  On the next update cycle, begin at step 5.0 and version N
+    of the root metadata file.
 
   * **5.1.5**. Note that the expiration of the new (intermediate) root metadata
-  file does not matter yet, because we will check for it in step 5.1.9.
+    file does not matter yet, because we will check for it in step 5.1.9.
 
   * **5.1.6**. **Set the trusted root metadata file** to the new root metadata
-  file.
+    file.
 
   * **5.1.7**. **Persist root metadata.** The client MUST write the file to
-  non-volatile storage as FILENAME.EXT (e.g. root.json).
+    non-volatile storage as FILENAME.EXT (e.g. root.json).
 
   * **5.1.8**. **Repeat steps 5.1.1 to 5.1.8**.
 
   * **5.1.9**. **Check for a freeze attack.** The latest known time MUST be
-  lower than the expiration timestamp in the trusted root metadata file
-  (version N).  If the trusted root metadata file has expired, abort the update
-  cycle, report the potential freeze attack.  On the next update cycle, begin
-  at step 5.0 and version N of the root metadata file.
+    lower than the expiration timestamp in the trusted root metadata file
+    (version N).  If the trusted root metadata file has expired, abort the update
+    cycle, report the potential freeze attack.  On the next update cycle, begin
+    at step 5.0 and version N of the root metadata file.
 
   * **5.1.10**. **If the timestamp and / or snapshot keys have been rotated,
-  then delete the trusted timestamp and snapshot metadata files.** This is done
-  in order to recover from fast-forward attacks after the repository has been
-  compromised and recovered. A _fast-forward attack_ happens when attackers
-  arbitrarily increase the version numbers of: (1) the timestamp metadata, (2)
-  the snapshot metadata, and / or (3) the targets, or a delegated targets,
-  metadata file in the snapshot metadata. Please see [the Mercury
-  paper](https://ssl.engineering.nyu.edu/papers/kuppusamy-mercury-usenix-2017.pdf)
-  for more details.
+    then delete the trusted timestamp and snapshot metadata files.** This is done
+    in order to recover from fast-forward attacks after the repository has been
+    compromised and recovered. A _fast-forward attack_ happens when attackers
+    arbitrarily increase the version numbers of: (1) the timestamp metadata, (2)
+    the snapshot metadata, and / or (3) the targets, or a delegated targets,
+    metadata file in the snapshot metadata. Please see [the Mercury
+    paper](https://ssl.engineering.nyu.edu/papers/kuppusamy-mercury-usenix-2017.pdf)
+    for more details.
 
   * **5.1.11**. **Set whether consistent snapshots are used as per the trusted
-  root metadata file** (see Section 4.3).
+    root metadata file** (see Section 4.3).
 
 **5.2**. **Download the timestamp metadata file**, up to X number of bytes
-(because the size is unknown). The value for X is set by the authors of the
-application using TUF. For example, X may be tens of kilobytes. The filename
-used to download the timestamp metadata file is of the fixed form FILENAME.EXT
-(e.g., timestamp.json).
+  (because the size is unknown). The value for X is set by the authors of the
+  application using TUF. For example, X may be tens of kilobytes. The filename
+  used to download the timestamp metadata file is of the fixed form FILENAME.EXT
+  (e.g., timestamp.json).
 
   * **5.2.1**. **Check for an arbitrary software attack.** The new timestamp
-  metadata file MUST have been signed by a threshold of keys specified in the
-  trusted root metadata file.  If the new timestamp metadata file is not
-  properly signed, discard it, abort the update cycle, and report the signature
-  failure.
+    metadata file MUST have been signed by a threshold of keys specified in the
+    trusted root metadata file.  If the new timestamp metadata file is not
+    properly signed, discard it, abort the update cycle, and report the signature
+    failure.
 
   * **5.2.2**. **Check for a rollback attack.**
 
     * **5.2.2.1**. The version number of the trusted timestamp metadata file, if
-    any, MUST be less than or equal to the version number of the new timestamp
-    metadata file.  If the new timestamp metadata file is older than the
-    trusted timestamp metadata file, discard it, abort the update cycle, and
-    report the potential rollback attack.
+      any, MUST be less than or equal to the version number of the new timestamp
+      metadata file.  If the new timestamp metadata file is older than the
+      trusted timestamp metadata file, discard it, abort the update cycle, and
+      report the potential rollback attack.
 
     * **5.2.2.2**. The version number of the snapshot metadata file in the
-    trusted timestamp metadata file, if any, MUST be less than or equal to its
-    version number in the new timestamp metadata file.  If not, discard the new
-    timestamp metadata file, abort the update cycle, and report the failure.
+      trusted timestamp metadata file, if any, MUST be less than or equal to its
+      version number in the new timestamp metadata file.  If not, discard the new
+      timestamp metadata file, abort the update cycle, and report the failure.
 
   * **5.2.3**. **Check for a freeze attack.** The latest known time MUST be
-  lower than the expiration timestamp in the new timestamp metadata file.  If
-  so, the new timestamp metadata file becomes the trusted timestamp metadata
-  file.  If the new timestamp metadata file has expired, discard it, abort the
-  update cycle, and report the potential freeze attack.
+    lower than the expiration timestamp in the new timestamp metadata file.  If
+    so, the new timestamp metadata file becomes the trusted timestamp metadata
+    file.  If the new timestamp metadata file has expired, discard it, abort the
+    update cycle, and report the potential freeze attack.
 
   * **5.2.4**. **Persist timestamp metadata.** The client MUST write the file
-  to non-volatile storage as FILENAME.EXT (e.g. timestamp.json).
+    to non-volatile storage as FILENAME.EXT (e.g. timestamp.json).
 
 **5.3**. **Download snapshot metadata file**, up to either the number of bytes
-specified in the timestamp metadata file, or some Y number of bytes. The value
-for Y is set by the authors of the application using TUF. For example, Y may be
-tens of kilobytes. If consistent snapshots are not used (see
-Section 7), then the filename used to download the snapshot metadata file is of
-the fixed form FILENAME.EXT (e.g., snapshot.json).  Otherwise, the filename is
-of the form VERSION_NUMBER.FILENAME.EXT (e.g., 42.snapshot.json), where
-VERSION_NUMBER is the version number of the snapshot metadata file listed in
-the timestamp metadata file.
+  specified in the timestamp metadata file, or some Y number of bytes. The value
+  for Y is set by the authors of the application using TUF. For example, Y may be
+  tens of kilobytes. If consistent snapshots are not used (see
+  Section 7), then the filename used to download the snapshot metadata file is of
+  the fixed form FILENAME.EXT (e.g., snapshot.json).  Otherwise, the filename is
+  of the form VERSION_NUMBER.FILENAME.EXT (e.g., 42.snapshot.json), where
+  VERSION_NUMBER is the version number of the snapshot metadata file listed in
+  the timestamp metadata file.
 
   * **5.3.1**. **Check against timestamp metadata.** The hashes and version
-  number of the new snapshot metadata file MUST match the hashes, if any, and
-  version number listed in the trusted timestamp metadata.  If hashes and
-  version do not match, discard the new snapshot metadata, abort the update
-  cycle, and report the failure.
+    number of the new snapshot metadata file MUST match the hashes, if any, and
+    version number listed in the trusted timestamp metadata.  If hashes and
+    version do not match, discard the new snapshot metadata, abort the update
+    cycle, and report the failure.
 
   * **5.3.2**. **Check for an arbitrary software attack.** The new snapshot
-  metadata file MUST have been signed by a threshold of keys specified in the
-  trusted root metadata file.  If the new snapshot metadata file is not signed
-  as required, discard it, abort the update cycle, and report the signature
-  failure.
+    metadata file MUST have been signed by a threshold of keys specified in the
+    trusted root metadata file.  If the new snapshot metadata file is not signed
+    as required, discard it, abort the update cycle, and report the signature
+    failure.
 
   * **5.3.3**. **Check for a rollback attack.** The version number of the targets
-  metadata file, and all delegated targets metadata files, if any, in the
-  trusted snapshot metadata file, if any, MUST be less than or equal to its
-  version number in the new snapshot metadata file. Furthermore, any targets
-  metadata filename that was listed in the trusted snapshot metadata file, if
-  any, MUST continue to be listed in the new snapshot metadata file.  If any of
-  these conditions are not met, discard the new snapshot metadata file, abort
-  the update cycle, and report the failure.
+    metadata file, and all delegated targets metadata files, if any, in the
+    trusted snapshot metadata file, if any, MUST be less than or equal to its
+    version number in the new snapshot metadata file. Furthermore, any targets
+    metadata filename that was listed in the trusted snapshot metadata file, if
+    any, MUST continue to be listed in the new snapshot metadata file.  If any of
+    these conditions are not met, discard the new snapshot metadata file, abort
+    the update cycle, and report the failure.
 
   * **5.3.4**. **Check for a freeze attack.** The latest known time MUST be
-  lower than the expiration timestamp in the new snapshot metadata file.  If
-  so, the new snapshot metadata file becomes the trusted snapshot metadata
-  file. If the new snapshot metadata file is expired, discard it, abort the
-  update cycle, and report the potential freeze attack.
+    lower than the expiration timestamp in the new snapshot metadata file.  If
+    so, the new snapshot metadata file becomes the trusted snapshot metadata
+    file. If the new snapshot metadata file is expired, discard it, abort the
+    update cycle, and report the potential freeze attack.
 
   * **5.3.5**. **Persist snapshot metadata.** The client MUST write the file to
-  non-volatile storage as FILENAME.EXT (e.g. snapshot.json).
+    non-volatile storage as FILENAME.EXT (e.g. snapshot.json).
 
 **5.4**. **Download the top-level targets metadata file**, up to either the
-number of bytes specified in the snapshot metadata file, or some Z number of
-bytes. The value for Z is set by the authors of the application using TUF. For
-example, Z may be tens of kilobytes.  If consistent snapshots are not used (see
-Section 7), then the filename used to download the targets metadata file is of
-the fixed form FILENAME.EXT (e.g., targets.json).  Otherwise, the filename is
-of the form VERSION_NUMBER.FILENAME.EXT (e.g., 42.targets.json), where
-VERSION_NUMBER is the version number of the targets metadata file listed in the
-snapshot metadata file.
+  number of bytes specified in the snapshot metadata file, or some Z number of
+  bytes. The value for Z is set by the authors of the application using TUF. For
+  example, Z may be tens of kilobytes.  If consistent snapshots are not used (see
+  Section 7), then the filename used to download the targets metadata file is of
+  the fixed form FILENAME.EXT (e.g., targets.json).  Otherwise, the filename is
+  of the form VERSION_NUMBER.FILENAME.EXT (e.g., 42.targets.json), where
+  VERSION_NUMBER is the version number of the targets metadata file listed in the
+  snapshot metadata file.
 
   * **5.4.1**. **Check against snapshot metadata.** The hashes and version
-  number of the new targets metadata file MUST match the hashes, if any, and
-  version number listed in the trusted snapshot metadata.  This is done, in
-  part, to prevent a mix-and-match attack by man-in-the-middle attackers.  If
-  the new targets metadata file does not match, discard it, abort the update
-  cycle, and report the failure.
+    number of the new targets metadata file MUST match the hashes, if any, and
+    version number listed in the trusted snapshot metadata.  This is done, in
+    part, to prevent a mix-and-match attack by man-in-the-middle attackers.  If
+    the new targets metadata file does not match, discard it, abort the update
+    cycle, and report the failure.
 
   * **5.4.2**. **Check for an arbitrary software attack.** The new targets
-  metadata file MUST have been signed by a threshold of keys specified in the
-  trusted root metadata file.  If the new targets metadata file is not signed
-  as required, discard it, abort the update cycle, and report the failure.
+    metadata file MUST have been signed by a threshold of keys specified in the
+    trusted root metadata file.  If the new targets metadata file is not signed
+    as required, discard it, abort the update cycle, and report the failure.
 
   * **5.4.3**. **Check for a freeze attack.** The latest known time MUST be
-  lower than the expiration timestamp in the new targets metadata file.  If so,
-  the new targets metadata file becomes the trusted targets metadata file.  If
-  the new targets metadata file is expired, discard it, abort the update cycle,
-  and report the potential freeze attack.
+    lower than the expiration timestamp in the new targets metadata file.  If so,
+    the new targets metadata file becomes the trusted targets metadata file.  If
+    the new targets metadata file is expired, discard it, abort the update cycle,
+    and report the potential freeze attack.
 
   * **5.4.4**. **Persist targets metadata.** The client MUST write the file to
-  non-volatile storage as FILENAME.EXT (e.g. targets.json).
+    non-volatile storage as FILENAME.EXT (e.g. targets.json).
 
   * **5.4.5**. **Perform a pre-order depth-first search for metadata about the
-  desired target, beginning with the top-level targets role.**  Note: If
-  any metadata requested in steps 5.4.5.1 - 5.4.5.2 cannot be downloaded nor
-  validated, end the search and report that the target cannot be found.
+    desired target, beginning with the top-level targets role.**  Note: If
+    any metadata requested in steps 5.4.5.1 - 5.4.5.2 cannot be downloaded nor
+    validated, end the search and report that the target cannot be found.
 
     * **5.4.5.1**. If this role has been visited before, then skip this role
-    (so that cycles in the delegation graph are avoided).  Otherwise, if an
-    application-specific maximum number of roles have been visited, then go to
-    step 5.5 (so that attackers cannot cause the client to waste excessive
-    bandwidth or time).  Otherwise, if this role contains metadata about the
-    desired target, then go to step 5.5.
+      (so that cycles in the delegation graph are avoided).  Otherwise, if an
+      application-specific maximum number of roles have been visited, then go to
+      step 5.5 (so that attackers cannot cause the client to waste excessive
+      bandwidth or time).  Otherwise, if this role contains metadata about the
+      desired target, then go to step 5.5.
 
     * **5.4.5.2**. Otherwise, recursively search the list of delegations in
-    order of appearance.
+      order of appearance.
 
       * **5.4.5.2.1**. If the current delegation is a multi-role delegation,
-      recursively visit each role, and check that each has signed exactly the
-      same non-custom metadata (i.e., length and hashes) about the target (or
-      the lack of any such metadata).
+        recursively visit each role, and check that each has signed exactly the
+        same non-custom metadata (i.e., length and hashes) about the target (or
+        the lack of any such metadata).
 
       * **5.4.5.2.2**. If the current delegation is a terminating delegation,
-      then jump to step 5.5.
+        then jump to step 5.5.
 
       * **5.4.5.2.3**. Otherwise, if the current delegation is a
-      non-terminating delegation, continue processing the next delegation, if
-      any. Stop the search, and jump to step 5.5 as soon as a delegation
-      returns a result.
+        non-terminating delegation, continue processing the next delegation, if
+        any. Stop the search, and jump to step 5.5 as soon as a delegation
+        returns a result.
 
 **5.5**. **Verify the desired target against its targets metadata**.
 
   * **5.5.1**. If there is no targets metadata about this target, abort the
-  update cycle and report that there is no such target.
+    update cycle and report that there is no such target.
 
   * **5.5.2**. Otherwise, download the target (up to the number of bytes
-  specified in the targets metadata), and verify that its hashes match the
-  targets metadata. (We download up to this number of bytes, because in some
-  cases, the exact number is unknown. This may happen, for example, if an
-  external program is used to compute the root hash of a tree of targets files,
-  and this program does not provide the total size of all of these files.) If
-  consistent snapshots are not used (see Section 7), then the filename used to
-  download the target file is of the fixed form FILENAME.EXT (e.g.,
-  foobar.tar.gz).  Otherwise, the filename is of the form HASH.FILENAME.EXT
-  (e.g.,
-  c14aeb4ac9f4a8fc0d83d12482b9197452f6adf3eb710e3b1e2b79e8d14cb681.foobar.tar.gz),
-  where HASH is one of the hashes of the targets file listed in the targets
-  metadata file found earlier in step 4.  In either case, the client MUST write
-  the file to non-volatile storage as FILENAME.EXT.
+    specified in the targets metadata), and verify that its hashes match the
+    targets metadata. (We download up to this number of bytes, because in some
+    cases, the exact number is unknown. This may happen, for example, if an
+    external program is used to compute the root hash of a tree of targets files,
+    and this program does not provide the total size of all of these files.) If
+    consistent snapshots are not used (see Section 7), then the filename used to
+    download the target file is of the fixed form FILENAME.EXT (e.g.,
+    foobar.tar.gz).  Otherwise, the filename is of the form HASH.FILENAME.EXT
+    (e.g.,
+    c14aeb4ac9f4a8fc0d83d12482b9197452f6adf3eb710e3b1e2b79e8d14cb681.foobar.tar.gz),
+    where HASH is one of the hashes of the targets file listed in the targets
+    metadata file found earlier in step 4.  In either case, the client MUST write
+    the file to non-volatile storage as FILENAME.EXT.
 
 ## **6. Usage**
 
