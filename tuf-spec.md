@@ -6,7 +6,7 @@ Group: tuf
 Title: The Update Framework Specification
 Editor: foo
 Indent: 2
-Boilerplate: idl-index no, property-index no, copyright no
+Boilerplate: copyright no
 </pre>
 
 Last modified: **30 September 2020**
@@ -21,18 +21,9 @@ or by reporting an issue in the [specification
 repo](https://github.com/theupdateframework/specification/issues).
 
 
-## Table of Contents ##
-- [1. Introduction](#1-introduction)
-- [2. System Overview](#2-system-overview)
-- [3. The Repository](#3-the-repository)
-- [4. Document Formats](#4-document-formats)
-- [5. Detailed Workflows](#5-detailed-workflows)
-- [6. Usage](#6-usage)
-- [7. Consistent Snapshots](#7-consistent-snapshots)
-- [F. Future Directions and Open Questions](#f-future-directions-and-open-questions)
+# Introduction
 
-## **1. Introduction**
-* **1.1. Scope**
+## Scope
 
    This document describes a framework for securing software update systems.
 
@@ -40,7 +31,7 @@ repo](https://github.com/theupdateframework/specification/issues).
    "SHOULD NOT," "RECOMMENDED," "MAY," and "OPTIONAL" in this document are to be
    interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
-* **1.2. Motivation**
+## Motivation
 
    Software is commonly updated through software update systems.  These systems
    can be package managers that are responsible for all of the software that is
@@ -58,7 +49,7 @@ repo](https://github.com/theupdateframework/specification/issues).
    Software update systems are vulnerable to a variety of known attacks.  This
    is generally true even for implementations that have tried to be secure.
 
-* **1.3. History and credit**
+## History and credit
 
    Work on TUF began in late 2009.  The core ideas are based off of previous
    work done by Justin Cappos and Justin Samuel that [identified security flaws
@@ -84,7 +75,7 @@ repo](https://github.com/theupdateframework/specification/issues).
    work of Nick Mathewson, Sebastian Hahn, Roger Dingledine, Martin Peck, and
    others.
 
- * **1.4. Non-goals**
+## Non-goals
 
    We are not creating a universal update system, but rather a simple and
    flexible way that applications can have high levels of security with their
@@ -110,7 +101,7 @@ repo](https://github.com/theupdateframework/specification/issues).
    require security decisions which are situation-specific.  How those errors
    are handled is up to the software update system.
 
-* **1.5. Goals**
+## Goals
 
    We need to provide a framework (a set of libraries, file formats, and
    utilities) that can be used to secure new and existing software update
@@ -134,7 +125,7 @@ repo](https://github.com/theupdateframework/specification/issues).
 
    The framework must be easy to integrate with software update systems.
 
-   - **1.5.1 Goals for implementation**
+### Goals for implementation
 
       + The client side of the framework must be straightforward to implement in any
         programming language and for any platform with the requisite networking and
@@ -147,7 +138,7 @@ repo](https://github.com/theupdateframework/specification/issues).
         SSL (TLS).  This does not exclude the optional use of SSL when available,
         but the framework will be designed without it.
 
-   - **1.5.2. Goals to protect against specific attacks**
+### Goals to protect against specific attacks
 
       Note: When saying the framework protects against an attack, it means the
       attack will be unsuccessful.  It does not mean that a client will always
@@ -202,7 +193,7 @@ repo](https://github.com/theupdateframework/specification/issues).
       + **Wrong software installation.**  An attacker cannot provide a file
         (trusted or untrusted) that is not the one the client wanted.
 
-   - **1.5.3. Goals for PKIs**
+### Goals for PKI
 
       * Software update systems using the framework's client code interface should
         never have to directly manage keys.
@@ -216,7 +207,7 @@ repo](https://github.com/theupdateframework/specification/issues).
       * The root of trust must not rely on external PKI.  That is, no authority will
         be derived from keys outside of the framework.
 
-    - **1.5.4. TUF Augmentation Proposal support**
+### TUF Augmentation Proposal support
 
       * This version (1.0.0) of the specification adheres to the following TAPS:
 
@@ -230,7 +221,7 @@ repo](https://github.com/theupdateframework/specification/issues).
         Implementations compliant with this version (1.0.0) of the specification
         must also comply with the TAPs mentioned above.
 
-## **2. System overview**
+# System overview
 
    The framework ultimately provides a secure method of obtaining trusted
    files.  To avoid ambiguity, we will refer to the files the framework is used
@@ -270,7 +261,7 @@ repo](https://github.com/theupdateframework/specification/issues).
             this point, the application has securely obtained the target file
             and can do with it whatever it wishes.
 
-* **2.1. Roles and PKI**
+## Roles and PKI
 
    In the discussion of roles that follows, it is important to remember that
    the framework has been designed to allow a large amount of flexibility for
@@ -291,7 +282,7 @@ repo](https://github.com/theupdateframework/specification/issues).
    All roles can use one or more keys and require a threshold of signatures of
    the role's keys in order to trust a given metadata file.
 
-  - **2.1.1. Root Role**
+### Root Role
 
       + The root role delegates trust to specific keys trusted for all other
         top-level roles used in the system.
@@ -312,7 +303,7 @@ repo](https://github.com/theupdateframework/specification/issues).
         important because safely recovering from it is nearly impossible.
 
 
-  - **2.1.2 Targets role**
+### Targets role
 
       The targets role's signature indicates which target files are trusted by
       clients.  The targets role signs metadata that describes these files, not
@@ -334,7 +325,7 @@ repo](https://github.com/theupdateframework/specification/issues).
       Any delegation can be revoked at any time: the delegating role needs only
       to sign new metadata that no longer contains that delegation.
 
-  - **2.1.3 Snapshot role**
+### Snapshot role
 
       The snapshot role signs a metadata file that provides information about
       the latest version of all targets metadata on the repository
@@ -342,7 +333,7 @@ repo](https://github.com/theupdateframework/specification/issues).
       clients to know which metadata files have been updated and also prevents
       mix-and-match attacks.
 
-  - **2.1.4 Timestamp role**
+### Timestamp role
 
       To prevent an adversary from replaying an out-of-date signed metadata file
       whose signature has not yet expired, an automated process periodically signs
@@ -350,7 +341,7 @@ repo](https://github.com/theupdateframework/specification/issues).
       though this timestamp key must be kept online, the risk posed to clients by
       the compromise of this key is minimal.
 
-  - **2.1.5 Mirrors role**
+### Mirrors role
 
       Every repository has one or more mirrors from which files can be downloaded
       by clients.  A software update system using the framework may choose to
@@ -362,7 +353,7 @@ repo](https://github.com/theupdateframework/specification/issues).
       security from being tricked into contacting the wrong mirrors.  This is
       because the framework has very little trust in repositories.
 
-* **2.2. Threat Model And Analysis**
+## Threat Model And Analysis
 
    We assume an adversary who can respond to client requests, whether by acting
    as a man-in-the-middle or through compromising repository mirrors.  At
@@ -379,7 +370,7 @@ repo](https://github.com/theupdateframework/specification/issues).
    partly because the specific threat posted to clients in many situations is
    largely determined by how the framework is being used.
 
-## **3. The repository**
+# The repository
 
    An application uses the framework to interact with one or more repositories.
    A repository is a conceptual source of target files of interest to the
@@ -400,21 +391,21 @@ repo](https://github.com/theupdateframework/specification/issues).
    It is up to the application to determine the significance of the same or
    different target files provided from separate repositories.
 
-* **3.1 Repository layout**
+## Repository layout
 
    The filesystem layout in the repository is used for two purposes:
      - To give mirrors an easy way to mirror only some of the repository.
      - To specify which parts of the repository a given role has authority
          to sign/provide.
 
- + **3.1.1 Target files**
+### Target files
 
    The filenames and the directory structure of target files available from
    a repository are not specified by the framework.  The names of these files
    and directories are completely at the discretion of the application using
    the framework.
 
- + **3.1.2 Metadata files**
+### Metadata files
 
    The filenames and directory structure of repository metadata are strictly
    defined.  All metadata filenames will have an extension (EXT) based on the
@@ -451,7 +442,7 @@ repo](https://github.com/theupdateframework/specification/issues).
          Signed by the mirrors role's keys.  Lists information about available
          mirrors and the content available from each mirror.
 
-  + **3.1.2.1 Metadata files for targets delegation**
+#### Metadata files for targets delegation
 
    When the targets role delegates trust to other roles, each delegated role
    provides one signed metadata file.  As is the case with the directory
@@ -471,14 +462,14 @@ repo](https://github.com/theupdateframework/specification/issues).
    Delegated target roles are authorized by the keys listed in the directly
    delegating target role.
 
-## **4. Document formats**
+# Document formats
 
    All of the formats described below include the ability to add more
    attribute-value fields for backwards-compatible format changes.  If
    a backwards incompatible format change is needed, a new filename can
    be used.
 
-* **4.1. Metaformat**
+## Metaformat
 
    Implementers of TUF may use any data format for metadata files as long as
    all fields in this specification are included and TUF clients are able to
@@ -490,7 +481,7 @@ repo](https://github.com/theupdateframework/specification/issues).
    object, we use the "canonical JSON" subdialect as described at
         http://wiki.laptop.org/go/Canonical_JSON
 
-* **4.2. File formats: general principles**
+## File formats: general principles
 
    All signed metadata objects have the format:
 
@@ -589,7 +580,7 @@ repo](https://github.com/theupdateframework/specification/issues).
    zero UTC offset.  An example date-time string is "1985-10-21T01:21:00Z".
 
 
-* **4.3. File formats: root.json**
+## File formats: root.json
 
    The root.json file is signed by the root role's keys.  It indicates
    which keys are authorized for all top-level roles, including the root
@@ -722,7 +713,7 @@ repo](https://github.com/theupdateframework/specification/issues).
        }
       }
 
-* **4.4. File formats: snapshot.json**
+## File formats: snapshot.json
 
    The snapshot.json file is signed by the snapshot role. It MUST list the
    version numbers of the top-level targets metadata and all delegated targets
@@ -801,7 +792,7 @@ repo](https://github.com/theupdateframework/specification/issues).
         }
        }
 
-* **4.5. File formats: targets.json and delegated target roles**
+## File formats: targets.json and delegated target roles
 
    The "signed" portion of targets.json is as follows:
 
@@ -981,7 +972,7 @@ repo](https://github.com/theupdateframework/specification/issues).
         }
        }
 
-* **4.6. File formats: timestamp.json**
+## File formats: timestamp.json
 
    The timestamp file is signed by a timestamp key.  It indicates the latest
    version of the snapshot metadata and is frequently re-signed to limit the
@@ -1033,7 +1024,7 @@ repo](https://github.com/theupdateframework/specification/issues).
         }
        }
 
-* **4.7. File formats: mirrors.json**
+## File formats: mirrors.json
 
    The mirrors.json file is signed by the mirrors role.  It indicates which
    mirrors are active and believed to be mirroring specific parts of the
@@ -1073,22 +1064,26 @@ repo](https://github.com/theupdateframework/specification/issues).
    This behavior can be modified by the client code that uses the framework to,
    for example, randomly select from the listed mirrors.
 
-## **5. Detailed Workflows**
+# Detailed Workflows
 
-### **The client application**
+## The client application
 
   Note: If a step in the following workflow does not succeed (e.g., the update
   is aborted because a new metadata file was not signed), the client should
   still be able to update again in the future. Errors raised during the update
   process should not leave clients in an unrecoverable state.
 
-  **5.0**. **Load the trusted root metadata file.** We assume that a good,
+## Load the trusted root metadata file.
+
+We assume that a good,
   trusted copy of this file was shipped with the package manager or software
   updater using an out-of-band process.  Note that the expiration of the
   trusted root metadata file does not matter, because we will attempt to update
   it in the next step.
 
-  **5.1**. **Update the root metadata file.** Since it may now be signed using
+## Update the root metadata file.
+
+Since it may now be signed using
   entirely different keys, the client MUST somehow be able to establish a
   trusted line of continuity to the latest set of keys (see Section 6.1). To do
   so, the client MUST download intermediate root metadata files, until the
@@ -1096,10 +1091,12 @@ repo](https://github.com/theupdateframework/specification/issues).
   consistent snapshots in order to download _versioned_ root metadata files as
   described next.
 
-  * **5.1.1**. Let N denote the version number of the trusted root metadata
+### Let N denote the version number of the trusted root metadata
     file.
 
-  * **5.1.2**. **Try downloading version N+1 of the root metadata file**, up to
+### Try downloading version N+1 of the root metadata file
+
+, up to
     some W number of bytes (because the size is unknown). The value for W is set
     by the authors of the application using TUF. For example, W may be tens of
     kilobytes. The filename used to download the root metadata file is of the
@@ -1109,7 +1106,9 @@ repo](https://github.com/theupdateframework/specification/issues).
     The value for Y is set by the authors of the application using TUF. For
     example, Y may be 2^10.
 
-  * **5.1.3. Check for an arbitrary software attack.** Version N+1 of the root
+### Check for an arbitrary software attack
+
+Version N+1 of the root
     metadata file MUST have been signed by: (1) a threshold of keys specified in
     the trusted root metadata file (version N), and (2) a threshold of keys
     specified in the new root metadata file being validated (version N+1).  If
@@ -1117,7 +1116,9 @@ repo](https://github.com/theupdateframework/specification/issues).
     and report the signature failure.  On the next update cycle, begin at step
     5.0 and version N of the root metadata file.
 
-  * **5.1.4. Check for a rollback attack.** The version number of the trusted
+### Check for a rollback attack.**
+
+The version number of the trusted
     root metadata file (version N) MUST be less than or equal to the version
     number of the new root metadata file (version N+1). Effectively, this means
     checking that the version number signed in the new root metadata file is
@@ -1126,24 +1127,31 @@ repo](https://github.com/theupdateframework/specification/issues).
     rollback attack.  On the next update cycle, begin at step 5.0 and version N
     of the root metadata file.
 
-  * **5.1.5**. Note that the expiration of the new (intermediate) root metadata
+### Note that the expiration of the new (intermediate) root metadata
     file does not matter yet, because we will check for it in step 5.1.9.
 
-  * **5.1.6**. **Set the trusted root metadata file** to the new root metadata
+### Set the trusted root metadata file
+
+to the new root metadata
     file.
 
-  * **5.1.7**. **Persist root metadata.** The client MUST write the file to
+### Persist root metadata
+
+The client MUST write the file to
     non-volatile storage as FILENAME.EXT (e.g. root.json).
 
-  * **5.1.8**. **Repeat steps 5.1.1 to 5.1.8**.
+### Repeat steps 5.1.1 to 5.1.8
 
-  * **5.1.9**. **Check for a freeze attack.** The latest known time MUST be
+### Check for a freeze attack
+
+The latest known time MUST be
     lower than the expiration timestamp in the trusted root metadata file
     (version N).  If the trusted root metadata file has expired, abort the update
     cycle, report the potential freeze attack.  On the next update cycle, begin
     at step 5.0 and version N of the root metadata file.
 
-  * **5.1.10**. **If the timestamp and / or snapshot keys have been rotated,
+### If the timestamp and / or snapshot keys have been rotated,
+
     then delete the trusted timestamp and snapshot metadata files.** This is done
     in order to recover from fast-forward attacks after the repository has been
     compromised and recovered. A _fast-forward attack_ happens when attackers
@@ -1153,44 +1161,50 @@ repo](https://github.com/theupdateframework/specification/issues).
     paper](https://ssl.engineering.nyu.edu/papers/kuppusamy-mercury-usenix-2017.pdf)
     for more details.
 
-  * **5.1.11**. **Set whether consistent snapshots are used as per the trusted
+ ###  **Set whether consistent snapshots are used as per the trusted
     root metadata file** (see Section 4.3).
 
-**5.2**. **Download the timestamp metadata file**, up to X number of bytes
+## **Download the timestamp metadata file**, up to X number of bytes
   (because the size is unknown). The value for X is set by the authors of the
   application using TUF. For example, X may be tens of kilobytes. The filename
   used to download the timestamp metadata file is of the fixed form FILENAME.EXT
   (e.g., timestamp.json).
 
-  * **5.2.1**. **Check for an arbitrary software attack.** The new timestamp
+### Check for an arbitrary software attack
+
+The new timestamp
     metadata file MUST have been signed by a threshold of keys specified in the
     trusted root metadata file.  If the new timestamp metadata file is not
     properly signed, discard it, abort the update cycle, and report the signature
     failure.
 
-  * **5.2.2**. **Check for a rollback attack.**
+### Check for a rollback attack
 
-    * **5.2.2.1**. The version number of the trusted timestamp metadata file, if
+#### The version number of the trusted timestamp metadata file, if
       any, MUST be less than or equal to the version number of the new timestamp
       metadata file.  If the new timestamp metadata file is older than the
       trusted timestamp metadata file, discard it, abort the update cycle, and
       report the potential rollback attack.
 
-    * **5.2.2.2**. The version number of the snapshot metadata file in the
+#### The version number of the snapshot metadata file in the
       trusted timestamp metadata file, if any, MUST be less than or equal to its
       version number in the new timestamp metadata file.  If not, discard the new
       timestamp metadata file, abort the update cycle, and report the failure.
 
-  * **5.2.3**. **Check for a freeze attack.** The latest known time MUST be
+### Check for a freeze attack
+
+The latest known time MUST be
     lower than the expiration timestamp in the new timestamp metadata file.  If
     so, the new timestamp metadata file becomes the trusted timestamp metadata
     file.  If the new timestamp metadata file has expired, discard it, abort the
     update cycle, and report the potential freeze attack.
 
-  * **5.2.4**. **Persist timestamp metadata.** The client MUST write the file
+### Persist timestamp metadata
+
+The client MUST write the file
     to non-volatile storage as FILENAME.EXT (e.g. timestamp.json).
 
-**5.3**. **Download snapshot metadata file**, up to either the number of bytes
+## **Download snapshot metadata file**, up to either the number of bytes
   specified in the timestamp metadata file, or some Y number of bytes. The value
   for Y is set by the authors of the application using TUF. For example, Y may be
   tens of kilobytes. If consistent snapshots are not used (see
@@ -1200,19 +1214,25 @@ repo](https://github.com/theupdateframework/specification/issues).
   VERSION_NUMBER is the version number of the snapshot metadata file listed in
   the timestamp metadata file.
 
-  * **5.3.1**. **Check against timestamp metadata.** The hashes and version
+### Check against timestamp metadata
+
+The hashes and version
     number of the new snapshot metadata file MUST match the hashes, if any, and
     version number listed in the trusted timestamp metadata.  If hashes and
     version do not match, discard the new snapshot metadata, abort the update
     cycle, and report the failure.
 
-  * **5.3.2**. **Check for an arbitrary software attack.** The new snapshot
+### Check for an arbitrary software attack
+
+The new snapshot
     metadata file MUST have been signed by a threshold of keys specified in the
     trusted root metadata file.  If the new snapshot metadata file is not signed
     as required, discard it, abort the update cycle, and report the signature
     failure.
 
-  * **5.3.3**. **Check for a rollback attack.** The version number of the targets
+### Check for a rollback attack
+
+The version number of the targets
     metadata file, and all delegated targets metadata files, if any, in the
     trusted snapshot metadata file, if any, MUST be less than or equal to its
     version number in the new snapshot metadata file. Furthermore, any targets
@@ -1221,16 +1241,20 @@ repo](https://github.com/theupdateframework/specification/issues).
     these conditions are not met, discard the new snapshot metadata file, abort
     the update cycle, and report the failure.
 
-  * **5.3.4**. **Check for a freeze attack.** The latest known time MUST be
+### Check for a freeze attack
+
+The latest known time MUST be
     lower than the expiration timestamp in the new snapshot metadata file.  If
     so, the new snapshot metadata file becomes the trusted snapshot metadata
     file. If the new snapshot metadata file is expired, discard it, abort the
     update cycle, and report the potential freeze attack.
 
-  * **5.3.5**. **Persist snapshot metadata.** The client MUST write the file to
+### Persist snapshot metadata
+
+The client MUST write the file to
     non-volatile storage as FILENAME.EXT (e.g. snapshot.json).
 
-**5.4**. **Download the top-level targets metadata file**, up to either the
+## **Download the top-level targets metadata file**, up to either the
   number of bytes specified in the snapshot metadata file, or some Z number of
   bytes. The value for Z is set by the authors of the application using TUF. For
   example, Z may be tens of kilobytes.  If consistent snapshots are not used (see
@@ -1240,61 +1264,70 @@ repo](https://github.com/theupdateframework/specification/issues).
   VERSION_NUMBER is the version number of the targets metadata file listed in the
   snapshot metadata file.
 
-  * **5.4.1**. **Check against snapshot metadata.** The hashes and version
+### Check against snapshot metadata
+
+The hashes and version
     number of the new targets metadata file MUST match the hashes, if any, and
     version number listed in the trusted snapshot metadata.  This is done, in
     part, to prevent a mix-and-match attack by man-in-the-middle attackers.  If
     the new targets metadata file does not match, discard it, abort the update
     cycle, and report the failure.
 
-  * **5.4.2**. **Check for an arbitrary software attack.** The new targets
+### **Check for an arbitrary software attack
+
+The new targets
     metadata file MUST have been signed by a threshold of keys specified in the
     trusted root metadata file.  If the new targets metadata file is not signed
     as required, discard it, abort the update cycle, and report the failure.
 
-  * **5.4.3**. **Check for a freeze attack.** The latest known time MUST be
+### **Check for a freeze attack
+
+The latest known time MUST be
     lower than the expiration timestamp in the new targets metadata file.  If so,
     the new targets metadata file becomes the trusted targets metadata file.  If
     the new targets metadata file is expired, discard it, abort the update cycle,
     and report the potential freeze attack.
 
-  * **5.4.4**. **Persist targets metadata.** The client MUST write the file to
+### Persist targets metadata
+
+The client MUST write the file to
     non-volatile storage as FILENAME.EXT (e.g. targets.json).
 
-  * **5.4.5**. **Perform a pre-order depth-first search for metadata about the
-    desired target, beginning with the top-level targets role.**  Note: If
+### Perform a pre-order depth-first search for metadata about the desired target, beginning with the top-level targets role
+
+Note: If
     any metadata requested in steps 5.4.5.1 - 5.4.5.2 cannot be downloaded nor
     validated, end the search and report that the target cannot be found.
 
-    * **5.4.5.1**. If this role has been visited before, then skip this role
+#### If this role has been visited before, then skip this role
       (so that cycles in the delegation graph are avoided).  Otherwise, if an
       application-specific maximum number of roles have been visited, then go to
       step 5.5 (so that attackers cannot cause the client to waste excessive
       bandwidth or time).  Otherwise, if this role contains metadata about the
       desired target, then go to step 5.5.
 
-    * **5.4.5.2**. Otherwise, recursively search the list of delegations in
+#### Otherwise, recursively search the list of delegations in
       order of appearance.
 
-      * **5.4.5.2.1**. If the current delegation is a multi-role delegation,
+##### If the current delegation is a multi-role delegation,
         recursively visit each role, and check that each has signed exactly the
         same non-custom metadata (i.e., length and hashes) about the target (or
         the lack of any such metadata).
 
-      * **5.4.5.2.2**. If the current delegation is a terminating delegation,
+##### If the current delegation is a terminating delegation,
         then jump to step 5.5.
 
-      * **5.4.5.2.3**. Otherwise, if the current delegation is a
+##### Otherwise, if the current delegation is a
         non-terminating delegation, continue processing the next delegation, if
         any. Stop the search, and jump to step 5.5 as soon as a delegation
         returns a result.
 
-**5.5**. **Verify the desired target against its targets metadata**.
+## **Verify the desired target against its targets metadata**.
 
-  * **5.5.1**. If there is no targets metadata about this target, abort the
+### If there is no targets metadata about this target, abort the
     update cycle and report that there is no such target.
 
-  * **5.5.2**. Otherwise, download the target (up to the number of bytes
+### Otherwise, download the target (up to the number of bytes
     specified in the targets metadata), and verify that its hashes match the
     targets metadata. (We download up to this number of bytes, because in some
     cases, the exact number is unknown. This may happen, for example, if an
@@ -1309,12 +1342,12 @@ repo](https://github.com/theupdateframework/specification/issues).
     metadata file found earlier in step 4.  In either case, the client MUST write
     the file to non-volatile storage as FILENAME.EXT.
 
-## **6. Usage**
+# Usage
 
    See https://theupdateframework.io/ for discussion of recommended usage
    in various situations.
 
-* **6.1. Key management and migration**
+## Key management and migration
 
    All keys, except those for the timestamp and mirrors roles, should be
    stored securely offline (e.g. encrypted and on a separate machine, in
@@ -1354,7 +1387,7 @@ repo](https://github.com/theupdateframework/specification/issues).
    just replaces that key with another in the signed metadata where the
    delegation is done.
 
-## **7. Consistent Snapshots**
+# Consistent Snapshots
 
    So far, we have considered a TUF repository that is relatively static (in
    terms of how often metadata and target files are updated). The problem is
@@ -1369,7 +1402,7 @@ repo](https://github.com/theupdateframework/specification/issues).
    snapshot, then the repository is free to write another consistent snapshot
    without interrupting that client.
 
-* **7.1. Writing consistent snapshots**
+## Writing consistent snapshots
 
     We now explain how a repository should write metadata and targets to
     produce self-contained consistent snapshots.
@@ -1420,13 +1453,13 @@ repo](https://github.com/theupdateframework/specification/issues).
     so that outdated clients can update to the latest available root.
 
 
-* **7.2. Reading consistent snapshots**
+## Reading consistent snapshots
 
     See Section 5.1 for more details.
 
-## **F. Future directions and open questions**
+# Future directions and open questions
 
-* **F.1. Support for bogus clocks.**
+## Support for bogus clocks.
 
    The framework may need to offer an application-enablable "no, my clock is
    _supposed_ to be wrong" mode, since others have noticed that many users seem

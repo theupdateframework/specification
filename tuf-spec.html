@@ -1322,7 +1322,7 @@ Possible extra rowspan handling
 	}
 </style>
   <meta content="Bikeshed version 89ebb6ab, updated Fri Oct 9 15:32:07 2020 -0700" name="generator">
-  <meta content="c58aca4be5ab40bd07ecc1835c5b25ac54bc9be7" name="document-revision">
+  <meta content="fd7414086c9ffae38fc7959e0f27bc6dba28987b" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -1722,6 +1722,146 @@ dfn > a.self-link::before      { content: "#"; }
   <nav data-fill-with="table-of-contents" id="toc">
    <h2 class="no-num no-toc no-ref" id="contents">Table of Contents</h2>
    <ol class="toc" role="directory">
+    <li>
+     <a href="#introduction"><span class="secno">1</span> <span class="content">Introduction</span></a>
+     <ol class="toc">
+      <li><a href="#scope"><span class="secno">1.1</span> <span class="content">Scope</span></a>
+      <li><a href="#motivation"><span class="secno">1.2</span> <span class="content">Motivation</span></a>
+      <li><a href="#history-and-credit"><span class="secno">1.3</span> <span class="content">History and credit</span></a>
+      <li><a href="#non-goals"><span class="secno">1.4</span> <span class="content">Non-goals</span></a>
+      <li>
+       <a href="#goals"><span class="secno">1.5</span> <span class="content">Goals</span></a>
+       <ol class="toc">
+        <li><a href="#goals-for-implementation"><span class="secno">1.5.1</span> <span class="content">Goals for implementation</span></a>
+        <li><a href="#goals-to-protect-against-specific-attacks"><span class="secno">1.5.2</span> <span class="content">Goals to protect against specific attacks</span></a>
+        <li><a href="#goals-for-pki"><span class="secno">1.5.3</span> <span class="content">Goals for PKI</span></a>
+        <li><a href="#tuf-augmentation-proposal-support"><span class="secno">1.5.4</span> <span class="content">TUF Augmentation Proposal support</span></a>
+       </ol>
+     </ol>
+    <li>
+     <a href="#system-overview"><span class="secno">2</span> <span class="content">System overview</span></a>
+     <ol class="toc">
+      <li>
+       <a href="#roles-and-pki"><span class="secno">2.1</span> <span class="content">Roles and PKI</span></a>
+       <ol class="toc">
+        <li><a href="#root-role"><span class="secno">2.1.1</span> <span class="content">Root Role</span></a>
+        <li><a href="#targets-role"><span class="secno">2.1.2</span> <span class="content">Targets role</span></a>
+        <li><a href="#snapshot-role"><span class="secno">2.1.3</span> <span class="content">Snapshot role</span></a>
+        <li><a href="#timestamp-role"><span class="secno">2.1.4</span> <span class="content">Timestamp role</span></a>
+        <li><a href="#mirrors-role"><span class="secno">2.1.5</span> <span class="content">Mirrors role</span></a>
+       </ol>
+      <li><a href="#threat-model-and-analysis"><span class="secno">2.2</span> <span class="content">Threat Model And Analysis</span></a>
+     </ol>
+    <li>
+     <a href="#the-repository"><span class="secno">3</span> <span class="content">The repository</span></a>
+     <ol class="toc">
+      <li>
+       <a href="#repository-layout"><span class="secno">3.1</span> <span class="content">Repository layout</span></a>
+       <ol class="toc">
+        <li><a href="#target-files"><span class="secno">3.1.1</span> <span class="content">Target files</span></a>
+        <li>
+         <a href="#metadata-files"><span class="secno">3.1.2</span> <span class="content">Metadata files</span></a>
+         <ol class="toc">
+          <li><a href="#metadata-files-for-targets-delegation"><span class="secno">3.1.2.1</span> <span class="content">Metadata files for targets delegation</span></a>
+         </ol>
+       </ol>
+     </ol>
+    <li>
+     <a href="#document-formats"><span class="secno">4</span> <span class="content">Document formats</span></a>
+     <ol class="toc">
+      <li><a href="#metaformat"><span class="secno">4.1</span> <span class="content">Metaformat</span></a>
+      <li><a href="#file-formats-general-principles"><span class="secno">4.2</span> <span class="content">File formats: general principles</span></a>
+      <li><a href="#file-formats-rootjson"><span class="secno">4.3</span> <span class="content">File formats: root.json</span></a>
+      <li><a href="#file-formats-snapshotjson"><span class="secno">4.4</span> <span class="content">File formats: snapshot.json</span></a>
+      <li><a href="#file-formats-targetsjson-and-delegated-target-roles"><span class="secno">4.5</span> <span class="content">File formats: targets.json and delegated target roles</span></a>
+      <li><a href="#file-formats-timestampjson"><span class="secno">4.6</span> <span class="content">File formats: timestamp.json</span></a>
+      <li><a href="#file-formats-mirrorsjson"><span class="secno">4.7</span> <span class="content">File formats: mirrors.json</span></a>
+     </ol>
+    <li>
+     <a href="#detailed-workflows"><span class="secno">5</span> <span class="content">Detailed Workflows</span></a>
+     <ol class="toc">
+      <li><a href="#the-client-application"><span class="secno">5.1</span> <span class="content">The client application</span></a>
+      <li><a href="#load-the-trusted-root-metadata-file"><span class="secno">5.2</span> <span class="content">Load the trusted root metadata file.</span></a>
+      <li>
+       <a href="#update-the-root-metadata-file"><span class="secno">5.3</span> <span class="content">Update the root metadata file.</span></a>
+       <ol class="toc">
+        <li><a href="#let-n-denote-the-version-number-of-the-trusted-root-metadata"><span class="secno">5.3.1</span> <span class="content">Let N denote the version number of the trusted root metadata</span></a>
+        <li><a href="#try-downloading-version-n1-of-the-root-metadata-file"><span class="secno">5.3.2</span> <span class="content">Try downloading version N+1 of the root metadata file</span></a>
+        <li><a href="#check-for-an-arbitrary-software-attack"><span class="secno">5.3.3</span> <span class="content">Check for an arbitrary software attack</span></a>
+        <li><a href="#check-for-a-rollback-attack"><span class="secno">5.3.4</span> <span class="content">Check for a rollback attack.**</span></a>
+        <li><a href="#note-that-the-expiration-of-the-new-intermediate-root-metadata"><span class="secno">5.3.5</span> <span class="content">Note that the expiration of the new (intermediate) root metadata</span></a>
+        <li><a href="#set-the-trusted-root-metadata-file"><span class="secno">5.3.6</span> <span class="content">Set the trusted root metadata file</span></a>
+        <li><a href="#persist-root-metadata"><span class="secno">5.3.7</span> <span class="content">Persist root metadata</span></a>
+        <li><a href="#repeat-steps-511-to-518"><span class="secno">5.3.8</span> <span class="content">Repeat steps 5.1.1 to 5.1.8</span></a>
+        <li><a href="#check-for-a-freeze-attack"><span class="secno">5.3.9</span> <span class="content">Check for a freeze attack</span></a>
+        <li><a href="#if-the-timestamp-and-or-snapshot-keys-have-been-rotated"><span class="secno">5.3.10</span> <span class="content">If the timestamp and / or snapshot keys have been rotated,</span></a>
+        <li><a href="#set-whether-consistent-snapshots-are-used-as-per-the-trusted"><span class="secno">5.3.11</span> <span class="content">**Set whether consistent snapshots are used as per the trusted</span></a>
+       </ol>
+      <li>
+       <a href="#download-the-timestamp-metadata-file-up-to-x-number-of-bytes"><span class="secno">5.4</span> <span class="content">**Download the timestamp metadata file**, up to X number of bytes</span></a>
+       <ol class="toc">
+        <li><a href="#check-for-an-arbitrary-software-attack①"><span class="secno">5.4.1</span> <span class="content">Check for an arbitrary software attack</span></a>
+        <li>
+         <a href="#check-for-a-rollback-attack①"><span class="secno">5.4.2</span> <span class="content">Check for a rollback attack</span></a>
+         <ol class="toc">
+          <li><a href="#the-version-number-of-the-trusted-timestamp-metadata-file-if"><span class="secno">5.4.2.1</span> <span class="content">The version number of the trusted timestamp metadata file, if</span></a>
+          <li><a href="#the-version-number-of-the-snapshot-metadata-file-in-the"><span class="secno">5.4.2.2</span> <span class="content">The version number of the snapshot metadata file in the</span></a>
+         </ol>
+        <li><a href="#check-for-a-freeze-attack①"><span class="secno">5.4.3</span> <span class="content">Check for a freeze attack</span></a>
+        <li><a href="#persist-timestamp-metadata"><span class="secno">5.4.4</span> <span class="content">Persist timestamp metadata</span></a>
+       </ol>
+      <li>
+       <a href="#download-snapshot-metadata-file-up-to-either-the-number-of-bytes"><span class="secno">5.5</span> <span class="content">**Download snapshot metadata file**, up to either the number of bytes</span></a>
+       <ol class="toc">
+        <li><a href="#check-against-timestamp-metadata"><span class="secno">5.5.1</span> <span class="content">Check against timestamp metadata</span></a>
+        <li><a href="#check-for-an-arbitrary-software-attack②"><span class="secno">5.5.2</span> <span class="content">Check for an arbitrary software attack</span></a>
+        <li><a href="#check-for-a-rollback-attack②"><span class="secno">5.5.3</span> <span class="content">Check for a rollback attack</span></a>
+        <li><a href="#check-for-a-freeze-attack②"><span class="secno">5.5.4</span> <span class="content">Check for a freeze attack</span></a>
+        <li><a href="#persist-snapshot-metadata"><span class="secno">5.5.5</span> <span class="content">Persist snapshot metadata</span></a>
+       </ol>
+      <li>
+       <a href="#download-the-top-level-targets-metadata-file-up-to-either-the"><span class="secno">5.6</span> <span class="content">**Download the top-level targets metadata file**, up to either the</span></a>
+       <ol class="toc">
+        <li><a href="#check-against-snapshot-metadata"><span class="secno">5.6.1</span> <span class="content">Check against snapshot metadata</span></a>
+        <li><a href="#check-for-an-arbitrary-software-attack③"><span class="secno">5.6.2</span> <span class="content">**Check for an arbitrary software attack</span></a>
+        <li><a href="#check-for-a-freeze-attack③"><span class="secno">5.6.3</span> <span class="content">**Check for a freeze attack</span></a>
+        <li><a href="#persist-targets-metadata"><span class="secno">5.6.4</span> <span class="content">Persist targets metadata</span></a>
+        <li>
+         <a href="#perform-a-pre-order-depth-first-search-for-metadata-about-the-desired-target-beginning-with-the-top-level-targets-role"><span class="secno">5.6.5</span> <span class="content">Perform a pre-order depth-first search for metadata about the desired target, beginning with the top-level targets role</span></a>
+         <ol class="toc">
+          <li><a href="#if-this-role-has-been-visited-before-then-skip-this-role"><span class="secno">5.6.5.1</span> <span class="content">If this role has been visited before, then skip this role</span></a>
+          <li>
+           <a href="#otherwise-recursively-search-the-list-of-delegations-in"><span class="secno">5.6.5.2</span> <span class="content">Otherwise, recursively search the list of delegations in</span></a>
+           <ol class="toc">
+            <li><a href="#if-the-current-delegation-is-a-multi-role-delegation"><span class="secno">5.6.5.2.1</span> <span class="content">If the current delegation is a multi-role delegation,</span></a>
+            <li><a href="#if-the-current-delegation-is-a-terminating-delegation"><span class="secno">5.6.5.2.2</span> <span class="content">If the current delegation is a terminating delegation,</span></a>
+            <li><a href="#otherwise-if-the-current-delegation-is-a"><span class="secno">5.6.5.2.3</span> <span class="content">Otherwise, if the current delegation is a</span></a>
+           </ol>
+         </ol>
+       </ol>
+      <li>
+       <a href="#verify-the-desired-target-against-its-targets-metadata"><span class="secno">5.7</span> <span class="content">**Verify the desired target against its targets metadata**.</span></a>
+       <ol class="toc">
+        <li><a href="#if-there-is-no-targets-metadata-about-this-target-abort-the"><span class="secno">5.7.1</span> <span class="content">If there is no targets metadata about this target, abort the</span></a>
+        <li><a href="#otherwise-download-the-target-up-to-the-number-of-bytes"><span class="secno">5.7.2</span> <span class="content">Otherwise, download the target (up to the number of bytes</span></a>
+       </ol>
+     </ol>
+    <li>
+     <a href="#usage"><span class="secno">6</span> <span class="content">Usage</span></a>
+     <ol class="toc">
+      <li><a href="#key-management-and-migration"><span class="secno">6.1</span> <span class="content">Key management and migration</span></a>
+     </ol>
+    <li>
+     <a href="#consistent-snapshots"><span class="secno">7</span> <span class="content">Consistent Snapshots</span></a>
+     <ol class="toc">
+      <li><a href="#writing-consistent-snapshots"><span class="secno">7.1</span> <span class="content">Writing consistent snapshots</span></a>
+      <li><a href="#reading-consistent-snapshots"><span class="secno">7.2</span> <span class="content">Reading consistent snapshots</span></a>
+     </ol>
+    <li>
+     <a href="#future-directions-and-open-questions"><span class="secno">8</span> <span class="content">Future directions and open questions</span></a>
+     <ol class="toc">
+      <li><a href="#support-for-bogus-clocks"><span class="secno">8.1</span> <span class="content">Support for bogus clocks.</span></a>
+     </ol>
     <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
     <li>
      <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
@@ -1739,150 +1879,122 @@ email to our [mailing
 list](https://groups.google.com/forum/?fromgroups#!forum/theupdateframework),
 or by reporting an issue in the [specification
 repo](https://github.com/theupdateframework/specification/issues).</p>
-   <h3 class="heading settled" id="table-of-contents"><span class="content">Table of Contents ##</span></h3>
+   <h2 class="heading settled" data-level="1" id="introduction"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#introduction"></a></h2>
+   <h3 class="heading settled" data-level="1.1" id="scope"><span class="secno">1.1. </span><span class="content">Scope</span><a class="self-link" href="#scope"></a></h3>
+   <p>This document describes a framework for securing software update systems.</p>
+   <p>The keywords "MUST," "MUST NOT," "REQUIRED," "SHALL," "SHALL NOT," "SHOULD,"
+   "SHOULD NOT," "RECOMMENDED," "MAY," and "OPTIONAL" in this document are to be
+   interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).</p>
+   <h3 class="heading settled" data-level="1.2" id="motivation"><span class="secno">1.2. </span><span class="content">Motivation</span><a class="self-link" href="#motivation"></a></h3>
+   <p>Software is commonly updated through software update systems.  These systems
+   can be package managers that are responsible for all of the software that is
+   installed on a system, application updaters that are only responsible for
+   individual installed applications, or software library managers that install
+   software that adds functionality such as plugins or programming language
+   libraries.</p>
+   <p>Software update systems all have the common behavior of downloading files
+   that identify whether updates exist and, when updates do exist, downloading
+   the files that are required for the update.  For the implementations
+   concerned with security, various integrity and authenticity checks are
+   performed on downloaded files.</p>
+   <p>Software update systems are vulnerable to a variety of known attacks.  This
+   is generally true even for implementations that have tried to be secure.</p>
+   <h3 class="heading settled" data-level="1.3" id="history-and-credit"><span class="secno">1.3. </span><span class="content">History and credit</span><a class="self-link" href="#history-and-credit"></a></h3>
+   <p>Work on TUF began in late 2009.  The core ideas are based off of previous
+   work done by Justin Cappos and Justin Samuel that [identified security flaws
+   in all popular Linux package managers](https://theupdateframework.io/papers/attacks-on-package-managers-ccs2008.pdf).
+   More information and current versions of this document can be found at
+   https://theupdateframework.io/</p>
+   <p>The [Global Environment for Network Innovations](https://www.geni.net/) (GENI)
+   and the [National Science Foundation](https://www.nsf.gov/) (NSF) have
+   provided support for the development of TUF.</p>
+   <p>TUF’s reference implementation is based on prior work on
+   [Thandy](https://www.torproject.org/), the application
+   updater for Tor. Its design and this spec
+   also came from ideas jointly developed in discussion with Thandy’s authors.
+   The Thandy spec can be found at
+   https://gitweb.torproject.org/thandy.git/tree/specs/thandy-spec.txt</p>
+   <p>Whereas Thandy is an application updater for an individual software project,
+   TUF aims to provide a way to secure any software update system. We’re very
+   grateful to the Tor Project and the Thandy developers for the early discussion
+   that led to the ideas in Thandy and TUF. Thandy is the hard
+   work of Nick Mathewson, Sebastian Hahn, Roger Dingledine, Martin Peck, and
+   others.</p>
+   <h3 class="heading settled" data-level="1.4" id="non-goals"><span class="secno">1.4. </span><span class="content">Non-goals</span><a class="self-link" href="#non-goals"></a></h3>
+   <p>We are not creating a universal update system, but rather a simple and
+   flexible way that applications can have high levels of security with their
+   software update systems.  Creating a universal software update system would
+   not be a reasonable goal due to the diversity of application-specific
+   functionality in software update systems and the limited usefulness that
+   such a system would have for securing legacy software update systems.</p>
+   <p>We won’t be defining package formats or even performing the actual update
+   of application files.  We will provide the simplest mechanism possible that
+   remains easy to use and provides a secure way for applications to obtain and
+   verify files being distributed by trusted parties.</p>
+   <p>We are not providing a means to bootstrap security so that arbitrary
+   installation of new software is secure.  In practice this means that people
+   still need to use other means to verify the integrity and authenticity of
+   files they download manually.</p>
+   <p>The framework will not have the responsibility of deciding on the correct
+   course of action in all error situations, such as those that can occur when
+   certain attacks are being performed.  Instead, the framework will provide
+   the software update system the relevant information about any errors that
+   require security decisions which are situation-specific.  How those errors
+   are handled is up to the software update system.</p>
+   <h3 class="heading settled" data-level="1.5" id="goals"><span class="secno">1.5. </span><span class="content">Goals</span><a class="self-link" href="#goals"></a></h3>
+   <p>We need to provide a framework (a set of libraries, file formats, and
+   utilities) that can be used to secure new and existing software update
+   systems.</p>
+   <p>The framework should enable applications to be secure from all known attacks
+   on the software update process.  It is not concerned with exposing
+   information about what software is being updated (and thus what software
+   the client may be running) or the contents of updates.</p>
+   <p>The framework should provide means to minimize the impact of key compromise.
+   To do so, it must support roles with multiple keys and threshold/quorum
+   trust (with the exception of minimally trusted roles designed to use a
+   single key).  The compromise of roles using highly vulnerable keys should
+   have minimal impact.  Therefore, online keys (keys which are used in an
+   automated fashion) must not be used for any role that clients ultimately
+   trust for files they may install.</p>
+   <p>The framework must be flexible enough to meet the needs of a wide variety of
+   software update systems.</p>
+   <p>The framework must be easy to integrate with software update systems.</p>
+   <h4 class="heading settled" data-level="1.5.1" id="goals-for-implementation"><span class="secno">1.5.1. </span><span class="content">Goals for implementation</span><a class="self-link" href="#goals-for-implementation"></a></h4>
    <ul>
     <li data-md>
-     <p>[1. Introduction](#1-introduction)</p>
-    <li data-md>
-     <p>[2. System Overview](#2-system-overview)</p>
-    <li data-md>
-     <p>[3. The Repository](#3-the-repository)</p>
-    <li data-md>
-     <p>[4. Document Formats](#4-document-formats)</p>
-    <li data-md>
-     <p>[5. Detailed Workflows](#5-detailed-workflows)</p>
-    <li data-md>
-     <p>[6. Usage](#6-usage)</p>
-    <li data-md>
-     <p>[7. Consistent Snapshots](#7-consistent-snapshots)</p>
-    <li data-md>
-     <p>[F. Future Directions and Open Questions](#f-future-directions-and-open-questions)</p>
-   </ul>
-   <h3 class="heading settled" id="1-introduction"><span class="content">**1. Introduction**</span></h3>
-   <ul>
-    <li data-md>
-     <p>**1.1. Scope**</p>
-     <p>This document describes a framework for securing software update systems.</p>
-     <p>The keywords "MUST," "MUST NOT," "REQUIRED," "SHALL," "SHALL NOT," "SHOULD,"
- "SHOULD NOT," "RECOMMENDED," "MAY," and "OPTIONAL" in this document are to be
- interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).</p>
-    <li data-md>
-     <p>**1.2. Motivation**</p>
-     <p>Software is commonly updated through software update systems.  These systems
- can be package managers that are responsible for all of the software that is
- installed on a system, application updaters that are only responsible for
- individual installed applications, or software library managers that install
- software that adds functionality such as plugins or programming language
- libraries.</p>
-     <p>Software update systems all have the common behavior of downloading files
- that identify whether updates exist and, when updates do exist, downloading
- the files that are required for the update.  For the implementations
- concerned with security, various integrity and authenticity checks are
- performed on downloaded files.</p>
-     <p>Software update systems are vulnerable to a variety of known attacks.  This
- is generally true even for implementations that have tried to be secure.</p>
-    <li data-md>
-     <p>**1.3. History and credit**</p>
-     <p>Work on TUF began in late 2009.  The core ideas are based off of previous
- work done by Justin Cappos and Justin Samuel that [identified security flaws
- in all popular Linux package managers](https://theupdateframework.io/papers/attacks-on-package-managers-ccs2008.pdf).
- More information and current versions of this document can be found at
- https://theupdateframework.io/</p>
-     <p>The [Global Environment for Network Innovations](https://www.geni.net/) (GENI)
- and the [National Science Foundation](https://www.nsf.gov/) (NSF) have
- provided support for the development of TUF.</p>
-     <p>TUF’s reference implementation is based on prior work on
- [Thandy](https://www.torproject.org/), the application
- updater for Tor. Its design and this spec
- also came from ideas jointly developed in discussion with Thandy’s authors.
- The Thandy spec can be found at
- https://gitweb.torproject.org/thandy.git/tree/specs/thandy-spec.txt</p>
-     <p>Whereas Thandy is an application updater for an individual software project,
- TUF aims to provide a way to secure any software update system. We’re very
- grateful to the Tor Project and the Thandy developers for the early discussion
- that led to the ideas in Thandy and TUF. Thandy is the hard
- work of Nick Mathewson, Sebastian Hahn, Roger Dingledine, Martin Peck, and
- others.</p>
-    <li data-md>
-     <p>**1.4. Non-goals**</p>
-     <p>We are not creating a universal update system, but rather a simple and
- flexible way that applications can have high levels of security with their
- software update systems.  Creating a universal software update system would
- not be a reasonable goal due to the diversity of application-specific
- functionality in software update systems and the limited usefulness that
- such a system would have for securing legacy software update systems.</p>
-     <p>We won’t be defining package formats or even performing the actual update
- of application files.  We will provide the simplest mechanism possible that
- remains easy to use and provides a secure way for applications to obtain and
- verify files being distributed by trusted parties.</p>
-     <p>We are not providing a means to bootstrap security so that arbitrary
- installation of new software is secure.  In practice this means that people
- still need to use other means to verify the integrity and authenticity of
- files they download manually.</p>
-     <p>The framework will not have the responsibility of deciding on the correct
- course of action in all error situations, such as those that can occur when
- certain attacks are being performed.  Instead, the framework will provide
- the software update system the relevant information about any errors that
- require security decisions which are situation-specific.  How those errors
- are handled is up to the software update system.</p>
-    <li data-md>
-     <p>**1.5. Goals**</p>
-     <p>We need to provide a framework (a set of libraries, file formats, and
- utilities) that can be used to secure new and existing software update
- systems.</p>
-     <p>The framework should enable applications to be secure from all known attacks
- on the software update process.  It is not concerned with exposing
- information about what software is being updated (and thus what software
- the client may be running) or the contents of updates.</p>
-     <p>The framework should provide means to minimize the impact of key compromise.
- To do so, it must support roles with multiple keys and threshold/quorum
- trust (with the exception of minimally trusted roles designed to use a
- single key).  The compromise of roles using highly vulnerable keys should
- have minimal impact.  Therefore, online keys (keys which are used in an
- automated fashion) must not be used for any role that clients ultimately
- trust for files they may install.</p>
-     <p>The framework must be flexible enough to meet the needs of a wide variety of
- software update systems.</p>
-     <p>The framework must be easy to integrate with software update systems.</p>
-     <ul>
-      <li data-md>
-       <p>**1.5.1 Goals for implementation**</p>
-       <ul>
-        <li data-md>
-         <p>The client side of the framework must be straightforward to implement in any
+     <p>The client side of the framework must be straightforward to implement in any
 programming language and for any platform with the requisite networking and
 crypto support.</p>
-        <li data-md>
-         <p>The process by which developers push updates to the repository must be
+    <li data-md>
+     <p>The process by which developers push updates to the repository must be
  simple.</p>
-        <li data-md>
-         <p>The framework must be secure to use in environments that lack support for
+    <li data-md>
+     <p>The framework must be secure to use in environments that lack support for
 SSL (TLS).  This does not exclude the optional use of SSL when available,
 but the framework will be designed without it.</p>
-       </ul>
-      <li data-md>
-       <p>**1.5.2. Goals to protect against specific attacks**</p>
-       <p class="note" role="note"><span>Note:</span> When saying the framework protects against an attack, it means the
-  attack will be unsuccessful.  It does not mean that a client will always
-  successfully update during an attack.  Fundamentally, an attacker
-  positioned to intercept and modify a client’s communication can always
-  perform a denial of service.  Nevertheless, the framework must detect
-  when a client is unable to update.</p>
-       <ul>
-        <li data-md>
-         <p>**Arbitrary installation attacks.** An attacker cannot install anything
+   </ul>
+   <h4 class="heading settled" data-level="1.5.2" id="goals-to-protect-against-specific-attacks"><span class="secno">1.5.2. </span><span class="content">Goals to protect against specific attacks</span><a class="self-link" href="#goals-to-protect-against-specific-attacks"></a></h4>
+   <p class="note" role="note"><span>Note:</span> When saying the framework protects against an attack, it means the
+      attack will be unsuccessful.  It does not mean that a client will always
+      successfully update during an attack.  Fundamentally, an attacker
+      positioned to intercept and modify a client’s communication can always
+      perform a denial of service.  Nevertheless, the framework must detect
+      when a client is unable to update.</p>
+   <ul>
+    <li data-md>
+     <p>**Arbitrary installation attacks.** An attacker cannot install anything
 they want on the client system. That is, an attacker cannot provide
 arbitrary files in response to download requests.</p>
-        <li data-md>
-         <p>**Endless data attacks.**  An attacker cannot respond to client
+    <li data-md>
+     <p>**Endless data attacks.**  An attacker cannot respond to client
 requests with huge amounts of data (extremely large files) that interfere
 with the client’s system.</p>
-        <li data-md>
-         <p>**Extraneous dependencies attacks.**  An attacker cannot cause clients
+    <li data-md>
+     <p>**Extraneous dependencies attacks.**  An attacker cannot cause clients
 to download or install software dependencies that are not the intended
 dependencies.</p>
-        <li data-md>
-         <p>**Fast-forward attacks.**  An attacker cannot arbitrarily increase the
+    <li data-md>
+     <p>**Fast-forward attacks.**  An attacker cannot arbitrarily increase the
 version numbers of metadata files, listed in the snapshot metadata, well
 beyond the current value and thus tricking a software update system into
 thinking any subsequent updates are trying to rollback the package to a
@@ -1891,71 +2003,65 @@ there is a maximum possible version number, the perpetrator cannot use a
 number so high that the system would never be able to match it with the
 one in the snapshot metadata, and thus new updates could never be
 downloaded.</p>
-        <li data-md>
-         <p>**Indefinite freeze attacks.**  An attacker cannot respond to client
+    <li data-md>
+     <p>**Indefinite freeze attacks.**  An attacker cannot respond to client
 requests with the same, outdated metadata without the client being aware
 of the problem.</p>
-        <li data-md>
-         <p>**Malicious mirrors preventing updates.**  A repository mirror cannot
+    <li data-md>
+     <p>**Malicious mirrors preventing updates.**  A repository mirror cannot
 prevent updates from good mirrors.</p>
-        <li data-md>
-         <p>**Mix-and-match attacks.**  An attacker cannot trick clients into using
+    <li data-md>
+     <p>**Mix-and-match attacks.**  An attacker cannot trick clients into using
 a combination of metadata that never existed together on the repository
 at the same time.</p>
-        <li data-md>
-         <p>**Rollback attacks.**  An attacker cannot trick clients into installing
+    <li data-md>
+     <p>**Rollback attacks.**  An attacker cannot trick clients into installing
 software that is older than that which the client previously knew to be
 available.</p>
-        <li data-md>
-         <p>**Vulnerability to key compromises.** An attacker, who is able to
+    <li data-md>
+     <p>**Vulnerability to key compromises.** An attacker, who is able to
 compromise a single key or less than a given threshold of keys, cannot
 compromise clients.  This includes compromising a single online key (such
 as only being protected by SSL) or a single offline key (such as most
 software update systems use to sign files).</p>
-        <li data-md>
-         <p>**Wrong software installation.**  An attacker cannot provide a file
+    <li data-md>
+     <p>**Wrong software installation.**  An attacker cannot provide a file
 (trusted or untrusted) that is not the one the client wanted.</p>
-       </ul>
-      <li data-md>
-       <p>**1.5.3. Goals for PKIs**</p>
-       <ul>
-        <li data-md>
-         <p>Software update systems using the framework’s client code interface should
-never have to directly manage keys.</p>
-        <li data-md>
-         <p>All keys must be easily and safely revocable.  Trusting new keys for a role
-must be easy.</p>
-        <li data-md>
-         <p>For roles where trust delegation is meaningful, a role should be able to
-delegate full or limited trust to another role.</p>
-        <li data-md>
-         <p>The root of trust must not rely on external PKI.  That is, no authority will
-be derived from keys outside of the framework.</p>
-       </ul>
-       <ul>
-        <li data-md>
-         <p>**1.5.4. TUF Augmentation Proposal support**</p>
-         <ul>
-          <li data-md>
-           <p>This version (1.0.0) of the specification adheres to the following TAPS:</p>
-           <ul>
-            <li data-md>
-             <p>[TAP 6](https://github.com/theupdateframework/taps/blob/master/tap6.md):
-  Include specification version in metadata</p>
-            <li data-md>
-             <p>[TAP 9](https://github.com/theupdateframework/taps/blob/master/tap9.md):
-  Mandatory Metadata signing schemes</p>
-            <li data-md>
-             <p>[Tap 10](https://github.com/theupdateframework/taps/blob/master/tap10.md):
-  Remove native support for compressed metadata</p>
-           </ul>
-           <p>Implementations compliant with this version (1.0.0) of the specification
-must also comply with the TAPs mentioned above.</p>
-         </ul>
-       </ul>
-     </ul>
    </ul>
-   <h3 class="heading settled" id="2-system-overview"><span class="content">**2. System overview**</span></h3>
+   <h4 class="heading settled" data-level="1.5.3" id="goals-for-pki"><span class="secno">1.5.3. </span><span class="content">Goals for PKI</span><a class="self-link" href="#goals-for-pki"></a></h4>
+   <ul>
+    <li data-md>
+     <p>Software update systems using the framework’s client code interface should
+never have to directly manage keys.</p>
+    <li data-md>
+     <p>All keys must be easily and safely revocable.  Trusting new keys for a role
+must be easy.</p>
+    <li data-md>
+     <p>For roles where trust delegation is meaningful, a role should be able to
+delegate full or limited trust to another role.</p>
+    <li data-md>
+     <p>The root of trust must not rely on external PKI.  That is, no authority will
+be derived from keys outside of the framework.</p>
+   </ul>
+   <h4 class="heading settled" data-level="1.5.4" id="tuf-augmentation-proposal-support"><span class="secno">1.5.4. </span><span class="content">TUF Augmentation Proposal support</span><a class="self-link" href="#tuf-augmentation-proposal-support"></a></h4>
+   <ul>
+    <li data-md>
+     <p>This version (1.0.0) of the specification adheres to the following TAPS:</p>
+     <ul>
+      <li data-md>
+       <p>[TAP 6](https://github.com/theupdateframework/taps/blob/master/tap6.md):
+  Include specification version in metadata</p>
+      <li data-md>
+       <p>[TAP 9](https://github.com/theupdateframework/taps/blob/master/tap9.md):
+  Mandatory Metadata signing schemes</p>
+      <li data-md>
+       <p>[Tap 10](https://github.com/theupdateframework/taps/blob/master/tap10.md):
+  Remove native support for compressed metadata</p>
+     </ul>
+     <p>Implementations compliant with this version (1.0.0) of the specification
+must also comply with the TAPs mentioned above.</p>
+   </ul>
+   <h2 class="heading settled" data-level="2" id="system-overview"><span class="secno">2. </span><span class="content">System overview</span><a class="self-link" href="#system-overview"></a></h2>
    <p>The framework ultimately provides a secure method of obtaining trusted
    files.  To avoid ambiguity, we will refer to the files the framework is used
    to distribute as "target files".  Target files are opaque to the framework.
@@ -1989,45 +2095,41 @@ must also comply with the TAPs mentioned above.</p>
             downloaded file to a location specified by the application.  At
             this point, the application has securely obtained the target file
             and can do with it whatever it wishes.</p>
+   <h3 class="heading settled" data-level="2.1" id="roles-and-pki"><span class="secno">2.1. </span><span class="content">Roles and PKI</span><a class="self-link" href="#roles-and-pki"></a></h3>
+   <p>In the discussion of roles that follows, it is important to remember that
+   the framework has been designed to allow a large amount of flexibility for
+   many different use cases.  For example, it is possible to use the framework
+   with a single key that is the only key used in the entire system.  This is
+   considered to be insecure but the flexibility is provided in order to meet
+   the needs of diverse use cases.</p>
+   <p>There are four fundamental top-level roles in the framework:</p>
    <ul>
     <li data-md>
-     <p>**2.1. Roles and PKI**</p>
-     <p>In the discussion of roles that follows, it is important to remember that
- the framework has been designed to allow a large amount of flexibility for
- many different use cases.  For example, it is possible to use the framework
- with a single key that is the only key used in the entire system.  This is
- considered to be insecure but the flexibility is provided in order to meet
- the needs of diverse use cases.</p>
-     <p>There are four fundamental top-level roles in the framework:</p>
-     <ul>
-      <li data-md>
-       <p>Root role</p>
-      <li data-md>
-       <p>Targets role</p>
-      <li data-md>
-       <p>Snapshot role</p>
-      <li data-md>
-       <p>Timestamp role</p>
-     </ul>
-     <p>There is also one optional top-level role:</p>
-     <ul>
-      <li data-md>
-       <p>Mirrors role</p>
-     </ul>
-     <p>All roles can use one or more keys and require a threshold of signatures of
- the role’s keys in order to trust a given metadata file.</p>
-     <ul>
-      <li data-md>
-       <p>**2.1.1. Root Role**</p>
-       <ul>
-        <li data-md>
-         <p>The root role delegates trust to specific keys trusted for all other
+     <p>Root role</p>
+    <li data-md>
+     <p>Targets role</p>
+    <li data-md>
+     <p>Snapshot role</p>
+    <li data-md>
+     <p>Timestamp role</p>
+   </ul>
+   <p>There is also one optional top-level role:</p>
+   <ul>
+    <li data-md>
+     <p>Mirrors role</p>
+   </ul>
+   <p>All roles can use one or more keys and require a threshold of signatures of
+   the role’s keys in order to trust a given metadata file.</p>
+   <h4 class="heading settled" data-level="2.1.1" id="root-role"><span class="secno">2.1.1. </span><span class="content">Root Role</span><a class="self-link" href="#root-role"></a></h4>
+   <ul>
+    <li data-md>
+     <p>The root role delegates trust to specific keys trusted for all other
 top-level roles used in the system.</p>
-        <li data-md>
-         <p>The client-side of the framework MUST ship with trusted root keys for each
+    <li data-md>
+     <p>The client-side of the framework MUST ship with trusted root keys for each
 configured repository.</p>
-        <li data-md>
-         <p>The root role’s private keys MUST be kept very secure and thus should be
+    <li data-md>
+     <p>The root role’s private keys MUST be kept very secure and thus should be
 kept offline.  If less than a threshold of Root keys are compromised, the
 repository should revoke trust on the compromised keys.  This can be
 accomplished with a normal rotation of root keys, covered in section 6.1
@@ -2038,66 +2140,59 @@ a threshold of keys are compromised, it is safest to assume that attackers
 have installed malware and taken over affected machines.  For this reason,
 making it difficult for attackers to compromise all of the offline keys is
 important because safely recovering from it is nearly impossible.</p>
-       </ul>
-      <li data-md>
-       <p>**2.1.2 Targets role**</p>
-       <p>The targets role’s signature indicates which target files are trusted by
-  clients.  The targets role signs metadata that describes these files, not
-  the actual target files themselves.</p>
-       <p>In addition, the targets role can delegate full or partial trust to other
-  roles.  Delegating trust means that the targets role indicates another role
-  (that is, another set of keys and the threshold required for trust) is
-  trusted to sign target file metadata.  Partial trust delegation is when the
-  delegated role is only trusted for some of the target files that the
-  delegating role is trusted for.</p>
-       <p>Delegated roles can further delegate trust to other delegated
-  roles.  This provides for multiple levels of trust delegation where each
-  role can delegate full or partial trust for the target files they are
-  trusted for.  The delegating role in these cases is still trusted.  That is,
-  a role does not become untrusted when it has delegated trust.</p>
-       <p>Any delegation can be revoked at any time: the delegating role needs only
-  to sign new metadata that no longer contains that delegation.</p>
-      <li data-md>
-       <p>**2.1.3 Snapshot role**</p>
-       <p>The snapshot role signs a metadata file that provides information about
-  the latest version of all targets metadata on the repository
-  (the top-level targets role and all delegated roles).  This information allows
-  clients to know which metadata files have been updated and also prevents
-  mix-and-match attacks.</p>
-      <li data-md>
-       <p>**2.1.4 Timestamp role**</p>
-       <p>To prevent an adversary from replaying an out-of-date signed metadata file
-  whose signature has not yet expired, an automated process periodically signs
-  a timestamped statement containing the hash of the snapshot file.  Even
-  though this timestamp key must be kept online, the risk posed to clients by
-  the compromise of this key is minimal.</p>
-      <li data-md>
-       <p>**2.1.5 Mirrors role**</p>
-       <p>Every repository has one or more mirrors from which files can be downloaded
-  by clients.  A software update system using the framework may choose to
-  hard-code the mirror information in their software or they may choose to use
-  mirror metadata files that can optionally be signed by a mirrors role.</p>
-       <p>The importance of using signed mirror lists depends on the application and
-  the users of that application.  There is minimal risk to the application’s
-  security from being tricked into contacting the wrong mirrors.  This is
-  because the framework has very little trust in repositories.</p>
-     </ul>
-    <li data-md>
-     <p>**2.2. Threat Model And Analysis**</p>
-     <p>We assume an adversary who can respond to client requests, whether by acting
- as a man-in-the-middle or through compromising repository mirrors.  At
- worst, such an adversary can deny updates to users if no good mirrors are
- accessible.  An inability to obtain updates is noticed by the framework.</p>
-     <p>If an adversary compromises enough keys to sign metadata, the best that can
- be done is to limit the number of users who are affected.  The level to
- which this threat is mitigated is dependent on how the application is using
- the framework.  This includes whether different keys have been used for
- different signing roles.</p>
-     <p>A detailed threat analysis is outside the scope of this document.  This is
- partly because the specific threat posted to clients in many situations is
- largely determined by how the framework is being used.</p>
    </ul>
-   <h3 class="heading settled" id="3-the-repository"><span class="content">**3. The repository**</span></h3>
+   <h4 class="heading settled" data-level="2.1.2" id="targets-role"><span class="secno">2.1.2. </span><span class="content">Targets role</span><a class="self-link" href="#targets-role"></a></h4>
+   <p>The targets role’s signature indicates which target files are trusted by
+      clients.  The targets role signs metadata that describes these files, not
+      the actual target files themselves.</p>
+   <p>In addition, the targets role can delegate full or partial trust to other
+      roles.  Delegating trust means that the targets role indicates another role
+      (that is, another set of keys and the threshold required for trust) is
+      trusted to sign target file metadata.  Partial trust delegation is when the
+      delegated role is only trusted for some of the target files that the
+      delegating role is trusted for.</p>
+   <p>Delegated roles can further delegate trust to other delegated
+      roles.  This provides for multiple levels of trust delegation where each
+      role can delegate full or partial trust for the target files they are
+      trusted for.  The delegating role in these cases is still trusted.  That is,
+      a role does not become untrusted when it has delegated trust.</p>
+   <p>Any delegation can be revoked at any time: the delegating role needs only
+      to sign new metadata that no longer contains that delegation.</p>
+   <h4 class="heading settled" data-level="2.1.3" id="snapshot-role"><span class="secno">2.1.3. </span><span class="content">Snapshot role</span><a class="self-link" href="#snapshot-role"></a></h4>
+   <p>The snapshot role signs a metadata file that provides information about
+      the latest version of all targets metadata on the repository
+      (the top-level targets role and all delegated roles).  This information allows
+      clients to know which metadata files have been updated and also prevents
+      mix-and-match attacks.</p>
+   <h4 class="heading settled" data-level="2.1.4" id="timestamp-role"><span class="secno">2.1.4. </span><span class="content">Timestamp role</span><a class="self-link" href="#timestamp-role"></a></h4>
+   <p>To prevent an adversary from replaying an out-of-date signed metadata file
+      whose signature has not yet expired, an automated process periodically signs
+      a timestamped statement containing the hash of the snapshot file.  Even
+      though this timestamp key must be kept online, the risk posed to clients by
+      the compromise of this key is minimal.</p>
+   <h4 class="heading settled" data-level="2.1.5" id="mirrors-role"><span class="secno">2.1.5. </span><span class="content">Mirrors role</span><a class="self-link" href="#mirrors-role"></a></h4>
+   <p>Every repository has one or more mirrors from which files can be downloaded
+      by clients.  A software update system using the framework may choose to
+      hard-code the mirror information in their software or they may choose to use
+      mirror metadata files that can optionally be signed by a mirrors role.</p>
+   <p>The importance of using signed mirror lists depends on the application and
+      the users of that application.  There is minimal risk to the application’s
+      security from being tricked into contacting the wrong mirrors.  This is
+      because the framework has very little trust in repositories.</p>
+   <h3 class="heading settled" data-level="2.2" id="threat-model-and-analysis"><span class="secno">2.2. </span><span class="content">Threat Model And Analysis</span><a class="self-link" href="#threat-model-and-analysis"></a></h3>
+   <p>We assume an adversary who can respond to client requests, whether by acting
+   as a man-in-the-middle or through compromising repository mirrors.  At
+   worst, such an adversary can deny updates to users if no good mirrors are
+   accessible.  An inability to obtain updates is noticed by the framework.</p>
+   <p>If an adversary compromises enough keys to sign metadata, the best that can
+   be done is to limit the number of users who are affected.  The level to
+   which this threat is mitigated is dependent on how the application is using
+   the framework.  This includes whether different keys have been used for
+   different signing roles.</p>
+   <p>A detailed threat analysis is outside the scope of this document.  This is
+   partly because the specific threat posted to clients in many situations is
+   largely determined by how the framework is being used.</p>
+   <h2 class="heading settled" data-level="3" id="the-repository"><span class="secno">3. </span><span class="content">The repository</span><a class="self-link" href="#the-repository"></a></h2>
    <p>An application uses the framework to interact with one or more repositories.
    A repository is a conceptual source of target files of interest to the
    application.  Each repository has one or more mirrors which are the actual
@@ -2114,856 +2209,806 @@ important because safely recovering from it is nearly impossible.</p>
    does not perform any "mixing" of the trusted content from each repository.
    It is up to the application to determine the significance of the same or
    different target files provided from separate repositories.</p>
+   <h3 class="heading settled" data-level="3.1" id="repository-layout"><span class="secno">3.1. </span><span class="content">Repository layout</span><a class="self-link" href="#repository-layout"></a></h3>
+   <p>The filesystem layout in the repository is used for two purposes:</p>
    <ul>
     <li data-md>
-     <p>**3.1 Repository layout**</p>
-     <p>The filesystem layout in the repository is used for two purposes:</p>
-     <ul>
-      <li data-md>
-       <p>To give mirrors an easy way to mirror only some of the repository.</p>
-      <li data-md>
-       <p>To specify which parts of the repository a given role has authority
+     <p>To give mirrors an easy way to mirror only some of the repository.</p>
+    <li data-md>
+     <p>To specify which parts of the repository a given role has authority
    to sign/provide.</p>
-     </ul>
-    <li data-md>
-     <p>**3.1.1 Target files**</p>
-     <p>The filenames and the directory structure of target files available from
- a repository are not specified by the framework.  The names of these files
- and directories are completely at the discretion of the application using
- the framework.</p>
-    <li data-md>
-     <p>**3.1.2 Metadata files**</p>
-     <p>The filenames and directory structure of repository metadata are strictly
- defined.  All metadata filenames will have an extension (EXT) based on the
- metaformat, for example JSON metadata files would have an EXT of json.
- The following are the metadata files of top-level roles relative
- to the base URL of metadata available from a given repository mirror.</p>
-     <p>/root.EXT</p>
-     <p>Signed by the root keys; specifies trusted keys for the other
-       top-level roles.</p>
-     <p>/snapshot.EXT</p>
-     <p>Signed by the snapshot role’s keys.  Lists the version numbers of all
-       target metadata files: the top-level targets.EXT and all delegated
-       roles.</p>
-     <p>/targets.EXT</p>
-     <p>Signed by the target role’s keys.  Lists hashes and sizes of target
-       files. Specifies delegation information and trusted keys for delegated
-       target roles.</p>
-     <p>/timestamp.EXT</p>
-     <p>Signed by the timestamp role’s keys.  Lists hash(es), size, and version
-       number of the snapshot file.  This is the first and potentially only
-       file that needs to be downloaded when clients poll for the existence
-       of updates.</p>
-     <p>/mirrors.EXT (optional)</p>
-     <p>Signed by the mirrors role’s keys.  Lists information about available
-       mirrors and the content available from each mirror.</p>
-     <ul>
-      <li data-md>
-       <p>**3.1.2.1 Metadata files for targets delegation**</p>
-     </ul>
-     <p>When the targets role delegates trust to other roles, each delegated role
- provides one signed metadata file.  As is the case with the directory
- structure of top-level metadata, the delegated files are relative to the
- base URL of metadata available from a given repository mirror.</p>
-     <p>A delegated role file is located at:</p>
-     <p>/DELEGATED_ROLE.EXT</p>
-     <p>where DELEGATED_ROLE is the name of the delegated role that has been
- specified in targets.EXT.  If this role further delegates trust to a role
- named ANOTHER_ROLE, that role’s signed metadata file is made available at:</p>
-     <p>/ANOTHER_ROLE.EXT</p>
-     <p>Delegated target roles are authorized by the keys listed in the directly
- delegating target role.</p>
    </ul>
-   <h3 class="heading settled" id="4-document-formats"><span class="content">**4. Document formats**</span></h3>
+   <h4 class="heading settled" data-level="3.1.1" id="target-files"><span class="secno">3.1.1. </span><span class="content">Target files</span><a class="self-link" href="#target-files"></a></h4>
+   <p>The filenames and the directory structure of target files available from
+   a repository are not specified by the framework.  The names of these files
+   and directories are completely at the discretion of the application using
+   the framework.</p>
+   <h4 class="heading settled" data-level="3.1.2" id="metadata-files"><span class="secno">3.1.2. </span><span class="content">Metadata files</span><a class="self-link" href="#metadata-files"></a></h4>
+   <p>The filenames and directory structure of repository metadata are strictly
+   defined.  All metadata filenames will have an extension (EXT) based on the
+   metaformat, for example JSON metadata files would have an EXT of json.
+   The following are the metadata files of top-level roles relative
+   to the base URL of metadata available from a given repository mirror.</p>
+   <p>/root.EXT</p>
+   <p>Signed by the root keys; specifies trusted keys for the other
+         top-level roles.</p>
+   <p>/snapshot.EXT</p>
+   <p>Signed by the snapshot role’s keys.  Lists the version numbers of all
+         target metadata files: the top-level targets.EXT and all delegated
+         roles.</p>
+   <p>/targets.EXT</p>
+   <p>Signed by the target role’s keys.  Lists hashes and sizes of target
+         files. Specifies delegation information and trusted keys for delegated
+         target roles.</p>
+   <p>/timestamp.EXT</p>
+   <p>Signed by the timestamp role’s keys.  Lists hash(es), size, and version
+         number of the snapshot file.  This is the first and potentially only
+         file that needs to be downloaded when clients poll for the existence
+         of updates.</p>
+   <p>/mirrors.EXT (optional)</p>
+   <p>Signed by the mirrors role’s keys.  Lists information about available
+         mirrors and the content available from each mirror.</p>
+   <h5 class="heading settled" data-level="3.1.2.1" id="metadata-files-for-targets-delegation"><span class="secno">3.1.2.1. </span><span class="content">Metadata files for targets delegation</span><a class="self-link" href="#metadata-files-for-targets-delegation"></a></h5>
+   <p>When the targets role delegates trust to other roles, each delegated role
+   provides one signed metadata file.  As is the case with the directory
+   structure of top-level metadata, the delegated files are relative to the
+   base URL of metadata available from a given repository mirror.</p>
+   <p>A delegated role file is located at:</p>
+   <p>/DELEGATED_ROLE.EXT</p>
+   <p>where DELEGATED_ROLE is the name of the delegated role that has been
+   specified in targets.EXT.  If this role further delegates trust to a role
+   named ANOTHER_ROLE, that role’s signed metadata file is made available at:</p>
+   <p>/ANOTHER_ROLE.EXT</p>
+   <p>Delegated target roles are authorized by the keys listed in the directly
+   delegating target role.</p>
+   <h2 class="heading settled" data-level="4" id="document-formats"><span class="secno">4. </span><span class="content">Document formats</span><a class="self-link" href="#document-formats"></a></h2>
    <p>All of the formats described below include the ability to add more
    attribute-value fields for backwards-compatible format changes.  If
    a backwards incompatible format change is needed, a new filename can
    be used.</p>
-   <ul>
-    <li data-md>
-     <p>**4.1. Metaformat**</p>
-     <p>Implementers of TUF may use any data format for metadata files as long as
- all fields in this specification are included and TUF clients are able to
- interpret them without ambiguity. Implementers should choose a data format
- that allows for canonicalization, or one that will decode data
- deterministically by default so that signatures can be accurately verified.
- The examples in this document use a subset of the JSON object format, with
- floating-point numbers omitted.  When calculating the digest of an
- object, we use the "canonical JSON" subdialect as described at
-      http://wiki.laptop.org/go/Canonical_JSON</p>
-    <li data-md>
-     <p>**4.2. File formats: general principles**</p>
-     <p>All signed metadata objects have the format:</p>
-     <p>{ "signed" : ROLE,
-       "signatures" : [
-          { "keyid" : KEYID,
-            "sig" : SIGNATURE }
-          , ... ]
-     }</p>
-     <p>where:</p>
-     <p>ROLE is a dictionary whose "_type" field describes the role type.</p>
-     <p>KEYID is the identifier of the key signing the ROLE dictionary.</p>
-     <p>SIGNATURE is a hex-encoded signature of the canonical form of
-        the metadata for ROLE.</p>
-     <p>All keys have the format:</p>
-     <p>{ "keytype" : KEYTYPE,
-        "scheme" : SCHEME,
-        "keyval" : KEYVAL
-      }</p>
-     <p>where:</p>
-     <p>KEYTYPE is a string denoting a public key signature system, such
-        as RSA or ECDSA.</p>
-     <p>SCHEME is a string denoting a corresponding signature scheme.  For
-        example: "rsassa-pss-sha256" and "ecdsa-sha2-nistp256".</p>
-     <p>KEYVAL is a dictionary containing the public portion of the key.</p>
-     <p>The reference implementation defines three signature schemes, although TUF
- is not restricted to any particular signature scheme, key type, or
- cryptographic library:</p>
-     <p>"rsassa-pss-sha256" : RSA Probabilistic signature scheme with appendix.
-      The underlying hash function is SHA256.
-      https://tools.ietf.org/html/rfc3447#page-29</p>
-     <p>"ed25519" : Elliptic curve digital signature algorithm based on Twisted
-      Edwards curves.
-      https://ed25519.cr.yp.to/</p>
-     <p>"ecdsa-sha2-nistp256" : Elliptic Curve Digital Signature Algorithm
-       with NIST P-256 curve signing and SHA-256 hashing.
-       https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm</p>
-     <p>We define three keytypes below: <a class="property" data-link-type="propdesc">rsa</a>, <a class="property" data-link-type="propdesc">ed25519</a>, and <a class="property" data-link-type="propdesc">ecdsa</a>, but adopters
- can define and use any particular keytype, signing scheme, and cryptographic
- library.</p>
-     <p>The <a class="property" data-link-type="propdesc">rsa</a> format is:</p>
-     <p>{ "keytype" : "rsa",
-        "scheme" : "rsassa-pss-sha256",
-        "keyval" : {"public" : PUBLIC}
-      }</p>
-     <p>where PUBLIC is in PEM format and a string.  All RSA keys MUST be at least
- 2048 bits.</p>
-     <p>The <a class="property" data-link-type="propdesc">ed25519</a> format is:</p>
-     <p>{ "keytype" : "ed25519",
-        "scheme" : "ed25519",
-        "keyval" : {"public" : PUBLIC}
-      }</p>
-     <p>where:</p>
-     <p>PUBLIC is a 64-byte hex encoded string.</p>
-     <p>The <a class="property" data-link-type="propdesc">ecdsa</a> format is:</p>
-     <p>{ "keytype" : "ecdsa-sha2-nistp256",
-        "scheme" : "ecdsa-sha2-nistp256",
-        "keyval" : {"public" : PUBLIC}
-      }</p>
-     <p>where:</p>
-     <p>PUBLIC is in PEM format and a string.</p>
-     <p>The KEYID of a key is the hexdigest of the SHA-256 hash of the
- canonical form of the key.</p>
-     <p>Metadata date-time data follows the ISO 8601 standard.  The expected format
- of the combined date and time string is "YYYY-MM-DDTHH:MM:SSZ".  Time is
- always in UTC, and the "Z" time zone designator is attached to indicate a
- zero UTC offset.  An example date-time string is "1985-10-21T01:21:00Z".</p>
-    <li data-md>
-     <p>**4.3. File formats: root.json**</p>
-     <p>The root.json file is signed by the root role’s keys.  It indicates
- which keys are authorized for all top-level roles, including the root
- role itself.  Revocation and replacement of top-level role keys, including
- for the root role, is done by changing the keys listed for the roles in
- this file.</p>
-     <p>The "signed" portion of root.json is as follows:</p>
-     <p>{ "_type" : "root",
-       "spec_version" : SPEC_VERSION,
-       "consistent_snapshot": CONSISTENT_SNAPSHOT,
-       "version" : VERSION,
-       "expires" : EXPIRES,
-       "keys" : {
-           KEYID : KEY
-           , ... },
-       "roles" : {
-           ROLE : {
-             "keyids" : [ KEYID, ... ] ,
-             "threshold" : THRESHOLD }
-           , ... }
-     }</p>
-     <p>SPEC_VERSION is a string that contains the version number of the TUF
- specification. Its format follows the [Semantic Versioning 2.0.0
- (semver)](https://semver.org/spec/v2.0.0.html) specification. Metadata is
- written according to version "spec_version" of the specification, and
- clients MUST verify that "spec_version" matches the expected version number.
- Adopters are free to determine what is considered a match (e.g., the version
- number exactly, or perhaps only the major version number (major.minor.fix).</p>
-     <p>CONSISTENT_SNAPSHOT is a boolean indicating whether the repository supports
- consistent snapshots.  Section 7 goes into more detail on the consequences
- of enabling this setting on a repository.</p>
-     <p>VERSION is an integer that is greater than 0.  Clients MUST NOT replace a
- metadata file with a version number less than the one currently trusted.</p>
-     <p>EXPIRES determines when metadata should be considered expired and no longer
- trusted by clients.  Clients MUST NOT trust an expired file.</p>
-     <p>A ROLE is one of "root", "snapshot", "targets", "timestamp", or "mirrors".
- A role for each of "root", "snapshot", "timestamp", and "targets" MUST be
- specified in the key list. The role of "mirror" is OPTIONAL.  If not
- specified, the mirror list will not need to be signed if mirror lists are
- being used.</p>
-     <p>The KEYID MUST be correct for the specified KEY.  Clients MUST calculate
- each KEYID to verify this is correct for the associated key.  Clients MUST
- ensure that for any KEYID represented in this key list and in other files,
- only one unique key has that KEYID.</p>
-     <p>The THRESHOLD for a role is an integer of the number of keys of that role
- whose signatures are required in order to consider a file as being properly
- signed by that role.</p>
-     <p>A root.json example file:</p>
-     <p>{
-     "signatures": [
-      {
-       "keyid": "cb3fbd83df4ba2471a736b065650878280964a98843ec13b457a99b2a21cc3b4",
-       "sig": "a312b9c3cb4a1b693e8ebac5ee1ca9cc01f2661c14391917dcb111517f72370809
-               f32c890c6b801e30158ac4efe0d4d87317223077784c7a378834249d048306"
-      }
-     ],
-     "signed": {
-      "_type": "root",
-      "spec_version": "1.0.0",
-      "consistent_snapshot": false,
-      "expires": "2030-01-01T00:00:00Z",
-      "keys": {
-       "1bf1c6e3cdd3d3a8420b19199e27511999850f4b376c4547b2f32fba7e80fca3": {
-        "keytype": "ed25519",
-        "scheme": "ed25519",
-        "keyval": {
-         "public": "72378e5bc588793e58f81c8533da64a2e8f1565c1fcc7f253496394ffc52542c"
-        }
-       },
-       "135c2f50e57ff11e744d234a62cebad8c38daf399604a7655661cc9199c69164": {
-        "keytype": "ed25519",
-        "scheme": "ed25519",
-        "keyval": {
-         "public": "68ead6e54a43f8f36f9717b10669d1ef0ebb38cee6b05317669341309f1069cb"
-        }
-       },
-       "cb3fbd83df4ba2471a736b065650878280964a98843ec13b457a99b2a21cc3b4": {
-        "keytype": "ed25519",
-        "scheme": "ed25519",
-        "keyval": {
-         "public": "66dd78c5c2a78abc6fc6b267ff1a8017ba0e8bfc853dd97af351949bba021275"
-        }
-       },
-       "66676daa73bdfb4804b56070c8927ae491e2a6c2314f05b854dea94de8ff6bfc": {
-        "keytype": "ed25519",
-        "scheme": "ed25519",
-        "keyval": {
-         "public": "01c61f8dc7d77fcef973f4267927541e355e8ceda757e2c402818dad850f856e"
-        }
-       }
-      },
-      "roles": {
-       "root": {
-        "keyids": [
-         "cb3fbd83df4ba2471a736b065650878280964a98843ec13b457a99b2a21cc3b4"
-        ],
-        "threshold": 1
-       },
-       "snapshot": {
-        "keyids": [
-         "66676daa73bdfb4804b56070c8927ae491e2a6c2314f05b854dea94de8ff6bfc"
-        ],
-        "threshold": 1
-       },
-       "targets": {
-        "keyids": [
-         "135c2f50e57ff11e744d234a62cebad8c38daf399604a7655661cc9199c69164"
-        ],
-        "threshold": 1
-       },
-       "timestamp": {
-        "keyids": [
-         "1bf1c6e3cdd3d3a8420b19199e27511999850f4b376c4547b2f32fba7e80fca3"
-        ],
-        "threshold": 1
-       }
-      },
-      "version": 1
-     }
-    }</p>
-    <li data-md>
-     <p>**4.4. File formats: snapshot.json**</p>
-     <p>The snapshot.json file is signed by the snapshot role. It MUST list the
- version numbers of the top-level targets metadata and all delegated targets
- metadata. It MAY also list their lengths and file hashes.</p>
-     <p>The "signed" portion of snapshot.json is as follows:</p>
-     <p>{ "_type" : "snapshot",
-       "spec_version" : SPEC_VERSION,
-       "version" : VERSION,
-       "expires" : EXPIRES,
-       "meta" : METAFILES
-     }</p>
-     <p>SPEC_VERSION, VERSION and EXPIRES are the same as is described for the root.json file.</p>
-     <p>METAFILES is an object whose format is the following:</p>
-     <p>{ METAPATH : {
-           "version" : VERSION,
-           ("length" : LENGTH, |
-            "hashes" : HASHES) }
-       , ...
-     }</p>
-     <p>METAPATH is the file path of the metadata on the repository relative to the
- metadata base URL. For snapshot.json, these are top-level targets metadata
- and delegated targets metadata.</p>
-     <p>VERSION is the integer version number as shown in the metadata file at
- METAPATH.</p>
-     <p>LENGTH is the integer length in bytes of the metadata file at METAPATH. It
- is OPTIONAL and can be omitted to reduce the snapshot metadata file size. In
- that case the client MUST use a custom download limit for the listed
- metadata.</p>
-     <p>HASHES is a dictionary that specifies one or more hashes of the metadata
- file at METAPATH, including their cryptographic hash function. For example:
- { "sha256": HASH, ... }. HASHES is OPTIONAL and can be omitted to reduce
- the snapshot metadata file size.  In that case the repository MUST guarantee
- that VERSION alone unambiguously identifies the metadata at METAPATH.</p>
-     <p>A snapshot.json example file:</p>
-     <p>{ "signatures": [
-       {
-        "keyid": "66676daa73bdfb4804b56070c8927ae491e2a6c2314f05b854dea94de8ff6bfc",
-        "sig": "f7f03b13e3f4a78a23561419fc0dd741a637e49ee671251be9f8f3fceedfc112e4
-                4ee3aaff2278fad9164ab039118d4dc53f22f94900dae9a147aa4d35dcfc0f"
-       }
-      ],
-      "signed": {
-       "_type": "snapshot",
-       "spec_version": "1.0.0",
-       "expires": "2030-01-01T00:00:00Z",
-       "meta": {
-        "targets.json": {
-         "version": 1
-        },
-        "project1.json": {
-         "version": 1,
-         "hashes": {
-          "sha256": "f592d072e1193688a686267e8e10d7257b4ebfcf28133350dae88362d82a0c8a"
-         }
-        },
-        "project2.json": {
-         "version": 1,
-         "length": 604,
-         "hashes": {
-          "sha256": "1f812e378264c3085bb69ec5f6663ed21e5882bbece3c3f8a0e8479f205ffb91"
-         }
-        }
-       },
-       "version": 1
-      }
-     }</p>
-    <li data-md>
-     <p>**4.5. File formats: targets.json and delegated target roles**</p>
-     <p>The "signed" portion of targets.json is as follows:</p>
-     <p>{ "_type" : "targets",
-       "spec_version" : SPEC_VERSION,
-       "version" : VERSION,
-       "expires" : EXPIRES,
-       "targets" : TARGETS,
-       ("delegations" : DELEGATIONS)
-     }</p>
-     <p>SPEC_VERSION, VERSION and EXPIRES are the same as is described for the root.json file.</p>
-     <p>TARGETS is an object whose format is the following:</p>
-     <p>{ TARGETPATH : {
-           "length" : LENGTH,
-           "hashes" : HASHES,
-           ("custom" : { ... }) }
-       , ...
-     }</p>
-     <p>Each key of the TARGETS object is a TARGETPATH.  A TARGETPATH is a path to
- a file that is relative to a mirror’s base URL of targets. To avoid
- surprising behavior when resolving paths, it is RECOMMENDED that a
- TARGETPATH uses the forward slash (/) as directory separator and does not
- start with a directory separator. The recommendation for TARGETPATH aligns
- with the ["path-relative-URL string"
- definition](https://url.spec.whatwg.org/#path-relative-url-string) in the
- WHATWG URL specification.</p>
-     <p>It is allowed to have a TARGETS object with no TARGETPATH elements.  This
- can be used to indicate that no target files are available.</p>
-     <p>LENGTH is the integer length in bytes of the target file at TARGETPATH.</p>
-     <p>HASHES is a dictionary that specifies one or more hashes, including the
- cryptographic hash function.  For example: { "sha256": HASH, ... }. HASH is
- the hexdigest of the cryptographic function computed on the target file.</p>
-     <p>If defined, the elements and values of "custom" will be made available to the
- client application.  The information in "custom" is opaque to the framework
- and can include version numbers, dependencies, requirements, and any other
- data that the application wants to include to describe the file at
- TARGETPATH.  The application may use this information to guide download
- decisions.</p>
-     <p>DELEGATIONS is an object whose format is the following:</p>
-     <p>{ "keys" : {
-           KEYID : KEY,
-           ... },
-       "roles" : [{
-           "name": ROLENAME,
-           "keyids" : [ KEYID, ... ] ,
-           "threshold" : THRESHOLD,
-           ("path_hash_prefixes" : [ HEX_DIGEST, ... ] |
-            "paths" : [ PATHPATTERN, ... ]),
-           "terminating": TERMINATING,
-       }, ... ]
-     }</p>
-     <p>"keys" lists the public keys to verify signatures of delegated targets roles.
- Revocation and replacement of delegated targets roles keys is done by
- changing the keys in this field in the delegating role’s metadata.</p>
-     <p>ROLENAME is the name of the delegated role.  For example,
- "projects".</p>
-     <p>TERMINATING is a boolean indicating whether subsequent delegations should be
- considered.</p>
-     <p>As explained in the [Diplomat
- paper](https://github.com/theupdateframework/tuf/blob/develop/docs/papers/protect-community-repositories-nsdi2016.pdf),
- terminating delegations instruct the client not to consider future trust
- statements that match the delegation’s pattern, which stops the delegation
- processing once this delegation (and its descendants) have been processed.
- A terminating delegation for a package causes any further statements about a
- package that are not made by the delegated party or its descendants to be
- ignored.</p>
-     <p>In order to discuss target paths, a role MUST specify only one of the
- "path_hash_prefixes" or "paths" attributes, each of which we discuss next.</p>
-     <p>The "path_hash_prefixes" list is used to succinctly describe a set of target
- paths. Specifically, each HEX_DIGEST in "path_hash_prefixes" describes a set
- of target paths; therefore, "path_hash_prefixes" is the union over each
- prefix of its set of target paths. The target paths must meet this
- condition: each target path, when hashed with the SHA-256 hash function to
- produce a 64-byte hexadecimal digest (HEX_DIGEST), must share the same
- prefix as one of the prefixes in "path_hash_prefixes". This is useful to
- split a large number of targets into separate bins identified by consistent
- hashing.</p>
-     <p>The "paths" list describes paths that the role is trusted to provide.
- Clients MUST check that a target is in one of the trusted paths of all roles
- in a delegation chain, not just in a trusted path of the role that describes
- the target file.  PATHPATTERN can include shell-style wildcards and supports
- the Unix filename pattern matching convention.  Its format may either
- indicate a path to a single file, or to multiple paths with the use of
- shell-style wildcards.  For example, the path pattern "targets/*.tgz" would
- match file paths "targets/foo.tgz" and "targets/bar.tgz", but not
- "targets/foo.txt".  Likewise, path pattern "foo-version-?.tgz" matches
- "foo-version-2.tgz" and "foo-version-a.tgz", but not "foo-version-alpha.tgz".
- To avoid surprising behavior when matching targets with PATHPATTERN, it is
- RECOMMENDED that PATHPATTERN uses the forward slash (/) as directory
- separator and does not start with a directory separator, akin to
- TARGETSPATH.</p>
-     <p>Prioritized delegations allow clients to resolve conflicts between delegated
- roles that share responsibility for overlapping target paths.  To resolve
- conflicts, clients must consider metadata in order of appearance of delegations;
- we treat the order of delegations such that the first delegation is trusted
- over the second one, the second delegation is trusted more than the third
- one, and so on. Likewise, the metadata of the first delegation will override that
- of the second delegation, the metadata of the second delegation will override
- that of the third one, etc. In order to accommodate prioritized
- delegations, the "roles" key in the DELEGATIONS object above points to an array
- of delegated roles, rather than to a hash table.</p>
-     <p>The metadata files for delegated target roles has the same format as the
- top-level targets.json metadata file.</p>
-     <p>A targets.json example file:</p>
-     <p>{
-     "signatures": [
-      {
-       "keyid": "135c2f50e57ff11e744d234a62cebad8c38daf399604a7655661cc9199c69164",
-       "sig": "e9fd40008fba263758a3ff1dc59f93e42a4910a282749af915fbbea1401178e5a0
-               12090c228f06db1deb75ad8ddd7e40635ac51d4b04301fce0fd720074e0209"
-      }
-     ],
-     "signed": {
-      "_type": "targets",
-      "spec_version": "1.0.0",
-      "delegations": {
-       "keys": {
-        "f761033eb880143c52358d941d987ca5577675090e2215e856ba0099bc0ce4f6": {
-         "keytype": "ed25519",
-         "scheme": "ed25519",
-         "keyval": {
-          "public": "b6e40fb71a6041212a3d84331336ecaa1f48a0c523f80ccc762a034c727606fa"
-         }
-        }
-       },
-       "roles": [
+   <h3 class="heading settled" data-level="4.1" id="metaformat"><span class="secno">4.1. </span><span class="content">Metaformat</span><a class="self-link" href="#metaformat"></a></h3>
+   <p>Implementers of TUF may use any data format for metadata files as long as
+   all fields in this specification are included and TUF clients are able to
+   interpret them without ambiguity. Implementers should choose a data format
+   that allows for canonicalization, or one that will decode data
+   deterministically by default so that signatures can be accurately verified.
+   The examples in this document use a subset of the JSON object format, with
+   floating-point numbers omitted.  When calculating the digest of an
+   object, we use the "canonical JSON" subdialect as described at
+        http://wiki.laptop.org/go/Canonical_JSON</p>
+   <h3 class="heading settled" data-level="4.2" id="file-formats-general-principles"><span class="secno">4.2. </span><span class="content">File formats: general principles</span><a class="self-link" href="#file-formats-general-principles"></a></h3>
+   <p>All signed metadata objects have the format:</p>
+   <p>{ "signed" : ROLE,
+         "signatures" : [
+            { "keyid" : KEYID,
+              "sig" : SIGNATURE }
+            , ... ]
+       }</p>
+   <p>where:</p>
+   <p>ROLE is a dictionary whose "_type" field describes the role type.</p>
+   <p>KEYID is the identifier of the key signing the ROLE dictionary.</p>
+   <p>SIGNATURE is a hex-encoded signature of the canonical form of
+          the metadata for ROLE.</p>
+   <p>All keys have the format:</p>
+   <p>{ "keytype" : KEYTYPE,
+          "scheme" : SCHEME,
+          "keyval" : KEYVAL
+        }</p>
+   <p>where:</p>
+   <p>KEYTYPE is a string denoting a public key signature system, such
+          as RSA or ECDSA.</p>
+   <p>SCHEME is a string denoting a corresponding signature scheme.  For
+          example: "rsassa-pss-sha256" and "ecdsa-sha2-nistp256".</p>
+   <p>KEYVAL is a dictionary containing the public portion of the key.</p>
+   <p>The reference implementation defines three signature schemes, although TUF
+   is not restricted to any particular signature scheme, key type, or
+   cryptographic library:</p>
+   <p>"rsassa-pss-sha256" : RSA Probabilistic signature scheme with appendix.
+        The underlying hash function is SHA256.
+        https://tools.ietf.org/html/rfc3447#page-29</p>
+   <p>"ed25519" : Elliptic curve digital signature algorithm based on Twisted
+        Edwards curves.
+        https://ed25519.cr.yp.to/</p>
+   <p>"ecdsa-sha2-nistp256" : Elliptic Curve Digital Signature Algorithm
+         with NIST P-256 curve signing and SHA-256 hashing.
+         https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm</p>
+   <p>We define three keytypes below: <a class="property" data-link-type="propdesc">rsa</a>, <a class="property" data-link-type="propdesc">ed25519</a>, and <a class="property" data-link-type="propdesc">ecdsa</a>, but adopters
+   can define and use any particular keytype, signing scheme, and cryptographic
+   library.</p>
+   <p>The <a class="property" data-link-type="propdesc">rsa</a> format is:</p>
+   <p>{ "keytype" : "rsa",
+          "scheme" : "rsassa-pss-sha256",
+          "keyval" : {"public" : PUBLIC}
+        }</p>
+   <p>where PUBLIC is in PEM format and a string.  All RSA keys MUST be at least
+   2048 bits.</p>
+   <p>The <a class="property" data-link-type="propdesc">ed25519</a> format is:</p>
+   <p>{ "keytype" : "ed25519",
+          "scheme" : "ed25519",
+          "keyval" : {"public" : PUBLIC}
+        }</p>
+   <p>where:</p>
+   <p>PUBLIC is a 64-byte hex encoded string.</p>
+   <p>The <a class="property" data-link-type="propdesc">ecdsa</a> format is:</p>
+   <p>{ "keytype" : "ecdsa-sha2-nistp256",
+          "scheme" : "ecdsa-sha2-nistp256",
+          "keyval" : {"public" : PUBLIC}
+        }</p>
+   <p>where:</p>
+   <p>PUBLIC is in PEM format and a string.</p>
+   <p>The KEYID of a key is the hexdigest of the SHA-256 hash of the
+   canonical form of the key.</p>
+   <p>Metadata date-time data follows the ISO 8601 standard.  The expected format
+   of the combined date and time string is "YYYY-MM-DDTHH:MM:SSZ".  Time is
+   always in UTC, and the "Z" time zone designator is attached to indicate a
+   zero UTC offset.  An example date-time string is "1985-10-21T01:21:00Z".</p>
+   <h3 class="heading settled" data-level="4.3" id="file-formats-rootjson"><span class="secno">4.3. </span><span class="content">File formats: root.json</span><a class="self-link" href="#file-formats-rootjson"></a></h3>
+   <p>The root.json file is signed by the root role’s keys.  It indicates
+   which keys are authorized for all top-level roles, including the root
+   role itself.  Revocation and replacement of top-level role keys, including
+   for the root role, is done by changing the keys listed for the roles in
+   this file.</p>
+   <p>The "signed" portion of root.json is as follows:</p>
+   <p>{ "_type" : "root",
+         "spec_version" : SPEC_VERSION,
+         "consistent_snapshot": CONSISTENT_SNAPSHOT,
+         "version" : VERSION,
+         "expires" : EXPIRES,
+         "keys" : {
+             KEYID : KEY
+             , ... },
+         "roles" : {
+             ROLE : {
+               "keyids" : [ KEYID, ... ] ,
+               "threshold" : THRESHOLD }
+             , ... }
+       }</p>
+   <p>SPEC_VERSION is a string that contains the version number of the TUF
+   specification. Its format follows the [Semantic Versioning 2.0.0
+   (semver)](https://semver.org/spec/v2.0.0.html) specification. Metadata is
+   written according to version "spec_version" of the specification, and
+   clients MUST verify that "spec_version" matches the expected version number.
+   Adopters are free to determine what is considered a match (e.g., the version
+   number exactly, or perhaps only the major version number (major.minor.fix).</p>
+   <p>CONSISTENT_SNAPSHOT is a boolean indicating whether the repository supports
+   consistent snapshots.  Section 7 goes into more detail on the consequences
+   of enabling this setting on a repository.</p>
+   <p>VERSION is an integer that is greater than 0.  Clients MUST NOT replace a
+   metadata file with a version number less than the one currently trusted.</p>
+   <p>EXPIRES determines when metadata should be considered expired and no longer
+   trusted by clients.  Clients MUST NOT trust an expired file.</p>
+   <p>A ROLE is one of "root", "snapshot", "targets", "timestamp", or "mirrors".
+   A role for each of "root", "snapshot", "timestamp", and "targets" MUST be
+   specified in the key list. The role of "mirror" is OPTIONAL.  If not
+   specified, the mirror list will not need to be signed if mirror lists are
+   being used.</p>
+   <p>The KEYID MUST be correct for the specified KEY.  Clients MUST calculate
+   each KEYID to verify this is correct for the associated key.  Clients MUST
+   ensure that for any KEYID represented in this key list and in other files,
+   only one unique key has that KEYID.</p>
+   <p>The THRESHOLD for a role is an integer of the number of keys of that role
+   whose signatures are required in order to consider a file as being properly
+   signed by that role.</p>
+   <p>A root.json example file:</p>
+   <p>{
+       "signatures": [
         {
-         "keyids": [
-          "f761033eb880143c52358d941d987ca5577675090e2215e856ba0099bc0ce4f6"
-         ],
-         "name": "project",
-         "paths": [
-          "project/file3.txt"
-         ],
-         "threshold": 1
+         "keyid": "cb3fbd83df4ba2471a736b065650878280964a98843ec13b457a99b2a21cc3b4",
+         "sig": "a312b9c3cb4a1b693e8ebac5ee1ca9cc01f2661c14391917dcb111517f72370809
+                 f32c890c6b801e30158ac4efe0d4d87317223077784c7a378834249d048306"
         }
-       ]
-      },
-      "expires": "2030-01-01T00:00:00Z",
-      "targets": {
-       "file1.txt": {
-        "hashes": {
-         "sha256": "65b8c67f51c993d898250f40aa57a317d854900b3a04895464313e48785440da"
+       ],
+       "signed": {
+        "_type": "root",
+        "spec_version": "1.0.0",
+        "consistent_snapshot": false,
+        "expires": "2030-01-01T00:00:00Z",
+        "keys": {
+         "1bf1c6e3cdd3d3a8420b19199e27511999850f4b376c4547b2f32fba7e80fca3": {
+          "keytype": "ed25519",
+          "scheme": "ed25519",
+          "keyval": {
+           "public": "72378e5bc588793e58f81c8533da64a2e8f1565c1fcc7f253496394ffc52542c"
+          }
+         },
+         "135c2f50e57ff11e744d234a62cebad8c38daf399604a7655661cc9199c69164": {
+          "keytype": "ed25519",
+          "scheme": "ed25519",
+          "keyval": {
+           "public": "68ead6e54a43f8f36f9717b10669d1ef0ebb38cee6b05317669341309f1069cb"
+          }
+         },
+         "cb3fbd83df4ba2471a736b065650878280964a98843ec13b457a99b2a21cc3b4": {
+          "keytype": "ed25519",
+          "scheme": "ed25519",
+          "keyval": {
+           "public": "66dd78c5c2a78abc6fc6b267ff1a8017ba0e8bfc853dd97af351949bba021275"
+          }
+         },
+         "66676daa73bdfb4804b56070c8927ae491e2a6c2314f05b854dea94de8ff6bfc": {
+          "keytype": "ed25519",
+          "scheme": "ed25519",
+          "keyval": {
+           "public": "01c61f8dc7d77fcef973f4267927541e355e8ceda757e2c402818dad850f856e"
+          }
+         }
         },
-        "length": 31
-       },
-       "dir/file2.txt": {
-        "hashes": {
-         "sha256": "452ce8308500d83ef44248d8e6062359211992fd837ea9e370e561efb1a4ca99"
+        "roles": {
+         "root": {
+          "keyids": [
+           "cb3fbd83df4ba2471a736b065650878280964a98843ec13b457a99b2a21cc3b4"
+          ],
+          "threshold": 1
+         },
+         "snapshot": {
+          "keyids": [
+           "66676daa73bdfb4804b56070c8927ae491e2a6c2314f05b854dea94de8ff6bfc"
+          ],
+          "threshold": 1
+         },
+         "targets": {
+          "keyids": [
+           "135c2f50e57ff11e744d234a62cebad8c38daf399604a7655661cc9199c69164"
+          ],
+          "threshold": 1
+         },
+         "timestamp": {
+          "keyids": [
+           "1bf1c6e3cdd3d3a8420b19199e27511999850f4b376c4547b2f32fba7e80fca3"
+          ],
+          "threshold": 1
+         }
         },
-        "length": 39
-       }
-      },
-      "version": 1
-      }
-     }</p>
-    <li data-md>
-     <p>**4.6. File formats: timestamp.json**</p>
-     <p>The timestamp file is signed by a timestamp key.  It indicates the latest
- version of the snapshot metadata and is frequently re-signed to limit the
- amount of time a client can be kept unaware of interference with obtaining
- updates.</p>
-     <p>Timestamp files will potentially be downloaded very frequently.  Unnecessary
- information in them will be avoided.</p>
-     <p>The "signed" portion of timestamp.json is as follows:</p>
-     <p>{ "_type" : "timestamp",
-       "spec_version" : SPEC_VERSION,
-       "version" : VERSION,
-       "expires" : EXPIRES,
-       "meta" : METAFILES
-     }</p>
-     <p>SPEC_VERSION, VERSION and EXPIRES are the same as is described for the root.json file.</p>
-     <p>METAFILES is the same as described for the snapshot.json file.  In the case
- of the timestamp.json file, this MUST only include a description of the
- snapshot.json file.</p>
-     <p>A signed timestamp.json example file:</p>
-     <p>{
-     "signatures": [
-      {
-       "keyid": "1bf1c6e3cdd3d3a8420b19199e27511999850f4b376c4547b2f32fba7e80fca3",
-       "sig": "90d2a06c7a6c2a6a93a9f5771eb2e5ce0c93dd580bebc2080d10894623cfd6eaed
-               f4df84891d5aa37ace3ae3736a698e082e12c300dfe5aee92ea33a8f461f02"
-      }
-     ],
-     "signed": {
-      "_type": "timestamp",
-      "spec_version": "1.0.0",
-      "expires": "2030-01-01T00:00:00Z",
-      "meta": {
-       "snapshot.json": {
-        "hashes": {
-         "sha256": "c14aeb4ac9f4a8fc0d83d12482b9197452f6adf3eb710e3b1e2b79e8d14cb681"
-        },
-        "length": 1007,
         "version": 1
        }
-      },
-      "version": 1
-      }
-     }</p>
-    <li data-md>
-     <p>**4.7. File formats: mirrors.json**</p>
-     <p>The mirrors.json file is signed by the mirrors role.  It indicates which
- mirrors are active and believed to be mirroring specific parts of the
- repository.</p>
-     <p>The "signed" portion of mirrors.json is as follows:</p>
-     <p>{ "_type" : "mirrors",
-     "spec_version" : SPEC_VERSION,
-     "version" : VERSION,
-     "expires" : EXPIRES,
-     "mirrors" : [
-        { "urlbase" : URLBASE,
-          "metapath" : METAPATH,
-          "targetspath" : TARGETSPATH,
-          "metacontent" : [ PATHPATTERN ... ] ,
-          "targetscontent" : [ PATHPATTERN ... ] ,
-          ("custom" : { ... }) }
-        , ... ]
-    }</p>
-     <p>URLBASE is the URL of the mirror which METAPATH and TARGETSPATH are relative
- to.  All metadata files will be retrieved from METAPATH and all target files
- will be retrieved from TARGETSPATH.</p>
-     <p>The lists of PATHPATTERN for "metacontent" and "targetscontent" describe the
- metadata files and target files available from the mirror.</p>
-     <p>The order of the list of mirrors is important.  For any file to be
- downloaded, whether it is a metadata file or a target file, the framework on
- the client will give priority to the mirrors that are listed first.  That is,
- the first mirror in the list whose "metacontent" or "targetscontent" include
- a path that indicate the desired file can be found there will the first
- mirror that will be used to download that file.  Successive mirrors with
- matching paths will only be tried if downloading from earlier mirrors fails.
- This behavior can be modified by the client code that uses the framework to,
- for example, randomly select from the listed mirrors.</p>
-   </ul>
-   <h3 class="heading settled" id="5-detailed-workflows"><span class="content">**5. Detailed Workflows**</span></h3>
-   <h4 class="heading settled" id="the-client-application"><span class="content">**The client application**</span></h4>
+      }</p>
+   <h3 class="heading settled" data-level="4.4" id="file-formats-snapshotjson"><span class="secno">4.4. </span><span class="content">File formats: snapshot.json</span><a class="self-link" href="#file-formats-snapshotjson"></a></h3>
+   <p>The snapshot.json file is signed by the snapshot role. It MUST list the
+   version numbers of the top-level targets metadata and all delegated targets
+   metadata. It MAY also list their lengths and file hashes.</p>
+   <p>The "signed" portion of snapshot.json is as follows:</p>
+   <p>{ "_type" : "snapshot",
+         "spec_version" : SPEC_VERSION,
+         "version" : VERSION,
+         "expires" : EXPIRES,
+         "meta" : METAFILES
+       }</p>
+   <p>SPEC_VERSION, VERSION and EXPIRES are the same as is described for the root.json file.</p>
+   <p>METAFILES is an object whose format is the following:</p>
+   <p>{ METAPATH : {
+             "version" : VERSION,
+             ("length" : LENGTH, |
+              "hashes" : HASHES) }
+         , ...
+       }</p>
+   <p>METAPATH is the file path of the metadata on the repository relative to the
+   metadata base URL. For snapshot.json, these are top-level targets metadata
+   and delegated targets metadata.</p>
+   <p>VERSION is the integer version number as shown in the metadata file at
+   METAPATH.</p>
+   <p>LENGTH is the integer length in bytes of the metadata file at METAPATH. It
+   is OPTIONAL and can be omitted to reduce the snapshot metadata file size. In
+   that case the client MUST use a custom download limit for the listed
+   metadata.</p>
+   <p>HASHES is a dictionary that specifies one or more hashes of the metadata
+   file at METAPATH, including their cryptographic hash function. For example:
+   { "sha256": HASH, ... }. HASHES is OPTIONAL and can be omitted to reduce
+   the snapshot metadata file size.  In that case the repository MUST guarantee
+   that VERSION alone unambiguously identifies the metadata at METAPATH.</p>
+   <p>A snapshot.json example file:</p>
+   <p>{ "signatures": [
+         {
+          "keyid": "66676daa73bdfb4804b56070c8927ae491e2a6c2314f05b854dea94de8ff6bfc",
+          "sig": "f7f03b13e3f4a78a23561419fc0dd741a637e49ee671251be9f8f3fceedfc112e4
+                  4ee3aaff2278fad9164ab039118d4dc53f22f94900dae9a147aa4d35dcfc0f"
+         }
+        ],
+        "signed": {
+         "_type": "snapshot",
+         "spec_version": "1.0.0",
+         "expires": "2030-01-01T00:00:00Z",
+         "meta": {
+          "targets.json": {
+           "version": 1
+          },
+          "project1.json": {
+           "version": 1,
+           "hashes": {
+            "sha256": "f592d072e1193688a686267e8e10d7257b4ebfcf28133350dae88362d82a0c8a"
+           }
+          },
+          "project2.json": {
+           "version": 1,
+           "length": 604,
+           "hashes": {
+            "sha256": "1f812e378264c3085bb69ec5f6663ed21e5882bbece3c3f8a0e8479f205ffb91"
+           }
+          }
+         },
+         "version": 1
+        }
+       }</p>
+   <h3 class="heading settled" data-level="4.5" id="file-formats-targetsjson-and-delegated-target-roles"><span class="secno">4.5. </span><span class="content">File formats: targets.json and delegated target roles</span><a class="self-link" href="#file-formats-targetsjson-and-delegated-target-roles"></a></h3>
+   <p>The "signed" portion of targets.json is as follows:</p>
+   <p>{ "_type" : "targets",
+         "spec_version" : SPEC_VERSION,
+         "version" : VERSION,
+         "expires" : EXPIRES,
+         "targets" : TARGETS,
+         ("delegations" : DELEGATIONS)
+       }</p>
+   <p>SPEC_VERSION, VERSION and EXPIRES are the same as is described for the root.json file.</p>
+   <p>TARGETS is an object whose format is the following:</p>
+   <p>{ TARGETPATH : {
+             "length" : LENGTH,
+             "hashes" : HASHES,
+             ("custom" : { ... }) }
+         , ...
+       }</p>
+   <p>Each key of the TARGETS object is a TARGETPATH.  A TARGETPATH is a path to
+   a file that is relative to a mirror’s base URL of targets. To avoid
+   surprising behavior when resolving paths, it is RECOMMENDED that a
+   TARGETPATH uses the forward slash (/) as directory separator and does not
+   start with a directory separator. The recommendation for TARGETPATH aligns
+   with the ["path-relative-URL string"
+   definition](https://url.spec.whatwg.org/#path-relative-url-string) in the
+   WHATWG URL specification.</p>
+   <p>It is allowed to have a TARGETS object with no TARGETPATH elements.  This
+   can be used to indicate that no target files are available.</p>
+   <p>LENGTH is the integer length in bytes of the target file at TARGETPATH.</p>
+   <p>HASHES is a dictionary that specifies one or more hashes, including the
+   cryptographic hash function.  For example: { "sha256": HASH, ... }. HASH is
+   the hexdigest of the cryptographic function computed on the target file.</p>
+   <p>If defined, the elements and values of "custom" will be made available to the
+   client application.  The information in "custom" is opaque to the framework
+   and can include version numbers, dependencies, requirements, and any other
+   data that the application wants to include to describe the file at
+   TARGETPATH.  The application may use this information to guide download
+   decisions.</p>
+   <p>DELEGATIONS is an object whose format is the following:</p>
+   <p>{ "keys" : {
+             KEYID : KEY,
+             ... },
+         "roles" : [{
+             "name": ROLENAME,
+             "keyids" : [ KEYID, ... ] ,
+             "threshold" : THRESHOLD,
+             ("path_hash_prefixes" : [ HEX_DIGEST, ... ] |
+              "paths" : [ PATHPATTERN, ... ]),
+             "terminating": TERMINATING,
+         }, ... ]
+       }</p>
+   <p>"keys" lists the public keys to verify signatures of delegated targets roles.
+   Revocation and replacement of delegated targets roles keys is done by
+   changing the keys in this field in the delegating role’s metadata.</p>
+   <p>ROLENAME is the name of the delegated role.  For example,
+   "projects".</p>
+   <p>TERMINATING is a boolean indicating whether subsequent delegations should be
+   considered.</p>
+   <p>As explained in the [Diplomat
+   paper](https://github.com/theupdateframework/tuf/blob/develop/docs/papers/protect-community-repositories-nsdi2016.pdf),
+   terminating delegations instruct the client not to consider future trust
+   statements that match the delegation’s pattern, which stops the delegation
+   processing once this delegation (and its descendants) have been processed.
+   A terminating delegation for a package causes any further statements about a
+   package that are not made by the delegated party or its descendants to be
+   ignored.</p>
+   <p>In order to discuss target paths, a role MUST specify only one of the
+   "path_hash_prefixes" or "paths" attributes, each of which we discuss next.</p>
+   <p>The "path_hash_prefixes" list is used to succinctly describe a set of target
+   paths. Specifically, each HEX_DIGEST in "path_hash_prefixes" describes a set
+   of target paths; therefore, "path_hash_prefixes" is the union over each
+   prefix of its set of target paths. The target paths must meet this
+   condition: each target path, when hashed with the SHA-256 hash function to
+   produce a 64-byte hexadecimal digest (HEX_DIGEST), must share the same
+   prefix as one of the prefixes in "path_hash_prefixes". This is useful to
+   split a large number of targets into separate bins identified by consistent
+   hashing.</p>
+   <p>The "paths" list describes paths that the role is trusted to provide.
+   Clients MUST check that a target is in one of the trusted paths of all roles
+   in a delegation chain, not just in a trusted path of the role that describes
+   the target file.  PATHPATTERN can include shell-style wildcards and supports
+   the Unix filename pattern matching convention.  Its format may either
+   indicate a path to a single file, or to multiple paths with the use of
+   shell-style wildcards.  For example, the path pattern "targets/*.tgz" would
+   match file paths "targets/foo.tgz" and "targets/bar.tgz", but not
+   "targets/foo.txt".  Likewise, path pattern "foo-version-?.tgz" matches
+   "foo-version-2.tgz" and "foo-version-a.tgz", but not "foo-version-alpha.tgz".
+   To avoid surprising behavior when matching targets with PATHPATTERN, it is
+   RECOMMENDED that PATHPATTERN uses the forward slash (/) as directory
+   separator and does not start with a directory separator, akin to
+   TARGETSPATH.</p>
+   <p>Prioritized delegations allow clients to resolve conflicts between delegated
+   roles that share responsibility for overlapping target paths.  To resolve
+   conflicts, clients must consider metadata in order of appearance of delegations;
+   we treat the order of delegations such that the first delegation is trusted
+   over the second one, the second delegation is trusted more than the third
+   one, and so on. Likewise, the metadata of the first delegation will override that
+   of the second delegation, the metadata of the second delegation will override
+   that of the third one, etc. In order to accommodate prioritized
+   delegations, the "roles" key in the DELEGATIONS object above points to an array
+   of delegated roles, rather than to a hash table.</p>
+   <p>The metadata files for delegated target roles has the same format as the
+   top-level targets.json metadata file.</p>
+   <p>A targets.json example file:</p>
+   <p>{
+       "signatures": [
+        {
+         "keyid": "135c2f50e57ff11e744d234a62cebad8c38daf399604a7655661cc9199c69164",
+         "sig": "e9fd40008fba263758a3ff1dc59f93e42a4910a282749af915fbbea1401178e5a0
+                 12090c228f06db1deb75ad8ddd7e40635ac51d4b04301fce0fd720074e0209"
+        }
+       ],
+       "signed": {
+        "_type": "targets",
+        "spec_version": "1.0.0",
+        "delegations": {
+         "keys": {
+          "f761033eb880143c52358d941d987ca5577675090e2215e856ba0099bc0ce4f6": {
+           "keytype": "ed25519",
+           "scheme": "ed25519",
+           "keyval": {
+            "public": "b6e40fb71a6041212a3d84331336ecaa1f48a0c523f80ccc762a034c727606fa"
+           }
+          }
+         },
+         "roles": [
+          {
+           "keyids": [
+            "f761033eb880143c52358d941d987ca5577675090e2215e856ba0099bc0ce4f6"
+           ],
+           "name": "project",
+           "paths": [
+            "project/file3.txt"
+           ],
+           "threshold": 1
+          }
+         ]
+        },
+        "expires": "2030-01-01T00:00:00Z",
+        "targets": {
+         "file1.txt": {
+          "hashes": {
+           "sha256": "65b8c67f51c993d898250f40aa57a317d854900b3a04895464313e48785440da"
+          },
+          "length": 31
+         },
+         "dir/file2.txt": {
+          "hashes": {
+           "sha256": "452ce8308500d83ef44248d8e6062359211992fd837ea9e370e561efb1a4ca99"
+          },
+          "length": 39
+         }
+        },
+        "version": 1
+        }
+       }</p>
+   <h3 class="heading settled" data-level="4.6" id="file-formats-timestampjson"><span class="secno">4.6. </span><span class="content">File formats: timestamp.json</span><a class="self-link" href="#file-formats-timestampjson"></a></h3>
+   <p>The timestamp file is signed by a timestamp key.  It indicates the latest
+   version of the snapshot metadata and is frequently re-signed to limit the
+   amount of time a client can be kept unaware of interference with obtaining
+   updates.</p>
+   <p>Timestamp files will potentially be downloaded very frequently.  Unnecessary
+   information in them will be avoided.</p>
+   <p>The "signed" portion of timestamp.json is as follows:</p>
+   <p>{ "_type" : "timestamp",
+         "spec_version" : SPEC_VERSION,
+         "version" : VERSION,
+         "expires" : EXPIRES,
+         "meta" : METAFILES
+       }</p>
+   <p>SPEC_VERSION, VERSION and EXPIRES are the same as is described for the root.json file.</p>
+   <p>METAFILES is the same as described for the snapshot.json file.  In the case
+   of the timestamp.json file, this MUST only include a description of the
+   snapshot.json file.</p>
+   <p>A signed timestamp.json example file:</p>
+   <p>{
+       "signatures": [
+        {
+         "keyid": "1bf1c6e3cdd3d3a8420b19199e27511999850f4b376c4547b2f32fba7e80fca3",
+         "sig": "90d2a06c7a6c2a6a93a9f5771eb2e5ce0c93dd580bebc2080d10894623cfd6eaed
+                 f4df84891d5aa37ace3ae3736a698e082e12c300dfe5aee92ea33a8f461f02"
+        }
+       ],
+       "signed": {
+        "_type": "timestamp",
+        "spec_version": "1.0.0",
+        "expires": "2030-01-01T00:00:00Z",
+        "meta": {
+         "snapshot.json": {
+          "hashes": {
+           "sha256": "c14aeb4ac9f4a8fc0d83d12482b9197452f6adf3eb710e3b1e2b79e8d14cb681"
+          },
+          "length": 1007,
+          "version": 1
+         }
+        },
+        "version": 1
+        }
+       }</p>
+   <h3 class="heading settled" data-level="4.7" id="file-formats-mirrorsjson"><span class="secno">4.7. </span><span class="content">File formats: mirrors.json</span><a class="self-link" href="#file-formats-mirrorsjson"></a></h3>
+   <p>The mirrors.json file is signed by the mirrors role.  It indicates which
+   mirrors are active and believed to be mirroring specific parts of the
+   repository.</p>
+   <p>The "signed" portion of mirrors.json is as follows:</p>
+   <p>{ "_type" : "mirrors",
+       "spec_version" : SPEC_VERSION,
+       "version" : VERSION,
+       "expires" : EXPIRES,
+       "mirrors" : [
+          { "urlbase" : URLBASE,
+            "metapath" : METAPATH,
+            "targetspath" : TARGETSPATH,
+            "metacontent" : [ PATHPATTERN ... ] ,
+            "targetscontent" : [ PATHPATTERN ... ] ,
+            ("custom" : { ... }) }
+          , ... ]
+      }</p>
+   <p>URLBASE is the URL of the mirror which METAPATH and TARGETSPATH are relative
+   to.  All metadata files will be retrieved from METAPATH and all target files
+   will be retrieved from TARGETSPATH.</p>
+   <p>The lists of PATHPATTERN for "metacontent" and "targetscontent" describe the
+   metadata files and target files available from the mirror.</p>
+   <p>The order of the list of mirrors is important.  For any file to be
+   downloaded, whether it is a metadata file or a target file, the framework on
+   the client will give priority to the mirrors that are listed first.  That is,
+   the first mirror in the list whose "metacontent" or "targetscontent" include
+   a path that indicate the desired file can be found there will the first
+   mirror that will be used to download that file.  Successive mirrors with
+   matching paths will only be tried if downloading from earlier mirrors fails.
+   This behavior can be modified by the client code that uses the framework to,
+   for example, randomly select from the listed mirrors.</p>
+   <h2 class="heading settled" data-level="5" id="detailed-workflows"><span class="secno">5. </span><span class="content">Detailed Workflows</span><a class="self-link" href="#detailed-workflows"></a></h2>
+   <h3 class="heading settled" data-level="5.1" id="the-client-application"><span class="secno">5.1. </span><span class="content">The client application</span><a class="self-link" href="#the-client-application"></a></h3>
    <p class="note" role="note"><span>Note:</span> If a step in the following workflow does not succeed (e.g., the update
   is aborted because a new metadata file was not signed), the client should
   still be able to update again in the future. Errors raised during the update
   process should not leave clients in an unrecoverable state.</p>
-   <p>**5.0**. **Load the trusted root metadata file.** We assume that a good,
+   <h3 class="heading settled" data-level="5.2" id="load-the-trusted-root-metadata-file"><span class="secno">5.2. </span><span class="content">Load the trusted root metadata file.</span><a class="self-link" href="#load-the-trusted-root-metadata-file"></a></h3>
+   <p>We assume that a good,
   trusted copy of this file was shipped with the package manager or software
   updater using an out-of-band process.  Note that the expiration of the
   trusted root metadata file does not matter, because we will attempt to update
   it in the next step.</p>
-   <p>**5.1**. **Update the root metadata file.** Since it may now be signed using
+   <h3 class="heading settled" data-level="5.3" id="update-the-root-metadata-file"><span class="secno">5.3. </span><span class="content">Update the root metadata file.</span><a class="self-link" href="#update-the-root-metadata-file"></a></h3>
+   <p>Since it may now be signed using
   entirely different keys, the client MUST somehow be able to establish a
   trusted line of continuity to the latest set of keys (see Section 6.1). To do
   so, the client MUST download intermediate root metadata files, until the
   latest available one is reached. Therefore, it MUST temporarily turn on
   consistent snapshots in order to download _versioned_ root metadata files as
   described next.</p>
-   <ul>
-    <li data-md>
-     <p>**5.1.1**. Let N denote the version number of the trusted root metadata
-file.</p>
-    <li data-md>
-     <p>**5.1.2**. **Try downloading version N+1 of the root metadata file**, up to
-some W number of bytes (because the size is unknown). The value for W is set
-by the authors of the application using TUF. For example, W may be tens of
-kilobytes. The filename used to download the root metadata file is of the
-fixed form VERSION_NUMBER.FILENAME.EXT (e.g., 42.root.json). If this file is
-not available, or we have downloaded more than Y number of root metadata
-files (because the exact number is as yet unknown), then go to step 5.1.9.
-The value for Y is set by the authors of the application using TUF. For
-example, Y may be 2^10.</p>
-    <li data-md>
-     <p>**5.1.3. Check for an arbitrary software attack.** Version N+1 of the root
-metadata file MUST have been signed by: (1) a threshold of keys specified in
-the trusted root metadata file (version N), and (2) a threshold of keys
-specified in the new root metadata file being validated (version N+1).  If
-version N+1 is not signed as required, discard it, abort the update cycle,
-and report the signature failure.  On the next update cycle, begin at step
-5.0 and version N of the root metadata file.</p>
-    <li data-md>
-     <p>**5.1.4. Check for a rollback attack.** The version number of the trusted
-root metadata file (version N) MUST be less than or equal to the version
-number of the new root metadata file (version N+1). Effectively, this means
-checking that the version number signed in the new root metadata file is
-indeed N+1.  If the version of the new root metadata file is less than the
-trusted metadata file, discard it, abort the update cycle, and report the
-rollback attack.  On the next update cycle, begin at step 5.0 and version N
-of the root metadata file.</p>
-    <li data-md>
-     <p>**5.1.5**. Note that the expiration of the new (intermediate) root metadata
-file does not matter yet, because we will check for it in step 5.1.9.</p>
-    <li data-md>
-     <p>**5.1.6**. **Set the trusted root metadata file** to the new root metadata
-file.</p>
-    <li data-md>
-     <p>**5.1.7**. **Persist root metadata.** The client MUST write the file to
-non-volatile storage as FILENAME.EXT (e.g. root.json).</p>
-    <li data-md>
-     <p>**5.1.8**. **Repeat steps 5.1.1 to 5.1.8**.</p>
-    <li data-md>
-     <p>**5.1.9**. **Check for a freeze attack.** The latest known time MUST be
-lower than the expiration timestamp in the trusted root metadata file
-(version N).  If the trusted root metadata file has expired, abort the update
-cycle, report the potential freeze attack.  On the next update cycle, begin
-at step 5.0 and version N of the root metadata file.</p>
-    <li data-md>
-     <p>**5.1.10**. **If the timestamp and / or snapshot keys have been rotated,
-then delete the trusted timestamp and snapshot metadata files.** This is done
-in order to recover from fast-forward attacks after the repository has been
-compromised and recovered. A _fast-forward attack_ happens when attackers
-arbitrarily increase the version numbers of: (1) the timestamp metadata, (2)
-the snapshot metadata, and / or (3) the targets, or a delegated targets,
-metadata file in the snapshot metadata. Please see [the Mercury
-paper](https://ssl.engineering.nyu.edu/papers/kuppusamy-mercury-usenix-2017.pdf)
-for more details.</p>
-    <li data-md>
-     <p>**5.1.11**. **Set whether consistent snapshots are used as per the trusted
-root metadata file** (see Section 4.3).</p>
-   </ul>
-   <p>**5.2**. **Download the timestamp metadata file**, up to X number of bytes
-  (because the size is unknown). The value for X is set by the authors of the
+   <h4 class="heading settled" data-level="5.3.1" id="let-n-denote-the-version-number-of-the-trusted-root-metadata"><span class="secno">5.3.1. </span><span class="content">Let N denote the version number of the trusted root metadata</span><a class="self-link" href="#let-n-denote-the-version-number-of-the-trusted-root-metadata"></a></h4>
+    file. 
+   <h4 class="heading settled" data-level="5.3.2" id="try-downloading-version-n1-of-the-root-metadata-file"><span class="secno">5.3.2. </span><span class="content">Try downloading version N+1 of the root metadata file</span><a class="self-link" href="#try-downloading-version-n1-of-the-root-metadata-file"></a></h4>
+   <p>, up to
+    some W number of bytes (because the size is unknown). The value for W is set
+    by the authors of the application using TUF. For example, W may be tens of
+    kilobytes. The filename used to download the root metadata file is of the
+    fixed form VERSION_NUMBER.FILENAME.EXT (e.g., 42.root.json). If this file is
+    not available, or we have downloaded more than Y number of root metadata
+    files (because the exact number is as yet unknown), then go to step 5.1.9.
+    The value for Y is set by the authors of the application using TUF. For
+    example, Y may be 2^10.</p>
+   <h4 class="heading settled" data-level="5.3.3" id="check-for-an-arbitrary-software-attack"><span class="secno">5.3.3. </span><span class="content">Check for an arbitrary software attack</span><a class="self-link" href="#check-for-an-arbitrary-software-attack"></a></h4>
+   <p>Version N+1 of the root
+    metadata file MUST have been signed by: (1) a threshold of keys specified in
+    the trusted root metadata file (version N), and (2) a threshold of keys
+    specified in the new root metadata file being validated (version N+1).  If
+    version N+1 is not signed as required, discard it, abort the update cycle,
+    and report the signature failure.  On the next update cycle, begin at step
+    5.0 and version N of the root metadata file.</p>
+   <h4 class="heading settled" data-level="5.3.4" id="check-for-a-rollback-attack"><span class="secno">5.3.4. </span><span class="content">Check for a rollback attack.**</span><a class="self-link" href="#check-for-a-rollback-attack"></a></h4>
+   <p>The version number of the trusted
+    root metadata file (version N) MUST be less than or equal to the version
+    number of the new root metadata file (version N+1). Effectively, this means
+    checking that the version number signed in the new root metadata file is
+    indeed N+1.  If the version of the new root metadata file is less than the
+    trusted metadata file, discard it, abort the update cycle, and report the
+    rollback attack.  On the next update cycle, begin at step 5.0 and version N
+    of the root metadata file.</p>
+   <h4 class="heading settled" data-level="5.3.5" id="note-that-the-expiration-of-the-new-intermediate-root-metadata"><span class="secno">5.3.5. </span><span class="content">Note that the expiration of the new (intermediate) root metadata</span><a class="self-link" href="#note-that-the-expiration-of-the-new-intermediate-root-metadata"></a></h4>
+    file does not matter yet, because we will check for it in step 5.1.9. 
+   <h4 class="heading settled" data-level="5.3.6" id="set-the-trusted-root-metadata-file"><span class="secno">5.3.6. </span><span class="content">Set the trusted root metadata file</span><a class="self-link" href="#set-the-trusted-root-metadata-file"></a></h4>
+   <p>to the new root metadata
+    file.</p>
+   <h4 class="heading settled" data-level="5.3.7" id="persist-root-metadata"><span class="secno">5.3.7. </span><span class="content">Persist root metadata</span><a class="self-link" href="#persist-root-metadata"></a></h4>
+   <p>The client MUST write the file to
+    non-volatile storage as FILENAME.EXT (e.g. root.json).</p>
+   <h4 class="heading settled" data-level="5.3.8" id="repeat-steps-511-to-518"><span class="secno">5.3.8. </span><span class="content">Repeat steps 5.1.1 to 5.1.8</span><a class="self-link" href="#repeat-steps-511-to-518"></a></h4>
+   <h4 class="heading settled" data-level="5.3.9" id="check-for-a-freeze-attack"><span class="secno">5.3.9. </span><span class="content">Check for a freeze attack</span><a class="self-link" href="#check-for-a-freeze-attack"></a></h4>
+   <p>The latest known time MUST be
+    lower than the expiration timestamp in the trusted root metadata file
+    (version N).  If the trusted root metadata file has expired, abort the update
+    cycle, report the potential freeze attack.  On the next update cycle, begin
+    at step 5.0 and version N of the root metadata file.</p>
+   <h4 class="heading settled" data-level="5.3.10" id="if-the-timestamp-and-or-snapshot-keys-have-been-rotated"><span class="secno">5.3.10. </span><span class="content">If the timestamp and / or snapshot keys have been rotated,</span><a class="self-link" href="#if-the-timestamp-and-or-snapshot-keys-have-been-rotated"></a></h4>
+   <p>then delete the trusted timestamp and snapshot metadata files.** This is done
+    in order to recover from fast-forward attacks after the repository has been
+    compromised and recovered. A _fast-forward attack_ happens when attackers
+    arbitrarily increase the version numbers of: (1) the timestamp metadata, (2)
+    the snapshot metadata, and / or (3) the targets, or a delegated targets,
+    metadata file in the snapshot metadata. Please see [the Mercury
+    paper](https://ssl.engineering.nyu.edu/papers/kuppusamy-mercury-usenix-2017.pdf)
+    for more details.</p>
+   <h4 class="heading settled" data-level="5.3.11" id="set-whether-consistent-snapshots-are-used-as-per-the-trusted"><span class="secno">5.3.11. </span><span class="content">**Set whether consistent snapshots are used as per the trusted</span><a class="self-link" href="#set-whether-consistent-snapshots-are-used-as-per-the-trusted"></a></h4>
+    root metadata file** (see Section 4.3). 
+   <h3 class="heading settled" data-level="5.4" id="download-the-timestamp-metadata-file-up-to-x-number-of-bytes"><span class="secno">5.4. </span><span class="content">**Download the timestamp metadata file**, up to X number of bytes</span><a class="self-link" href="#download-the-timestamp-metadata-file-up-to-x-number-of-bytes"></a></h3>
+    (because the size is unknown). The value for X is set by the authors of the
   application using TUF. For example, X may be tens of kilobytes. The filename
   used to download the timestamp metadata file is of the fixed form FILENAME.EXT
-  (e.g., timestamp.json).</p>
-   <ul>
-    <li data-md>
-     <p>**5.2.1**. **Check for an arbitrary software attack.** The new timestamp
-metadata file MUST have been signed by a threshold of keys specified in the
-trusted root metadata file.  If the new timestamp metadata file is not
-properly signed, discard it, abort the update cycle, and report the signature
-failure.</p>
-    <li data-md>
-     <p>**5.2.2**. **Check for a rollback attack.**</p>
-     <ul>
-      <li data-md>
-       <p>**5.2.2.1**. The version number of the trusted timestamp metadata file, if
-any, MUST be less than or equal to the version number of the new timestamp
-metadata file.  If the new timestamp metadata file is older than the
-trusted timestamp metadata file, discard it, abort the update cycle, and
-report the potential rollback attack.</p>
-      <li data-md>
-       <p>**5.2.2.2**. The version number of the snapshot metadata file in the
-trusted timestamp metadata file, if any, MUST be less than or equal to its
-version number in the new timestamp metadata file.  If not, discard the new
-timestamp metadata file, abort the update cycle, and report the failure.</p>
-     </ul>
-    <li data-md>
-     <p>**5.2.3**. **Check for a freeze attack.** The latest known time MUST be
-lower than the expiration timestamp in the new timestamp metadata file.  If
-so, the new timestamp metadata file becomes the trusted timestamp metadata
-file.  If the new timestamp metadata file has expired, discard it, abort the
-update cycle, and report the potential freeze attack.</p>
-    <li data-md>
-     <p>**5.2.4**. **Persist timestamp metadata.** The client MUST write the file
-to non-volatile storage as FILENAME.EXT (e.g. timestamp.json).</p>
-   </ul>
-   <p>**5.3**. **Download snapshot metadata file**, up to either the number of bytes
-  specified in the timestamp metadata file, or some Y number of bytes. The value
+  (e.g., timestamp.json). 
+   <h4 class="heading settled" data-level="5.4.1" id="check-for-an-arbitrary-software-attack①"><span class="secno">5.4.1. </span><span class="content">Check for an arbitrary software attack</span><a class="self-link" href="#check-for-an-arbitrary-software-attack①"></a></h4>
+   <p>The new timestamp
+    metadata file MUST have been signed by a threshold of keys specified in the
+    trusted root metadata file.  If the new timestamp metadata file is not
+    properly signed, discard it, abort the update cycle, and report the signature
+    failure.</p>
+   <h4 class="heading settled" data-level="5.4.2" id="check-for-a-rollback-attack①"><span class="secno">5.4.2. </span><span class="content">Check for a rollback attack</span><a class="self-link" href="#check-for-a-rollback-attack①"></a></h4>
+   <h5 class="heading settled" data-level="5.4.2.1" id="the-version-number-of-the-trusted-timestamp-metadata-file-if"><span class="secno">5.4.2.1. </span><span class="content">The version number of the trusted timestamp metadata file, if</span><a class="self-link" href="#the-version-number-of-the-trusted-timestamp-metadata-file-if"></a></h5>
+    any, MUST be less than or equal to the version number of the new timestamp
+      metadata file.  If the new timestamp metadata file is older than the
+      trusted timestamp metadata file, discard it, abort the update cycle, and
+      report the potential rollback attack. 
+   <h5 class="heading settled" data-level="5.4.2.2" id="the-version-number-of-the-snapshot-metadata-file-in-the"><span class="secno">5.4.2.2. </span><span class="content">The version number of the snapshot metadata file in the</span><a class="self-link" href="#the-version-number-of-the-snapshot-metadata-file-in-the"></a></h5>
+    trusted timestamp metadata file, if any, MUST be less than or equal to its
+      version number in the new timestamp metadata file.  If not, discard the new
+      timestamp metadata file, abort the update cycle, and report the failure. 
+   <h4 class="heading settled" data-level="5.4.3" id="check-for-a-freeze-attack①"><span class="secno">5.4.3. </span><span class="content">Check for a freeze attack</span><a class="self-link" href="#check-for-a-freeze-attack①"></a></h4>
+   <p>The latest known time MUST be
+    lower than the expiration timestamp in the new timestamp metadata file.  If
+    so, the new timestamp metadata file becomes the trusted timestamp metadata
+    file.  If the new timestamp metadata file has expired, discard it, abort the
+    update cycle, and report the potential freeze attack.</p>
+   <h4 class="heading settled" data-level="5.4.4" id="persist-timestamp-metadata"><span class="secno">5.4.4. </span><span class="content">Persist timestamp metadata</span><a class="self-link" href="#persist-timestamp-metadata"></a></h4>
+   <p>The client MUST write the file
+    to non-volatile storage as FILENAME.EXT (e.g. timestamp.json).</p>
+   <h3 class="heading settled" data-level="5.5" id="download-snapshot-metadata-file-up-to-either-the-number-of-bytes"><span class="secno">5.5. </span><span class="content">**Download snapshot metadata file**, up to either the number of bytes</span><a class="self-link" href="#download-snapshot-metadata-file-up-to-either-the-number-of-bytes"></a></h3>
+    specified in the timestamp metadata file, or some Y number of bytes. The value
   for Y is set by the authors of the application using TUF. For example, Y may be
   tens of kilobytes. If consistent snapshots are not used (see
   Section 7), then the filename used to download the snapshot metadata file is of
   the fixed form FILENAME.EXT (e.g., snapshot.json).  Otherwise, the filename is
   of the form VERSION_NUMBER.FILENAME.EXT (e.g., 42.snapshot.json), where
   VERSION_NUMBER is the version number of the snapshot metadata file listed in
-  the timestamp metadata file.</p>
-   <ul>
-    <li data-md>
-     <p>**5.3.1**. **Check against timestamp metadata.** The hashes and version
-number of the new snapshot metadata file MUST match the hashes, if any, and
-version number listed in the trusted timestamp metadata.  If hashes and
-version do not match, discard the new snapshot metadata, abort the update
-cycle, and report the failure.</p>
-    <li data-md>
-     <p>**5.3.2**. **Check for an arbitrary software attack.** The new snapshot
-metadata file MUST have been signed by a threshold of keys specified in the
-trusted root metadata file.  If the new snapshot metadata file is not signed
-as required, discard it, abort the update cycle, and report the signature
-failure.</p>
-    <li data-md>
-     <p>**5.3.3**. **Check for a rollback attack.** The version number of the targets
-metadata file, and all delegated targets metadata files, if any, in the
-trusted snapshot metadata file, if any, MUST be less than or equal to its
-version number in the new snapshot metadata file. Furthermore, any targets
-metadata filename that was listed in the trusted snapshot metadata file, if
-any, MUST continue to be listed in the new snapshot metadata file.  If any of
-these conditions are not met, discard the new snapshot metadata file, abort
-the update cycle, and report the failure.</p>
-    <li data-md>
-     <p>**5.3.4**. **Check for a freeze attack.** The latest known time MUST be
-lower than the expiration timestamp in the new snapshot metadata file.  If
-so, the new snapshot metadata file becomes the trusted snapshot metadata
-file. If the new snapshot metadata file is expired, discard it, abort the
-update cycle, and report the potential freeze attack.</p>
-    <li data-md>
-     <p>**5.3.5**. **Persist snapshot metadata.** The client MUST write the file to
-non-volatile storage as FILENAME.EXT (e.g. snapshot.json).</p>
-   </ul>
-   <p>**5.4**. **Download the top-level targets metadata file**, up to either the
-  number of bytes specified in the snapshot metadata file, or some Z number of
+  the timestamp metadata file. 
+   <h4 class="heading settled" data-level="5.5.1" id="check-against-timestamp-metadata"><span class="secno">5.5.1. </span><span class="content">Check against timestamp metadata</span><a class="self-link" href="#check-against-timestamp-metadata"></a></h4>
+   <p>The hashes and version
+    number of the new snapshot metadata file MUST match the hashes, if any, and
+    version number listed in the trusted timestamp metadata.  If hashes and
+    version do not match, discard the new snapshot metadata, abort the update
+    cycle, and report the failure.</p>
+   <h4 class="heading settled" data-level="5.5.2" id="check-for-an-arbitrary-software-attack②"><span class="secno">5.5.2. </span><span class="content">Check for an arbitrary software attack</span><a class="self-link" href="#check-for-an-arbitrary-software-attack②"></a></h4>
+   <p>The new snapshot
+    metadata file MUST have been signed by a threshold of keys specified in the
+    trusted root metadata file.  If the new snapshot metadata file is not signed
+    as required, discard it, abort the update cycle, and report the signature
+    failure.</p>
+   <h4 class="heading settled" data-level="5.5.3" id="check-for-a-rollback-attack②"><span class="secno">5.5.3. </span><span class="content">Check for a rollback attack</span><a class="self-link" href="#check-for-a-rollback-attack②"></a></h4>
+   <p>The version number of the targets
+    metadata file, and all delegated targets metadata files, if any, in the
+    trusted snapshot metadata file, if any, MUST be less than or equal to its
+    version number in the new snapshot metadata file. Furthermore, any targets
+    metadata filename that was listed in the trusted snapshot metadata file, if
+    any, MUST continue to be listed in the new snapshot metadata file.  If any of
+    these conditions are not met, discard the new snapshot metadata file, abort
+    the update cycle, and report the failure.</p>
+   <h4 class="heading settled" data-level="5.5.4" id="check-for-a-freeze-attack②"><span class="secno">5.5.4. </span><span class="content">Check for a freeze attack</span><a class="self-link" href="#check-for-a-freeze-attack②"></a></h4>
+   <p>The latest known time MUST be
+    lower than the expiration timestamp in the new snapshot metadata file.  If
+    so, the new snapshot metadata file becomes the trusted snapshot metadata
+    file. If the new snapshot metadata file is expired, discard it, abort the
+    update cycle, and report the potential freeze attack.</p>
+   <h4 class="heading settled" data-level="5.5.5" id="persist-snapshot-metadata"><span class="secno">5.5.5. </span><span class="content">Persist snapshot metadata</span><a class="self-link" href="#persist-snapshot-metadata"></a></h4>
+   <p>The client MUST write the file to
+    non-volatile storage as FILENAME.EXT (e.g. snapshot.json).</p>
+   <h3 class="heading settled" data-level="5.6" id="download-the-top-level-targets-metadata-file-up-to-either-the"><span class="secno">5.6. </span><span class="content">**Download the top-level targets metadata file**, up to either the</span><a class="self-link" href="#download-the-top-level-targets-metadata-file-up-to-either-the"></a></h3>
+    number of bytes specified in the snapshot metadata file, or some Z number of
   bytes. The value for Z is set by the authors of the application using TUF. For
   example, Z may be tens of kilobytes.  If consistent snapshots are not used (see
   Section 7), then the filename used to download the targets metadata file is of
   the fixed form FILENAME.EXT (e.g., targets.json).  Otherwise, the filename is
   of the form VERSION_NUMBER.FILENAME.EXT (e.g., 42.targets.json), where
   VERSION_NUMBER is the version number of the targets metadata file listed in the
-  snapshot metadata file.</p>
-   <ul>
-    <li data-md>
-     <p>**5.4.1**. **Check against snapshot metadata.** The hashes and version
-number of the new targets metadata file MUST match the hashes, if any, and
-version number listed in the trusted snapshot metadata.  This is done, in
-part, to prevent a mix-and-match attack by man-in-the-middle attackers.  If
-the new targets metadata file does not match, discard it, abort the update
-cycle, and report the failure.</p>
-    <li data-md>
-     <p>**5.4.2**. **Check for an arbitrary software attack.** The new targets
-metadata file MUST have been signed by a threshold of keys specified in the
-trusted root metadata file.  If the new targets metadata file is not signed
-as required, discard it, abort the update cycle, and report the failure.</p>
-    <li data-md>
-     <p>**5.4.3**. **Check for a freeze attack.** The latest known time MUST be
-lower than the expiration timestamp in the new targets metadata file.  If so,
-the new targets metadata file becomes the trusted targets metadata file.  If
-the new targets metadata file is expired, discard it, abort the update cycle,
-and report the potential freeze attack.</p>
-    <li data-md>
-     <p>**5.4.4**. **Persist targets metadata.** The client MUST write the file to
-non-volatile storage as FILENAME.EXT (e.g. targets.json).</p>
-    <li data-md>
-     <p>**5.4.5**. **Perform a pre-order depth-first search for metadata about the
-desired target, beginning with the top-level targets role.**  Note: If
-any metadata requested in steps 5.4.5.1 - 5.4.5.2 cannot be downloaded nor
-validated, end the search and report that the target cannot be found.</p>
-     <ul>
-      <li data-md>
-       <p>**5.4.5.1**. If this role has been visited before, then skip this role
-(so that cycles in the delegation graph are avoided).  Otherwise, if an
-application-specific maximum number of roles have been visited, then go to
-step 5.5 (so that attackers cannot cause the client to waste excessive
-bandwidth or time).  Otherwise, if this role contains metadata about the
-desired target, then go to step 5.5.</p>
-      <li data-md>
-       <p>**5.4.5.2**. Otherwise, recursively search the list of delegations in
-order of appearance.</p>
-       <ul>
-        <li data-md>
-         <p>**5.4.5.2.1**. If the current delegation is a multi-role delegation,
-recursively visit each role, and check that each has signed exactly the
-same non-custom metadata (i.e., length and hashes) about the target (or
-the lack of any such metadata).</p>
-        <li data-md>
-         <p>**5.4.5.2.2**. If the current delegation is a terminating delegation,
-then jump to step 5.5.</p>
-        <li data-md>
-         <p>**5.4.5.2.3**. Otherwise, if the current delegation is a
-non-terminating delegation, continue processing the next delegation, if
-any. Stop the search, and jump to step 5.5 as soon as a delegation
-returns a result.</p>
-       </ul>
-     </ul>
-   </ul>
-   <p>**5.5**. **Verify the desired target against its targets metadata**.</p>
-   <ul>
-    <li data-md>
-     <p>**5.5.1**. If there is no targets metadata about this target, abort the
-update cycle and report that there is no such target.</p>
-    <li data-md>
-     <p>**5.5.2**. Otherwise, download the target (up to the number of bytes
-specified in the targets metadata), and verify that its hashes match the
-targets metadata. (We download up to this number of bytes, because in some
-cases, the exact number is unknown. This may happen, for example, if an
-external program is used to compute the root hash of a tree of targets files,
-and this program does not provide the total size of all of these files.) If
-consistent snapshots are not used (see Section 7), then the filename used to
-download the target file is of the fixed form FILENAME.EXT (e.g.,
-foobar.tar.gz).  Otherwise, the filename is of the form HASH.FILENAME.EXT
-(e.g.,
-c14aeb4ac9f4a8fc0d83d12482b9197452f6adf3eb710e3b1e2b79e8d14cb681.foobar.tar.gz),
-where HASH is one of the hashes of the targets file listed in the targets
-metadata file found earlier in step 4.  In either case, the client MUST write
-the file to non-volatile storage as FILENAME.EXT.</p>
-   </ul>
-   <h3 class="heading settled" id="6-usage"><span class="content">**6. Usage**</span></h3>
+  snapshot metadata file. 
+   <h4 class="heading settled" data-level="5.6.1" id="check-against-snapshot-metadata"><span class="secno">5.6.1. </span><span class="content">Check against snapshot metadata</span><a class="self-link" href="#check-against-snapshot-metadata"></a></h4>
+   <p>The hashes and version
+    number of the new targets metadata file MUST match the hashes, if any, and
+    version number listed in the trusted snapshot metadata.  This is done, in
+    part, to prevent a mix-and-match attack by man-in-the-middle attackers.  If
+    the new targets metadata file does not match, discard it, abort the update
+    cycle, and report the failure.</p>
+   <h4 class="heading settled" data-level="5.6.2" id="check-for-an-arbitrary-software-attack③"><span class="secno">5.6.2. </span><span class="content">**Check for an arbitrary software attack</span><a class="self-link" href="#check-for-an-arbitrary-software-attack③"></a></h4>
+   <p>The new targets
+    metadata file MUST have been signed by a threshold of keys specified in the
+    trusted root metadata file.  If the new targets metadata file is not signed
+    as required, discard it, abort the update cycle, and report the failure.</p>
+   <h4 class="heading settled" data-level="5.6.3" id="check-for-a-freeze-attack③"><span class="secno">5.6.3. </span><span class="content">**Check for a freeze attack</span><a class="self-link" href="#check-for-a-freeze-attack③"></a></h4>
+   <p>The latest known time MUST be
+    lower than the expiration timestamp in the new targets metadata file.  If so,
+    the new targets metadata file becomes the trusted targets metadata file.  If
+    the new targets metadata file is expired, discard it, abort the update cycle,
+    and report the potential freeze attack.</p>
+   <h4 class="heading settled" data-level="5.6.4" id="persist-targets-metadata"><span class="secno">5.6.4. </span><span class="content">Persist targets metadata</span><a class="self-link" href="#persist-targets-metadata"></a></h4>
+   <p>The client MUST write the file to
+    non-volatile storage as FILENAME.EXT (e.g. targets.json).</p>
+   <h4 class="heading settled" data-level="5.6.5" id="perform-a-pre-order-depth-first-search-for-metadata-about-the-desired-target-beginning-with-the-top-level-targets-role"><span class="secno">5.6.5. </span><span class="content">Perform a pre-order depth-first search for metadata about the desired target, beginning with the top-level targets role</span><a class="self-link" href="#perform-a-pre-order-depth-first-search-for-metadata-about-the-desired-target-beginning-with-the-top-level-targets-role"></a></h4>
+   <p class="note" role="note"><span>Note:</span> If
+    any metadata requested in steps 5.4.5.1 - 5.4.5.2 cannot be downloaded nor
+    validated, end the search and report that the target cannot be found.</p>
+   <h5 class="heading settled" data-level="5.6.5.1" id="if-this-role-has-been-visited-before-then-skip-this-role"><span class="secno">5.6.5.1. </span><span class="content">If this role has been visited before, then skip this role</span><a class="self-link" href="#if-this-role-has-been-visited-before-then-skip-this-role"></a></h5>
+    (so that cycles in the delegation graph are avoided).  Otherwise, if an
+      application-specific maximum number of roles have been visited, then go to
+      step 5.5 (so that attackers cannot cause the client to waste excessive
+      bandwidth or time).  Otherwise, if this role contains metadata about the
+      desired target, then go to step 5.5. 
+   <h5 class="heading settled" data-level="5.6.5.2" id="otherwise-recursively-search-the-list-of-delegations-in"><span class="secno">5.6.5.2. </span><span class="content">Otherwise, recursively search the list of delegations in</span><a class="self-link" href="#otherwise-recursively-search-the-list-of-delegations-in"></a></h5>
+    order of appearance. 
+   <h6 class="heading settled" data-level="5.6.5.2.1" id="if-the-current-delegation-is-a-multi-role-delegation"><span class="secno">5.6.5.2.1. </span><span class="content">If the current delegation is a multi-role delegation,</span><a class="self-link" href="#if-the-current-delegation-is-a-multi-role-delegation"></a></h6>
+    recursively visit each role, and check that each has signed exactly the
+        same non-custom metadata (i.e., length and hashes) about the target (or
+        the lack of any such metadata). 
+   <h6 class="heading settled" data-level="5.6.5.2.2" id="if-the-current-delegation-is-a-terminating-delegation"><span class="secno">5.6.5.2.2. </span><span class="content">If the current delegation is a terminating delegation,</span><a class="self-link" href="#if-the-current-delegation-is-a-terminating-delegation"></a></h6>
+    then jump to step 5.5. 
+   <h6 class="heading settled" data-level="5.6.5.2.3" id="otherwise-if-the-current-delegation-is-a"><span class="secno">5.6.5.2.3. </span><span class="content">Otherwise, if the current delegation is a</span><a class="self-link" href="#otherwise-if-the-current-delegation-is-a"></a></h6>
+    non-terminating delegation, continue processing the next delegation, if
+        any. Stop the search, and jump to step 5.5 as soon as a delegation
+        returns a result. 
+   <h3 class="heading settled" data-level="5.7" id="verify-the-desired-target-against-its-targets-metadata"><span class="secno">5.7. </span><span class="content">**Verify the desired target against its targets metadata**.</span><a class="self-link" href="#verify-the-desired-target-against-its-targets-metadata"></a></h3>
+   <h4 class="heading settled" data-level="5.7.1" id="if-there-is-no-targets-metadata-about-this-target-abort-the"><span class="secno">5.7.1. </span><span class="content">If there is no targets metadata about this target, abort the</span><a class="self-link" href="#if-there-is-no-targets-metadata-about-this-target-abort-the"></a></h4>
+    update cycle and report that there is no such target. 
+   <h4 class="heading settled" data-level="5.7.2" id="otherwise-download-the-target-up-to-the-number-of-bytes"><span class="secno">5.7.2. </span><span class="content">Otherwise, download the target (up to the number of bytes</span><a class="self-link" href="#otherwise-download-the-target-up-to-the-number-of-bytes"></a></h4>
+    specified in the targets metadata), and verify that its hashes match the
+    targets metadata. (We download up to this number of bytes, because in some
+    cases, the exact number is unknown. This may happen, for example, if an
+    external program is used to compute the root hash of a tree of targets files,
+    and this program does not provide the total size of all of these files.) If
+    consistent snapshots are not used (see Section 7), then the filename used to
+    download the target file is of the fixed form FILENAME.EXT (e.g.,
+    foobar.tar.gz).  Otherwise, the filename is of the form HASH.FILENAME.EXT
+    (e.g.,
+    c14aeb4ac9f4a8fc0d83d12482b9197452f6adf3eb710e3b1e2b79e8d14cb681.foobar.tar.gz),
+    where HASH is one of the hashes of the targets file listed in the targets
+    metadata file found earlier in step 4.  In either case, the client MUST write
+    the file to non-volatile storage as FILENAME.EXT. 
+   <h2 class="heading settled" data-level="6" id="usage"><span class="secno">6. </span><span class="content">Usage</span><a class="self-link" href="#usage"></a></h2>
    <p>See https://theupdateframework.io/ for discussion of recommended usage
    in various situations.</p>
-   <ul>
-    <li data-md>
-     <p>**6.1. Key management and migration**</p>
-     <p>All keys, except those for the timestamp and mirrors roles, should be
- stored securely offline (e.g. encrypted and on a separate machine, in
- special-purpose hardware, etc.).  This document does not prescribe how keys
- should be encrypted and stored, and so it is left to implementers of
- this document to decide how best to secure them.</p>
-     <p>To replace a compromised root key or any other top-level role key, the root
- role signs a new root.json file that lists the updated trusted keys for the
- role.  When replacing root keys, an application will sign the new root.json
- file with both the new and old root keys. Any time such a change is
- required, the root.json file is versioned and accessible by version number,
- e.g., 3.root.json.</p>
-     <p>Clients that have outdated root keys can update to the latest set of trusted
- root keys, by incrementally downloading all intermediate root metadata
- files, and verifying that each current version of the root metadata is
- signed by a threshold of keys specified by its immediate predecessor as well
- as a threshold of keys specified by itself.
- For example, if there is a 1.root.json that has threshold 2 and a
- 2.root.json that has threshold 3, 2.root.json MUST be signed by at least 2
- keys defined in 1.root.json and at least 3 keys defined in 2.root.json. The
- client starts the root key update process with the latest version of root
- metadata available on the client, and stops when no version N+1 (where N is
- the latest trusted version) of the root metadata is available from the
- repository. This ensures that an outdated client can always correctly
- re-trace the chain of trust across multiple root key updates, even if the
- latest set of root keys on the client dates back multiple root metadata
- versions. See step 5.1 of the client application workflow for more details.</p>
-     <p>Note that an attacker, who controls the repository, can launch freeze
- attacks by withholding new root metadata. The attacker does not need to
- compromise root keys to do so. However, these freeze attacks are limited by
- the expiration time of the latest root metadata available to the client.</p>
-     <p>To replace a delegated developer key, the role that delegated to that key
- just replaces that key with another in the signed metadata where the
- delegation is done.</p>
-   </ul>
-   <h3 class="heading settled" id="7-consistent-snapshots"><span class="content">**7. Consistent Snapshots**</span></h3>
+   <h3 class="heading settled" data-level="6.1" id="key-management-and-migration"><span class="secno">6.1. </span><span class="content">Key management and migration</span><a class="self-link" href="#key-management-and-migration"></a></h3>
+   <p>All keys, except those for the timestamp and mirrors roles, should be
+   stored securely offline (e.g. encrypted and on a separate machine, in
+   special-purpose hardware, etc.).  This document does not prescribe how keys
+   should be encrypted and stored, and so it is left to implementers of
+   this document to decide how best to secure them.</p>
+   <p>To replace a compromised root key or any other top-level role key, the root
+   role signs a new root.json file that lists the updated trusted keys for the
+   role.  When replacing root keys, an application will sign the new root.json
+   file with both the new and old root keys. Any time such a change is
+   required, the root.json file is versioned and accessible by version number,
+   e.g., 3.root.json.</p>
+   <p>Clients that have outdated root keys can update to the latest set of trusted
+   root keys, by incrementally downloading all intermediate root metadata
+   files, and verifying that each current version of the root metadata is
+   signed by a threshold of keys specified by its immediate predecessor as well
+   as a threshold of keys specified by itself.
+   For example, if there is a 1.root.json that has threshold 2 and a
+   2.root.json that has threshold 3, 2.root.json MUST be signed by at least 2
+   keys defined in 1.root.json and at least 3 keys defined in 2.root.json. The
+   client starts the root key update process with the latest version of root
+   metadata available on the client, and stops when no version N+1 (where N is
+   the latest trusted version) of the root metadata is available from the
+   repository. This ensures that an outdated client can always correctly
+   re-trace the chain of trust across multiple root key updates, even if the
+   latest set of root keys on the client dates back multiple root metadata
+   versions. See step 5.1 of the client application workflow for more details.</p>
+   <p>Note that an attacker, who controls the repository, can launch freeze
+   attacks by withholding new root metadata. The attacker does not need to
+   compromise root keys to do so. However, these freeze attacks are limited by
+   the expiration time of the latest root metadata available to the client.</p>
+   <p>To replace a delegated developer key, the role that delegated to that key
+   just replaces that key with another in the signed metadata where the
+   delegation is done.</p>
+   <h2 class="heading settled" data-level="7" id="consistent-snapshots"><span class="secno">7. </span><span class="content">Consistent Snapshots</span><a class="self-link" href="#consistent-snapshots"></a></h2>
    <p>So far, we have considered a TUF repository that is relatively static (in
    terms of how often metadata and target files are updated). The problem is
    that if the repository (which may be a community repository such as PyPI,
@@ -2976,65 +3021,58 @@ the file to non-volatile storage as FILENAME.EXT.</p>
    so-called consistent snapshot. If a client is reading from one consistent
    snapshot, then the repository is free to write another consistent snapshot
    without interrupting that client.</p>
-   <ul>
-    <li data-md>
-     <p>**7.1. Writing consistent snapshots**</p>
-     <p>We now explain how a repository should write metadata and targets to
-  produce self-contained consistent snapshots.</p>
-     <p>Simply put, TUF should write every metadata file as such: if the
-  file had the original name of filename.ext, then it should be written to
-  non-volatile storage as version_number.filename.ext, where version_number
-  is an integer.</p>
-     <p>On the other hand, consistent target files should be written to
-  non-volatile storage as digest.filename.ext.  This means that if the
-  referrer metadata lists N cryptographic hashes of the referred file, then
-  there must be N identical copies of the referred file, where each file will
-  be distinguished only by the value of the digest in its filename. The
-  modified filename need not include the name of the cryptographic hash
-  function used to produce the digest because, on a read, the choice of
-  function follows from the selection of a digest (which includes the name of
-  the cryptographic function) from all digests in the referred file.</p>
-     <p>Additionally, the timestamp metadata (timestamp.json) should also be
-  written to non-volatile storage whenever it is updated. It is OPTIONAL for
-  an implementation to write identical copies at
-  version_number.timestamp.json for record-keeping purposes, because a
-  cryptographic hash of the timestamp metadata is usually not known in
-  advance. The same step applies to the root metadata (root.json), although
-  an implementation must write both root.json and version_number.root.json
-  because it is possible to download root metadata both with and without
-  known version numbers. These steps are required because these are the only
-  metadata files that may be requested without known version numbers.</p>
-     <p>Most importantly, no metadata file format must be updated to refer to the
-  names of metadata or target files with their version numbers included. In
-  other words, if a metadata file A refers to another metadata file B as
-  filename.ext, then the filename must remain as filename.ext and not
-  version_number.filename.ext. This rule is in place so that metadata signed
-  by roles with offline keys will not be forced to sign for the metadata file
-  whenever it is updated. In the next subsection, we will see how clients
-  will reproduce the name of the intended file.</p>
-     <p>Finally, the root metadata should write the Boolean "consistent_snapshot"
-  attribute at the root level of its keys of attributes. If consistent
-  snapshots are not written by the repository, then the attribute may either
-  be left unspecified or be set to the False value.  Otherwise, it must be
-  set to the True value.</p>
-     <p>Regardless of whether consistent snapshots are ever used or not, all
-  released versions of root metadata files should always be provided
-  so that outdated clients can update to the latest available root.</p>
-    <li data-md>
-     <p>**7.2. Reading consistent snapshots**</p>
-     <p>See Section 5.1 for more details.</p>
-   </ul>
-   <h3 class="heading settled" id="f-future-directions-and-open-questions"><span class="content">**F. Future directions and open questions**</span></h3>
-   <ul>
-    <li data-md>
-     <p>**F.1. Support for bogus clocks.**</p>
-     <p>The framework may need to offer an application-enablable "no, my clock is
- _supposed_ to be wrong" mode, since others have noticed that many users seem
- to have incorrect clocks.</p>
-   </ul>
+   <h3 class="heading settled" data-level="7.1" id="writing-consistent-snapshots"><span class="secno">7.1. </span><span class="content">Writing consistent snapshots</span><a class="self-link" href="#writing-consistent-snapshots"></a></h3>
+   <p>We now explain how a repository should write metadata and targets to
+    produce self-contained consistent snapshots.</p>
+   <p>Simply put, TUF should write every metadata file as such: if the
+    file had the original name of filename.ext, then it should be written to
+    non-volatile storage as version_number.filename.ext, where version_number
+    is an integer.</p>
+   <p>On the other hand, consistent target files should be written to
+    non-volatile storage as digest.filename.ext.  This means that if the
+    referrer metadata lists N cryptographic hashes of the referred file, then
+    there must be N identical copies of the referred file, where each file will
+    be distinguished only by the value of the digest in its filename. The
+    modified filename need not include the name of the cryptographic hash
+    function used to produce the digest because, on a read, the choice of
+    function follows from the selection of a digest (which includes the name of
+    the cryptographic function) from all digests in the referred file.</p>
+   <p>Additionally, the timestamp metadata (timestamp.json) should also be
+    written to non-volatile storage whenever it is updated. It is OPTIONAL for
+    an implementation to write identical copies at
+    version_number.timestamp.json for record-keeping purposes, because a
+    cryptographic hash of the timestamp metadata is usually not known in
+    advance. The same step applies to the root metadata (root.json), although
+    an implementation must write both root.json and version_number.root.json
+    because it is possible to download root metadata both with and without
+    known version numbers. These steps are required because these are the only
+    metadata files that may be requested without known version numbers.</p>
+   <p>Most importantly, no metadata file format must be updated to refer to the
+    names of metadata or target files with their version numbers included. In
+    other words, if a metadata file A refers to another metadata file B as
+    filename.ext, then the filename must remain as filename.ext and not
+    version_number.filename.ext. This rule is in place so that metadata signed
+    by roles with offline keys will not be forced to sign for the metadata file
+    whenever it is updated. In the next subsection, we will see how clients
+    will reproduce the name of the intended file.</p>
+   <p>Finally, the root metadata should write the Boolean "consistent_snapshot"
+    attribute at the root level of its keys of attributes. If consistent
+    snapshots are not written by the repository, then the attribute may either
+    be left unspecified or be set to the False value.  Otherwise, it must be
+    set to the True value.</p>
+   <p>Regardless of whether consistent snapshots are ever used or not, all
+    released versions of root metadata files should always be provided
+    so that outdated clients can update to the latest available root.</p>
+   <h3 class="heading settled" data-level="7.2" id="reading-consistent-snapshots"><span class="secno">7.2. </span><span class="content">Reading consistent snapshots</span><a class="self-link" href="#reading-consistent-snapshots"></a></h3>
+   <p>See Section 5.1 for more details.</p>
+   <h2 class="heading settled" data-level="8" id="future-directions-and-open-questions"><span class="secno">8. </span><span class="content">Future directions and open questions</span><a class="self-link" href="#future-directions-and-open-questions"></a></h2>
+   <h3 class="heading settled" data-level="8.1" id="support-for-bogus-clocks"><span class="secno">8.1. </span><span class="content">Support for bogus clocks.</span><a class="self-link" href="#support-for-bogus-clocks"></a></h3>
+   <p>The framework may need to offer an application-enablable "no, my clock is
+   _supposed_ to be wrong" mode, since others have noticed that many users seem
+   to have incorrect clocks.</p>
   </main>
   <div data-fill-with="conformance">
-   <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span></h2>
+   <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span><a class="self-link" href="#conformance"></a></h2>
    <p> Conformance requirements are expressed with a combination of descriptive assertions and RFC 2119 terminology.
             The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL”
             in the normative parts of this document
@@ -3179,8 +3217,8 @@ the file to non-volatile storage as FILENAME.EXT.</p>
 
 })();
 </script>
-  <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span></h2>
-  <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span></h3>
+  <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
+  <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
