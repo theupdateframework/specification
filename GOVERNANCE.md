@@ -35,7 +35,10 @@ __All changes must be submitted as a GitHub Pull Request (PR)__
 
 The submitter of the PR is responsible for responding to feedback from
 reviewers and maintainers. While the PR remains open the submitter is also
-responsible for ensuring the change is in a state which can be merged.
+responsible for ensuring the change is always in a state where it can be
+merged. That is, the Pull Request does not have any unresolved conflicts,
+and has incremented the version number and last modified date as described
+in the Versioning section of the README file.
 
 __All minor changes must be approved by at least two (2) other TAP editors__
 
