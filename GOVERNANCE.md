@@ -25,7 +25,7 @@ specification's Consensus Builder.
 
 The TAP Editors are a team of core contributors to the TUF project who are
 responsible for reviewing and approving, or rejecting, any proposed
-[TAPs](https://github.com/theupdateframework/taps) and changes to the
+[TAPs](https://github.com/theupdateframework/taps), and changes to the
 specification.
 
 
@@ -44,16 +44,16 @@ do not significantly alter the specification must be approved by at least two
 (2) TAP Editors. These minor changes do not require a contemplation period.
 
 __All major changes must be approved by at least two (2) other TAP editors,
-and merged no sooner than five (5) business days after submission__
+and merged no sooner than one (1) week after submission__
 
 In order to ensure the security properties of TUF are maintained it is
 necessary to contemplate how any changes to the specification may affect those
 security properties. Therefore, all PRs containing non-minor changes will
-remain open for at least five (5) business days to allow all interested TAP
-Editors time to review the submission.
+remain open for at least one (1) week to allow all interested TAP Editors time
+to review the submission.
 
 A TAP editor may request longer to consider the changes, so long as that
-request is made within the initial five (5) business day contemplation period.
+request is made within the initial one (1) week contemplation period.
 
 Non-minor changes to the specification require two (2) TAP editor approvals.
 
