@@ -1227,11 +1227,11 @@ the timestamp metadata file.
   these conditions are not met, discard the new snapshot metadata file, abort
   the update cycle, and report the failure.
 
-  * **5.4.5**. **Check for a freeze attack.** The latest known time MUST be
-  lower than the expiration timestamp in the new snapshot metadata file.  If
-  so, the new snapshot metadata file becomes the trusted snapshot metadata
-  file. If the new snapshot metadata file is expired, discard it, abort the
-  update cycle, and report the potential freeze attack.
+  * **5.4.5**. **Check for a freeze attack.** The expiration timestamp in the
+  new snapshot metadata file MUST be higher than the fixed update expiration
+  time.  If so, the new snapshot metadata file becomes the trusted snapshot
+  metadata file.  If the new snapshot metadata file is expired, discard it,
+  abort the update cycle, and report the potential freeze attack.
 
 
   * **5.4.6**. **Persist snapshot metadata.** The client MUST write the file to
@@ -1264,11 +1264,11 @@ snapshot metadata file.
   in the trusted snapshot metadata.  If the versions do not match, discard it,
   abort the update cycle, and report the failure.
 
-  * **5.5.4**. **Check for a freeze attack.** The latest known time MUST be
-  lower than the expiration timestamp in the new targets metadata file.  If so,
-  the new targets metadata file becomes the trusted targets metadata file.  If
-  the new targets metadata file is expired, discard it, abort the update cycle,
-  and report the potential freeze attack.
+  * **5.5.4**. **Check for a freeze attack.** The expiration timestamp in the
+  new targets metadata file MUST be higher than the fixed update expiration
+  time.  If so, the new targets metadata file becomes the trusted targets
+  metadata file.  If the new targets metadata file is expired, discard it,
+  abort the update cycle, and report the potential freeze attack.
 
   * **5.5.5**. **Persist targets metadata.** The client MUST write the file to
   non-volatile storage as FILENAME.EXT (e.g. targets.json).
