@@ -1137,9 +1137,9 @@ repo](https://github.com/theupdateframework/specification/issues).
 
   * **5.2.8**. **Repeat steps 5.2.1 to 5.2.8**.
 
-  * **5.2.9**. **Check for a freeze attack.** The fixed update expiration time
-  MUST be lower than the expiration timestamp in the trusted root metadata file
-  (version N).  If the trusted root metadata file has expired, abort the update
+  * **5.2.9**. **Check for a freeze attack.** The expiration timestamp in the
+  trusted root metadata file MUST be higher than the fixed update expiration
+  time.  If the trusted root metadata file has expired, abort the update
   cycle, report the potential freeze attack.  On the next update cycle, begin
   at step 5.0 and version N of the root metadata file.
 
@@ -1181,9 +1181,9 @@ used to download the timestamp metadata file is of the fixed form FILENAME.EXT
     version number in the new timestamp metadata file.  If not, discard the new
     timestamp metadata file, abort the update cycle, and report the failure.
 
-  * **5.3.3**. **Check for a freeze attack.** The fixed update expiration time
-  MUST be lower than the expiration timestamp in the new timestamp metadata
-  file.  If so, the new timestamp metadata file becomes the trusted timestamp
+  * **5.3.3**. **Check for a freeze attack.** The expiration timestamp in the
+  new timestamp metadata file MUST be higher than the fixed update expiration
+  time.  If so, the new timestamp metadata file becomes the trusted timestamp
   metadata file.  If the new timestamp metadata file has expired, discard it,
   abort the update cycle, and report the potential freeze attack.
 
