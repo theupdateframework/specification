@@ -1123,7 +1123,7 @@ repo](https://github.com/theupdateframework/specification/issues).
   checking that the version number signed in the new root metadata file is
   indeed N+1.  If the version of the new root metadata file is less than the
   trusted metadata file, discard it, abort the update cycle, and report the
-  rollback attack.  On the next update cycle, begin at step 5.0 and version N
+  rollback attack.  On the next update cycle, begin at step 5.1 and version N
   of the root metadata file.
 
   * **5.2.5**. Note that the expiration of the new (intermediate) root metadata
@@ -1141,7 +1141,7 @@ repo](https://github.com/theupdateframework/specification/issues).
   trusted root metadata file MUST be higher than the fixed update expiration
   time.  If the trusted root metadata file has expired, abort the update
   cycle, report the potential freeze attack.  On the next update cycle, begin
-  at step 5.0 and version N of the root metadata file.
+  at step 5.1 and version N of the root metadata file.
 
   * **5.2.10**. **If the timestamp and / or snapshot keys have been rotated,
   then delete the trusted timestamp and snapshot metadata files.** This is done
@@ -1294,7 +1294,7 @@ snapshot metadata file.
       the lack of any such metadata).
 
       * **5.5.6.2.2**. If the current delegation is a terminating delegation,
-      then jump to step 5.5.
+      then jump to step 5.6.
 
       * **5.5.6.2.3**. Otherwise, if the current delegation is a
       non-terminating delegation, continue processing the next delegation, if
