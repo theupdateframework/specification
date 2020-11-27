@@ -1434,7 +1434,7 @@ snapshot metadata file.
 
 * **7.2. Reading consistent snapshots**
 
-    See Section 5.1 for more details.
+    See section 5 (The client application) for more details.
 
 ## **F. Future directions and open questions**
 
