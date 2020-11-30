@@ -1519,7 +1519,12 @@ it in the next step.
   2. Otherwise, recursively search the list of delegations in
      order of appearance.
 
-    1. If the current delegation is a terminating delegation,
+    1. If the current delegation is a multi-role delegation,
+       recursively visit each role, and check that a defined minimum number of
+       roles agrees about non-custom metadata, i.e. length and hashes of the
+       target (or the lack of any such metadata).
+
+    2. If the current delegation is a terminating delegation,
        then jump to step [[#fetch-target]].
 
     2. Otherwise, if the current delegation is a
