@@ -1,8 +1,8 @@
 # <p align="center">The Update Framework Specification
 
-Last modified: **25 November 2020**
+Last modified: **1 December 2020**
 
-Version: **1.0.13**
+Version: **1.0.14**
 
 We strive to make the specification easy to implement, so if you come across
 any inconsistencies or experience any difficulty, do let us know by sending an
@@ -734,8 +734,8 @@ repo](https://github.com/theupdateframework/specification/issues).
 
        { METAPATH : {
              "version" : VERSION,
-             ("length" : LENGTH, |
-              "hashes" : HASHES) }
+             ("length" : LENGTH,)
+             ("hashes" : HASHES) }
          , ...
        }
 
