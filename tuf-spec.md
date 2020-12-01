@@ -1,8 +1,8 @@
 # <p align="center">The Update Framework Specification
 
-Last modified: **2 December 2020**
+Last modified: **3 December 2020**
 
-Version: **1.0.15**
+Version: **1.0.16**
 
 We strive to make the specification easy to implement, so if you come across
 any inconsistencies or experience any difficulty, do let us know by sending an
@@ -1091,13 +1091,11 @@ repo](https://github.com/theupdateframework/specification/issues).
   still be able to update again in the future. Errors raised during the update
   process should not leave clients in an unrecoverable state.
 
-  **5.0**. **Record the time at which the update began.** Add the update
-  workflow maximum duration T to the recorded update start time to derive the
-  fixed update expiration time. The value for T is set by the authors of the
-  application using TUF. For example, T may be tens of minutes.
-  This update expiration time will be used when checking for freeze attacks,
-  and is fixed at the beginning of the update workflow to prevent metadata
-  from expiring during an in-progress update.
+  **5.0**. **Record the time at which the update began** as the fixed update
+  expiration time.  Time is fixed at the beginning of the update workflow to
+  allow an application using TUF to effectively pause time, in order to prevent
+  metadata which is valid at the beginning of an update from expiring during
+  the update workflow.
 
   **5.1**. **Load the trusted root metadata file.** We assume that a good,
   trusted copy of this file was shipped with the package manager or software
