@@ -1,8 +1,8 @@
 # <p align="center">The Update Framework Specification
 
-Last modified: **1 December 2020**
+Last modified: **2 December 2020**
 
-Version: **1.0.14**
+Version: **1.0.15**
 
 We strive to make the specification easy to implement, so if you come across
 any inconsistencies or experience any difficulty, do let us know by sending an
@@ -217,6 +217,8 @@ repo](https://github.com/theupdateframework/specification/issues).
             Mandatory Metadata signing schemes
         - [Tap 10](https://github.com/theupdateframework/taps/blob/master/tap10.md):
            Remove native support for compressed metadata
+        - [TAP 11](https://github.com/theupdateframework/taps/blob/master/tap11.md):
+           Using POUFs for Interoperability
 
 	   Implementations compliant with this version (1.0.0) of the specification
        must also comply with the TAPs mentioned above.
@@ -370,6 +372,20 @@ repo](https://github.com/theupdateframework/specification/issues).
    partly because the specific threat posted to clients in many situations is
    largely determined by how the framework is being used.
 
+*  **2.3. Protocol, Operations, Usage, and Format (POUF) Documents**
+
+    This specification purposefully leaves many implementation details,
+    including the metadata file formats, to the discretion of individual
+    implementations. These details do not affect the security of an
+    implementation, and so leaving them out of the specification allows this
+    document to support a greater variety of users. TUF implementers are
+    encouraged to document the wireline format and design decisions used in
+    their implementation as a POUF document. POUFs, as described in
+    [TAP 11](https://github.com/theupdateframework/taps/blob/master/tap11.md),
+    allow different adopters to create interoperable implementations of TUF.
+    POUFs should follow the layout described in TAP 11 and may be made
+    publicly available in the [TAP directory](https://github.com/theupdateframework/taps/tree/master/POUFs).
+
 ## **3. The repository**
 
    An application uses the framework to interact with one or more repositories.
@@ -476,6 +492,7 @@ repo](https://github.com/theupdateframework/specification/issues).
    interpret them without ambiguity. Implementers should choose a data format
    that allows for canonicalization, or one that will decode data
    deterministically by default so that signatures can be accurately verified.
+   The chosen data format should be documented in the POUF of the implementation.
    The examples in this document use a subset of the JSON object format, with
    floating-point numbers omitted.  When calculating the digest of an
    object, we use the "canonical JSON" subdialect as described at
