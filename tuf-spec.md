@@ -1093,9 +1093,9 @@ repo](https://github.com/theupdateframework/specification/issues).
 
   **5.0**. **Record the time at which the update began** as the fixed update
   start time.  Time is fixed at the beginning of the update workflow to allow
-  an application using TUF to effectively pause time, in order to prevent
-  metadata which is valid at the beginning of an update from expiring during
-  the update workflow.
+  an application using TUF to effectively pause time, in order to ensure that
+  metadata which has a valid expiration time at the beginning of an update
+  does not fail an expiration check later in the update workflow.
 
   **5.1**. **Load the trusted root metadata file.** We assume that a good,
   trusted copy of this file was shipped with the package manager or software
