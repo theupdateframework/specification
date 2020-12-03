@@ -1,8 +1,8 @@
 # <p align="center">The Update Framework Specification
 
-Last modified: **2 December 2020**
+Last modified: **3 December 2020**
 
-Version: **1.0.15**
+Version: **1.0.16**
 
 We strive to make the specification easy to implement, so if you come across
 any inconsistencies or experience any difficulty, do let us know by sending an
@@ -1091,13 +1091,11 @@ repo](https://github.com/theupdateframework/specification/issues).
   still be able to update again in the future. Errors raised during the update
   process should not leave clients in an unrecoverable state.
 
-  **5.0**. **Record the time at which the update began.** Add the update
-  workflow maximum duration T to the recorded update start time to derive the
-  fixed update expiration time. The value for T is set by the authors of the
-  application using TUF. For example, T may be tens of minutes.
-  This update expiration time will be used when checking for freeze attacks,
-  and is fixed at the beginning of the update workflow to prevent metadata
-  from expiring during an in-progress update.
+  **5.0**. **Record the time at which the update began** as the fixed update
+  start time.  Time is fixed at the beginning of the update workflow to allow
+  an application using TUF to effectively pause time, in order to ensure that
+  metadata which has a valid expiration time at the beginning of an update
+  does not fail an expiration check later in the update workflow.
 
   **5.1**. **Load the trusted root metadata file.** We assume that a good,
   trusted copy of this file was shipped with the package manager or software
@@ -1155,10 +1153,10 @@ repo](https://github.com/theupdateframework/specification/issues).
   * **5.2.8**. **Repeat steps 5.2.1 to 5.2.8**.
 
   * **5.2.9**. **Check for a freeze attack.** The expiration timestamp in the
-  trusted root metadata file MUST be higher than the fixed update expiration
-  time.  If the trusted root metadata file has expired, abort the update
-  cycle, report the potential freeze attack.  On the next update cycle, begin
-  at step 5.1 and version N of the root metadata file.
+  trusted root metadata file MUST be higher than the fixed update start time.
+  If the trusted root metadata file has expired, abort the update cycle,
+  report the potential freeze attack.  On the next update cycle, begin at step
+  5.1 and version N of the root metadata file.
 
   * **5.2.10**. **If the timestamp and / or snapshot keys have been rotated,
   then delete the trusted timestamp and snapshot metadata files.** This is done
@@ -1199,8 +1197,8 @@ used to download the timestamp metadata file is of the fixed form FILENAME.EXT
     timestamp metadata file, abort the update cycle, and report the failure.
 
   * **5.3.3**. **Check for a freeze attack.** The expiration timestamp in the
-  new timestamp metadata file MUST be higher than the fixed update expiration
-  time.  If so, the new timestamp metadata file becomes the trusted timestamp
+  new timestamp metadata file MUST be higher than the fixed update start time.
+  If so, the new timestamp metadata file becomes the trusted timestamp
   metadata file.  If the new timestamp metadata file has expired, discard it,
   abort the update cycle, and report the potential freeze attack.
 
@@ -1245,10 +1243,10 @@ the timestamp metadata file.
   the update cycle, and report the failure.
 
   * **5.4.5**. **Check for a freeze attack.** The expiration timestamp in the
-  new snapshot metadata file MUST be higher than the fixed update expiration
-  time.  If so, the new snapshot metadata file becomes the trusted snapshot
-  metadata file.  If the new snapshot metadata file is expired, discard it,
-  abort the update cycle, and report the potential freeze attack.
+  new snapshot metadata file MUST be higher than the fixed update start time.
+  If so, the new snapshot metadata file becomes the trusted snapshot metadata
+  file.  If the new snapshot metadata file is expired, discard it, abort the
+  update cycle, and report the potential freeze attack.
 
 
   * **5.4.6**. **Persist snapshot metadata.** The client MUST write the file to
@@ -1282,10 +1280,10 @@ snapshot metadata file.
   abort the update cycle, and report the failure.
 
   * **5.5.4**. **Check for a freeze attack.** The expiration timestamp in the
-  new targets metadata file MUST be higher than the fixed update expiration
-  time.  If so, the new targets metadata file becomes the trusted targets
-  metadata file.  If the new targets metadata file is expired, discard it,
-  abort the update cycle, and report the potential freeze attack.
+  new targets metadata file MUST be higher than the fixed update start time.
+  If so, the new targets metadata file becomes the trusted targets metadata
+  file.  If the new targets metadata file is expired, discard it, abort the
+  update cycle, and report the potential freeze attack.
 
   * **5.5.5**. **Persist targets metadata.** The client MUST write the file to
   non-volatile storage as FILENAME.EXT (e.g. targets.json).
