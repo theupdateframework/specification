@@ -1,16 +1,20 @@
-<pre class=metadata>
-Status: DREAM
-Shortname: tuf
-Abstract: todo
-Group: tuf
+<pre class='metadata'>
 Title: The Update Framework Specification
-Editor: foo
+Shortname: TUF
+Status: LS-COMMIT
+Abstract: A framework for securing software update systems.
+Date: 2020-12-03
+Editor: Justin Cappos, NYU
+Editor: Trishank Karthik Kuppusamy, Datadog
+Editor: Joshua Lock, VMware
+Editor: Marina Moore, NYU
+Editor: Lukas Pühringer, NYU
+Repository: theupdateframework/specification
+Mailing List: https://groups.google.com/forum/?fromgroups#!forum/theupdateframework
 Indent: 2
-Boilerplate: copyright no
+Boilerplate: copyright no, conformance no
 Markup Shorthands: css no, markdown yes
 </pre>
-
-Last modified: **3 December 2020**
 
 Version: **1.0.16**
 
