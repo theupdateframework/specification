@@ -244,7 +244,8 @@ The following are the high-level steps of using the framework from the
 viewpoint of a software update system using the framework.  This is an
 error-free case.
 
-  Polling:
+  : Polling
+  ::
       Periodically, the software update system using the framework
       instructs the framework to check each repository for updates.  If
       the framework reports to the application code that there are
@@ -253,7 +254,8 @@ error-free case.
       trusted (referenced by properly signed and timely metadata) are
       made available by the framework.
 
-  Fetching:
+  : Fetching
+  ::
       For each file that the application wants, it asks the framework to
       download the file.  The framework downloads the file and performs
       security checks to ensure that the downloaded file is exactly what
@@ -430,32 +432,32 @@ metaformat, for example JSON metadata files would have an EXT of json.
 The following are the metadata files of top-level roles relative
 to the base URL of metadata available from a given repository mirror.
 
-  /root.EXT
-
+  : /root.EXT
+  ::
     Signed by the root keys; specifies trusted keys for the other
     top-level roles.
 
-  /snapshot.EXT
-
+  : /snapshot.EXT
+  ::
     Signed by the snapshot role's keys.  Lists the version numbers of all
     target metadata files: the top-level targets.EXT and all delegated
     roles.
 
-  /targets.EXT
-
+  : /targets.EXT
+  ::
     Signed by the target role's keys.  Lists hashes and sizes of target
     files. Specifies delegation information and trusted keys for delegated
     target roles.
 
-  /timestamp.EXT
-
+  : /timestamp.EXT
+  ::
     Signed by the timestamp role's keys.  Lists hash(es), size, and version
     number of the snapshot file.  This is the first and potentially only
     file that needs to be downloaded when clients poll for the existence
     of updates.
 
-  /mirrors.EXT (optional)
-
+  : /mirrors.EXT (optional)
+  ::
     Signed by the mirrors role's keys.  Lists information about available
     mirrors and the content available from each mirror.
 
@@ -468,16 +470,16 @@ base URL of metadata available from a given repository mirror.
 
 A delegated role file is located at:
 
-  /DELEGATED_ROLE.EXT
+  : /DELEGATED_ROLE.EXT
+  ::
+    Where DELEGATED_ROLE is the name of the delegated role that has been
+    specified in targets.EXT.  If this role further delegates trust to a role
+    named ANOTHER_ROLE, that role's signed metadata file is made available at:
 
-where DELEGATED_ROLE is the name of the delegated role that has been
-specified in targets.EXT.  If this role further delegates trust to a role
-named ANOTHER_ROLE, that role's signed metadata file is made available at:
-
-  /ANOTHER_ROLE.EXT
-
-Delegated target roles are authorized by the keys listed in the directly
-delegating target role.
+  : /ANOTHER_ROLE.EXT
+  ::
+    Delegated target roles are authorized by the keys listed in the directly
+    delegating target role.
 
 # Document formats # {#document-formats}
 
@@ -503,94 +505,140 @@ object, we use the "canonical JSON" subdialect as described at
 
 All signed metadata objects have the format:
 
-    { "signed" : ROLE,
-      "signatures" : [
-        { "keyid" : KEYID,
-          "sig" : SIGNATURE }
-        , ... ]
-    }
+<pre highlight="json">
+{
+  "signed" : <a for="role">ROLE</a>,
+  "signatures" : [
+    { "keyid" : <a for="role">KEYID</a>,
+      "sig" : <a>SIGNATURE</a> }
+      , ... ]
+}
+</pre>
 
 where:
 
-      ROLE is a dictionary whose "_type" field describes the role type.
+      : <dfn for="role">ROLE</dfn>
+      ::
+        a dictionary whose "_type" field describes the role type.
 
-      KEYID is the identifier of the key signing the ROLE dictionary.
+      : <dfn for="role">KEYID</dfn>
+      ::
+        the identifier of the key signing the ROLE dictionary.
 
-      SIGNATURE is a hex-encoded signature of the canonical form of
-      the metadata for ROLE.
+      : <dfn>SIGNATURE</dfn>
+      ::
+        a hex-encoded signature of the canonical form of the metadata for ROLE.
 
 
 All keys have the format:
 
-    { "keytype" : KEYTYPE,
-      "scheme" : SCHEME,
-      "keyval" : KEYVAL
-    }
+<pre highlight="json">
+{
+  "keytype" : <a>KEYTYPE</a>,
+  "scheme" : <a>SCHEME</a>,
+  "keyval" : <a>KEYVAL</a>
+}
+</pre>
 
 where:
 
-      KEYTYPE is a string denoting a public key signature system, such
-      as RSA or ECDSA.
+      : <dfn>KEYTYPE</dfn>
+      ::
+        a string denoting a public key signature system, such as <a
+        for="keytype">"rsa"</a>, <a for="keytype">"ed25519"</a>, and <a
+        for="keytype">"ecdsa-sha2-nistp256"</a>.
 
-      SCHEME is a string denoting a corresponding signature scheme.  For
-      example: "rsassa-pss-sha256" and "ecdsa-sha2-nistp256".
+      : <dfn>SCHEME</dfn>
+      ::
+        a string denoting a corresponding signature scheme.  For example: <a
+        for="scheme">"rsassa-pss-sha256"</a>, <a for="scheme">"ed25519"</a> <a
+        for="scheme">"ecdsa-sha2-nistp256"</a>.
 
-      KEYVAL is a dictionary containing the public portion of the key.
+      : <dfn>KEYVAL</dfn>
+      ::
+        a dictionary containing the public portion of the key.
 
 The reference implementation defines three signature schemes, although TUF
 is not restricted to any particular signature scheme, key type, or
 cryptographic library:
 
-    "rsassa-pss-sha256" : RSA Probabilistic signature scheme with appendix.
-    The underlying hash function is SHA256.
-    https://tools.ietf.org/html/rfc3447#page-29
+  : <dfn for="scheme">"rsassa-pss-sha256"</dfn>
+  ::
+    RSA Probabilistic signature scheme with appendix. The underlying hash
+    function is SHA256. https://tools.ietf.org/html/rfc3447#page-29
 
-    "ed25519" : Elliptic curve digital signature algorithm based on Twisted
-    Edwards curves.
+  : <dfn for="scheme">"ed25519"</dfn>
+  ::
+    Elliptic curve digital signature algorithm based on Twisted Edwards curves.
     https://ed25519.cr.yp.to/
 
-    "ecdsa-sha2-nistp256" : Elliptic Curve Digital Signature Algorithm
-      with NIST P-256 curve signing and SHA-256 hashing.
-      https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm
+  : <dfn for="scheme">"ecdsa-sha2-nistp256"</dfn>
+  ::
+    Elliptic Curve Digital Signature Algorithm with NIST P-256 curve signing
+    and SHA-256 hashing.
+    https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm
 
-We define three keytypes below: "rsa", "ed25519", and "ecdsa", but adopters
+We define three keytypes below: <a for="keytype">"rsa"</a>, <a
+for="keytype">"ed25519"</a>, and <a for="keytype">"ecdsa-sha2-nistp256"</a>, but adopters
 can define and use any particular keytype, signing scheme, and cryptographic
 library.
 
-The "rsa" format is:
+The <dfn for="keytype">"rsa"</dfn> format is:
 
-    { "keytype" : "rsa",
-      "scheme" : "rsassa-pss-sha256",
-      "keyval" : {"public" : PUBLIC}
-    }
-
-where PUBLIC is in PEM format and a string.  All RSA keys MUST be at least
-2048 bits.
-
-The "ed25519" format is:
-
-    { "keytype" : "ed25519",
-      "scheme" : "ed25519",
-      "keyval" : {"public" : PUBLIC}
-    }
+<pre highlight="json">
+{
+  "keytype" : "rsa",
+  "scheme" : <a for="scheme">"rsassa-pss-sha256"</a>,
+  "keyval" : {
+    "public" : <a for="keyval-rsa">PUBLIC</a>
+  }
+}
+</pre>
 
 where:
 
-      PUBLIC is a 64-byte hex encoded string.
+  : <dfn for="keyval-rsa">PUBLIC</dfn>
+  ::
+    PEM format and a string.  All RSA keys MUST be at least 2048 bits.
 
-The "ecdsa" format is:
+The <dfn for="keytype">"ed25519"</dfn> format is:
 
-    { "keytype" : "ecdsa-sha2-nistp256",
-      "scheme" : "ecdsa-sha2-nistp256",
-      "keyval" : {"public" : PUBLIC}
-    }
+<pre highlight="json">
+{
+  "keytype" : "ed25519",
+  "scheme" : <a for="scheme">"ed25519"</a>,
+  "keyval" : {
+    "public" : <a for="keyval-ed25519">PUBLIC</a>
+  }
+}
+</pre>
 
 where:
 
-    PUBLIC is in PEM format and a string.
+  : <dfn for="keyval-ed25519">PUBLIC</dfn>
+  ::
+    64-byte hex encoded string.
 
-The KEYID of a key is the hexdigest of the SHA-256 hash of the
-canonical form of the key.
+The <dfn for="keytype">"ecdsa-sha2-nistp256"</dfn> format is:
+
+<pre highlight="json">
+{
+  "keytype" : "ecdsa-sha2-nistp256",
+  "scheme" : <a for="scheme">"ecdsa-sha2-nistp256"</a>,
+  "keyval" : {
+    "public" : <a for="keyval-ecdsa">PUBLIC</a>
+  }
+}
+</pre>
+
+where:
+
+  : <dfn for="keyval-ecdsa">PUBLIC</dfn>
+  ::
+    PEM format and a string.
+
+The <a for="role">KEYID</a> of a key is the hexdigest of the SHA-256 hash of
+the canonical form of the key.
 
 Metadata date-time data follows the ISO 8601 standard.  The expected format
 of the combined date and time string is "YYYY-MM-DDTHH:MM:SSZ".  Time is
@@ -600,326 +648,415 @@ zero UTC offset.  An example date-time string is "1985-10-21T01:21:00Z".
 
 ## File formats: root.json ## {#file-formats-root}
 
-The root.json file is signed by the root role's keys.  It indicates
+The <dfn>root.json</dfn> file is signed by the root role's keys.  It indicates
 which keys are authorized for all top-level roles, including the root
 role itself.  Revocation and replacement of top-level role keys, including
 for the root role, is done by changing the keys listed for the roles in
 this file.
 
-The "signed" portion of root.json is as follows:
+The "signed" portion of <a>root.json</a> is as follows:
 
-    { "_type" : "root",
-      "spec_version" : SPEC_VERSION,
-      "consistent_snapshot": CONSISTENT_SNAPSHOT,
-      "version" : VERSION,
-      "expires" : EXPIRES,
-      "keys" : {
-          KEYID : KEY
-          , ... },
-      "roles" : {
-          ROLE : {
-            "keyids" : [ KEYID, ... ] ,
-            "threshold" : THRESHOLD }
-          , ... }
-    }
-
-SPEC_VERSION is a string that contains the version number of the TUF
-specification. Its format follows the [Semantic Versioning 2.0.0
-(semver)](https://semver.org/spec/v2.0.0.html) specification. Metadata is
-written according to version "spec_version" of the specification, and
-clients MUST verify that "spec_version" matches the expected version number.
-Adopters are free to determine what is considered a match (e.g., the version
-number exactly, or perhaps only the major version number (major.minor.fix).
-
-CONSISTENT_SNAPSHOT is a boolean indicating whether the repository supports
-consistent snapshots.  Section 7 goes into more detail on the consequences
-of enabling this setting on a repository.
-
-VERSION is an integer that is greater than 0.  Clients MUST NOT replace a
-metadata file with a version number less than the one currently trusted.
-
-EXPIRES determines when metadata should be considered expired and no longer
-trusted by clients.  Clients MUST NOT trust an expired file.
-
-A ROLE is one of "root", "snapshot", "targets", "timestamp", or "mirrors".
-A role for each of "root", "snapshot", "timestamp", and "targets" MUST be
-specified in the key list. The role of "mirror" is OPTIONAL.  If not
-specified, the mirror list will not need to be signed if mirror lists are
-being used.
-
-The KEYID MUST be correct for the specified KEY.  Clients MUST calculate
-each KEYID to verify this is correct for the associated key.  Clients MUST
-ensure that for any KEYID represented in this key list and in other files,
-only one unique key has that KEYID.
-
-The THRESHOLD for a role is an integer of the number of keys of that role
-whose signatures are required in order to consider a file as being properly
-signed by that role.
-
-A root.json example file:
-
-    {
-    "signatures": [
-    {
-      "keyid": "cb3fbd83df4ba2471a736b065650878280964a98843ec13b457a99b2a21cc3b4",
-      "sig": "a312b9c3cb4a1b693e8ebac5ee1ca9cc01f2661c14391917dcb111517f72370809
-              f32c890c6b801e30158ac4efe0d4d87317223077784c7a378834249d048306"
-    }
-    ],
-    "signed": {
-    "_type": "root",
-    "spec_version": "1.0.0",
-    "consistent_snapshot": false,
-    "expires": "2030-01-01T00:00:00Z",
-    "keys": {
-      "1bf1c6e3cdd3d3a8420b19199e27511999850f4b376c4547b2f32fba7e80fca3": {
-      "keytype": "ed25519",
-      "scheme": "ed25519",
-      "keyval": {
-        "public": "72378e5bc588793e58f81c8533da64a2e8f1565c1fcc7f253496394ffc52542c"
-      }
+<pre highlight="json">
+{
+  "_type" : "root",
+  "spec_version" : <a>SPEC_VERSION</a>,
+  "consistent_snapshot": <a>CONSISTENT_SNAPSHOT</a>,
+  "version" : <a for="role">VERSION</a>,
+  "expires" : <a>EXPIRES</a>,
+  "keys" : {
+    <a for="root">KEYID</a> : KEY,
+    ...
+  },
+  "roles" : {
+    <a for="root">ROLE</a> : {
+      "keyids" : [
+        <a for="root">KEYID</a>,
+        ...
+      ] ,
+      "threshold" : <a>THRESHOLD</a>
       },
-      "135c2f50e57ff11e744d234a62cebad8c38daf399604a7655661cc9199c69164": {
-      "keytype": "ed25519",
-      "scheme": "ed25519",
-      "keyval": {
-        "public": "68ead6e54a43f8f36f9717b10669d1ef0ebb38cee6b05317669341309f1069cb"
-      }
-      },
-      "cb3fbd83df4ba2471a736b065650878280964a98843ec13b457a99b2a21cc3b4": {
-      "keytype": "ed25519",
-      "scheme": "ed25519",
-      "keyval": {
-        "public": "66dd78c5c2a78abc6fc6b267ff1a8017ba0e8bfc853dd97af351949bba021275"
-      }
-      },
-      "66676daa73bdfb4804b56070c8927ae491e2a6c2314f05b854dea94de8ff6bfc": {
-      "keytype": "ed25519",
-      "scheme": "ed25519",
-      "keyval": {
-        "public": "01c61f8dc7d77fcef973f4267927541e355e8ceda757e2c402818dad850f856e"
-      }
-      }
-    },
-    "roles": {
-      "root": {
-      "keyids": [
-        "cb3fbd83df4ba2471a736b065650878280964a98843ec13b457a99b2a21cc3b4"
-      ],
-      "threshold": 1
-      },
-      "snapshot": {
-      "keyids": [
-        "66676daa73bdfb4804b56070c8927ae491e2a6c2314f05b854dea94de8ff6bfc"
-      ],
-      "threshold": 1
-      },
-      "targets": {
-      "keyids": [
-        "135c2f50e57ff11e744d234a62cebad8c38daf399604a7655661cc9199c69164"
-      ],
-      "threshold": 1
-      },
-      "timestamp": {
-      "keyids": [
-        "1bf1c6e3cdd3d3a8420b19199e27511999850f4b376c4547b2f32fba7e80fca3"
-      ],
-      "threshold": 1
-      }
-    },
-    "version": 1
-    }
+    ...
   }
+}
+</pre>
+
+where:
+
+  : <dfn>SPEC_VERSION</dfn>
+  ::
+    is a string that contains the version number of the TUF
+    specification. Its format follows the [Semantic Versioning 2.0.0
+    (semver)](https://semver.org/spec/v2.0.0.html) specification. Metadata is
+    written according to version "spec_version" of the specification, and
+    clients MUST verify that "spec_version" matches the expected version number.
+    Adopters are free to determine what is considered a match (e.g., the version
+    number exactly, or perhaps only the major version number (major.minor.fix).
+
+  : <dfn>CONSISTENT_SNAPSHOT</dfn>
+  ::
+    is a boolean indicating whether the repository supports
+    consistent snapshots.  Section 7 goes into more detail on the consequences
+    of enabling this setting on a repository.
+
+  : <dfn for="role">VERSION</dfn>
+  ::
+    is an integer that is greater than 0.  Clients MUST NOT replace a
+    metadata file with a version number less than the one currently trusted.
+
+  : <dfn>EXPIRES</dfn>
+  ::
+    determines when metadata should be considered expired and no longer
+    trusted by clients.  Clients MUST NOT trust an expired file.
+
+  : <dfn for="root">ROLE</dfn>
+  ::
+    is one of "root", "snapshot", "targets", "timestamp", or "mirrors".
+    A role for each of "root", "snapshot", "timestamp", and "targets" MUST be
+    specified in the key list. The role of "mirror" is OPTIONAL.  If not
+    specified, the mirror list will not need to be signed if mirror lists are
+    being used.
+
+  : <dfn for="root">KEYID</dfn>
+  ::
+    The KEYID MUST be correct for the specified KEY.  Clients MUST calculate
+    each KEYID to verify this is correct for the associated key.  Clients MUST
+    ensure that for any KEYID represented in this key list and in other files,
+    only one unique key has that KEYID.
+
+  : <dfn>THRESHOLD</dfn>
+  ::
+    The THRESHOLD for a role is an integer of the number of keys of that role
+    whose signatures are required in order to consider a file as being properly
+    signed by that role.
+
+<div class='example' id='example-root.json'>
+A <a>root.json</a> example file:
+
+<pre highlight="json">
+{
+  "signatures": [
+  {
+    "keyid": "cb3fbd83df4ba2471a736b065650878280964a98843ec13b457a99b2a21cc3b4",
+    "sig": "a312b9c3cb4a1b693e8ebac5ee1ca9cc01f2661c14391917dcb111517f72370809
+            f32c890c6b801e30158ac4efe0d4d87317223077784c7a378834249d048306"
+  }
+  ],
+  "signed": {
+  "_type": "root",
+  "spec_version": "1.0.0",
+  "consistent_snapshot": false,
+  "expires": "2030-01-01T00:00:00Z",
+  "keys": {
+    "1bf1c6e3cdd3d3a8420b19199e27511999850f4b376c4547b2f32fba7e80fca3": {
+    "keytype": "ed25519",
+    "scheme": "ed25519",
+    "keyval": {
+      "public": "72378e5bc588793e58f81c8533da64a2e8f1565c1fcc7f253496394ffc52542c"
+    }
+    },
+    "135c2f50e57ff11e744d234a62cebad8c38daf399604a7655661cc9199c69164": {
+    "keytype": "ed25519",
+    "scheme": "ed25519",
+    "keyval": {
+      "public": "68ead6e54a43f8f36f9717b10669d1ef0ebb38cee6b05317669341309f1069cb"
+    }
+    },
+    "cb3fbd83df4ba2471a736b065650878280964a98843ec13b457a99b2a21cc3b4": {
+    "keytype": "ed25519",
+    "scheme": "ed25519",
+    "keyval": {
+      "public": "66dd78c5c2a78abc6fc6b267ff1a8017ba0e8bfc853dd97af351949bba021275"
+    }
+    },
+    "66676daa73bdfb4804b56070c8927ae491e2a6c2314f05b854dea94de8ff6bfc": {
+    "keytype": "ed25519",
+    "scheme": "ed25519",
+    "keyval": {
+      "public": "01c61f8dc7d77fcef973f4267927541e355e8ceda757e2c402818dad850f856e"
+    }
+    }
+  },
+  "roles": {
+    "root": {
+    "keyids": [
+      "cb3fbd83df4ba2471a736b065650878280964a98843ec13b457a99b2a21cc3b4"
+    ],
+    "threshold": 1
+    },
+    "snapshot": {
+    "keyids": [
+      "66676daa73bdfb4804b56070c8927ae491e2a6c2314f05b854dea94de8ff6bfc"
+    ],
+    "threshold": 1
+    },
+    "targets": {
+    "keyids": [
+      "135c2f50e57ff11e744d234a62cebad8c38daf399604a7655661cc9199c69164"
+    ],
+    "threshold": 1
+    },
+    "timestamp": {
+    "keyids": [
+      "1bf1c6e3cdd3d3a8420b19199e27511999850f4b376c4547b2f32fba7e80fca3"
+    ],
+    "threshold": 1
+    }
+  },
+  "version": 1
+  }
+}
+</pre>
+</div>
 
 ## File formats: snapshot.json ## {#file-formats-snapshot}
 
-The snapshot.json file is signed by the snapshot role. It MUST list the
+The <dfn>snapshot.json</dfn> file is signed by the snapshot role. It MUST list the
 version numbers of the top-level targets metadata and all delegated targets
 metadata. It MAY also list their lengths and file hashes.
 
-The "signed" portion of snapshot.json is as follows:
+The "signed" portion of <a>snapshot.json</a> is as follows:
 
-    { "_type" : "snapshot",
-      "spec_version" : SPEC_VERSION,
-      "version" : VERSION,
-      "expires" : EXPIRES,
-      "meta" : METAFILES
+<pre highlight="json">
+{
+  "_type" : "snapshot",
+  "spec_version" : <a>SPEC_VERSION</a>,
+  "version" : <a for="role">VERSION</a>,
+  "expires" : <a>EXPIRES</a>,
+  "meta" : <a>METAFILES</a>
+}
+</pre>
+
+<a>SPEC_VERSION</a>, <a for="role">VERSION</a> and <a>EXPIRES</a> are the same
+as is described for the <a>root.json</a> file.
+
+<dfn>METAFILES</dfn> is an object whose format is the following:
+
+<pre highlight="json">
+{
+  <a>METAPATH</a> : {
+      "version" : <a for="metapath">VERSION</a>,
+      ("length" : <a for="metapath">LENGTH</a>,)
+      ("hashes" : <a for="metapath">HASHES</a>)
+  },
+  ...
+}
+</pre>
+
+where:
+
+  : <dfn>METAPATH</dfn>
+  ::
+    the file path of the metadata on the repository relative to the
+    metadata base URL. For snapshot.json, these are top-level targets metadata
+    and delegated targets metadata.
+
+  : <dfn for="metapath">VERSION</dfn>
+  ::
+    the integer version number as shown in the metadata file at <a>METAPATH</a>.
+
+  : <dfn for="metapath">LENGTH</dfn>
+  ::
+    the integer length in bytes of the metadata file at <a>METAPATH</a>. It
+    is OPTIONAL and can be omitted to reduce the snapshot metadata file size. In
+    that case the client MUST use a custom download limit for the listed
+    metadata.
+
+  : <dfn for="metapath">HASHES</dfn>
+  ::
+    a dictionary that specifies one or more hashes of the metadata
+    file at <a>METAPATH</a>, including their cryptographic hash function. For
+    example: { "sha256": HASH, ... }. HASHES is OPTIONAL and can be omitted to
+    reduce the snapshot metadata file size.  In that case the repository MUST
+    guarantee that <a for="metapath">VERSION</a> alone unambiguously identifies
+    the metadata at <a>METAPATH</a>.
+
+<div class="example" id="example-snapshot.json">
+A <a>snapshot.json</a> example file:
+
+<pre highlight="json">
+{
+  "signatures": [
+    {
+    "keyid": "66676daa73bdfb4804b56070c8927ae491e2a6c2314f05b854dea94de8ff6bfc",
+    "sig": "f7f03b13e3f4a78a23561419fc0dd741a637e49ee671251be9f8f3fceedfc112e4
+            4ee3aaff2278fad9164ab039118d4dc53f22f94900dae9a147aa4d35dcfc0f"
     }
-
-SPEC_VERSION, VERSION and EXPIRES are the same as is described for the root.json file.
-
-METAFILES is an object whose format is the following:
-
-    { METAPATH : {
-          "version" : VERSION,
-          ("length" : LENGTH,)
-          ("hashes" : HASHES) }
-      , ...
-    }
-
-METAPATH is the file path of the metadata on the repository relative to the
-metadata base URL. For snapshot.json, these are top-level targets metadata
-and delegated targets metadata.
-
-VERSION is the integer version number as shown in the metadata file at
-METAPATH.
-
-LENGTH is the integer length in bytes of the metadata file at METAPATH. It
-is OPTIONAL and can be omitted to reduce the snapshot metadata file size. In
-that case the client MUST use a custom download limit for the listed
-metadata.
-
-HASHES is a dictionary that specifies one or more hashes of the metadata
-file at METAPATH, including their cryptographic hash function. For example:
-{ "sha256": HASH, ... }. HASHES is OPTIONAL and can be omitted to reduce
-the snapshot metadata file size.  In that case the repository MUST guarantee
-that VERSION alone unambiguously identifies the metadata at METAPATH.
-
-A snapshot.json example file:
-
-    { "signatures": [
-      {
-      "keyid": "66676daa73bdfb4804b56070c8927ae491e2a6c2314f05b854dea94de8ff6bfc",
-      "sig": "f7f03b13e3f4a78a23561419fc0dd741a637e49ee671251be9f8f3fceedfc112e4
-              4ee3aaff2278fad9164ab039118d4dc53f22f94900dae9a147aa4d35dcfc0f"
-      }
-    ],
-    "signed": {
-      "_type": "snapshot",
-      "spec_version": "1.0.0",
-      "expires": "2030-01-01T00:00:00Z",
-      "meta": {
-      "targets.json": {
-        "version": 1
-      },
-      "project1.json": {
-        "version": 1,
-        "hashes": {
-        "sha256": "f592d072e1193688a686267e8e10d7257b4ebfcf28133350dae88362d82a0c8a"
-        }
-      },
-      "project2.json": {
-        "version": 1,
-        "length": 604,
-        "hashes": {
-        "sha256": "1f812e378264c3085bb69ec5f6663ed21e5882bbece3c3f8a0e8479f205ffb91"
-        }
-      }
-      },
+  ],
+  "signed": {
+    "_type": "snapshot",
+    "spec_version": "1.0.0",
+    "expires": "2030-01-01T00:00:00Z",
+    "meta": {
+    "targets.json": {
       "version": 1
+    },
+    "project1.json": {
+      "version": 1,
+      "hashes": {
+      "sha256": "f592d072e1193688a686267e8e10d7257b4ebfcf28133350dae88362d82a0c8a"
+      }
+    },
+    "project2.json": {
+      "version": 1,
+      "length": 604,
+      "hashes": {
+      "sha256": "1f812e378264c3085bb69ec5f6663ed21e5882bbece3c3f8a0e8479f205ffb91"
+      }
     }
-    }
+    },
+    "version": 1
+  }
+}
+</pre>
+</div>
 
 ## File formats: targets.json and delegated target roles ## {#file-formats-targets}
 
-The "signed" portion of targets.json is as follows:
+The "signed" portion of <dfn>targets.json</dfn> is as follows:
 
-    { "_type" : "targets",
-      "spec_version" : SPEC_VERSION,
-      "version" : VERSION,
-      "expires" : EXPIRES,
-      "targets" : TARGETS,
-      ("delegations" : DELEGATIONS)
-    }
+<pre highlight="json">
+{
+  "_type" : "targets",
+  "spec_version" : <a>SPEC_VERSION</a>,
+  "version" : <a for="role">VERSION</a>,
+  "expires" : <a>EXPIRES</a>,
+  "targets" : <a>TARGETS</a>,
+  ("delegations" : <a>DELEGATIONS</a>)
+}
+</pre>
 
-SPEC_VERSION, VERSION and EXPIRES are the same as is described for the root.json file.
+<a>SPEC_VERSION</a>, <a for="role">VERSION</a> and <a>EXPIRES</a> are the same
+as is described for the <a>root.json</a> file.
 
-TARGETS is an object whose format is the following:
+<dfn for="targets-obj">TARGETS</dfn> is an object whose format is the following:
 
-    { TARGETPATH : {
-          "length" : LENGTH,
-          "hashes" : HASHES,
-          ("custom" : CUSTOM) }
-      , ...
-    }
+<pre highlight="json">
+{
+  <a>TARGETPATH</a> : {
+      "length" : <a for="targets-obj">LENGTH</a>,
+      "hashes" : <a for="targets-obj">HASHES</a>,
+      ("custom" : <a>CUSTOM</a>) }
+  , ...
+}
+</pre>
 
-Each key of the TARGETS object is a TARGETPATH.  A TARGETPATH is a path to
-a file that is relative to a mirror's base URL of targets. To avoid
-surprising behavior when resolving paths, it is RECOMMENDED that a
-TARGETPATH uses the forward slash (/) as directory separator and does not
-start with a directory separator. The recommendation for TARGETPATH aligns
-with the ["path-relative-URL string"
-definition](https://url.spec.whatwg.org/#path-relative-url-string) in the
-WHATWG URL specification.
+where:
 
-It is allowed to have a TARGETS object with no TARGETPATH elements.  This
-can be used to indicate that no target files are available.
+  : <a for="targets-obj">TARGETS</a>
+  ::
+    Each key of the TARGETS object is a TARGETPATH.
 
-LENGTH is the integer length in bytes of the target file at TARGETPATH.
+  : <dfn>TARGETPATH</dfn>
+  ::
+    a path to a file that is relative to a mirror's base URL of targets.
+    To avoid surprising behavior when resolving paths, it is RECOMMENDED that
+    a TARGETPATH uses the forward slash (/) as directory separator and does not
+    start with a directory separator. The recommendation for TARGETPATH aligns
+    with the ["path-relative-URL string"
+    definition](https://url.spec.whatwg.org/#path-relative-url-string) in the
+    WHATWG URL specification.
 
-HASHES is a dictionary that specifies one or more hashes, including the
-cryptographic hash function.  For example: { "sha256": HASH, ... }. HASH is
-the hexdigest of the cryptographic function computed on the target file.
+    It is allowed to have a <a>TARGETS</a> object with no TARGETPATH elements.  This
+    can be used to indicate that no target files are available.
 
-If defined, the elements and values of the CUSTOM object will be made
-available to the client application.  The format of the CUSTOM object is
-opaque to the framework, which only needs to know that the "custom"
-attribute maps to an object.  The CUSTOM object may include version
-numbers, dependencies, requirements, or any other data that the application
-wants to include to describe the file at TARGETPATH.  The application may
-use this information to guide download decisions.
+  : <dfn for="targets-obj">LENGTH</dfn>
+  ::
+    the integer length in bytes of the target file at <a>TARGETPATH</a>.
 
-DELEGATIONS is an object whose format is the following:
+  : <dfn for="targets-obj">HASHES</dfn>
+  ::
+    a dictionary that specifies one or more hashes, including the
+    cryptographic hash function.  For example: { "sha256": HASH, ... }. HASH is
+    the hexdigest of the cryptographic function computed on the target file.
 
-    { "keys" : {
-          KEYID : KEY,
-          ... },
-      "roles" : [{
-          "name": ROLENAME,
-          "keyids" : [ KEYID, ... ] ,
-          "threshold" : THRESHOLD,
-          ("path_hash_prefixes" : [ HEX_DIGEST, ... ] |
-          "paths" : [ PATHPATTERN, ... ]),
-          "terminating": TERMINATING,
-      }, ... ]
-    }
+  : <dfn>CUSTOM</a>
+  ::
+    If defined, the elements and values of the CUSTOM object will be made
+    available to the client application.  The format of the CUSTOM object is
+    opaque to the framework, which only needs to know that the "custom"
+    attribute maps to an object.  The CUSTOM object may include version
+    numbers, dependencies, requirements, or any other data that the application
+    wants to include to describe the file at <a>TARGETPATH</a>.  The
+    application may use this information to guide download decisions.
 
-"keys" lists the public keys to verify signatures of delegated targets roles.
-Revocation and replacement of delegated targets roles keys is done by
-changing the keys in this field in the delegating role's metadata.
+<dfn>DELEGATIONS</dfn> is an object whose format is the following:
 
-ROLENAME is the name of the delegated role.  For example,
-"projects".
+<pre highlight="json">
+{
+  "keys" : {
+      KEYID : KEY,
+      ...
+  },
+  "roles" : [
+    {
+      "name": <a>ROLENAME</a>,
+      "keyids" : [ KEYID, ... ] ,
+      "threshold" : <a>THRESHOLD</a>,
+      ("path_hash_prefixes" : [ HEX_DIGEST, ... ] |
+      "paths" : [ PATHPATTERN, ... ]),
+      "terminating": <a>TERMINATING</a>,
+    },
+    ...
+  ]
+}
+</pre>
 
-TERMINATING is a boolean indicating whether subsequent delegations should be
-considered.
+where:
 
-As explained in the [Diplomat
-paper](https://github.com/theupdateframework/tuf/blob/develop/docs/papers/protect-community-repositories-nsdi2016.pdf),
-terminating delegations instruct the client not to consider future trust
-statements that match the delegation's pattern, which stops the delegation
-processing once this delegation (and its descendants) have been processed.
-A terminating delegation for a package causes any further statements about a
-package that are not made by the delegated party or its descendants to be
-ignored.
+  : "keys"
+  ::
+    lists the public keys to verify signatures of delegated targets roles.
+    Revocation and replacement of delegated targets roles keys is done by
+    changing the keys in this field in the delegating role's metadata.
+
+  : <dfn>ROLENAME</dfn>
+  ::
+    the name of the delegated role.  For example, "projects".
+
+  : <dfn>TERMINATING</dfn>
+  ::
+    a boolean indicating whether subsequent delegations should be considered.
+
+    As explained in the [Diplomat
+    paper](https://github.com/theupdateframework/tuf/blob/develop/docs/papers/protect-community-repositories-nsdi2016.pdf),
+    terminating delegations instruct the client not to consider future trust
+    statements that match the delegation's pattern, which stops the delegation
+    processing once this delegation (and its descendants) have been processed.
+    A terminating delegation for a package causes any further statements about a
+    package that are not made by the delegated party or its descendants to be
+    ignored.
 
 In order to discuss target paths, a role MUST specify only one of the
 "path_hash_prefixes" or "paths" attributes, each of which we discuss next.
 
-The "path_hash_prefixes" list is used to succinctly describe a set of target
-paths. Specifically, each HEX_DIGEST in "path_hash_prefixes" describes a set
-of target paths; therefore, "path_hash_prefixes" is the union over each
-prefix of its set of target paths. The target paths must meet this
-condition: each target path, when hashed with the SHA-256 hash function to
-produce a 64-byte hexadecimal digest (HEX_DIGEST), must share the same
-prefix as one of the prefixes in "path_hash_prefixes". This is useful to
-split a large number of targets into separate bins identified by consistent
-hashing.
+  : "path_hash_prefixes"
+  ::
+    The "path_hash_prefixes" list is used to succinctly describe a set of target
+    paths. Specifically, each HEX_DIGEST in "path_hash_prefixes" describes a set
+    of target paths; therefore, "path_hash_prefixes" is the union over each
+    prefix of its set of target paths. The target paths must meet this
+    condition: each target path, when hashed with the SHA-256 hash function to
+    produce a 64-byte hexadecimal digest (HEX_DIGEST), must share the same
+    prefix as one of the prefixes in "path_hash_prefixes". This is useful to
+    split a large number of targets into separate bins identified by consistent
+    hashing.
 
-The "paths" list describes paths that the role is trusted to provide.
-Clients MUST check that a target is in one of the trusted paths of all roles
-in a delegation chain, not just in a trusted path of the role that describes
-the target file.  PATHPATTERN can include shell-style wildcards and supports
-the Unix filename pattern matching convention.  Its format may either
-indicate a path to a single file, or to multiple paths with the use of
-shell-style wildcards.  For example, the path pattern "targets/*.tgz" would
-match file paths "targets/foo.tgz" and "targets/bar.tgz", but not
-"targets/foo.txt".  Likewise, path pattern "foo-version-?.tgz" matches
-"foo-version-2.tgz" and "foo-version-a.tgz", but not "foo-version-alpha.tgz".
-To avoid surprising behavior when matching targets with PATHPATTERN, it is
-RECOMMENDED that PATHPATTERN uses the forward slash (/) as directory
-separator and does not start with a directory separator, akin to
-TARGETSPATH.
+  : "paths"
+  ::
+    The "paths" list describes paths that the role is trusted to provide.
+    Clients MUST check that a target is in one of the trusted paths of all roles
+    in a delegation chain, not just in a trusted path of the role that describes
+    the target file.  PATHPATTERN can include shell-style wildcards and supports
+    the Unix filename pattern matching convention.  Its format may either
+    indicate a path to a single file, or to multiple paths with the use of
+    shell-style wildcards.  For example, the path pattern "targets/*.tgz" would
+    match file paths "targets/foo.tgz" and "targets/bar.tgz", but not
+    "targets/foo.txt".  Likewise, path pattern "foo-version-?.tgz" matches
+    "foo-version-2.tgz" and "foo-version-a.tgz", but not "foo-version-alpha.tgz".
+    To avoid surprising behavior when matching targets with PATHPATTERN, it is
+    RECOMMENDED that PATHPATTERN uses the forward slash (/) as directory
+    separator and does not start with a directory separator, akin to
+    TARGETSPATH.
 
 
 Prioritized delegations allow clients to resolve conflicts between delegated
@@ -934,66 +1071,70 @@ delegations, the "roles" key in the DELEGATIONS object above points to an array
 of delegated roles, rather than to a hash table.
 
 The metadata files for delegated target roles has the same format as the
-top-level targets.json metadata file.
+top-level <a>targets.json</a> metadata file.
 
-A targets.json example file:
+<div class="example" id="example-targets.json">
+A <a>targets.json</a> example file:
 
-    {
+<pre highlight="json">
+  {
     "signatures": [
-    {
-      "keyid": "135c2f50e57ff11e744d234a62cebad8c38daf399604a7655661cc9199c69164",
-      "sig": "e9fd40008fba263758a3ff1dc59f93e42a4910a282749af915fbbea1401178e5a0
-              12090c228f06db1deb75ad8ddd7e40635ac51d4b04301fce0fd720074e0209"
-    }
+      {
+        "keyid": "135c2f50e57ff11e744d234a62cebad8c38daf399604a7655661cc9199c69164",
+        "sig": "e9fd40008fba263758a3ff1dc59f93e42a4910a282749af915fbbea1401178e5a0
+                12090c228f06db1deb75ad8ddd7e40635ac51d4b04301fce0fd720074e0209"
+      }
     ],
     "signed": {
-    "_type": "targets",
-    "spec_version": "1.0.0",
-    "delegations": {
-      "keys": {
-      "f761033eb880143c52358d941d987ca5577675090e2215e856ba0099bc0ce4f6": {
-        "keytype": "ed25519",
-        "scheme": "ed25519",
-        "keyval": {
-        "public": "b6e40fb71a6041212a3d84331336ecaa1f48a0c523f80ccc762a034c727606fa"
+      "_type": "targets",
+      "spec_version": "1.0.0",
+      "delegations": {
+        "keys": {
+        "f761033eb880143c52358d941d987ca5577675090e2215e856ba0099bc0ce4f6": {
+          "keytype": "ed25519",
+          "scheme": "ed25519",
+          "keyval": {
+          "public": "b6e40fb71a6041212a3d84331336ecaa1f48a0c523f80ccc762a034c727606fa"
+          }
         }
-      }
+        },
+        "roles": [
+        {
+          "keyids": [
+          "f761033eb880143c52358d941d987ca5577675090e2215e856ba0099bc0ce4f6"
+          ],
+          "name": "project",
+          "paths": [
+          "project/file3.txt"
+          ],
+          "threshold": 1
+        }
+        ]
       },
-      "roles": [
-      {
-        "keyids": [
-        "f761033eb880143c52358d941d987ca5577675090e2215e856ba0099bc0ce4f6"
-        ],
-        "name": "project",
-        "paths": [
-        "project/file3.txt"
-        ],
-        "threshold": 1
-      }
-      ]
-    },
-    "expires": "2030-01-01T00:00:00Z",
-    "targets": {
-      "file1.txt": {
-      "hashes": {
-        "sha256": "65b8c67f51c993d898250f40aa57a317d854900b3a04895464313e48785440da"
+      "expires": "2030-01-01T00:00:00Z",
+      "targets": {
+        "file1.txt": {
+        "hashes": {
+          "sha256": "65b8c67f51c993d898250f40aa57a317d854900b3a04895464313e48785440da"
+        },
+        "length": 31
+        },
+        "dir/file2.txt": {
+        "hashes": {
+          "sha256": "452ce8308500d83ef44248d8e6062359211992fd837ea9e370e561efb1a4ca99"
+        },
+        "length": 39
+        }
       },
-      "length": 31
-      },
-      "dir/file2.txt": {
-      "hashes": {
-        "sha256": "452ce8308500d83ef44248d8e6062359211992fd837ea9e370e561efb1a4ca99"
-      },
-      "length": 39
-      }
-    },
-    "version": 1
+      "version": 1
     }
-    }
+  }
+</pre>
+</div>
 
 ## File formats: timestamp.json ## {#file-formats-timestamp}
 
-The timestamp file is signed by a timestamp key.  It indicates the latest
+The <dfn>timestamp.json</dfn> file is signed by the timestamp role.  It indicates the latest
 version of the snapshot metadata and is frequently re-signed to limit the
 amount of time a client can be kept unaware of interference with obtaining
 updates.
@@ -1001,74 +1142,87 @@ updates.
 Timestamp files will potentially be downloaded very frequently.  Unnecessary
 information in them will be avoided.
 
-The "signed" portion of timestamp.json is as follows:
+The "signed" portion of <a>timestamp.json</a> is as follows:
 
-    { "_type" : "timestamp",
-      "spec_version" : SPEC_VERSION,
-      "version" : VERSION,
-      "expires" : EXPIRES,
-      "meta" : METAFILES
-    }
+<pre highlight="json">
+{
+  "_type" : "timestamp",
+  "spec_version" : <a>SPEC_VERSION</a>,
+  "version" : <a for="role">VERSION</a>,
+  "expires" : <a>EXPIRES</a>,
+  "meta" : <a>METAFILES</a>
+}
+</pre>
 
-SPEC_VERSION, VERSION and EXPIRES are the same as is described for the root.json file.
+<a>SPEC_VERSION</a>, <a for="role">VERSION</a> and <a>EXPIRES</a> are the same as is described for the root.json file.
 
-METAFILES is the same as described for the snapshot.json file.  In the case
+<a>METAFILES</a> is the same as described for the <a>snapshot.json</a> file.  In the case
 of the timestamp.json file, this MUST only include a description of the
-snapshot.json file.
+<a>snapshot.json</a> file.
 
-A signed timestamp.json example file:
-
-    {
-    "signatures": [
-    {
-      "keyid": "1bf1c6e3cdd3d3a8420b19199e27511999850f4b376c4547b2f32fba7e80fca3",
-      "sig": "90d2a06c7a6c2a6a93a9f5771eb2e5ce0c93dd580bebc2080d10894623cfd6eaed
-              f4df84891d5aa37ace3ae3736a698e082e12c300dfe5aee92ea33a8f461f02"
-    }
-    ],
-    "signed": {
-    "_type": "timestamp",
-    "spec_version": "1.0.0",
-    "expires": "2030-01-01T00:00:00Z",
-    "meta": {
-      "snapshot.json": {
-      "hashes": {
-        "sha256": "c14aeb4ac9f4a8fc0d83d12482b9197452f6adf3eb710e3b1e2b79e8d14cb681"
-      },
-      "length": 1007,
-      "version": 1
-      }
+<div class="example" id="example-timestamp.json">
+A signed <a>timestamp.json</a> example file:
+<pre highlight="json">
+{
+  "signatures": [
+  {
+    "keyid": "1bf1c6e3cdd3d3a8420b19199e27511999850f4b376c4547b2f32fba7e80fca3",
+    "sig": "90d2a06c7a6c2a6a93a9f5771eb2e5ce0c93dd580bebc2080d10894623cfd6eaed
+            f4df84891d5aa37ace3ae3736a698e082e12c300dfe5aee92ea33a8f461f02"
+  }
+  ],
+  "signed": {
+  "_type": "timestamp",
+  "spec_version": "1.0.0",
+  "expires": "2030-01-01T00:00:00Z",
+  "meta": {
+    "snapshot.json": {
+    "hashes": {
+      "sha256": "c14aeb4ac9f4a8fc0d83d12482b9197452f6adf3eb710e3b1e2b79e8d14cb681"
     },
+    "length": 1007,
     "version": 1
     }
-    }
+  },
+  "version": 1
+  }
+}
+</pre>
+</div>
 
 ## File formats: mirrors.json ## {#file-formats-mirrors}
 
-The mirrors.json file is signed by the mirrors role.  It indicates which
+The <dfn>mirrors.json</dfn> file is signed by the mirrors role.  It indicates which
 mirrors are active and believed to be mirroring specific parts of the
 repository.
 
-The "signed" portion of mirrors.json is as follows:
+The "signed" portion of <a>mirrors.json</a> is as follows:
 
+<pre highlight="json">
+{
+  "_type" : "mirrors",
+  "spec_version" : <a>SPEC_VERSION</a>,
+  "version" : <a for="role">VERSION</a>,
+  "expires" : <a>EXPIRES</a>,
+  "mirrors" : [
+    { "urlbase" : <a>URLBASE</a>,
+      "metapath" : <a>METAPATH</a>,
+      "targetspath" : TARGETSPATH,
+      "metacontent" : [ PATHPATTERN ... ] ,
+      "targetscontent" : [ PATHPATTERN ... ] ,
+      ("custom" : { ... }) }
+    , ... ]
+}
+</pre>
 
-  { "_type" : "mirrors",
-    "spec_version" : SPEC_VERSION,
-    "version" : VERSION,
-    "expires" : EXPIRES,
-    "mirrors" : [
-      { "urlbase" : URLBASE,
-        "metapath" : METAPATH,
-        "targetspath" : TARGETSPATH,
-        "metacontent" : [ PATHPATTERN ... ] ,
-        "targetscontent" : [ PATHPATTERN ... ] ,
-        ("custom" : { ... }) }
-      , ... ]
-  }
+<a>SPEC_VERSION</a>, <a for="role">VERSION</a> and <a>EXPIRES</a> are the same
+as is described for the <a>root.json</a> file.
 
-URLBASE is the URL of the mirror which METAPATH and TARGETSPATH are relative
-to.  All metadata files will be retrieved from METAPATH and all target files
-will be retrieved from TARGETSPATH.
+  : <dfn>URLBASE</dfn>
+  ::
+    the URL of the mirror which <a>METAPATH</a> and TARGETSPATH are relative
+    to.  All metadata files will be retrieved from <a>METAPATH</a> and all target files
+    will be retrieved from TARGETSPATH.
 
 The lists of PATHPATTERN for "metacontent" and "targetscontent" describe the
 metadata files and target files available from the mirror.
@@ -1353,8 +1507,8 @@ it in the next step.
 
 # 6. Usage # {#usage}
 
-See https://theupdateframework.io/ for discussion of recommended usage
-in various situations.
+See [theupdateframework.io](https://theupdateframework.io/) for discussion of
+recommended usage in various situations.
 
 ## Key management and migration ## {#key-management-and-migration}
 
