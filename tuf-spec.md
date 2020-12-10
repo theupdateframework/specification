@@ -644,8 +644,8 @@ where:
 The <a for="role">KEYID</a> of a key is the hexdigest of the SHA-256 hash of
 the canonical form of the key.
 
-Metadata date-time data follows the ISO 8601 standard.  The expected format
-of the combined date and time string is "YYYY-MM-DDTHH:MM:SSZ".  Time is
+Metadata <dfn>date-time</dfn> follows the ISO 8601 standard.  The expected
+format of the combined date and time string is "YYYY-MM-DDTHH:MM:SSZ".  Time is
 always in UTC, and the "Z" time zone designator is attached to indicate a
 zero UTC offset.  An example date-time string is "1985-10-21T01:21:00Z".
 
@@ -688,8 +688,8 @@ where:
 
   : <dfn>SPEC_VERSION</dfn>
   ::
-    is a string that contains the version number of the TUF
-    specification. Its format follows the [Semantic Versioning 2.0.0
+    A string that contains the version number of the TUF
+    specification.  Its format follows the [Semantic Versioning 2.0.0
     (semver)](https://semver.org/spec/v2.0.0.html) specification. Metadata is
     written according to version "spec_version" of the specification, and
     clients MUST verify that "spec_version" matches the expected version number.
@@ -698,23 +698,24 @@ where:
 
   : <dfn>CONSISTENT_SNAPSHOT</dfn>
   ::
-    is a boolean indicating whether the repository supports
+    A boolean indicating whether the repository supports
     consistent snapshots.  Section 7 goes into more detail on the consequences
     of enabling this setting on a repository.
 
   : <dfn for="role">VERSION</dfn>
   ::
-    is an integer that is greater than 0.  Clients MUST NOT replace a
+    An integer that is greater than 0.  Clients MUST NOT replace a
     metadata file with a version number less than the one currently trusted.
 
   : <dfn>EXPIRES</dfn>
   ::
-    determines when metadata should be considered expired and no longer
-    trusted by clients.  Clients MUST NOT trust an expired file.
+    A <a>date-time</a> string indicating when metadata should be considered
+    expired and no longer trusted by clients.  Clients MUST NOT trust an
+    expired file.
 
   : <dfn for="root">ROLE</dfn>
   ::
-    is one of "root", "snapshot", "targets", "timestamp", or "mirrors".
+    One of "root", "snapshot", "targets", "timestamp", or "mirrors".
     A role for each of "root", "snapshot", "timestamp", and "targets" MUST be
     specified in the key list. The role of "mirror" is OPTIONAL.  If not
     specified, the mirror list will not need to be signed if mirror lists are
@@ -722,16 +723,16 @@ where:
 
   : <dfn for="root">KEYID</dfn>
   ::
-    The KEYID MUST be correct for the specified KEY.  Clients MUST calculate
-    each KEYID to verify this is correct for the associated key.  Clients MUST
-    ensure that for any KEYID represented in this key list and in other files,
-    only one unique key has that KEYID.
+    A <a for="role">KEYID</a>, which MUST be correct for the specified KEY.
+    Clients MUST calculate each <a for="role">KEYID</a> to verify this is
+    correct for the associated key.  Clients MUST ensure that for any
+    <a for="role">KEYID</a> represented in this key list and in other files,
+    only one unique key has that <a for="role">KEYID</a>.
 
   : <dfn>THRESHOLD</dfn>
   ::
-    The THRESHOLD for a role is an integer of the number of keys of that role
-    whose signatures are required in order to consider a file as being properly
-    signed by that role.
+    An integer number of keys of that role whose signatures are required in
+    order to consider a file as being properly signed by that role.
 
 <div class='example' id='example-root.json'>
 A <a>root.json</a> example file:
@@ -837,7 +838,7 @@ as is described for the <a>root.json</a> file.
 
 <pre highlight="json">
 {
-  <a>METAPATH</a> : {
+  <a for="snapshot">METAPATH</a> : {
       "version" : <a for="metapath">VERSION</a>,
       ("length" : <a for="metapath">LENGTH</a>,)
       ("hashes" : <a for="metapath">HASHES</a>)
@@ -848,31 +849,35 @@ as is described for the <a>root.json</a> file.
 
 where:
 
-  : <dfn>METAPATH</dfn>
+  : <dfn for="snapshot">METAPATH</dfn>
   ::
-    the file path of the metadata on the repository relative to the
-    metadata base URL. For snapshot.json, these are top-level targets metadata
-    and delegated targets metadata.
+    A string giving the file path of the metadata on the repository relative to
+    the metadata base URL.  For snapshot.json, these are top-level targets
+    metadata and delegated targets metadata.
 
   : <dfn for="metapath">VERSION</dfn>
   ::
-    the integer version number as shown in the metadata file at <a>METAPATH</a>.
+    An integer version number as shown in the metadata file at
+    <a for="snapshot">METAPATH</a>.
 
   : <dfn for="metapath">LENGTH</dfn>
   ::
-    the integer length in bytes of the metadata file at <a>METAPATH</a>. It
-    is OPTIONAL and can be omitted to reduce the snapshot metadata file size. In
-    that case the client MUST use a custom download limit for the listed
-    metadata.
+    An integer length in bytes of the metadata file at
+    <a for="snapshot">METAPATH</a>. It is OPTIONAL and can be omitted to reduce
+    the snapshot metadata file size.  In that case the client MUST use a custom
+    download limit for the listed metadata.
 
   : <dfn for="metapath">HASHES</dfn>
   ::
-    a dictionary that specifies one or more hashes of the metadata
-    file at <a>METAPATH</a>, including their cryptographic hash function. For
-    example: { "sha256": HASH, ... }. HASHES is OPTIONAL and can be omitted to
-    reduce the snapshot metadata file size.  In that case the repository MUST
-    guarantee that <a for="metapath">VERSION</a> alone unambiguously identifies
-    the metadata at <a>METAPATH</a>.
+    A dictionary that specifies one or more hashes of the metadata
+    file at <a for="snapshot">METAPATH</a>, with the cryptographic hash
+    function as key and the value as <dfn>HASH</dfn>, the hexdigest of the
+    cryptographic function computed on the metadata file at
+    <a for="snapshot">METAPATH</a>.  For example: `{ "sha256": HASH, ... }`.
+    <a for="metapath">HASHES</a> is OPTIONAL and can be omitted to reduce the
+    snapshot metadata file size.  In that case the repository MUST guarantee
+    that <a for="metapath">VERSION</a> alone unambiguously identifies
+    the metadata at <a for="snapshot">METAPATH</a>.
 
 <div class="example" id="example-snapshot.json">
 A <a>snapshot.json</a> example file:
@@ -948,40 +953,42 @@ where:
 
   : <a for="targets-obj">TARGETS</a>
   ::
-    Each key of the TARGETS object is a TARGETPATH.
+    Each key of the TARGETS object is a <a>TARGETPATH</a>.
 
   : <dfn>TARGETPATH</dfn>
   ::
-    a path to a file that is relative to a mirror's base URL of targets.
-    To avoid surprising behavior when resolving paths, it is RECOMMENDED that
-    a TARGETPATH uses the forward slash (/) as directory separator and does not
-    start with a directory separator. The recommendation for TARGETPATH aligns
-    with the ["path-relative-URL string"
+    A string giving the path to a file that is relative to a mirror's base URL
+    of targets.  To avoid surprising behavior when resolving paths, it is
+    RECOMMENDED that a <a>TARGETPATH</a> uses the forward slash (/) as directory
+    separator and does not start with a directory separator. The recommendation
+    for <a>TARGETPATH</a> aligns with the ["path-relative-URL string"
     definition](https://url.spec.whatwg.org/#path-relative-url-string) in the
     WHATWG URL specification.
 
-    It is allowed to have a <a>TARGETS</a> object with no TARGETPATH elements.  This
-    can be used to indicate that no target files are available.
+    It is allowed to have a <a>TARGETS</a> object with no <a>TARGETPATH</a>
+    elements.  This can be used to indicate that no target files are available.
 
   : <dfn for="targets-obj">LENGTH</dfn>
   ::
-    the integer length in bytes of the target file at <a>TARGETPATH</a>.
+    An integer length in bytes of the target file at <a>TARGETPATH</a>.
 
   : <dfn for="targets-obj">HASHES</dfn>
   ::
-    a dictionary that specifies one or more hashes, including the
-    cryptographic hash function.  For example: { "sha256": HASH, ... }. HASH is
-    the hexdigest of the cryptographic function computed on the target file.
+    A dictionary that specifies one or more hashes of the target file at
+    <a>TARGETPATH</a>, with a string describing the cryptographic hash function
+    as key and <a>HASH</a> as defined for <a>METAFILES</a>.  For example:
+    `{ "sha256": HASH, ... }`.
 
   : <dfn>CUSTOM</a>
   ::
-    If defined, the elements and values of the CUSTOM object will be made
-    available to the client application.  The format of the CUSTOM object is
-    opaque to the framework, which only needs to know that the "custom"
-    attribute maps to an object.  The CUSTOM object may include version
-    numbers, dependencies, requirements, or any other data that the application
-    wants to include to describe the file at <a>TARGETPATH</a>.  The
-    application may use this information to guide download decisions.
+    An object.  If defined, the elements and values of the <a>CUSTOM</a> object
+    will be made available to the client application.  The format of the
+    <a>CUSTOM</a> object is opaque to the framework, which only needs to know
+    that the "custom" attribute maps to an object.  The <a>CUSTOM</a> object
+    may include version numbers, dependencies, requirements, or any other data
+    that the application wants to include to describe the file at
+    <a>TARGETPATH</a>.  The application may use this information to guide
+    download decisions.
 
 <dfn>DELEGATIONS</dfn> is an object whose format is the following:
 
@@ -1009,17 +1016,18 @@ where:
 
   : "keys"
   ::
-    lists the public keys to verify signatures of delegated targets roles.
+    A list of <a for="role">KEYID</a>'s identifying the public keys to verify
+    signatures of delegated targets roles.
     Revocation and replacement of delegated targets roles keys is done by
     changing the keys in this field in the delegating role's metadata.
 
   : <dfn>ROLENAME</dfn>
   ::
-    the name of the delegated role.  For example, "projects".
+    A string giving the name of the delegated role.  For example, "projects".
 
   : <dfn>TERMINATING</dfn>
   ::
-    a boolean indicating whether subsequent delegations should be considered.
+    A boolean indicating whether subsequent delegations should be considered.
 
     As explained in the [Diplomat
     paper](https://github.com/theupdateframework/tuf/blob/develop/docs/papers/protect-community-repositories-nsdi2016.pdf),
@@ -1031,36 +1039,38 @@ where:
     ignored.
 
 In order to discuss target paths, a role MUST specify only one of the
-"path_hash_prefixes" or "paths" attributes, each of which we discuss next.
+<a>"path_hash_prefixes"</a> or <a>"paths"</a> attributes, each of which we
+discuss next.
 
-  : "path_hash_prefixes"
+  : <dfn>"path_hash_prefixes"</dfn>
   ::
-    The "path_hash_prefixes" list is used to succinctly describe a set of target
-    paths. Specifically, each HEX_DIGEST in "path_hash_prefixes" describes a set
-    of target paths; therefore, "path_hash_prefixes" is the union over each
-    prefix of its set of target paths. The target paths must meet this
-    condition: each target path, when hashed with the SHA-256 hash function to
-    produce a 64-byte hexadecimal digest (HEX_DIGEST), must share the same
-    prefix as one of the prefixes in "path_hash_prefixes". This is useful to
-    split a large number of targets into separate bins identified by consistent
-    hashing.
+    A list of HEX_DIGESTs used to succinctly describe a set of target
+    paths. Specifically, each HEX_DIGEST in <a>"path_hash_prefixes"</a>
+    describes a set of target paths; therefore, <a>"path_hash_prefixes"</a> is
+    the union over each prefix of its set of target paths.  The target paths
+    must meet this condition: each target path, when hashed with the SHA-256
+    hash function to produce a 64-byte hexadecimal digest
+    (HEX_DIGEST), must share the same prefix as one of the prefixes
+    in <a>"path_hash_prefixes"</a>.  This is useful to split a large number of
+    targets into separate bins identified by consistent hashing.
 
-  : "paths"
+  : <dfn>"paths"</dfn>
   ::
-    The "paths" list describes paths that the role is trusted to provide.
-    Clients MUST check that a target is in one of the trusted paths of all roles
-    in a delegation chain, not just in a trusted path of the role that describes
-    the target file.  PATHPATTERN can include shell-style wildcards and supports
-    the Unix filename pattern matching convention.  Its format may either
-    indicate a path to a single file, or to multiple paths with the use of
-    shell-style wildcards.  For example, the path pattern "targets/*.tgz" would
-    match file paths "targets/foo.tgz" and "targets/bar.tgz", but not
-    "targets/foo.txt".  Likewise, path pattern "foo-version-?.tgz" matches
-    "foo-version-2.tgz" and "foo-version-a.tgz", but not "foo-version-alpha.tgz".
-    To avoid surprising behavior when matching targets with PATHPATTERN, it is
-    RECOMMENDED that PATHPATTERN uses the forward slash (/) as directory
-    separator and does not start with a directory separator, akin to
-    TARGETSPATH.
+    A list of strings, where each string describe paths that the role is
+    trusted to provide.  Clients MUST check that a target is in one of the
+    trusted paths of all roles in a delegation chain, not just in a trusted
+    path of the role that describes the target file.  <dfn>PATHPATTERN</dfn>
+    can include shell-style wildcards and supports the Unix filename pattern
+    matching convention.  Its format may either indicate a path to a single
+    file, or to multiple paths with the use of shell-style wildcards.  For
+    example, the path pattern "targets/*.tgz" would match file paths
+    "targets/foo.tgz" and "targets/bar.tgz", but not "targets/foo.txt".
+    Likewise, path pattern "foo-version-?.tgz" matches "foo-version-2.tgz" and
+    "foo-version-a.tgz", but not "foo-version-alpha.tgz".
+    To avoid surprising behavior when matching targets with <a>PATHPATTERN</a>,
+    it is RECOMMENDED that <a>PATHPATTERN</a> uses the forward slash (/) as
+    directory separator and does not start with a directory separator, akin to
+    <a>TARGETPATH</a>.
 
 
 Prioritized delegations allow clients to resolve conflicts between delegated
@@ -1210,25 +1220,35 @@ The "signed" portion of <a>mirrors.json</a> is as follows:
   "expires" : <a>EXPIRES</a>,
   "mirrors" : [
     { "urlbase" : <a>URLBASE</a>,
-      "metapath" : <a>METAPATH</a>,
+      "metapath" : <a for="mirrors">METAPATH</a>,
       "targetspath" : TARGETSPATH,
-      "metacontent" : [ PATHPATTERN ... ] ,
-      "targetscontent" : [ PATHPATTERN ... ] ,
+      "metacontent" : [ <a>PATHPATTERN</a> ... ] ,
+      "targetscontent" : [ <a>PATHPATTERN</a> ... ] ,
       ("custom" : { ... }) }
     , ... ]
 }
 </pre>
+
+where:
 
 <a>SPEC_VERSION</a>, <a for="role">VERSION</a> and <a>EXPIRES</a> are the same
 as is described for the <a>root.json</a> file.
 
   : <dfn>URLBASE</dfn>
   ::
-    the URL of the mirror which <a>METAPATH</a> and TARGETSPATH are relative
-    to.  All metadata files will be retrieved from <a>METAPATH</a> and all target files
-    will be retrieved from TARGETSPATH.
+    A string giving the URL of the mirror.
 
-The lists of PATHPATTERN for "metacontent" and "targetscontent" describe the
+  : <dfn for="mirrors">METAPATH</dfn>
+  ::
+    A string giving the location from which to retrieve metadata files.
+    <a for="mirrors">METAPATH</a> will be a relative path to <a>URLBASE</a>.
+
+  : <dfn>TARGETSPATH</a>
+  ::
+    A string giving the location from which to retrieve target files.
+    <a>TARGETSPATH</a> will be a relative path to <a>URLBASE</a>.
+
+The lists of <a>PATHPATTERN</a> for "metacontent" and "targetscontent" describe the
 metadata files and target files available from the mirror.
 
 The order of the list of mirrors is important.  For any file to be
