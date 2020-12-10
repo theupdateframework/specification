@@ -1261,16 +1261,14 @@ matching paths will only be tried if downloading from earlier mirrors fails.
 This behavior can be modified by the client code that uses the framework to,
 for example, randomly select from the listed mirrors.
 
-# Detailed workflows # {#detailed-workflows}
-
-## The client application ## {#the-client-application}
+# Detailed client workflow # {#detailed-client-workflow}
 
 Note: If a step in the following workflow does not succeed (e.g., the update
 is aborted because a new metadata file was not signed), the client should
 still be able to update again in the future. Errors raised during the update
 process should not leave clients in an unrecoverable state.
 
-## Record the time at which the update began ## {#fix-time}
+## Record fixed update start time ## {#fix-time}
 
 Record the time at which the update began as the fixed update start time.
 Time is fixed at the beginning of the update workflow to allow
@@ -1278,7 +1276,7 @@ an application using TUF to effectively pause time, in order to ensure that
 metadata which has a valid expiration time at the beginning of an update
 does not fail an expiration check later in the update workflow.
 
-## Load the trusted root metadata file ## {#load-trusted-root}
+## Load trusted root metadata ## {#load-trusted-root}
 
 Load the trusted root metadata file.  We assume that a good,
 trusted copy of this file was shipped with the package manager or software
