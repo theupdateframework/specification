@@ -3,7 +3,7 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS-COMMIT
 Abstract: A framework for securing software update systems.
-Date: 2020-12-03
+Date: 2020-12-11
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Datadog
 Editor: Joshua Lock, VMware
@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Markup Shorthands: css no, markdown yes
 </pre>
 
-Version: **1.0.16**
+Version: **1.0.17**
 
 We strive to make the specification easy to implement, so if you come across
 any inconsistencies or experience any difficulty, do let us know by sending an
