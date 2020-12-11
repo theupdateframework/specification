@@ -1,8 +1,8 @@
 # <p align="center">The Update Framework Specification
 
-Last modified: **3 December 2020**
+Last modified: **11 December 2020**
 
-Version: **1.0.16**
+Version: **1.0.17**
 
 We strive to make the specification easy to implement, so if you come across
 any inconsistencies or experience any difficulty, do let us know by sending an
@@ -1303,15 +1303,10 @@ snapshot metadata file.
     * **5.5.6.2**. Otherwise, recursively search the list of delegations in
     order of appearance.
 
-      * **5.5.6.2.1**. If the current delegation is a multi-role delegation,
-      recursively visit each role, and check that each has signed exactly the
-      same non-custom metadata (i.e., length and hashes) about the target (or
-      the lack of any such metadata).
-
-      * **5.5.6.2.2**. If the current delegation is a terminating delegation,
+      * **5.5.6.2.1**. If the current delegation is a terminating delegation,
       then jump to step 5.6.
 
-      * **5.5.6.2.3**. Otherwise, if the current delegation is a
+      * **5.5.6.2.2**. Otherwise, if the current delegation is a
       non-terminating delegation, continue processing the next delegation, if
       any. Stop the search, and jump to step 5.6 as soon as a delegation
       returns a result.
