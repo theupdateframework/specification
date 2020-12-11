@@ -60,7 +60,7 @@ Work on TUF began in late 2009.  The core ideas are based off of previous
 work done by Justin Cappos and Justin Samuel that [identified security flaws
 in all popular Linux package managers](https://theupdateframework.io/papers/attacks-on-package-managers-ccs2008.pdf).
 More information and current versions of this document can be found at
-https://theupdateframework.io/
+[https://theupdateframework.io/](https://theupdateframework.io/)
 
 The [Global Environment for Network Innovations](https://www.geni.net/) (GENI)
 and the [National Science Foundation](https://www.nsf.gov/) (NSF) have
@@ -71,7 +71,8 @@ TUF's reference implementation is based on prior work on
 updater for Tor. Its design and this spec
 also came from ideas jointly developed in discussion with Thandy's authors.
 The Thandy spec can be found at
-https://gitweb.torproject.org/thandy.git/tree/specs/thandy-spec.txt
+[https://gitweb.torproject.org/thandy.git/tree/specs/thandy-spec.txt
+](https://gitweb.torproject.org/thandy.git/tree/specs/thandy-spec.txt)
 
 Whereas Thandy is an application updater for an individual software project,
 TUF aims to provide a way to secure any software update system. We're very
@@ -569,18 +570,20 @@ cryptographic library:
   : <dfn for="scheme">"rsassa-pss-sha256"</dfn>
   ::
     RSA Probabilistic signature scheme with appendix. The underlying hash
-    function is SHA256. https://tools.ietf.org/html/rfc3447#page-29
+    function is SHA256. [https://tools.ietf.org/html/rfc3447#page-29
+    ](https://tools.ietf.org/html/rfc3447#page-29)
 
   : <dfn for="scheme">"ed25519"</dfn>
   ::
     Elliptic curve digital signature algorithm based on Twisted Edwards curves.
-    https://ed25519.cr.yp.to/
+    [https://ed25519.cr.yp.to/](https://ed25519.cr.yp.to/)
 
   : <dfn for="scheme">"ecdsa-sha2-nistp256"</dfn>
   ::
     Elliptic Curve Digital Signature Algorithm with NIST P-256 curve signing
     and SHA-256 hashing.
-    https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm
+    [https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm
+    ](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm)
 
 We define three keytypes below: <a for="keytype">"rsa"</a>, <a
 for="keytype">"ed25519"</a>, and <a for="keytype">"ecdsa-sha2-nistp256"</a>, but adopters
@@ -1529,7 +1532,7 @@ it in the next step.
 
 # 6. Usage # {#usage}
 
-See [theupdateframework.io](https://theupdateframework.io/) for discussion of
+See [https://theupdateframework.io/](https://theupdateframework.io/) for discussion of
 recommended usage in various situations.
 
 ## Key management and migration ## {#key-management-and-migration}
