@@ -1032,8 +1032,8 @@ where:
   ::
     A boolean indicating whether subsequent delegations should be considered.
 
-    As explained in the [Diplomat
-    paper](https://github.com/theupdateframework/tuf/blob/develop/docs/papers/protect-community-repositories-nsdi2016.pdf),
+    As explained in the [Diplomat paper
+    ](https://theupdateframework.io/papers/protect-community-repositories-nsdi2016.pdf),
     terminating delegations instruct the client not to consider future trust
     statements that match the delegation's pattern, which stops the delegation
     processing once this delegation (and its descendants) have been processed.
@@ -1351,7 +1351,7 @@ it in the next step.
   arbitrarily increase the version numbers of: (1) the timestamp metadata, (2)
   the snapshot metadata, and / or (3) the targets, or a delegated targets,
   metadata file in the snapshot metadata. Please see [the Mercury
-  paper](https://ssl.engineering.nyu.edu/papers/kuppusamy-mercury-usenix-2017.pdf)
+  paper](https://theupdateframework.io/papers/prevention-rollback-attacks-atc2017.pdf)
   for more details.
 
 1. **Set whether consistent snapshots are used as per the trusted**
