@@ -215,7 +215,7 @@ when a client is unable to update.
 
 ### TUF Augmentation Proposal (TAP) support ### {#tuf-augmentation-proposal-tap-support}
 
-This version (1.0.0) of the specification adheres to the following TAPS:
+This major version (1.x.y) of the specification adheres to the following TAPS:
 
 - [TAP 6](https://github.com/theupdateframework/taps/blob/master/tap6.md):
     Include specification version in metadata
@@ -226,7 +226,7 @@ This version (1.0.0) of the specification adheres to the following TAPS:
 - [TAP 11](https://github.com/theupdateframework/taps/blob/master/tap11.md):
     Using POUFs for Interoperability
 
-Implementations compliant with this version (1.0.0) of the specification
+Implementations compliant with this major version (1.x.y) of the specification
 must also comply with the TAPs mentioned above.
 
 # System overview # {#system-overview}
