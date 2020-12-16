@@ -1296,10 +1296,10 @@ it in the next step.
   reached.  Therefore, it MUST temporarily turn on consistent snapshots in
   order to download *versioned* root metadata files as described next.
 
-1. Let N denote the version number of the trusted root metadata
+2. Let N denote the version number of the trusted root metadata
   file.
 
-1. **Try downloading version N+1 of the root metadata file**, up to
+3. **Try downloading version N+1 of the root metadata file**, up to
   some W number of bytes (because the size is unknown). The value for W is set
   by the authors of the application using TUF. For example, W may be tens of
   kilobytes. The filename used to download the root metadata file is of the
@@ -1309,7 +1309,7 @@ it in the next step.
   The value for Y is set by the authors of the application using TUF. For
   example, Y may be 2^10.
 
-1. **Check for an arbitrary software attack.** Version N+1 of the root
+4. **Check for an arbitrary software attack.** Version N+1 of the root
   metadata file MUST have been signed by: (1) a threshold of keys specified in
   the trusted root metadata file (version N), and (2) a threshold of keys
   specified in the new root metadata file being validated (version N+1).  If
@@ -1317,7 +1317,7 @@ it in the next step.
   and report the signature failure.  On the next update cycle, begin at step
   [[#update-root]] and version N of the root metadata file.
 
-1. **Check for a rollback attack.** The version number of the trusted
+5. **Check for a rollback attack.** The version number of the trusted
   root metadata file (version N) MUST be less than or equal to the version
   number of the new root metadata file (version N+1). Effectively, this means
   checking that the version number signed in the new root metadata file is
@@ -1326,24 +1326,24 @@ it in the next step.
   rollback attack.  On the next update cycle, begin at step [[#update-root]]
   and version N of the root metadata file.
 
-1. Note that the expiration of the new (intermediate) root metadata
+6. Note that the expiration of the new (intermediate) root metadata
   file does not matter yet, because we will check for it in step 5.3.10.
 
-1. **Set the trusted root metadata file** to the new root metadata
+7. **Set the trusted root metadata file** to the new root metadata
   file.
 
-1. **Persist root metadata.** The client MUST write the file to
+8. **Persist root metadata.** The client MUST write the file to
   non-volatile storage as FILENAME.EXT (e.g. root.json).
 
-1. Repeat steps 5.3.1 to 5.3.8
+9. Repeat steps 5.3.1 to 5.3.8
 
-1. **Check for a freeze attack.** The expiration timestamp in the
+10. **Check for a freeze attack.** The expiration timestamp in the
   trusted root metadata file MUST be higher than the fixed update start time.
   If the trusted root metadata file has expired, abort the update cycle,
   report the potential freeze attack.  On the next update cycle, begin at step
   5.1 and version N of the root metadata file.
 
-1. **If the timestamp and / or snapshot keys have been rotated, then delete the
+11. **If the timestamp and / or snapshot keys have been rotated, then delete the
   trusted timestamp and snapshot metadata files.** This is done
   in order to recover from fast-forward attacks after the repository has been
   compromised and recovered. A _fast-forward attack_ happens when attackers
@@ -1353,7 +1353,7 @@ it in the next step.
   paper](https://theupdateframework.io/papers/prevention-rollback-attacks-atc2017.pdf)
   for more details.
 
-1. **Set whether consistent snapshots are used as per the trusted**
+12. **Set whether consistent snapshots are used as per the trusted**
     root metadata file (see [[#file-formats-root]]).
 
 ## Update the timestamp role ## {#update-timestamp}
@@ -1364,13 +1364,13 @@ it in the next step.
   used to download the timestamp metadata file is of the fixed form FILENAME.EXT
   (e.g., timestamp.json).
 
-1. **Check for an arbitrary software attack.** The new timestamp
+2. **Check for an arbitrary software attack.** The new timestamp
   metadata file MUST have been signed by a threshold of keys specified in the
   trusted root metadata file.  If the new timestamp metadata file is not
   properly signed, discard it, abort the update cycle, and report the signature
   failure.
 
-1. **Check for a rollback attack.**
+3. **Check for a rollback attack.**
 
   1. The version number of the trusted timestamp metadata file, if
     any, MUST be less than or equal to the version number of the new timestamp
@@ -1378,18 +1378,18 @@ it in the next step.
     trusted timestamp metadata file, discard it, abort the update cycle, and
     report the potential rollback attack.
 
-  1. The version number of the snapshot metadata file in the
+  2. The version number of the snapshot metadata file in the
     trusted timestamp metadata file, if any, MUST be less than or equal to its
     version number in the new timestamp metadata file.  If not, discard the new
     timestamp metadata file, abort the update cycle, and report the failure.
 
-1. **Check for a freeze attack.** The expiration timestamp in the
+4. **Check for a freeze attack.** The expiration timestamp in the
   new timestamp metadata file MUST be higher than the fixed update start time.
   If so, the new timestamp metadata file becomes the trusted timestamp
   metadata file.  If the new timestamp metadata file has expired, discard it,
   abort the update cycle, and report the potential freeze attack.
 
-1. **Persist timestamp metadata**. The client MUST write the file
+5. **Persist timestamp metadata**. The client MUST write the file
   to non-volatile storage as FILENAME.EXT (e.g. timestamp.json).
 
 ## Update the snapshot role ## {#update-snapshot}
@@ -1405,25 +1405,25 @@ it in the next step.
   the version number of the snapshot metadata file listed in the timestamp
   metadata file.
 
-1. **Check against timestamp role's snapshot hash**. The hashes
+2. **Check against timestamp role's snapshot hash**. The hashes
   of the new snapshot metadata file MUST match the hashes, if any, listed in
   the trusted timestamp metadata.  This is done, in part, to prevent a
   mix-and-match attack by man-in-the-middle attackers.  If the hashes do not
   match, discard the new snapshot metadata, abort the update cycle, and report
   the failure.
 
-1. **Check for an arbitrary software attack**. The new snapshot
+3. **Check for an arbitrary software attack**. The new snapshot
   metadata file MUST have been signed by a threshold of keys specified in the
   trusted root metadata file.  If the new snapshot metadata file is not signed
   as required, discard it, abort the update cycle, and report the signature
   failure.
 
-1. **Check against timestamp role's snapshot version**. The version
+4. **Check against timestamp role's snapshot version**. The version
   number of the new snapshot metadata file MUST match the version number listed
   in the trusted timestamp metadata.  If the versions do not match, discard the
   new snapshot metadata, abort the update cycle, and report the failure.
 
-1. **Check for a rollback attack**. The version number of the targets
+5. **Check for a rollback attack**. The version number of the targets
   metadata file, and all delegated targets metadata files, if any, in the
   trusted snapshot metadata file, if any, MUST be less than or equal to its
   version number in the new snapshot metadata file. Furthermore, any targets
@@ -1432,14 +1432,14 @@ it in the next step.
   these conditions are not met, discard the new snapshot metadata file, abort
   the update cycle, and report the failure.
 
-1. **Check for a freeze attack**. The expiration timestamp in the
+6. **Check for a freeze attack**. The expiration timestamp in the
   new snapshot metadata file MUST be higher than the fixed update start time.
   If so, the new snapshot metadata file becomes the trusted snapshot metadata
   file.  If the new snapshot metadata file is expired, discard it, abort the
   update cycle, and report the potential freeze attack.
 
 
-1. **Persist snapshot metadata**. The client MUST write the file to
+7. **Persist snapshot metadata**. The client MUST write the file to
   non-volatile storage as FILENAME.EXT (e.g. snapshot.json).
 
 ## Update the targets role ## {#update-targets}
@@ -1454,33 +1454,33 @@ it in the next step.
   42.targets.json), where VERSION_NUMBER is the version number of the targets
   metadata file listed in the snapshot metadata file.
 
-1. **Check against snapshot role's targets hash**. The hashes
+2. **Check against snapshot role's targets hash**. The hashes
   of the new targets metadata file MUST match the hashes, if any, listed in the
   trusted snapshot metadata.  This is done, in part, to prevent a mix-and-match
   attack by man-in-the-middle attackers.  If the new targets metadata file does
   not match, discard the new target metadata, abort the update cycle, and
   report the failure.
 
-1. **Check for an arbitrary software attack**. The new targets
+3. **Check for an arbitrary software attack**. The new targets
   metadata file MUST have been signed by a threshold of keys specified in the
   trusted root metadata file.  If the new targets metadata file is not signed
   as required, discard it, abort the update cycle, and report the failure.
 
-1. **Check against snapshot role's targets version**. The version
+4. **Check against snapshot role's targets version**. The version
   number of the new targets metadata file MUST match the version number listed
   in the trusted snapshot metadata.  If the versions do not match, discard it,
   abort the update cycle, and report the failure.
 
-1. **Check for a freeze attack**. The expiration timestamp in the
+5. **Check for a freeze attack**. The expiration timestamp in the
   new targets metadata file MUST be higher than the fixed update start time.
   If so, the new targets metadata file becomes the trusted targets metadata
   file.  If the new targets metadata file is expired, discard it, abort the
   update cycle, and report the potential freeze attack.
 
-1. **Persist targets metadata**. The client MUST write the file to
+6. **Persist targets metadata**. The client MUST write the file to
   non-volatile storage as FILENAME.EXT (e.g. targets.json).
 
-1. **Perform a pre-order depth-first search for metadata about the
+7. **Perform a pre-order depth-first search for metadata about the
   desired target, beginning with the top-level targets role.** Note: If
   any metadata requested in steps 5.6.7.1 - 5.6.7.2 cannot be downloaded nor
   validated, end the search and report that the target cannot be found.
@@ -1492,7 +1492,7 @@ it in the next step.
      bandwidth or time).  Otherwise, if this role contains metadata about the
      desired target, then go to step [[#fetch-target]].
 
-  1. Otherwise, recursively search the list of delegations in
+  2. Otherwise, recursively search the list of delegations in
      order of appearance.
 
     1. If the current delegation is a multi-role delegation,
@@ -1500,10 +1500,10 @@ it in the next step.
        same non-custom metadata (i.e., length and hashes) about the target (or
        the lack of any such metadata).
 
-    1. If the current delegation is a terminating delegation,
+    2. If the current delegation is a terminating delegation,
        then jump to step [[#fetch-target]].
 
-    1. Otherwise, if the current delegation is a
+    3. Otherwise, if the current delegation is a
        non-terminating delegation, continue processing the next delegation, if
        any. Stop the search, and jump to step [[#fetch-target]] as soon as a delegation
        returns a result.
@@ -1512,10 +1512,10 @@ it in the next step.
 
 1. **Verify the desired target against its targets metadata**.
 
-1. If there is no targets metadata about this target, abort the
+2. If there is no targets metadata about this target, abort the
     update cycle and report that there is no such target.
 
-1. Otherwise, download the target (up to the number of bytes
+3. Otherwise, download the target (up to the number of bytes
    specified in the targets metadata), and verify that its hashes match the
    targets metadata. (We download up to this number of bytes, because in some
    cases, the exact number is unknown. This may happen, for example, if an
