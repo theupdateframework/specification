@@ -1289,13 +1289,12 @@ it in the next step.
 
 ## Update the root role ## {#update-root}
 
-1. Since it may now be signed using
-  entirely different keys, the client MUST somehow be able to establish a
-  trusted line of continuity to the latest set of keys (see Section 6.1). To do
-  so, the client MUST download intermediate root metadata files, until the
-  latest available one is reached. Therefore, it MUST temporarily turn on
-  consistent snapshots in order to download _versioned_ root metadata files as
-  described next.
+1. Since it may now be signed using entirely different keys, the client MUST
+  somehow be able to establish a trusted line of continuity to the latest set
+  of keys (see [[#key-management-and-migration]]).  To do so, the client MUST
+  download intermediate root metadata files, until the latest available one is
+  reached.  Therefore, it MUST temporarily turn on consistent snapshots in
+  order to download *versioned* root metadata files as described next.
 
 1. Let N denote the version number of the trusted root metadata
   file.
@@ -1306,7 +1305,7 @@ it in the next step.
   kilobytes. The filename used to download the root metadata file is of the
   fixed form VERSION_NUMBER.FILENAME.EXT (e.g., 42.root.json). If this file is
   not available, or we have downloaded more than Y number of root metadata
-  files (because the exact number is as yet unknown), then go to step 5.2.9.
+  files (because the exact number is as yet unknown), then go to step 5.3.10.
   The value for Y is set by the authors of the application using TUF. For
   example, Y may be 2^10.
 
@@ -1316,7 +1315,7 @@ it in the next step.
   specified in the new root metadata file being validated (version N+1).  If
   version N+1 is not signed as required, discard it, abort the update cycle,
   and report the signature failure.  On the next update cycle, begin at step
-  5.1 and version N of the root metadata file.
+  [[#update-root]] and version N of the root metadata file.
 
 1. **Check for a rollback attack.** The version number of the trusted
   root metadata file (version N) MUST be less than or equal to the version
@@ -1324,11 +1323,11 @@ it in the next step.
   checking that the version number signed in the new root metadata file is
   indeed N+1.  If the version of the new root metadata file is less than the
   trusted metadata file, discard it, abort the update cycle, and report the
-  rollback attack.  On the next update cycle, begin at step 5.1 and version N
-  of the root metadata file.
+  rollback attack.  On the next update cycle, begin at step [[#update-root]]
+  and version N of the root metadata file.
 
 1. Note that the expiration of the new (intermediate) root metadata
-  file does not matter yet, because we will check for it in step 5.2.9.
+  file does not matter yet, because we will check for it in step 5.3.10.
 
 1. **Set the trusted root metadata file** to the new root metadata
   file.
@@ -1336,7 +1335,7 @@ it in the next step.
 1. **Persist root metadata.** The client MUST write the file to
   non-volatile storage as FILENAME.EXT (e.g. root.json).
 
-1. Repeat steps 5.2.1 to 5.2.8
+1. Repeat steps 5.3.1 to 5.3.8
 
 1. **Check for a freeze attack.** The expiration timestamp in the
   trusted root metadata file MUST be higher than the fixed update start time.
@@ -1355,7 +1354,7 @@ it in the next step.
   for more details.
 
 1. **Set whether consistent snapshots are used as per the trusted**
-    root metadata file (see Section 4.3).
+    root metadata file (see [[#file-formats-root]]).
 
 ## Update the timestamp role ## {#update-timestamp}
 
@@ -1399,11 +1398,12 @@ it in the next step.
   specified in the timestamp metadata file, or some Y number of bytes. The value
   for Y is set by the authors of the application using TUF. For example, Y may be
   tens of kilobytes. If consistent snapshots are not used (see
-  Section 7), then the filename used to download the snapshot metadata file is of
-  the fixed form FILENAME.EXT (e.g., snapshot.json).  Otherwise, the filename is
-  of the form VERSION_NUMBER.FILENAME.EXT (e.g., 42.snapshot.json), where
-  VERSION_NUMBER is the version number of the snapshot metadata file listed in
-  the timestamp metadata file.
+  Section [[#consistent-snapshots]]), then the filename used to download the
+  snapshot metadata file is of the fixed form FILENAME.EXT (e.g.,
+  snapshot.json).  Otherwise, the filename is of the form
+  VERSION_NUMBER.FILENAME.EXT (e.g., 42.snapshot.json), where VERSION_NUMBER is
+  the version number of the snapshot metadata file listed in the timestamp
+  metadata file.
 
 1. **Check against timestamp role's snapshot hash**. The hashes
   of the new snapshot metadata file MUST match the hashes, if any, listed in
@@ -1448,11 +1448,11 @@ it in the next step.
   number of bytes specified in the snapshot metadata file, or some Z number of
   bytes. The value for Z is set by the authors of the application using TUF. For
   example, Z may be tens of kilobytes.  If consistent snapshots are not used (see
-  Section 7), then the filename used to download the targets metadata file is of
-  the fixed form FILENAME.EXT (e.g., targets.json).  Otherwise, the filename is
-  of the form VERSION_NUMBER.FILENAME.EXT (e.g., 42.targets.json), where
-  VERSION_NUMBER is the version number of the targets metadata file listed in the
-  snapshot metadata file.
+  [[#consistent-snapshots]]), then the filename used to download the targets
+  metadata file is of the fixed form FILENAME.EXT (e.g., targets.json).
+  Otherwise, the filename is of the form VERSION_NUMBER.FILENAME.EXT (e.g.,
+  42.targets.json), where VERSION_NUMBER is the version number of the targets
+  metadata file listed in the snapshot metadata file.
 
 1. **Check against snapshot role's targets hash**. The hashes
   of the new targets metadata file MUST match the hashes, if any, listed in the
@@ -1482,7 +1482,7 @@ it in the next step.
 
 1. **Perform a pre-order depth-first search for metadata about the
   desired target, beginning with the top-level targets role.** Note: If
-  any metadata requested in steps 5.5.6.1 - 5.5.6.2 cannot be downloaded nor
+  any metadata requested in steps 5.6.7.1 - 5.6.7.2 cannot be downloaded nor
   validated, end the search and report that the target cannot be found.
 
   1. If this role has been visited before, then skip this role
@@ -1490,7 +1490,7 @@ it in the next step.
      application-specific maximum number of roles have been visited, then go to
      step 5.6 (so that attackers cannot cause the client to waste excessive
      bandwidth or time).  Otherwise, if this role contains metadata about the
-     desired target, then go to step 5.6.
+     desired target, then go to step [[#fetch-target]].
 
   1. Otherwise, recursively search the list of delegations in
      order of appearance.
@@ -1501,11 +1501,11 @@ it in the next step.
        the lack of any such metadata).
 
     1. If the current delegation is a terminating delegation,
-       then jump to step 5.6.
+       then jump to step [[#fetch-target]].
 
     1. Otherwise, if the current delegation is a
        non-terminating delegation, continue processing the next delegation, if
-       any. Stop the search, and jump to step 5.6 as soon as a delegation
+       any. Stop the search, and jump to step [[#fetch-target]] as soon as a delegation
        returns a result.
 
 ## Fetch target ## {#fetch-target}
@@ -1521,14 +1521,14 @@ it in the next step.
    cases, the exact number is unknown. This may happen, for example, if an
    external program is used to compute the root hash of a tree of targets files,
    and this program does not provide the total size of all of these files.) If
-   consistent snapshots are not used (see Section 7), then the filename used to
-   download the target file is of the fixed form FILENAME.EXT (e.g.,
-   foobar.tar.gz).  Otherwise, the filename is of the form HASH.FILENAME.EXT
-   (e.g.,
+   consistent snapshots are not used (see [[#consistent-snapshots]]), then the
+   filename used to download the target file is of the fixed form FILENAME.EXT
+   (e.g., foobar.tar.gz).  Otherwise, the filename is of the form
+   HASH.FILENAME.EXT (e.g.,
    c14aeb4ac9f4a8fc0d83d12482b9197452f6adf3eb710e3b1e2b79e8d14cb681.foobar.tar.gz),
    where HASH is one of the hashes of the targets file listed in the targets
-   metadata file found earlier in step 5.5.  In either case, the client MUST write
-   the file to non-volatile storage as FILENAME.EXT.
+   metadata file found earlier in step [[#update-targets]].  In either
+   case, the client MUST write the file to non-volatile storage as FILENAME.EXT.
 
 # 6. Usage # {#usage}
 
