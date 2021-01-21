@@ -556,7 +556,7 @@ where:
       : <dfn>SCHEME</dfn>
       ::
         a string denoting a corresponding signature scheme.  For example: <a
-        for="scheme">"rsassa-pss-sha256"</a>, <a for="scheme">"ed25519"</a> <a
+        for="scheme">"rsassa-pss-sha256"</a>, <a for="scheme">"ed25519"</a>, and <a
         for="scheme">"ecdsa-sha2-nistp256"</a>.
 
       : <dfn>KEYVAL</dfn>
@@ -1019,7 +1019,7 @@ where:
 
   : "keys"
   ::
-    A list of <a for="role">KEYID</a>'s identifying the public keys to verify
+    A list of <a for="role">KEYID</a>s identifying the public keys to verify
     signatures of delegated targets roles.
     Revocation and replacement of delegated targets roles keys is done by
     changing the keys in this field in the delegating role's metadata.
@@ -1059,7 +1059,7 @@ discuss next.
 
   : <dfn>"paths"</dfn>
   ::
-    A list of strings, where each string describe paths that the role is
+    A list of strings, where each string describes a path that the role is
     trusted to provide.  Clients MUST check that a target is in one of the
     trusted paths of all roles in a delegation chain, not just in a trusted
     path of the role that describes the target file.  <dfn>PATHPATTERN</dfn>
