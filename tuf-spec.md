@@ -522,15 +522,15 @@ All signed metadata objects have the format:
 
       : <dfn for="role">ROLE</dfn>
       ::
-        a dictionary whose "_type" field describes the role type.
+        A dictionary whose "_type" field describes the role type.
 
       : <dfn for="role">KEYID</dfn>
       ::
-        the identifier of the key signing the <a for="role">ROLE</a> dictionary.
+        The identifier of the key signing the <a for="role">ROLE</a> dictionary.
 
       : <dfn>SIGNATURE</dfn>
       ::
-        a hex-encoded signature of the canonical form of the metadata for <a for="role">ROLE</a>.
+        A hex-encoded signature of the canonical form of the metadata for <a for="role">ROLE</a>.
 
 
 All keys have the format:
@@ -545,19 +545,19 @@ All keys have the format:
 
       : <dfn>KEYTYPE</dfn>
       ::
-        a string denoting a public key signature system, such as <a
+        A string denoting a public key signature system, such as <a
         for="keytype">"rsa"</a>, <a for="keytype">"ed25519"</a>, and <a
         for="keytype">"ecdsa-sha2-nistp256"</a>.
 
       : <dfn>SCHEME</dfn>
       ::
-        a string denoting a corresponding signature scheme.  For example: <a
+        A string denoting a corresponding signature scheme.  For example: <a
         for="scheme">"rsassa-pss-sha256"</a>, <a for="scheme">"ed25519"</a>, and <a
         for="scheme">"ecdsa-sha2-nistp256"</a>.
 
       : <dfn>KEYVAL</dfn>
       ::
-        a dictionary containing the public portion of the key.
+        A dictionary containing the public portion of the key.
 
 The reference implementation defines three signature schemes, although TUF
 is not restricted to any particular signature scheme, key type, or
