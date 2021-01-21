@@ -520,8 +520,6 @@ All signed metadata objects have the format:
 }
 </pre>
 
-where:
-
       : <dfn for="role">ROLE</dfn>
       ::
         a dictionary whose "_type" field describes the role type.
@@ -544,8 +542,6 @@ All keys have the format:
   "keyval" : <a>KEYVAL</a>
 }
 </pre>
-
-where:
 
       : <dfn>KEYTYPE</dfn>
       ::
@@ -602,8 +598,6 @@ The <dfn for="keytype">"rsa"</dfn> format is:
 }
 </pre>
 
-where:
-
   : <dfn for="keyval-rsa">PUBLIC</dfn>
   ::
     PEM format and a string.  All RSA keys MUST be at least 2048 bits.
@@ -620,8 +614,6 @@ The <dfn for="keytype">"ed25519"</dfn> format is:
 }
 </pre>
 
-where:
-
   : <dfn for="keyval-ed25519">PUBLIC</dfn>
   ::
     64-byte hex encoded string.
@@ -637,8 +629,6 @@ The <dfn for="keytype">"ecdsa-sha2-nistp256"</dfn> format is:
   }
 }
 </pre>
-
-where:
 
   : <dfn for="keyval-ecdsa">PUBLIC</dfn>
   ::
@@ -686,8 +676,6 @@ The "signed" portion of <a>root.json</a> is as follows:
   }
 }
 </pre>
-
-where:
 
   : <dfn>SPEC_VERSION</dfn>
   ::
@@ -850,8 +838,6 @@ as is described for the <a>root.json</a> file.
 }
 </pre>
 
-where:
-
   : <dfn for="snapshot">METAPATH</dfn>
   ::
     A string giving the file path of the metadata on the repository relative to
@@ -952,8 +938,6 @@ as is described for the <a>root.json</a> file.
 }
 </pre>
 
-where:
-
   : <a for="targets-obj">TARGETS</a>
   ::
     Each key of the <a for="targets-obj">TARGETS</a> object is a <a>TARGETPATH</a>.
@@ -1014,8 +998,6 @@ where:
   ]
 }
 </pre>
-
-where:
 
   : "keys"
   ::
@@ -1231,8 +1213,6 @@ The "signed" portion of <a>mirrors.json</a> is as follows:
     , ... ]
 }
 </pre>
-
-where:
 
 <a>SPEC_VERSION</a>, <a for="role">VERSION</a> and <a>EXPIRES</a> are the same
 as is described for the <a>root.json</a> file.
