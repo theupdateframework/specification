@@ -671,7 +671,7 @@ The "signed" portion of <a>root.json</a> is as follows:
         ...
       ] ,
       "threshold" : <a>THRESHOLD</a>
-      },
+    },
     ...
   }
 }
@@ -731,74 +731,74 @@ A <a>root.json</a> example file:
 <pre highlight="json">
 {
   "signatures": [
-  {
-    "keyid": "cb3fbd83df4ba2471a736b065650878280964a98843ec13b457a99b2a21cc3b4",
-    "sig": "a312b9c3cb4a1b693e8ebac5ee1ca9cc01f2661c14391917dcb111517f72370809
-            f32c890c6b801e30158ac4efe0d4d87317223077784c7a378834249d048306"
-  }
+    {
+      "keyid": "cb3fbd83df4ba2471a736b065650878280964a98843ec13b457a99b2a21cc3b4",
+      "sig": "a312b9c3cb4a1b693e8ebac5ee1ca9cc01f2661c14391917dcb111517f72370809
+              f32c890c6b801e30158ac4efe0d4d87317223077784c7a378834249d048306"
+    }
   ],
   "signed": {
-  "_type": "root",
-  "spec_version": "1.0.0",
-  "consistent_snapshot": false,
-  "expires": "2030-01-01T00:00:00Z",
-  "keys": {
-    "1bf1c6e3cdd3d3a8420b19199e27511999850f4b376c4547b2f32fba7e80fca3": {
-    "keytype": "ed25519",
-    "scheme": "ed25519",
-    "keyval": {
-      "public": "72378e5bc588793e58f81c8533da64a2e8f1565c1fcc7f253496394ffc52542c"
-    }
+    "_type": "root",
+    "spec_version": "1.0.0",
+    "consistent_snapshot": false,
+    "expires": "2030-01-01T00:00:00Z",
+    "keys": {
+      "1bf1c6e3cdd3d3a8420b19199e27511999850f4b376c4547b2f32fba7e80fca3": {
+        "keytype": "ed25519",
+        "scheme": "ed25519",
+        "keyval": {
+          "public": "72378e5bc588793e58f81c8533da64a2e8f1565c1fcc7f253496394ffc52542c"
+        }
+      },
+      "135c2f50e57ff11e744d234a62cebad8c38daf399604a7655661cc9199c69164": {
+        "keytype": "ed25519",
+        "scheme": "ed25519",
+        "keyval": {
+          "public": "68ead6e54a43f8f36f9717b10669d1ef0ebb38cee6b05317669341309f1069cb"
+        }
+      },
+      "cb3fbd83df4ba2471a736b065650878280964a98843ec13b457a99b2a21cc3b4": {
+        "keytype": "ed25519",
+        "scheme": "ed25519",
+        "keyval": {
+          "public": "66dd78c5c2a78abc6fc6b267ff1a8017ba0e8bfc853dd97af351949bba021275"
+        }
+      },
+      "66676daa73bdfb4804b56070c8927ae491e2a6c2314f05b854dea94de8ff6bfc": {
+        "keytype": "ed25519",
+        "scheme": "ed25519",
+        "keyval": {
+          "public": "01c61f8dc7d77fcef973f4267927541e355e8ceda757e2c402818dad850f856e"
+        }
+      }
     },
-    "135c2f50e57ff11e744d234a62cebad8c38daf399604a7655661cc9199c69164": {
-    "keytype": "ed25519",
-    "scheme": "ed25519",
-    "keyval": {
-      "public": "68ead6e54a43f8f36f9717b10669d1ef0ebb38cee6b05317669341309f1069cb"
-    }
+    "roles": {
+      "root": {
+        "keyids": [
+          "cb3fbd83df4ba2471a736b065650878280964a98843ec13b457a99b2a21cc3b4"
+        ],
+        "threshold": 1
+      },
+      "snapshot": {
+        "keyids": [
+          "66676daa73bdfb4804b56070c8927ae491e2a6c2314f05b854dea94de8ff6bfc"
+        ],
+        "threshold": 1
+      },
+      "targets": {
+        "keyids": [
+          "135c2f50e57ff11e744d234a62cebad8c38daf399604a7655661cc9199c69164"
+        ],
+        "threshold": 1
+      },
+      "timestamp": {
+        "keyids": [
+          "1bf1c6e3cdd3d3a8420b19199e27511999850f4b376c4547b2f32fba7e80fca3"
+        ],
+        "threshold": 1
+      }
     },
-    "cb3fbd83df4ba2471a736b065650878280964a98843ec13b457a99b2a21cc3b4": {
-    "keytype": "ed25519",
-    "scheme": "ed25519",
-    "keyval": {
-      "public": "66dd78c5c2a78abc6fc6b267ff1a8017ba0e8bfc853dd97af351949bba021275"
-    }
-    },
-    "66676daa73bdfb4804b56070c8927ae491e2a6c2314f05b854dea94de8ff6bfc": {
-    "keytype": "ed25519",
-    "scheme": "ed25519",
-    "keyval": {
-      "public": "01c61f8dc7d77fcef973f4267927541e355e8ceda757e2c402818dad850f856e"
-    }
-    }
-  },
-  "roles": {
-    "root": {
-    "keyids": [
-      "cb3fbd83df4ba2471a736b065650878280964a98843ec13b457a99b2a21cc3b4"
-    ],
-    "threshold": 1
-    },
-    "snapshot": {
-    "keyids": [
-      "66676daa73bdfb4804b56070c8927ae491e2a6c2314f05b854dea94de8ff6bfc"
-    ],
-    "threshold": 1
-    },
-    "targets": {
-    "keyids": [
-      "135c2f50e57ff11e744d234a62cebad8c38daf399604a7655661cc9199c69164"
-    ],
-    "threshold": 1
-    },
-    "timestamp": {
-    "keyids": [
-      "1bf1c6e3cdd3d3a8420b19199e27511999850f4b376c4547b2f32fba7e80fca3"
-    ],
-    "threshold": 1
-    }
-  },
-  "version": 1
+    "version": 1
   }
 }
 </pre>
@@ -830,9 +830,9 @@ as is described for the <a>root.json</a> file.
 <pre highlight="json">
 {
   <a for="snapshot">METAPATH</a> : {
-      "version" : <a for="metapath">VERSION</a>,
-      ("length" : <a for="metapath">LENGTH</a>,)
-      ("hashes" : <a for="metapath">HASHES</a>)
+    "version" : <a for="metapath">VERSION</a>,
+    ("length" : <a for="metapath">LENGTH</a>,)
+    ("hashes" : <a for="metapath">HASHES</a>)
   },
   ...
 }
@@ -875,9 +875,9 @@ A <a>snapshot.json</a> example file:
 {
   "signatures": [
     {
-    "keyid": "66676daa73bdfb4804b56070c8927ae491e2a6c2314f05b854dea94de8ff6bfc",
-    "sig": "f7f03b13e3f4a78a23561419fc0dd741a637e49ee671251be9f8f3fceedfc112e4
-            4ee3aaff2278fad9164ab039118d4dc53f22f94900dae9a147aa4d35dcfc0f"
+      "keyid": "66676daa73bdfb4804b56070c8927ae491e2a6c2314f05b854dea94de8ff6bfc",
+      "sig": "f7f03b13e3f4a78a23561419fc0dd741a637e49ee671251be9f8f3fceedfc112e4
+              4ee3aaff2278fad9164ab039118d4dc53f22f94900dae9a147aa4d35dcfc0f"
     }
   ],
   "signed": {
@@ -885,22 +885,22 @@ A <a>snapshot.json</a> example file:
     "spec_version": "1.0.0",
     "expires": "2030-01-01T00:00:00Z",
     "meta": {
-    "targets.json": {
-      "version": 1
-    },
-    "project1.json": {
-      "version": 1,
-      "hashes": {
-      "sha256": "f592d072e1193688a686267e8e10d7257b4ebfcf28133350dae88362d82a0c8a"
+      "targets.json": {
+        "version": 1
+      },
+      "project1.json": {
+        "version": 1,
+        "hashes": {
+          "sha256": "f592d072e1193688a686267e8e10d7257b4ebfcf28133350dae88362d82a0c8a"
+        }
+      },
+      "project2.json": {
+        "version": 1,
+        "length": 604,
+        "hashes": {
+          "sha256": "1f812e378264c3085bb69ec5f6663ed21e5882bbece3c3f8a0e8479f205ffb91"
+        }
       }
-    },
-    "project2.json": {
-      "version": 1,
-      "length": 604,
-      "hashes": {
-      "sha256": "1f812e378264c3085bb69ec5f6663ed21e5882bbece3c3f8a0e8479f205ffb91"
-      }
-    }
     },
     "version": 1
   }
@@ -1076,58 +1076,58 @@ top-level <a>targets.json</a> metadata file.
 A <a>targets.json</a> example file:
 
 <pre highlight="json">
-  {
-    "signatures": [
-      {
-        "keyid": "135c2f50e57ff11e744d234a62cebad8c38daf399604a7655661cc9199c69164",
-        "sig": "e9fd40008fba263758a3ff1dc59f93e42a4910a282749af915fbbea1401178e5a0
-                12090c228f06db1deb75ad8ddd7e40635ac51d4b04301fce0fd720074e0209"
-      }
-    ],
-    "signed": {
-      "_type": "targets",
-      "spec_version": "1.0.0",
-      "delegations": {
-        "keys": {
+{
+  "signatures": [
+    {
+      "keyid": "135c2f50e57ff11e744d234a62cebad8c38daf399604a7655661cc9199c69164",
+      "sig": "e9fd40008fba263758a3ff1dc59f93e42a4910a282749af915fbbea1401178e5a0
+              12090c228f06db1deb75ad8ddd7e40635ac51d4b04301fce0fd720074e0209"
+    }
+  ],
+  "signed": {
+    "_type": "targets",
+    "spec_version": "1.0.0",
+    "delegations": {
+      "keys": {
         "f761033eb880143c52358d941d987ca5577675090e2215e856ba0099bc0ce4f6": {
           "keytype": "ed25519",
           "scheme": "ed25519",
           "keyval": {
-          "public": "b6e40fb71a6041212a3d84331336ecaa1f48a0c523f80ccc762a034c727606fa"
+            "public": "b6e40fb71a6041212a3d84331336ecaa1f48a0c523f80ccc762a034c727606fa"
           }
         }
-        },
-        "roles": [
+      },
+      "roles": [
         {
           "keyids": [
-          "f761033eb880143c52358d941d987ca5577675090e2215e856ba0099bc0ce4f6"
+            "f761033eb880143c52358d941d987ca5577675090e2215e856ba0099bc0ce4f6"
           ],
           "name": "project",
           "paths": [
-          "project/file3.txt"
+            "project/file3.txt"
           ],
           "threshold": 1
         }
-        ]
-      },
-      "expires": "2030-01-01T00:00:00Z",
-      "targets": {
-        "file1.txt": {
+      ]
+    },
+    "expires": "2030-01-01T00:00:00Z",
+    "targets": {
+      "file1.txt": {
         "hashes": {
           "sha256": "65b8c67f51c993d898250f40aa57a317d854900b3a04895464313e48785440da"
         },
         "length": 31
-        },
-        "dir/file2.txt": {
+      },
+      "dir/file2.txt": {
         "hashes": {
           "sha256": "452ce8308500d83ef44248d8e6062359211992fd837ea9e370e561efb1a4ca99"
         },
         "length": 39
-        }
-      },
-      "version": 1
-    }
+      }
+    },
+    "version": 1
   }
+}
 </pre>
 </div>
 
@@ -1164,26 +1164,26 @@ A signed <a>timestamp.json</a> example file:
 <pre highlight="json">
 {
   "signatures": [
-  {
-    "keyid": "1bf1c6e3cdd3d3a8420b19199e27511999850f4b376c4547b2f32fba7e80fca3",
-    "sig": "90d2a06c7a6c2a6a93a9f5771eb2e5ce0c93dd580bebc2080d10894623cfd6eaed
-            f4df84891d5aa37ace3ae3736a698e082e12c300dfe5aee92ea33a8f461f02"
-  }
+    {
+      "keyid": "1bf1c6e3cdd3d3a8420b19199e27511999850f4b376c4547b2f32fba7e80fca3",
+      "sig": "90d2a06c7a6c2a6a93a9f5771eb2e5ce0c93dd580bebc2080d10894623cfd6eaed
+              f4df84891d5aa37ace3ae3736a698e082e12c300dfe5aee92ea33a8f461f02"
+    }
   ],
   "signed": {
-  "_type": "timestamp",
-  "spec_version": "1.0.0",
-  "expires": "2030-01-01T00:00:00Z",
-  "meta": {
-    "snapshot.json": {
-    "hashes": {
-      "sha256": "c14aeb4ac9f4a8fc0d83d12482b9197452f6adf3eb710e3b1e2b79e8d14cb681"
+    "_type": "timestamp",
+    "spec_version": "1.0.0",
+    "expires": "2030-01-01T00:00:00Z",
+    "meta": {
+      "snapshot.json": {
+        "hashes": {
+          "sha256": "c14aeb4ac9f4a8fc0d83d12482b9197452f6adf3eb710e3b1e2b79e8d14cb681"
+        },
+        "length": 1007,
+        "version": 1
+      }
     },
-    "length": 1007,
     "version": 1
-    }
-  },
-  "version": 1
   }
 }
 </pre>
