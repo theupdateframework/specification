@@ -534,7 +534,7 @@ All signed metadata objects have the format:
         A hex-encoded signature of the canonical form of the metadata for <a for="role">ROLE</a>.
 
 
-All keys have the format:
+All <dfn>KEY</dfn>s have the format:
 
 <pre highlight="json">
 {
@@ -662,7 +662,7 @@ The "signed" portion of <a>root.json</a> is as follows:
   "version" : <a for="role">VERSION</a>,
   "expires" : <a>EXPIRES</a>,
   "keys" : {
-    <a for="root">KEYID</a> : KEY,
+    <a for="root">KEYID</a> : <a>KEY</a>,
     ...
   },
   "roles" : {
@@ -983,7 +983,7 @@ as is described for the <a>root.json</a> file.
 <pre highlight="json">
 {
   "keys" : {
-      <a for="role">KEYID</a> : KEY,
+      <a for="role">KEYID</a> : <a>KEY</a>,
       ...
   },
   "roles" : [
