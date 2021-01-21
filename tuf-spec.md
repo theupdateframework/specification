@@ -1000,12 +1000,8 @@ as is described for the <a>root.json</a> file.
 }
 </pre>
 
-  : "keys"
-  ::
-    A list of <a for="role">KEYID</a>s identifying the public keys to verify
-    signatures of delegated targets roles.
-    Revocation and replacement of delegated targets roles keys is done by
-    changing the keys in this field in the delegating role's metadata.
+  <a for="root">KEYID</a> and <a>KEY</a> are the same as is described for the
+  <a>root.json</a> file.
 
   : <dfn>ROLENAME</dfn>
   ::
