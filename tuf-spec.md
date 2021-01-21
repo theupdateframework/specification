@@ -991,7 +991,7 @@ as is described for the <a>root.json</a> file.
       "keyids" : [ <a for="role">KEYID</a>, ... ] ,
       "threshold" : <a>THRESHOLD</a>,
       (<a>"path_hash_prefixes"</a> : [ HEX_DIGEST, ... ] |
-      "<a>paths</a>" : [ <a>PATHPATTERN</a>, ... ]),
+      <a for="delegation-role">"paths"</a> : [ <a>PATHPATTERN</a>, ... ]),
       "terminating": <a>TERMINATING</a>,
     },
     ...
@@ -1024,7 +1024,7 @@ as is described for the <a>root.json</a> file.
     ignored.
 
 In order to discuss target paths, a role MUST specify only one of the
-<a>"path_hash_prefixes"</a> or <a>"paths"</a> attributes, each of which we
+<a>"path_hash_prefixes"</a> or <a for="delegation-role">"paths"</a> attributes, each of which we
 discuss next.
 
   : <dfn>"path_hash_prefixes"</dfn>
@@ -1039,7 +1039,7 @@ discuss next.
     in <a>"path_hash_prefixes"</a>.  This is useful to split a large number of
     targets into separate bins identified by consistent hashing.
 
-  : <dfn>"paths"</dfn>
+  : <dfn for="delegation-role">"paths"</dfn>
   ::
     A list of strings, where each string describes a path that the role is
     trusted to provide.  Clients MUST check that a target is in one of the
@@ -1321,7 +1321,7 @@ it in the next step.
   trusted root metadata file MUST be higher than the fixed update start time.
   If the trusted root metadata file has expired, abort the update cycle,
   report the potential freeze attack.  On the next update cycle, begin at step
- [[#update-root]] and version N of the root metadata file.
+  [[#update-root]] and version N of the root metadata file.
 
 11. **If the timestamp and / or snapshot keys have been rotated, then delete the
   trusted timestamp and snapshot metadata files.** This is done
