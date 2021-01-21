@@ -1,7 +1,7 @@
 <pre class='metadata'>
 Title: The Update Framework Specification
 Shortname: TUF
-Status: LS-COMMIT
+Status: LS
 Abstract: A framework for securing software update systems.
 Date: 2020-12-11
 Editor: Justin Cappos, NYU
@@ -13,10 +13,11 @@ Repository: theupdateframework/specification
 Mailing List: https://groups.google.com/forum/?fromgroups#!forum/theupdateframework
 Indent: 2
 Boilerplate: copyright no, conformance no
+Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
+Metadata Include: This version off, Abstract off
+Text Macro: VERSION 1.0.17
 </pre>
-
-Version: **1.0.17**
 
 We strive to make the specification easy to implement, so if you come across
 any inconsistencies or experience any difficulty, do let us know by sending an

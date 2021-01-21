@@ -33,7 +33,7 @@ SPEC_NAME = "tuf-spec.md"
 LAST_MODIFIED_PATTERN = "Date: %Y-%m-%d\n"
 LAST_MODIFIED_LINENO = 6
 
-VERSION_PATTERN = r"^Version: \*\*(\d*)\.(\d*)\.(\d*)\*\*$"
+VERSION_PATTERN = r"^Text Macro: VERSION (\d*)\.(\d*)\.(\d*)$"
 VERSION_LINENO = 19
 
 class SpecError(Exception):
