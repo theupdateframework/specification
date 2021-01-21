@@ -528,11 +528,11 @@ where:
 
       : <dfn for="role">KEYID</dfn>
       ::
-        the identifier of the key signing the ROLE dictionary.
+        the identifier of the key signing the <a for="role">ROLE</a> dictionary.
 
       : <dfn>SIGNATURE</dfn>
       ::
-        a hex-encoded signature of the canonical form of the metadata for ROLE.
+        a hex-encoded signature of the canonical form of the metadata for <a for="role">ROLE</a>.
 
 
 All keys have the format:
@@ -594,7 +594,7 @@ The <dfn for="keytype">"rsa"</dfn> format is:
 
 <pre highlight="json">
 {
-  "keytype" : "rsa",
+  "keytype" : <a for="keytype">"rsa"</a>,
   "scheme" : <a for="scheme">"rsassa-pss-sha256"</a>,
   "keyval" : {
     "public" : <a for="keyval-rsa">PUBLIC</a>
@@ -612,7 +612,7 @@ The <dfn for="keytype">"ed25519"</dfn> format is:
 
 <pre highlight="json">
 {
-  "keytype" : "ed25519",
+  "keytype" : <a for="keytype">"ed25519"</a>,
   "scheme" : <a for="scheme">"ed25519"</a>,
   "keyval" : {
     "public" : <a for="keyval-ed25519">PUBLIC</a>
@@ -630,7 +630,7 @@ The <dfn for="keytype">"ecdsa-sha2-nistp256"</dfn> format is:
 
 <pre highlight="json">
 {
-  "keytype" : "ecdsa-sha2-nistp256",
+  "keytype" : <a for="keytype">"ecdsa-sha2-nistp256"</a>,
   "scheme" : <a for="scheme">"ecdsa-sha2-nistp256"</a>,
   "keyval" : {
     "public" : <a for="keyval-ecdsa">PUBLIC</a>
@@ -650,7 +650,7 @@ the canonical form of the key.
 Metadata <dfn>date-time</dfn> follows the ISO 8601 standard.  The expected
 format of the combined date and time string is "YYYY-MM-DDTHH:MM:SSZ".  Time is
 always in UTC, and the "Z" time zone designator is attached to indicate a
-zero UTC offset.  An example date-time string is "1985-10-21T01:21:00Z".
+zero UTC offset.  An example <a>date-time</a> string is "1985-10-21T01:21:00Z".
 
 
 ## File formats: root.json ## {#file-formats-root}
@@ -855,7 +855,7 @@ where:
   : <dfn for="snapshot">METAPATH</dfn>
   ::
     A string giving the file path of the metadata on the repository relative to
-    the metadata base URL.  For snapshot.json, these are top-level targets
+    the metadata base URL.  For <a>snapshot.json</a>, these are top-level targets
     metadata and delegated targets metadata.
 
   : <dfn for="metapath">VERSION</dfn>
@@ -956,7 +956,7 @@ where:
 
   : <a for="targets-obj">TARGETS</a>
   ::
-    Each key of the TARGETS object is a <a>TARGETPATH</a>.
+    Each key of the <a for="targets-obj">TARGETS</a> object is a <a>TARGETPATH</a>.
 
   : <dfn>TARGETPATH</dfn>
   ::
@@ -998,16 +998,16 @@ where:
 <pre highlight="json">
 {
   "keys" : {
-      KEYID : KEY,
+      <a for="role">KEYID</a> : KEY,
       ...
   },
   "roles" : [
     {
       "name": <a>ROLENAME</a>,
-      "keyids" : [ KEYID, ... ] ,
+      "keyids" : [ <a for="role">KEYID</a>, ... ] ,
       "threshold" : <a>THRESHOLD</a>,
-      ("path_hash_prefixes" : [ HEX_DIGEST, ... ] |
-      "paths" : [ PATHPATTERN, ... ]),
+      (<a>"path_hash_prefixes"</a> : [ HEX_DIGEST, ... ] |
+      "<a>paths</a>" : [ <a>PATHPATTERN</a>, ... ]),
       "terminating": <a>TERMINATING</a>,
     },
     ...
@@ -1084,7 +1084,7 @@ over the second one, the second delegation is trusted more than the third
 one, and so on. Likewise, the metadata of the first delegation will override that
 of the second delegation, the metadata of the second delegation will override
 that of the third one, etc. In order to accommodate prioritized
-delegations, the "roles" key in the DELEGATIONS object above points to an array
+delegations, the "roles" key in the <a>DELEGATIONS</a> object above points to an array
 of delegated roles, rather than to a hash table.
 
 The metadata files for delegated target roles has the same format as the
@@ -1171,10 +1171,10 @@ The "signed" portion of <a>timestamp.json</a> is as follows:
 }
 </pre>
 
-<a>SPEC_VERSION</a>, <a for="role">VERSION</a> and <a>EXPIRES</a> are the same as is described for the root.json file.
+<a>SPEC_VERSION</a>, <a for="role">VERSION</a> and <a>EXPIRES</a> are the same as is described for the <a>root.json</a> file.
 
 <a>METAFILES</a> is the same as described for the <a>snapshot.json</a> file.  In the case
-of the timestamp.json file, this MUST only include a description of the
+of the <a>timestamp.json</a> file, this MUST only include a description of the
 <a>snapshot.json</a> file.
 
 <div class="example" id="example-timestamp.json">
@@ -1224,7 +1224,7 @@ The "signed" portion of <a>mirrors.json</a> is as follows:
   "mirrors" : [
     { "urlbase" : <a>URLBASE</a>,
       "metapath" : <a for="mirrors">METAPATH</a>,
-      "targetspath" : TARGETSPATH,
+      "targetspath" : <a>TARGETSPATH</a>,
       "metacontent" : [ <a>PATHPATTERN</a> ... ] ,
       "targetscontent" : [ <a>PATHPATTERN</a> ... ] ,
       ("custom" : { ... }) }
@@ -1335,13 +1335,13 @@ it in the next step.
 8. **Persist root metadata.** The client MUST write the file to
   non-volatile storage as FILENAME.EXT (e.g. root.json).
 
-9. Repeat steps 5.3.1 to 5.3.8
+9. Repeat steps 5.3.2 to 5.3.9
 
 10. **Check for a freeze attack.** The expiration timestamp in the
   trusted root metadata file MUST be higher than the fixed update start time.
   If the trusted root metadata file has expired, abort the update cycle,
   report the potential freeze attack.  On the next update cycle, begin at step
-  5.1 and version N of the root metadata file.
+ [[#update-root]] and version N of the root metadata file.
 
 11. **If the timestamp and / or snapshot keys have been rotated, then delete the
   trusted timestamp and snapshot metadata files.** This is done
@@ -1488,7 +1488,7 @@ it in the next step.
   1. If this role has been visited before, then skip this role
      (so that cycles in the delegation graph are avoided).  Otherwise, if an
      application-specific maximum number of roles have been visited, then go to
-     step 5.6 (so that attackers cannot cause the client to waste excessive
+     step [[#fetch-target]] (so that attackers cannot cause the client to waste excessive
      bandwidth or time).  Otherwise, if this role contains metadata about the
      desired target, then go to step [[#fetch-target]].
 
@@ -1564,7 +1564,7 @@ the latest trusted version) of the root metadata is available from the
 repository. This ensures that an outdated client can always correctly
 re-trace the chain of trust across multiple root key updates, even if the
 latest set of root keys on the client dates back multiple root metadata
-versions. See step 5.2 of the client application workflow for more details.
+versions. See step [[#update-root]]  of the client application workflow for more details.
 
 Note that an attacker, who controls the repository, can launch freeze
 attacks by withholding new root metadata. The attacker does not need to
@@ -1643,7 +1643,7 @@ so that outdated clients can update to the latest available root.
 
 ## Reading consistent snapshots ## {#reading-consistent-snapshots}
 
-See section 5 (The client application) for more details.
+See [[#detailed-client-workflow]] for more details.
 
 # Future directions and open questions # {#future-directions-and-open-questions}
 
