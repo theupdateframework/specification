@@ -527,7 +527,8 @@ All signed metadata objects have the format:
 
       : <dfn for="role">KEYID</dfn>
       ::
-        The identifier of the key signing the <a for="role">ROLE</a> dictionary.
+        The identifier of the key signing the <a for="role">ROLE</a> object,
+        which is a hexdigest of the SHA-256 hash of the canonical form of the key.
 
       : <dfn>SIGNATURE</dfn>
       ::
@@ -634,9 +635,6 @@ The <dfn for="keytype">"ecdsa-sha2-nistp256"</dfn> format is:
   : <dfn for="keyval-ecdsa">PUBLIC</dfn>
   ::
     PEM format and a string.
-
-The <a for="role">KEYID</a> of a key is the hexdigest of the SHA-256 hash of
-the canonical form of the key.
 
 Metadata <dfn>date-time</dfn> follows the ISO 8601 standard.  The expected
 format of the combined date and time string is "YYYY-MM-DDTHH:MM:SSZ".  Time is
