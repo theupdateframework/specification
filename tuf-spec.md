@@ -991,7 +991,7 @@ as is described for the <a>root.json</a> file.
       "name": <a>ROLENAME</a>,
       "keyids" : [ <a for="role">KEYID</a>, ... ] ,
       "threshold" : <a>THRESHOLD</a>,
-      (<a>"path_hash_prefixes"</a> : [ HEX_DIGEST, ... ] |
+      (<a>"path_hash_prefixes"</a> : [ <a>HEX_DIGEST</a>, ... ] |
       <a for="delegation-role">"paths"</a> : [ <a>PATHPATTERN</a>, ... ]),
       "terminating": <a>TERMINATING</a>,
     },
@@ -1026,7 +1026,7 @@ discuss next.
 
   : <dfn>"path_hash_prefixes"</dfn>
   ::
-    A list of HEX_DIGESTs used to succinctly describe a set of target
+    A list of <dfn>HEX_DIGEST</dfn>s used to succinctly describe a set of target
     paths. Specifically, each HEX_DIGEST in <a>"path_hash_prefixes"</a>
     describes a set of target paths; therefore, <a>"path_hash_prefixes"</a> is
     the union over each prefix of its set of target paths.  The target paths
