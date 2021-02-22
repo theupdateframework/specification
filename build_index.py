@@ -164,21 +164,7 @@ html_footer = """</ul>
 </html>
 """
 
-def sanity_check():
-    branch = None
-
-    try:
-        branch = run("git branch --show-current".split(), capture_output=True).stdout
-    except Exception:
-        pass
-
-    if branch != b"gh-pages\n":
-        print(f"build_index.py must be run from the 'gh-pages' branch (on '{branch}'")
-        sys.exit()
-
 def build_index():
-    # sanity_check()
-
     html = html_header
 
     html_locations = ['latest', 'draft']
