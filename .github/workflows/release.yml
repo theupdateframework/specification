@@ -69,13 +69,15 @@ jobs:
 
     - name: Push generated specification
       if: steps.getver.outputs.spec_version != steps.prevver.outputs.prev_version
+      env:
+        SPEC_VERSION: v${{ steps.getver.outputs.spec_version }}
       run: |
         git config user.name "TUF Specification Automation"
-        git config user.email tuf-spec-bot@example.com
+        git config user.email theupdateframework@googlegroups.com
         rm -fr latest
         mv build/* .
         rmdir build
         make index
         git add .
-        git commit -m "Publish latest specification"
+        git commit -m "Publish latest specification $SPEC_VERSION"
         git push
