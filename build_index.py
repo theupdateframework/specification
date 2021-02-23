@@ -67,17 +67,17 @@ html_header = """<!DOCTYPE html>
   p {
       margin: 1em 0;
   }
-  
+
   dd > p:first-child,
   li > p:first-child {
       margin-top: 0;
   }
-  
+
   ul, ol {
       margin-left: 0;
       padding-left: 2em;
   }
-  
+
   li {
       margin: 0.25em 0 0.5em;
       padding: 0;
@@ -178,7 +178,7 @@ def build_index():
     for loc in html_locations:
         link = f"  <li><a href='{loc}/index.html'>{loc}</a></li>\n"
         html = html + link
-    
+
     html = html + html_footer
 
     return html
