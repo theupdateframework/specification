@@ -44,10 +44,10 @@ jobs:
     - name: Push generated specification
       run: |
         git config user.name "TUF Specification Automation"
-        git config user.email tuf-spec-bot@example.com
+        git config user.email theupdateframework@googlegroups.com
         rm -fr draft
         mv build/* .
         rmdir build
         git add .
-        git commit -m "Publish latest specification"
+        git commit -m "Publish latest draft specification"
         git push
