@@ -1498,13 +1498,7 @@ it in the next step.
     1. Let DELEGATEE denote the current target role TARGETS is
        delegating to.
 
-    2. **Check for a rollback attack via snapshot.** The version number of the
-    DELEGATEE metadata in the previous trusted snapshot metadata, if any, MUST
-    be less than or equal to its version number in the new trusted snapshot
-    metadata. If this is not the case, abort the update cycle, and report the
-    potential rollback attack.
-
-    3. **Download the DELEGATEE targets metadata file**, up to either
+    2. **Download the DELEGATEE targets metadata file**, up to either
        the number of bytes specified in the snapshot metadata file, or some Z
        number of bytes. The value for Z is set by the authors of the application
        using TUF. For example, Z may be tens of kilobytes. IF DELEGATEE cannot be
@@ -1517,40 +1511,33 @@ it in the next step.
        in the snapshot metadata file.  In either case, the client MUST write the
        file to non-volatile storage as FILENAME.EXT.
 
-    4. **Check against snapshot metadata.** The hashes (if any), and
+    3. **Check against snapshot metadata.** The hashes (if any), and
        version number of the new DELEGATEE metadata file MUST match the trusted
        snapshot metadata, if any.  This is done, in part, to prevent a mix-and-match
        attack by man-in-the-middle attackers. If the new DELEGATEE metadata file
        does not match, abort the update cycle, and report the failure.
 
-    5. **Check for an arbitrary software attack.** The new DELEGATEE
+    4. **Check for an arbitrary software attack.** The new DELEGATEE
        metadata file MUST have been signed by a threshold of keys specified in the
        TARGETS metadata file.  If the new DELEGATEE metadata file is not signed
        as required, abort the update cycle, and report the failure.
 
-    6. **Check for a rollback attack on the DELEGATEE metadata.**
-       The version number of the trusted DELEGATEE metadata file, if any, MUST be
-       less than or equal to the version number of the new DELEGATE metadata
-       file.  If the new DELEGATEE metadata file is older than the trusted
-       DELEGATEE metadata file abort the update cycle, and report the potential
-       rollback attack.
-
-    7. **Check for a freeze attack.** The latest known time
+    5. **Check for a freeze attack.** The latest known time
        should be lower than the expiration timestamp in the new DELEGATEE
        metadata file. If so, the new DELEGATEE file becomes the trusted DELEGATEE
        file. If the new DELEGATEE metadata file is expired, abort the update
        cycle, and report the potential freeze attack.
 
-    8. If the current delegation is a multi-role delegation,
+    6. If the current delegation is a multi-role delegation,
        recursively visit each role, and check that each has signed exactly the
        same non-custom metadata (i.e., length and hashes) about the target (or
        the lack of any such metadata). Otherwise, abort the update cycle, and
        report the failure.
 
-    9. If the current delegation is a terminating delegation,
+    7. If the current delegation is a terminating delegation,
        then jump to step [[#fetch-target]].
 
-    10. Otherwise, if the current delegation is a non-terminating
+    8. Otherwise, if the current delegation is a non-terminating
        delegation, continue processing the next delegation, if any, by repeating
        the preorder depth-first search with DELEGATEE as the current TARGET role.
        Stop the search, and jump to step [[#fetch-target]]. as soon as a
