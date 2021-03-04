@@ -1342,10 +1342,8 @@ it in the next step.
     1. **Targets recovery** If a threshold of targets keys have been
     removed in the new trusted root metadata compared to the previous trusted
     root metadata, delete the old top-level targets and snapshot metadata
-    files. Note that delegated targets are susceptible to fast forward attacks,
-    because snapshot must be checked before a key rotation in the delegating
-    target role is known to the client. To fix this, nuke delegation or make
-    repository rotate the the snapshot key.
+    files. Note that this only applies to top-level targets metadata whose
+    keys are listed in root metadata.
 
     2. **Snapshot recovery** If a threshold of snapshot keys have
     been removed in the new trusted root metadata compared to the previous
@@ -1426,7 +1424,8 @@ it in the next step.
   in the trusted timestamp metadata.  If the versions do not match, discard the
   new snapshot metadata, abort the update cycle, and report the failure.
 
-5. **Check for a rollback attack**. The version number of all targets metadata files in the
+5. **Check for a rollback attack**. The version number of all targets metadata
+  files in the
   trusted snapshot metadata file, if any, MUST be less than or equal to their
   version numbers in the new snapshot metadata file. Furthermore, any targets
   metadata filename that was listed in the trusted snapshot metadata file, if
