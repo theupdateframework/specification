@@ -1,0 +1,20 @@
+name: CI
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  main:
+    name: Check date and version are updated
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # we want all refs for the --is-ancestor check
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - name: Check date and version
+        run: python check_release.py

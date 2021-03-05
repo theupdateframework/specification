@@ -15,11 +15,11 @@
   Check that specification updates are performed according to the versioning
   requirements in README.rst.
 
-  Expects Travis environment variables:
-  - TRAVIS_BRANCH
-  - TRAVIS_PULL_REQUEST_BRANCH
-  (see https://docs.travis-ci.com/user/environment-variables/)
-
+  Expects GitHub Actions environment variables:
+  - GITHUB_REF      the ref that triggered the workflow (i.e refs/pull/33/merge)
+  - GITHUB_BASE_REF the target branch (usually master)
+  - GITHUB_HEAD_REF the name of the submitters branch
+  (see https://docs.github.com/en/free-pro-team@latest/actions/reference/environment-variables)
 """
 import os
 import re
@@ -40,7 +40,7 @@ class SpecError(Exception):
   """Common error message part. """
   def __init__(self, msg):
     super().__init__(
-        msg + " please see 'Versioning' section in README.rst for details.")
+        msg + ", please see 'Versioning' section in README.rst for details.")
 
 
 def get_spec_head():
@@ -87,26 +87,11 @@ def main():
   the last modified date and version number in the specification document
   header are higher than in the master branch, i.e. were bumped. """
 
-  # Skip version and date comparison on push builds ...
-  # As per https://docs.travis-ci.com/user/environment-variables/
-  #   if the current job is a push build, this [env] variable is empty ("")
-  if not os.environ.get("TRAVIS_PULL_REQUEST_BRANCH"):
-    print("skipping version and date check for non pr builds ...")
-    sys.exit(0)
-
-  # ... also skip on PRs that don't target the master branch
-  # As per https://docs.travis-ci.com/user/environment-variables/:
-  #   for builds triggered by a pull request this [env variable] is the name of
-  #   the branch targeted by the pull request
-  if not os.environ.get("TRAVIS_BRANCH") == "master":
-    print("skipping version and date for builds that don't target master ...")
-    sys.exit(0)
-
   # Check that the current branch is based off of the master branch
   try:
     subprocess.run(
-        shlex.split("git merge-base --is-ancestor master {}".format(
-        os.environ["TRAVIS_PULL_REQUEST_BRANCH"])), check=True)
+      shlex.split("git merge-base --is-ancestor origin/master {}".format(
+        os.environ["GITHUB_REF"].lstrip("refs/"))), check=True)
 
   except subprocess.CalledProcessError as e:
     raise SpecError("make sure the current branch is based off of master")
@@ -136,7 +121,7 @@ def main():
   # Assert version bump type depending on the PR originating branch
   # - if the originating branch is 'draft', it must be a major (x)or minor bump
   # - otherwise, it must be a patch bump
-  if os.environ["TRAVIS_PULL_REQUEST_BRANCH"] == "draft":
+  if os.environ["GITHUB_BASE_REF"] == "draft":
     if not (((version_new[0] > version_prev[0]) !=
         (version_new[1] > version_prev[1])) and
         (version_new[2] == version_prev[2])):
@@ -155,7 +140,6 @@ def main():
 
   print("*"*68)
   print("thanks for correctly bumping version and last modified date. :)")
-  print("don't forget to tag the release and to sync 'draft' with master!! :P")
   print("*"*68)
 
 
