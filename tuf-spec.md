@@ -1369,7 +1369,7 @@ it in the next step.
 
 ## Update the snapshot role ## {#update-snapshot}
 
-1. **Download snapshot metadata file** , up to either the number of bytes
+1. **Download snapshot metadata file**, up to either the number of bytes
   specified in the timestamp metadata file, or some Y number of bytes. The value
   for Y is set by the authors of the application using TUF. For example, Y may be
   tens of kilobytes. If consistent snapshots are not used (see
