@@ -1,8 +1,8 @@
 The Update Framework specification
 ----------------------------------
 
-- `latest stable <https://github.com/theupdateframework/specification/blob/master/tuf-spec.md>`_
-- `current draft <https://github.com/theupdateframework/specification/blob/draft/tuf-spec.md>`_
+- `latest stable <https://theupdateframework.github.io/specification/latest/>`_
+- `current draft <https://theupdateframework.github.io/specification/draft/>`_
 - `new changes since latest stable <https://github.com/theupdateframework/specification/compare/master..draft>`_
 - `release history <https://github.com/theupdateframework/specification/tags>`_
 
