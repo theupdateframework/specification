@@ -304,8 +304,8 @@ configured repository.
 The root role's private keys MUST be kept very secure and thus should be
 kept offline.  If less than a threshold of Root keys are compromised, the
 repository should revoke trust on the compromised keys.  This can be
-accomplished with a normal rotation of root keys, covered in section 6.1
-(Key management and migration). If a threshold of root keys is compromised,
+accomplished with a normal rotation of root keys, covered in section
+[[#key-management-and-migration]]. If a threshold of root keys is compromised,
 the Root keys should be updated out-of-band, however, the threshold should
 be chosen so that this is extremely unlikely.  In the unfortunate event that
 a threshold of keys are compromised, it is safest to assume that attackers
@@ -689,8 +689,8 @@ The "signed" portion of <a>root.json</a> is as follows:
   : <dfn>CONSISTENT_SNAPSHOT</dfn>
   ::
     A boolean indicating whether the repository supports
-    consistent snapshots.  Section 7 goes into more detail on the consequences
-    of enabling this setting on a repository.
+    consistent snapshots.  Section [[#consistent-snapshots]] goes into more
+    detail on the consequences of enabling this setting on a repository.
 
   : <dfn for="role">VERSION</dfn>
   ::
@@ -1505,10 +1505,10 @@ it in the next step.
    metadata file found earlier in step [[#update-targets]].  In either
    case, the client MUST write the file to non-volatile storage as FILENAME.EXT.
 
-# 6. Usage # {#usage}
+# Repository operations # {#repository-operations}
 
-See [https://theupdateframework.io/](https://theupdateframework.io/) for discussion of
-recommended usage in various situations.
+See [https://theupdateframework.io/](https://theupdateframework.io/) for
+discussion of recommended usage in various situations.
 
 ## Key management and migration ## {#key-management-and-migration}
 
@@ -1550,7 +1550,7 @@ To replace a delegated developer key, the role that delegated to that key
 just replaces that key with another in the signed metadata where the
 delegation is done.
 
-# Consistent Snapshots # {#consistent-snapshots}
+## Consistent snapshots ## {#consistent-snapshots}
 
 So far, we have considered a TUF repository that is relatively static (in
 terms of how often metadata and target files are updated). The problem is
@@ -1565,7 +1565,7 @@ so-called consistent snapshot. If a client is reading from one consistent
 snapshot, then the repository is free to write another consistent snapshot
 without interrupting that client.
 
-## Writing consistent snapshots ## {#writing-consistent-snapshots}
+### Writing consistent snapshots ### {#writing-consistent-snapshots}
 
 We now explain how a repository should write metadata and targets to
 produce self-contained consistent snapshots.
@@ -1616,7 +1616,7 @@ released versions of root metadata files should always be provided
 so that outdated clients can update to the latest available root.
 
 
-## Reading consistent snapshots ## {#reading-consistent-snapshots}
+### Reading consistent snapshots ### {#reading-consistent-snapshots}
 
 See [[#detailed-client-workflow]] for more details.
 
