@@ -1620,6 +1620,51 @@ so that outdated clients can update to the latest available root.
 
 See [[#detailed-client-workflow]] for more details.
 
+## Adding and updating targets ## {#adding-updating-targets}
+
+The following subsections describe how to update metadata on the repository
+when adding targets to the repository, or updating existing targets.
+
+### Update targets metadata ### {#update-targets-metadata}
+
+1. Add the new (or update an existing) <a>TARGETS</a> object in the relevant
+   targets metadata (either the top-level targets metadata, or a delegated
+   targets metadata).
+2. Increment the <a for="role">VERSION</a> number in the updated targets
+   metadata.
+3. Sign the updated targets metadata with at least a <a>THRESHOLD</a> of keys
+   for the associated targets role (either the top-level targets role, or a
+   delegated targets role).
+4. Write the updated targets metadata, ensuring the targets metadata filename is
+   prefixed with the <a for="role">VERSION</a> number if consistent snapshots
+   are enabled for the repository.
+
+### Update snapshot metadata ### {#update-snapshot-metadata}
+
+1. Update the <a for="metapath">VERSION</a> number and, when in use,
+   <a for="metapath">LENGTH</a> and <a for="metapath">HASHES</a> for any targets
+   metadata modified during [[#update-targets-metadata]] within the
+   <a>METAFILES</a> object of the snapshot metadata.
+2. Increment the <a for="role">VERSION</a> number of the snapshot metadata.
+3. Sign the snapshot metadata with at least a <a>THRESHOLD</a> of keys for the
+   snapshot role.
+4. Write the updated snapshot metadata, ensuring the snapshot metadata filename
+   is prefixed with the <a for="role">VERSION</a> number if consistent
+   snapshots are enabled for the repository.
+
+### Update timestamp metadata ### {#update-timestamp-metadata}
+
+1. Update the <a for="metapath">VERSION</a> and, when in use, the
+   <a for="metapath">LENGTH</a> and <a for="metapath">HASHES</a> for the
+   snapshot metadata within the <a>METAFILES</a> object of the timestamp
+   metadata.
+2. Increment the <a for="role">VERSION</a> number of the timestamp metadata.
+3. Sign the timestamp metadata with at least a <a>THRESHOLD</a> of keys for the
+   timestamp role.
+4. Write the updated timestamp metadata, ensuring the timestamp metadata
+   filename is prefixed with the <a for="role">VERSION</a> number if consistent
+   snapshots are enabled for the repository.
+
 # Future directions and open questions # {#future-directions-and-open-questions}
 
 ## Support for bogus clocks ## {#support-for-bogus-clocks}
