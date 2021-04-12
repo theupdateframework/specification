@@ -3,7 +3,7 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS
 Abstract: A framework for securing software update systems.
-Date: 2021-05-27
+Date: 2021-05-28
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Datadog
 Editor: Joshua Lock, VMware
@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.19
+Text Macro: VERSION 1.0.20
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -534,6 +534,10 @@ All signed metadata objects have the format:
       ::
         A hex-encoded signature of the canonical form of the metadata for <a for="role">ROLE</a>.
 
+Note: The "signatures" list SHOULD only contain one <a>SIGNATURE</a> per
+<a for="role">KEYID</a>. This helps prevent multiple signatures by the same key
+being counted erroneously towards the minimum <a>THRESHOLD</a> indicating valid
+metadata.
 
 All <dfn>KEY</dfn>s have the format:
 
