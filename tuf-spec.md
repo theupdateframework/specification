@@ -547,6 +547,11 @@ All signed metadata objects have the format:
       ::
         A hex-encoded signature of the canonical form of the metadata for <a for="role">ROLE</a>.
 
+Note: The "signatures" list SHOULD only contain one <a>SIGNATURE</a> per
+<a for="role">KEYID</a>. This helps prevent multiple signatures by the same key
+being counted erroneously towards the minimum <a>THRESHOLD</a> indicating valid
+metadata.
+
 ### Key objects ### {#file-formats-keys}
 
 All <dfn>KEY</dfn> objects have the format:
