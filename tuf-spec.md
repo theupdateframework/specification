@@ -1321,7 +1321,7 @@ it in the next step.
 11. **If the timestamp and / or snapshot keys have been rotated, then delete the
   trusted timestamp and snapshot metadata files.** This is done
   in order to recover from fast-forward attacks after the repository has been
-  compromised and recovered. A _fast-forward attack_ happens when attackers
+  compromised and recovered. A *fast-forward attack* happens when attackers
   arbitrarily increase the version numbers of: (1) the timestamp metadata, (2)
   the snapshot metadata, and / or (3) the targets, or a delegated targets,
   metadata file in the snapshot metadata. Please see [the Mercury
