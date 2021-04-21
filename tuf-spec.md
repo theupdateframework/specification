@@ -3,7 +3,7 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS
 Abstract: A framework for securing software update systems.
-Date: 2020-12-11
+Date: 2020-04-21
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Datadog
 Editor: Joshua Lock, VMware
@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.17
+Text Macro: VERSION 1.0.19
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -1018,9 +1018,8 @@ as is described for the <a>root.json</a> file.
     package that are not made by the delegated party or its descendants to be
     ignored.
 
-In order to discuss target paths, a role MUST specify only one of the
-<a>"path_hash_prefixes"</a> or <a for="delegation-role">"paths"</a> attributes, each of which we
-discuss next.
+The <a>"path_hash_prefixes"</a> and <a for="delegation-role">"paths"</a>
+attributes are optional, if used, exactly one of them should be set.
 
   : <dfn>"path_hash_prefixes"</dfn>
   ::
