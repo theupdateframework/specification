@@ -3,7 +3,7 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS
 Abstract: A framework for securing software update systems.
-Date: 2020-12-11
+Date: 2021-04-21
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Datadog
 Editor: Joshua Lock, VMware
@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.17
+Text Macro: VERSION 1.0.18
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -976,7 +976,8 @@ as is described for the <a>root.json</a> file.
     <a>TARGETPATH</a>.  The application may use this information to guide
     download decisions.
 
-<dfn>DELEGATIONS</dfn> is an object whose format is the following:
+<dfn>DELEGATIONS</dfn> is an optional object and if defined it has the following
+format:
 
 <pre highlight="json">
 {
