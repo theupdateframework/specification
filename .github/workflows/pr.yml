@@ -9,11 +9,11 @@ jobs:
     name: Check date and version are updated
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
         with:
           fetch-depth: 0 # we want all refs for the --is-ancestor check
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@dc73133d4da04e56a135ae2246682783cc7c7cb6
         with:
           python-version: 3.x
       - name: Check date and version
