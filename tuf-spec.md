@@ -1481,7 +1481,7 @@ it in the next step.
   non-volatile storage as FILENAME.EXT (e.g. targets.json).
 
 7. **Perform a preorder depth-first search for metadata about the
-  desired target.** Let TARGETS be the current metadata, beginning with the
+  desired target.** Let DELEGATOR refer to the current
   top-level targets metadata role.
 
   1. If this role has been visited before, then skip this role
@@ -1494,8 +1494,8 @@ it in the next step.
   2. Otherwise, recursively search the list of delegations in
      order of appearance.
 
-    1. Let DELEGATEE denote the current target role TARGETS is
-       delegating to.
+    1. Let DELEGATEE denote
+       the current target role DELEGATOR is delegating to.
 
     2. **Download the DELEGATEE targets metadata file**, up to either
        the number of bytes specified in the snapshot metadata file, or some Z
@@ -1518,7 +1518,7 @@ it in the next step.
 
     4. **Check for an arbitrary software attack.** The new DELEGATEE
        metadata file MUST have been signed by a threshold of keys specified in the
-       TARGETS metadata file.  If the new DELEGATEE metadata file is not signed
+       DELEGATOR metadata file.  If the new DELEGATEE metadata file is not signed
        as required, abort the update cycle, and report the failure.
 
     5. **Check for a freeze attack.** The latest known time
@@ -1538,7 +1538,7 @@ it in the next step.
 
     8. Otherwise, if the current delegation is a non-terminating
        delegation, continue processing the next delegation, if any, by repeating
-       the preorder depth-first search with DELEGATEE as the current TARGET role.
+       the preorder depth-first search with the DELEGATEE as the DELEGATOR.
        Stop the search, and jump to step [[#fetch-target]]. as soon as a
        delegation returns a result.
 
