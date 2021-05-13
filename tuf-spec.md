@@ -1539,7 +1539,7 @@ it in the next step.
     8. Otherwise, if the current delegation is a non-terminating
        delegation, continue processing the next delegation, if any, by repeating
        the preorder depth-first search with the DELEGATEE as the DELEGATOR.
-       Stop the search, and jump to step [[#fetch-target]]. as soon as a
+       Stop the search, and jump to step [[#fetch-target]] as soon as a
        delegation returns a result.
 
 ## Fetch target ## {#fetch-target}
