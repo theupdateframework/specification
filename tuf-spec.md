@@ -3,7 +3,7 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS
 Abstract: A framework for securing software update systems.
-Date: 2020-12-11
+Date: 2021-05-17
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Datadog
 Editor: Joshua Lock, VMware
@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.17
+Text Macro: VERSION 1.0.18
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -688,9 +688,11 @@ The "signed" portion of <a>root.json</a> is as follows:
 
   : <dfn>CONSISTENT_SNAPSHOT</dfn>
   ::
-    A boolean indicating whether the repository supports
-    consistent snapshots.  Section 7 goes into more detail on the consequences
-    of enabling this setting on a repository.
+    An optional boolean indicating whether the repository supports
+    consistent snapshots. This field is optional for backward compatibility with
+    old metadata that may exist without it. New implementations SHOULD include
+    it. Section 7 goes into more detail on the consequences of enabling
+    this setting on a repository.
 
   : <dfn for="role">VERSION</dfn>
   ::
