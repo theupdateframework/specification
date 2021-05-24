@@ -3,7 +3,7 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS
 Abstract: A framework for securing software update systems.
-Date: 2020-12-11
+Date: 2021-03-29
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Datadog
 Editor: Joshua Lock, VMware
@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.17
+Text Macro: VERSION 1.0.18
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -304,8 +304,8 @@ configured repository.
 The root role's private keys MUST be kept very secure and thus should be
 kept offline.  If less than a threshold of Root keys are compromised, the
 repository should revoke trust on the compromised keys.  This can be
-accomplished with a normal rotation of root keys, covered in section 6.1
-(Key management and migration). If a threshold of root keys is compromised,
+accomplished with a normal rotation of root keys, covered in section
+[[#key-management-and-migration]]. If a threshold of root keys is compromised,
 the Root keys should be updated out-of-band, however, the threshold should
 be chosen so that this is extremely unlikely.  In the unfortunate event that
 a threshold of keys are compromised, it is safest to assume that attackers
@@ -689,8 +689,8 @@ The "signed" portion of <a>root.json</a> is as follows:
   : <dfn>CONSISTENT_SNAPSHOT</dfn>
   ::
     A boolean indicating whether the repository supports
-    consistent snapshots.  Section 7 goes into more detail on the consequences
-    of enabling this setting on a repository.
+    consistent snapshots.  Section [[#consistent-snapshots]] goes into more
+    detail on the consequences of enabling this setting on a repository.
 
   : <dfn for="role">VERSION</dfn>
   ::
@@ -1321,7 +1321,7 @@ it in the next step.
 11. **If the timestamp and / or snapshot keys have been rotated, then delete the
   trusted timestamp and snapshot metadata files.** This is done
   in order to recover from fast-forward attacks after the repository has been
-  compromised and recovered. A _fast-forward attack_ happens when attackers
+  compromised and recovered. A *fast-forward attack* happens when attackers
   arbitrarily increase the version numbers of: (1) the timestamp metadata, (2)
   the snapshot metadata, and / or (3) the targets, or a delegated targets,
   metadata file in the snapshot metadata. Please see [the Mercury
@@ -1369,7 +1369,7 @@ it in the next step.
 
 ## Update the snapshot role ## {#update-snapshot}
 
-1. **Download snapshot metadata file** , up to either the number of bytes
+1. **Download snapshot metadata file**, up to either the number of bytes
   specified in the timestamp metadata file, or some Y number of bytes. The value
   for Y is set by the authors of the application using TUF. For example, Y may be
   tens of kilobytes. If consistent snapshots are not used (see
@@ -1505,10 +1505,10 @@ it in the next step.
    metadata file found earlier in step [[#update-targets]].  In either
    case, the client MUST write the file to non-volatile storage as FILENAME.EXT.
 
-# 6. Usage # {#usage}
+# Repository operations # {#repository-operations}
 
-See [https://theupdateframework.io/](https://theupdateframework.io/) for discussion of
-recommended usage in various situations.
+See [https://theupdateframework.io/](https://theupdateframework.io/) for
+discussion of recommended usage in various situations.
 
 ## Key management and migration ## {#key-management-and-migration}
 
@@ -1550,7 +1550,7 @@ To replace a delegated developer key, the role that delegated to that key
 just replaces that key with another in the signed metadata where the
 delegation is done.
 
-# Consistent Snapshots # {#consistent-snapshots}
+## Consistent snapshots ## {#consistent-snapshots}
 
 So far, we have considered a TUF repository that is relatively static (in
 terms of how often metadata and target files are updated). The problem is
@@ -1565,7 +1565,7 @@ so-called consistent snapshot. If a client is reading from one consistent
 snapshot, then the repository is free to write another consistent snapshot
 without interrupting that client.
 
-## Writing consistent snapshots ## {#writing-consistent-snapshots}
+### Writing consistent snapshots ### {#writing-consistent-snapshots}
 
 We now explain how a repository should write metadata and targets to
 produce self-contained consistent snapshots.
@@ -1616,9 +1616,54 @@ released versions of root metadata files should always be provided
 so that outdated clients can update to the latest available root.
 
 
-## Reading consistent snapshots ## {#reading-consistent-snapshots}
+### Reading consistent snapshots ### {#reading-consistent-snapshots}
 
 See [[#detailed-client-workflow]] for more details.
+
+## Adding and updating targets ## {#adding-updating-targets}
+
+The following subsections describe how to update metadata on the repository
+when adding targets to the repository, or updating existing targets.
+
+### Update targets metadata ### {#update-targets-metadata}
+
+1. Add the new (or update an existing) <a>TARGETS</a> object in the relevant
+   targets metadata (either the top-level targets metadata, or a delegated
+   targets metadata).
+2. Increment the <a for="role">VERSION</a> number in the updated targets
+   metadata.
+3. Sign the updated targets metadata with at least a <a>THRESHOLD</a> of keys
+   for the associated targets role (either the top-level targets role, or a
+   delegated targets role).
+4. Write the updated targets metadata, ensuring the targets metadata filename is
+   prefixed with the <a for="role">VERSION</a> number if consistent snapshots
+   are enabled for the repository.
+
+### Update snapshot metadata ### {#update-snapshot-metadata}
+
+1. Update the <a for="metapath">VERSION</a> number and, when in use,
+   <a for="metapath">LENGTH</a> and <a for="metapath">HASHES</a> for any targets
+   metadata modified during [[#update-targets-metadata]] within the
+   <a>METAFILES</a> object of the snapshot metadata.
+2. Increment the <a for="role">VERSION</a> number of the snapshot metadata.
+3. Sign the snapshot metadata with at least a <a>THRESHOLD</a> of keys for the
+   snapshot role.
+4. Write the updated snapshot metadata, ensuring the snapshot metadata filename
+   is prefixed with the <a for="role">VERSION</a> number if consistent
+   snapshots are enabled for the repository.
+
+### Update timestamp metadata ### {#update-timestamp-metadata}
+
+1. Update the <a for="metapath">VERSION</a> and, when in use, the
+   <a for="metapath">LENGTH</a> and <a for="metapath">HASHES</a> for the
+   snapshot metadata within the <a>METAFILES</a> object of the timestamp
+   metadata.
+2. Increment the <a for="role">VERSION</a> number of the timestamp metadata.
+3. Sign the timestamp metadata with at least a <a>THRESHOLD</a> of keys for the
+   timestamp role.
+4. Write the updated timestamp metadata, ensuring the timestamp metadata
+   filename is prefixed with the <a for="role">VERSION</a> number if consistent
+   snapshots are enabled for the repository.
 
 # Future directions and open questions # {#future-directions-and-open-questions}
 
