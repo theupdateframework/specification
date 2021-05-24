@@ -1332,7 +1332,7 @@ it in the next step.
   timestamp, snapshot, targets, or delegated targets metadata. The attacker's goal
   is to cause clients to refuse to update the metadata later because the attacker's
   listed metadata version number (possibly MAX_INT) is greater than the new valid
-  version.  To recover from a fast-forward attacks after the repository has been
+  version.  To recover from a fast-forward attack after the repository has been
   compromised and recovered, certain metadata files need to be deleted as
   specified in this section. If a delegated targets file is subjected to a
   fast-forward attack, the snapshot role's keys should be replaced. Please see
@@ -1509,7 +1509,8 @@ it in the next step.
        number of bytes. The value for Z is set by the authors of the application
        using TUF. For example, Z may be tens of kilobytes. IF DELEGATEE cannot be
        found, end the search and report the target cannot be found.  If
-       consistent snapshots are not used (see Section 7), then the filename used
+       consistent snapshots are not used (see Section
+       [[#consistent-snapshots]]), then the filename used
        to download the targets metadata file is of the fixed form FILENAME.EXT
        (e.g., delegated_role.json).  Otherwise, the filename is of the form
        VERSION_NUMBER.FILENAME.EXT (e.g., 42.delegated_role.json), where
