@@ -1529,9 +1529,9 @@ it in the next step.
        DELEGATOR metadata file.  If the new DELEGATEE metadata file is not signed
        as required, abort the update cycle, and report the failure.
 
-    6. **Check for a freeze attack.** The latest known time
-       should be lower than the expiration timestamp in the new DELEGATEE
-       metadata file. If so, the new DELEGATEE file becomes the trusted DELEGATEE
+    6. **Check for a freeze attack.** The expiration timestamp in new
+       DELEGATEE metadata file MUST be higher than the fixed update start time.
+       If so, the new DELEGATEE file becomes the trusted DELEGATEE
        file. If the new DELEGATEE metadata file is expired, abort the update
        cycle, and report the potential freeze attack.
 
