@@ -368,8 +368,8 @@
 /** Subheadings ***************************************************************/
 
 	h1 + h2,
-	#subtitle {
-		/* #subtitle is a subtitle in an H2 under the H1 */
+	#profile-and-date {
+		/* #profile-and-date is a subtitle in an H2 under the H1 */
 		margin-top: 0;
 	}
 	h2 + h3,
@@ -583,34 +583,28 @@
 	a[href] {
 		color: #034575;
 		color: var(--a-normal-text);
-		text-decoration: none;
-		border-bottom: 1px solid #707070;
-		border-bottom: 1px solid var(--a-normal-underline);
-		/* Need a bit of extending for it to look okay */
-		padding: 0 1px 0;
-		margin: 0 -1px 0;
+		text-decoration: underline #707070;
+		text-decoration: underline var(--a-normal-underline);
+		text-decoration-skip-ink: none;
 	}
 	a:visited {
 		color: #034575;
 		color: var(--a-visited-text);
-		border-bottom-color: #bbb;
-		border-bottom-color: var(--a-visited-underline);
+		text-decoration-color: #bbb;
+		text-decoration-color: var(--a-visited-underline);
 	}
 
-	/* Use distinguishing colors when user is interacting with the link */
+	/* Indicate interaction with the link */
 	a[href]:focus,
 	a[href]:hover {
-		background: #f8f8f8;
-		background: rgba(75%, 75%, 75%, .25);
-		background: var(--a-hover-bg);
-		border-bottom-width: 3px;
-		margin-bottom: -2px;
+		text-decoration-thickness: 2px;
+		text-decoratin
 	}
 	a[href]:active {
 		color: #c00;
 		color: var(--a-active-text);
-		border-color: #c00;
-		border-color: var(--a-active-underline);
+		text-decoration-color: #c00;
+		text-decoration-color: var(--a-active-underline);
 	}
 
 	/* Backout above styling for W3C logo */
@@ -1116,9 +1110,12 @@ Possible extra rowspan handling
 
 	.toc a {
 		/* More spacing; use padding to make it part of the click target. */
-		padding-top: 0.1rem;
+		padding: 0.1rem 1px 0;
 		/* Larger, more consistently-sized click target */
 		display: block;
+		/* Switch to using border-bottom for underlines */
+		text-decoration: none;
+		border-bottom: 1px solid;
 		/* Reverse color scheme */
 		color: black;
 		color: var(--toclink-text);
@@ -1130,6 +1127,13 @@ Possible extra rowspan handling
 		color: var(--toclink-visited-text);
 		border-color: #054572;
 		border-color: var(--toclink-visited-underline);
+	}
+	.toc a:focus,
+	.toc a:hover {
+		background: rgba(75%, 75%, 75%, .25);
+		background: var(--a-hover-bg);
+		border-bottom-width: 3px;
+		margin-bottom: -2px;
 	}
 	.toc a:not(:focus):not(:hover) {
 		/* Allow colors to cascade through from link styling */
@@ -1484,8 +1488,8 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version b94c7e755, updated Fri Feb 19 16:28:59 2021 -0800" name="generator">
-  <meta content="9d879a421f7db4a8fb04c608137c90197f8bb173" name="document-revision">
+  <meta content="Bikeshed version 5c7bc9381, updated Wed May 12 18:18:08 2021 -0700" name="generator">
+  <meta content="5e91a6221b9bb4deb7d12d510909fac879f922c2" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -1592,9 +1596,9 @@ pre .property::before, pre .property::after {
     --ins-bg: transparent;
 
     --a-normal-text: #034575;
-    --a-normal-underline: #707070;
+    --a-normal-underline: #bbb;
     --a-visited-text: var(--a-normal-text);
-    --a-visited-underline: #bbb;
+    --a-visited-underline: #707070;
     --a-hover-bg: rgba(75%, 75%, 75%, .25);
     --a-active-text: #c00;
     --a-active-underline: #c00;
@@ -2036,7 +2040,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">The Update Framework Specification</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content"> Version: 1.0.17 <br> Last modified: <time class="dt-updated" datetime="2020-12-11">11 December 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content"> Version: 1.0.18 <br> Last modified: <time class="dt-updated" datetime="2021-03-29">29 March 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>Feedback:
@@ -2126,20 +2130,27 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#fetch-target"><span class="secno">5.7</span> <span class="content">Fetch target</span></a>
      </ol>
     <li>
-     <a href="#usage"><span class="secno">6</span> <span class="content">6. Usage</span></a>
+     <a href="#repository-operations"><span class="secno">6</span> <span class="content">Repository operations</span></a>
      <ol class="toc">
       <li><a href="#key-management-and-migration"><span class="secno">6.1</span> <span class="content">Key management and migration</span></a>
+      <li>
+       <a href="#consistent-snapshots"><span class="secno">6.2</span> <span class="content">Consistent snapshots</span></a>
+       <ol class="toc">
+        <li><a href="#writing-consistent-snapshots"><span class="secno">6.2.1</span> <span class="content">Writing consistent snapshots</span></a>
+        <li><a href="#reading-consistent-snapshots"><span class="secno">6.2.2</span> <span class="content">Reading consistent snapshots</span></a>
+       </ol>
+      <li>
+       <a href="#adding-updating-targets"><span class="secno">6.3</span> <span class="content">Adding and updating targets</span></a>
+       <ol class="toc">
+        <li><a href="#update-targets-metadata"><span class="secno">6.3.1</span> <span class="content">Update targets metadata</span></a>
+        <li><a href="#update-snapshot-metadata"><span class="secno">6.3.2</span> <span class="content">Update snapshot metadata</span></a>
+        <li><a href="#update-timestamp-metadata"><span class="secno">6.3.3</span> <span class="content">Update timestamp metadata</span></a>
+       </ol>
      </ol>
     <li>
-     <a href="#consistent-snapshots"><span class="secno">7</span> <span class="content">Consistent Snapshots</span></a>
+     <a href="#future-directions-and-open-questions"><span class="secno">7</span> <span class="content">Future directions and open questions</span></a>
      <ol class="toc">
-      <li><a href="#writing-consistent-snapshots"><span class="secno">7.1</span> <span class="content">Writing consistent snapshots</span></a>
-      <li><a href="#reading-consistent-snapshots"><span class="secno">7.2</span> <span class="content">Reading consistent snapshots</span></a>
-     </ol>
-    <li>
-     <a href="#future-directions-and-open-questions"><span class="secno">8</span> <span class="content">Future directions and open questions</span></a>
-     <ol class="toc">
-      <li><a href="#support-for-bogus-clocks"><span class="secno">8.1</span> <span class="content">Support for bogus clocks</span></a>
+      <li><a href="#support-for-bogus-clocks"><span class="secno">7.1</span> <span class="content">Support for bogus clocks</span></a>
      </ol>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -2403,8 +2414,7 @@ configured repository.</p>
    <p>The root role’s private keys MUST be kept very secure and thus should be
 kept offline.  If less than a threshold of Root keys are compromised, the
 repository should revoke trust on the compromised keys.  This can be
-accomplished with a normal rotation of root keys, covered in section 6.1
-(Key management and migration). If a threshold of root keys is compromised,
+accomplished with a normal rotation of root keys, covered in section <a href="#key-management-and-migration">§ 6.1 Key management and migration</a>. If a threshold of root keys is compromised,
 the Root keys should be updated out-of-band, however, the threshold should
 be chosen so that this is extremely unlikely.  In the unfortunate event that
 a threshold of keys are compromised, it is safest to assume that attackers
@@ -2715,8 +2725,8 @@ number exactly, or perhaps only the major version number (major.minor.fix).</p>
     <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="consistent_snapshot">CONSISTENT_SNAPSHOT</dfn>
     <dd data-md>
      <p>A boolean indicating whether the repository supports
-consistent snapshots.  Section 7 goes into more detail on the consequences
-of enabling this setting on a repository.</p>
+consistent snapshots.  Section <a href="#consistent-snapshots">§ 6.2 Consistent snapshots</a> goes into more
+detail on the consequences of enabling this setting on a repository.</p>
     <dt data-md><dfn class="dfn-paneled" data-dfn-for="role" data-dfn-type="dfn" data-noexport id="role-version">VERSION</dfn>
     <dd data-md>
      <p>An integer that is greater than 0.  Clients MUST NOT replace a
@@ -3274,7 +3284,7 @@ report the potential freeze attack.  On the next update cycle, begin at step <a 
      <p><strong>If the timestamp and / or snapshot keys have been rotated, then delete the
 trusted timestamp and snapshot metadata files.</strong> This is done
 in order to recover from fast-forward attacks after the repository has been
-compromised and recovered. A _fast-forward attack_ happens when attackers
+compromised and recovered. A <em>fast-forward attack</em> happens when attackers
 arbitrarily increase the version numbers of: (1) the timestamp metadata, (2)
 the snapshot metadata, and / or (3) the targets, or a delegated targets,
 metadata file in the snapshot metadata. Please see <a href="https://theupdateframework.io/papers/prevention-rollback-attacks-atc2017.pdf">the Mercury
@@ -3324,11 +3334,11 @@ to non-volatile storage as FILENAME.EXT (e.g. timestamp.json).</p>
    <h3 class="heading settled" data-level="5.5" id="update-snapshot"><span class="secno">5.5. </span><span class="content">Update the snapshot role</span><a class="self-link" href="#update-snapshot"></a></h3>
    <ol>
     <li data-md>
-     <p><strong>Download snapshot metadata file</strong> , up to either the number of bytes
+     <p><strong>Download snapshot metadata file</strong>, up to either the number of bytes
 specified in the timestamp metadata file, or some Y number of bytes. The value
 for Y is set by the authors of the application using TUF. For example, Y may be
 tens of kilobytes. If consistent snapshots are not used (see
-Section <a href="#consistent-snapshots">§ 7 Consistent Snapshots</a>), then the filename used to download the
+Section <a href="#consistent-snapshots">§ 6.2 Consistent snapshots</a>), then the filename used to download the
 snapshot metadata file is of the fixed form FILENAME.EXT (e.g.,
 snapshot.json).  Otherwise, the filename is of the form
 VERSION_NUMBER.FILENAME.EXT (e.g., 42.snapshot.json), where VERSION_NUMBER is
@@ -3377,7 +3387,7 @@ non-volatile storage as FILENAME.EXT (e.g. snapshot.json).</p>
      <p><strong>Download the top-level targets metadata file</strong>, up to either the
 number of bytes specified in the snapshot metadata file, or some Z number of
 bytes. The value for Z is set by the authors of the application using TUF. For
-example, Z may be tens of kilobytes.  If consistent snapshots are not used (see <a href="#consistent-snapshots">§ 7 Consistent Snapshots</a>), then the filename used to download the targets
+example, Z may be tens of kilobytes.  If consistent snapshots are not used (see <a href="#consistent-snapshots">§ 6.2 Consistent snapshots</a>), then the filename used to download the targets
 metadata file is of the fixed form FILENAME.EXT (e.g., targets.json).
 Otherwise, the filename is of the form VERSION_NUMBER.FILENAME.EXT (e.g.,
 42.targets.json), where VERSION_NUMBER is the version number of the targets
@@ -3455,7 +3465,7 @@ validated, end the search and report that the target cannot be found.</p>
  cases, the exact number is unknown. This may happen, for example, if an
  external program is used to compute the root hash of a tree of targets files,
  and this program does not provide the total size of all of these files.) If
- consistent snapshots are not used (see <a href="#consistent-snapshots">§ 7 Consistent Snapshots</a>), then the
+ consistent snapshots are not used (see <a href="#consistent-snapshots">§ 6.2 Consistent snapshots</a>), then the
  filename used to download the target file is of the fixed form FILENAME.EXT
  (e.g., foobar.tar.gz).  Otherwise, the filename is of the form
  HASH.FILENAME.EXT (e.g.,
@@ -3464,9 +3474,9 @@ validated, end the search and report that the target cannot be found.</p>
  metadata file found earlier in step <a href="#update-targets">§ 5.6 Update the targets role</a>.  In either
  case, the client MUST write the file to non-volatile storage as FILENAME.EXT.</p>
    </ol>
-   <h2 class="heading settled" data-level="6" id="usage"><span class="secno">6. </span><span class="content">6. Usage</span><a class="self-link" href="#usage"></a></h2>
-   <p>See <a href="https://theupdateframework.io/">https://theupdateframework.io/</a> for discussion of
-recommended usage in various situations.</p>
+   <h2 class="heading settled" data-level="6" id="repository-operations"><span class="secno">6. </span><span class="content">Repository operations</span><a class="self-link" href="#repository-operations"></a></h2>
+   <p>See <a href="https://theupdateframework.io/">https://theupdateframework.io/</a> for
+discussion of recommended usage in various situations.</p>
    <h3 class="heading settled" data-level="6.1" id="key-management-and-migration"><span class="secno">6.1. </span><span class="content">Key management and migration</span><a class="self-link" href="#key-management-and-migration"></a></h3>
    <p>All keys, except those for the timestamp and mirrors roles, should be
 stored securely offline (e.g. encrypted and on a separate machine, in
@@ -3501,7 +3511,7 @@ the expiration time of the latest root metadata available to the client.</p>
    <p>To replace a delegated developer key, the role that delegated to that key
 just replaces that key with another in the signed metadata where the
 delegation is done.</p>
-   <h2 class="heading settled" data-level="7" id="consistent-snapshots"><span class="secno">7. </span><span class="content">Consistent Snapshots</span><a class="self-link" href="#consistent-snapshots"></a></h2>
+   <h3 class="heading settled" data-level="6.2" id="consistent-snapshots"><span class="secno">6.2. </span><span class="content">Consistent snapshots</span><a class="self-link" href="#consistent-snapshots"></a></h3>
    <p>So far, we have considered a TUF repository that is relatively static (in
 terms of how often metadata and target files are updated). The problem is
 that if the repository (which may be a community repository such as PyPI,
@@ -3514,7 +3524,7 @@ high-level idea of the solution is that each snapshot will be contained in a
 so-called consistent snapshot. If a client is reading from one consistent
 snapshot, then the repository is free to write another consistent snapshot
 without interrupting that client.</p>
-   <h3 class="heading settled" data-level="7.1" id="writing-consistent-snapshots"><span class="secno">7.1. </span><span class="content">Writing consistent snapshots</span><a class="self-link" href="#writing-consistent-snapshots"></a></h3>
+   <h4 class="heading settled" data-level="6.2.1" id="writing-consistent-snapshots"><span class="secno">6.2.1. </span><span class="content">Writing consistent snapshots</span><a class="self-link" href="#writing-consistent-snapshots"></a></h4>
    <p>We now explain how a repository should write metadata and targets to
 produce self-contained consistent snapshots.</p>
    <p>Simply put, TUF should write every metadata file as such: if the
@@ -3556,10 +3566,62 @@ set to the True value.</p>
    <p>Regardless of whether consistent snapshots are ever used or not, all
 released versions of root metadata files should always be provided
 so that outdated clients can update to the latest available root.</p>
-   <h3 class="heading settled" data-level="7.2" id="reading-consistent-snapshots"><span class="secno">7.2. </span><span class="content">Reading consistent snapshots</span><a class="self-link" href="#reading-consistent-snapshots"></a></h3>
+   <h4 class="heading settled" data-level="6.2.2" id="reading-consistent-snapshots"><span class="secno">6.2.2. </span><span class="content">Reading consistent snapshots</span><a class="self-link" href="#reading-consistent-snapshots"></a></h4>
    <p>See <a href="#detailed-client-workflow">§ 5 Detailed client workflow</a> for more details.</p>
-   <h2 class="heading settled" data-level="8" id="future-directions-and-open-questions"><span class="secno">8. </span><span class="content">Future directions and open questions</span><a class="self-link" href="#future-directions-and-open-questions"></a></h2>
-   <h3 class="heading settled" data-level="8.1" id="support-for-bogus-clocks"><span class="secno">8.1. </span><span class="content">Support for bogus clocks</span><a class="self-link" href="#support-for-bogus-clocks"></a></h3>
+   <h3 class="heading settled" data-level="6.3" id="adding-updating-targets"><span class="secno">6.3. </span><span class="content">Adding and updating targets</span><a class="self-link" href="#adding-updating-targets"></a></h3>
+   <p>The following subsections describe how to update metadata on the repository
+when adding targets to the repository, or updating existing targets.</p>
+   <h4 class="heading settled" data-level="6.3.1" id="update-targets-metadata"><span class="secno">6.3.1. </span><span class="content">Update targets metadata</span><a class="self-link" href="#update-targets-metadata"></a></h4>
+   <ol>
+    <li data-md>
+     <p>Add the new (or update an existing) <a data-link-type="dfn" href="#targets-obj-targets" id="ref-for-targets-obj-targets④">TARGETS</a> object in the relevant
+ targets metadata (either the top-level targets metadata, or a delegated
+ targets metadata).</p>
+    <li data-md>
+     <p>Increment the <a data-link-type="dfn" href="#role-version" id="ref-for-role-version⑨">VERSION</a> number in the updated targets
+ metadata.</p>
+    <li data-md>
+     <p>Sign the updated targets metadata with at least a <a data-link-type="dfn" href="#threshold" id="ref-for-threshold③">THRESHOLD</a> of keys
+ for the associated targets role (either the top-level targets role, or a
+ delegated targets role).</p>
+    <li data-md>
+     <p>Write the updated targets metadata, ensuring the targets metadata filename is
+ prefixed with the <a data-link-type="dfn" href="#role-version" id="ref-for-role-version①⓪">VERSION</a> number if consistent snapshots
+ are enabled for the repository.</p>
+   </ol>
+   <h4 class="heading settled" data-level="6.3.2" id="update-snapshot-metadata"><span class="secno">6.3.2. </span><span class="content">Update snapshot metadata</span><a class="self-link" href="#update-snapshot-metadata"></a></h4>
+   <ol>
+    <li data-md>
+     <p>Update the <a data-link-type="dfn" href="#metapath-version" id="ref-for-metapath-version②">VERSION</a> number and, when in use, <a data-link-type="dfn" href="#metapath-length" id="ref-for-metapath-length①">LENGTH</a> and <a data-link-type="dfn" href="#metapath-hashes" id="ref-for-metapath-hashes②">HASHES</a> for any targets
+ metadata modified during <a href="#update-targets-metadata">§ 6.3.1 Update targets metadata</a> within the <a data-link-type="dfn" href="#metafiles" id="ref-for-metafiles④">METAFILES</a> object of the snapshot metadata.</p>
+    <li data-md>
+     <p>Increment the <a data-link-type="dfn" href="#role-version" id="ref-for-role-version①①">VERSION</a> number of the snapshot metadata.</p>
+    <li data-md>
+     <p>Sign the snapshot metadata with at least a <a data-link-type="dfn" href="#threshold" id="ref-for-threshold④">THRESHOLD</a> of keys for the
+ snapshot role.</p>
+    <li data-md>
+     <p>Write the updated snapshot metadata, ensuring the snapshot metadata filename
+ is prefixed with the <a data-link-type="dfn" href="#role-version" id="ref-for-role-version①②">VERSION</a> number if consistent
+ snapshots are enabled for the repository.</p>
+   </ol>
+   <h4 class="heading settled" data-level="6.3.3" id="update-timestamp-metadata"><span class="secno">6.3.3. </span><span class="content">Update timestamp metadata</span><a class="self-link" href="#update-timestamp-metadata"></a></h4>
+   <ol>
+    <li data-md>
+     <p>Update the <a data-link-type="dfn" href="#metapath-version" id="ref-for-metapath-version③">VERSION</a> and, when in use, the <a data-link-type="dfn" href="#metapath-length" id="ref-for-metapath-length②">LENGTH</a> and <a data-link-type="dfn" href="#metapath-hashes" id="ref-for-metapath-hashes③">HASHES</a> for the
+ snapshot metadata within the <a data-link-type="dfn" href="#metafiles" id="ref-for-metafiles⑤">METAFILES</a> object of the timestamp
+ metadata.</p>
+    <li data-md>
+     <p>Increment the <a data-link-type="dfn" href="#role-version" id="ref-for-role-version①③">VERSION</a> number of the timestamp metadata.</p>
+    <li data-md>
+     <p>Sign the timestamp metadata with at least a <a data-link-type="dfn" href="#threshold" id="ref-for-threshold⑤">THRESHOLD</a> of keys for the
+ timestamp role.</p>
+    <li data-md>
+     <p>Write the updated timestamp metadata, ensuring the timestamp metadata
+ filename is prefixed with the <a data-link-type="dfn" href="#role-version" id="ref-for-role-version①④">VERSION</a> number if consistent
+ snapshots are enabled for the repository.</p>
+   </ol>
+   <h2 class="heading settled" data-level="7" id="future-directions-and-open-questions"><span class="secno">7. </span><span class="content">Future directions and open questions</span><a class="self-link" href="#future-directions-and-open-questions"></a></h2>
+   <h3 class="heading settled" data-level="7.1" id="support-for-bogus-clocks"><span class="secno">7.1. </span><span class="content">Support for bogus clocks</span><a class="self-link" href="#support-for-bogus-clocks"></a></h3>
    <p>The framework may need to offer an application-enablable "no, my clock is <em>supposed</em> to be wrong" mode, since others have noticed that many users seem
 to have incorrect clocks.</p>
   </main>
@@ -3925,6 +3987,9 @@ to have incorrect clocks.</p>
     <li><a href="#ref-for-role-version③">4.5. File formats: targets.json and delegated target roles</a> <a href="#ref-for-role-version④">(2)</a>
     <li><a href="#ref-for-role-version⑤">4.6. File formats: timestamp.json</a> <a href="#ref-for-role-version⑥">(2)</a>
     <li><a href="#ref-for-role-version⑦">4.7. File formats: mirrors.json</a> <a href="#ref-for-role-version⑧">(2)</a>
+    <li><a href="#ref-for-role-version⑨">6.3.1. Update targets metadata</a> <a href="#ref-for-role-version①⓪">(2)</a>
+    <li><a href="#ref-for-role-version①①">6.3.2. Update snapshot metadata</a> <a href="#ref-for-role-version①②">(2)</a>
+    <li><a href="#ref-for-role-version①③">6.3.3. Update timestamp metadata</a> <a href="#ref-for-role-version①④">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="expires">
@@ -3955,6 +4020,9 @@ to have incorrect clocks.</p>
    <ul>
     <li><a href="#ref-for-threshold">4.3. File formats: root.json</a>
     <li><a href="#ref-for-threshold①">4.5. File formats: targets.json and delegated target roles</a> <a href="#ref-for-threshold②">(2)</a>
+    <li><a href="#ref-for-threshold③">6.3.1. Update targets metadata</a>
+    <li><a href="#ref-for-threshold④">6.3.2. Update snapshot metadata</a>
+    <li><a href="#ref-for-threshold⑤">6.3.3. Update timestamp metadata</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="snapshotjson">
@@ -3970,6 +4038,8 @@ to have incorrect clocks.</p>
     <li><a href="#ref-for-metafiles">4.4. File formats: snapshot.json</a>
     <li><a href="#ref-for-metafiles①">4.5. File formats: targets.json and delegated target roles</a>
     <li><a href="#ref-for-metafiles②">4.6. File formats: timestamp.json</a> <a href="#ref-for-metafiles③">(2)</a>
+    <li><a href="#ref-for-metafiles④">6.3.2. Update snapshot metadata</a>
+    <li><a href="#ref-for-metafiles⑤">6.3.3. Update timestamp metadata</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="snapshot-metapath">
@@ -3982,18 +4052,24 @@ to have incorrect clocks.</p>
    <b><a href="#metapath-version">#metapath-version</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-metapath-version">4.4. File formats: snapshot.json</a> <a href="#ref-for-metapath-version①">(2)</a>
+    <li><a href="#ref-for-metapath-version②">6.3.2. Update snapshot metadata</a>
+    <li><a href="#ref-for-metapath-version③">6.3.3. Update timestamp metadata</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="metapath-length">
    <b><a href="#metapath-length">#metapath-length</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-metapath-length">4.4. File formats: snapshot.json</a>
+    <li><a href="#ref-for-metapath-length①">6.3.2. Update snapshot metadata</a>
+    <li><a href="#ref-for-metapath-length②">6.3.3. Update timestamp metadata</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="metapath-hashes">
    <b><a href="#metapath-hashes">#metapath-hashes</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-metapath-hashes">4.4. File formats: snapshot.json</a> <a href="#ref-for-metapath-hashes①">(2)</a>
+    <li><a href="#ref-for-metapath-hashes②">6.3.2. Update snapshot metadata</a>
+    <li><a href="#ref-for-metapath-hashes③">6.3.3. Update timestamp metadata</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="hash">
@@ -4012,6 +4088,7 @@ to have incorrect clocks.</p>
    <b><a href="#targets-obj-targets">#targets-obj-targets</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-targets-obj-targets">4.5. File formats: targets.json and delegated target roles</a> <a href="#ref-for-targets-obj-targets①">(2)</a> <a href="#ref-for-targets-obj-targets②">(3)</a> <a href="#ref-for-targets-obj-targets③">(4)</a>
+    <li><a href="#ref-for-targets-obj-targets④">6.3.1. Update targets metadata</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="targetpath">
