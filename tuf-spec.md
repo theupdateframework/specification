@@ -529,6 +529,8 @@ All signed metadata objects have the format:
       ::
         The identifier of the key signing the <a for="role">ROLE</a> object,
         which is a hexdigest of the SHA-256 hash of the canonical form of the key.
+        The keyid MUST be unique in the "signatures" array: multiple
+        signatures with the same keyid are not allowed.
 
       : <dfn>SIGNATURE</dfn>
       ::
