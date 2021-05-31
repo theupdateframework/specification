@@ -1021,9 +1021,8 @@ format:
     package that are not made by the delegated party or its descendants to be
     ignored.
 
-In order to discuss target paths, a role MUST specify only one of the
-<a>"path_hash_prefixes"</a> or <a for="delegation-role">"paths"</a> attributes, each of which we
-discuss next.
+The <a>"path_hash_prefixes"</a> and <a for="delegation-role">"paths"</a>
+attributes are OPTIONAL, if used, exactly one of them should be set.
 
   : <dfn>"path_hash_prefixes"</dfn>
   ::
