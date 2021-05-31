@@ -1004,6 +1004,8 @@ as is described for the <a>root.json</a> file.
   : <dfn>ROLENAME</dfn>
   ::
     A string giving the name of the delegated role.  For example, "projects".
+    The rolename MUST be unique in the delegations object: multiple roles with
+    the same rolename are not allowed within a <dfn>DELEGATIONS</dfn>.
 
   : <dfn>TERMINATING</dfn>
   ::
