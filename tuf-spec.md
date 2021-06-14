@@ -3,7 +3,7 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS
 Abstract: A framework for securing software update systems.
-Date: 2021-05-27
+Date: 2021-06-11
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Datadog
 Editor: Joshua Lock, VMware
@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.19
+Text Macro: VERSION 1.0.20
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -490,9 +490,11 @@ A delegated role file is located at:
 # Document formats # {#document-formats}
 
 All of the formats described below include the ability to add more
-attribute-value fields for backwards-compatible format changes.  If
-a backwards incompatible format change is needed, a new filename can
-be used.
+attribute-value fields to dictionary objects for backwards-compatible format
+changes.  Implementers who encounter undefined key-value pairs in the format
+must include the data when calculating hashes or verifying signatures and must
+preserve the data when re-serializing. If a backwards incompatible format change
+is needed, a new filename can be used.
 
 ## Metaformat ## {#metaformat}
 
