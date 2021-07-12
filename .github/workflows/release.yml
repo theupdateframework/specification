@@ -19,7 +19,7 @@ jobs:
       run: echo "::set-output name=dir::$(pip cache dir)"
 
     - name: pip cache
-      uses: actions/cache@26968a09c0ea4f3e233fdddbafd1166051a095f6
+      uses: actions/cache@c64c572235d810460d0d6876e9c705ad5002b353
       with:
         # Use the os dependent pip cache directory found above
         path: ${{ steps.pip-cache.outputs.dir }}
