@@ -14,10 +14,10 @@ draft: spec
 	cp tuf-spec.html draft/index.html
 
 versioned: spec
-	mkdir -p $(shell python3 $(SPEC_DIR)/get_version.py $(SPEC_DIR)/tuf-spec.md)
-	cp tuf-spec.html $(shell python3 $(SPEC_DIR)/get_version.py $(SPEC_DIR)/tuf-spec.md)/index.html
+	mkdir -p $(shell python3 $(SPEC_DIR)/scripts/get_version.py $(SPEC_DIR)/tuf-spec.md)
+	cp tuf-spec.html $(shell python3 $(SPEC_DIR)/scripts/get_version.py $(SPEC_DIR)/tuf-spec.md)/index.html
 
 index:
-	python3 $(SPEC_DIR)/build_index.py
+	python3 $(SPEC_DIR)/scripts/build_index.py
 
 release: spec latest versioned

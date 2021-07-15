@@ -17,4 +17,4 @@ jobs:
         with:
           python-version: 3.x
       - name: Check date and version
-        run: python check_release.py
+        run: python scripts/check_release.py
