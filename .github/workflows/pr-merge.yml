@@ -1,0 +1,45 @@
+name: Ensure the version and date are updated
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  bump-version:
+    name: Update version and date on PR merge
+    if: github.event.pull_request.merged == 'true'
+    steps:
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+        with:
+          fetch-depth: 0 # we want all refs for the --is-ancestor check
+
+      - name: Set up Python
+        uses: actions/setup-python@dc73133d4da04e56a135ae2246682783cc7c7cb6
+        with:
+          python-version: 3.x
+
+      - name: Check date and version
+        id: checkdatever
+        run: python scripts/check_release.py
+
+      - name: Update version and date (if required)
+        if: steps.checkdatever.exitcode > 0
+        id: updatedatever
+        run: python scripts/update_version.py
+
+      - name: Get version
+        id: getver
+        run: |
+          spec_version=`grep -oP 'VERSION \K(\d+\.\d+\.\d+)' tuf-spec.md`
+          echo "::set-output name=spec_version::$(echo -n $spec_version)"
+
+      - name: Push updated spec (if required)
+        if: steps.checkdatever.exitcode > 0 && steps.updatedatever.exitcode == 0
+        env:
+          SPEC_VERSION: v${{ steps.getver.outputs.spec_version }}
+        run: |
+          echo "Actor is: $GITHUB_ACTOR"
+          git config user.name "TUF Specification Automation"
+          git config user.email theupdateframework@googlegroups.com
+          git add tuf-spec.md
+          git commit -m "Update specification version ($SPEC_VERSION) and date"
+          git push
