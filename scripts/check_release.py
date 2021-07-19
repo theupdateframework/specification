@@ -96,6 +96,7 @@ def main():
 
   except subprocess.CalledProcessError as e:
     raise SpecError("make sure the current branch is based off of master")
+    return 1
 
   # Only proceed if the spec itself was changed
   git_run = subprocess.run(shlex.split(
@@ -130,6 +131,7 @@ def main():
     raise SpecError("new 'last modified date' ({:%d %B %Y}) must be greater"
         " than the previous one ({:%d %B %Y}) or both must be today.".format(
         date_new, date_prev))
+    return 1
 
   # Assert version bump type depending on the PR originating branch
   # - if the originating branch is 'draft', it must be a major (x)or minor bump
@@ -142,6 +144,7 @@ def main():
         " major or a greater minor version number than the previous one ({}),"
         " if the PR originates from the 'draft' branch.".format(version_new,
         version_prev))
+      return 1
 
   else:
     if not (version_new[:2] == version_prev[:2] and
@@ -150,11 +153,13 @@ def main():
           " version number than the previous one ({}), if the PR originates"
           " from a feature branch (i.e. not 'draft')".format(version_new,
           version_prev))
+      return 1
 
   print("*"*68)
   print("thanks for correctly bumping version and last modified date. :)")
   print("*"*68)
+  return 0
 
 
 if __name__ == '__main__':
-  main()
+  sys.exit(main())
