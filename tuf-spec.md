@@ -1281,8 +1281,7 @@ it in the next step.
   somehow be able to establish a trusted line of continuity to the latest set
   of keys (see [[#key-management-and-migration]]).  To do so, the client MUST
   download intermediate root metadata files, until the latest available one is
-  reached.  Therefore, it MUST temporarily turn on consistent snapshots in
-  order to download *versioned* root metadata files as described next.
+  reached.
 
 2. Let N denote the version number of the trusted root metadata
   file.
