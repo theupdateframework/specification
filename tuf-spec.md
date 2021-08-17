@@ -709,7 +709,7 @@ The "signed" portion of <a>root.json</a> is as follows:
   ::
     One of "root", "snapshot", "targets", "timestamp", or "mirrors".
     A role for each of "root", "snapshot", "timestamp", and "targets" MUST be
-    specified in the key list. The role of "mirror" is OPTIONAL.  If not
+    specified in the roles object. The role of "mirror" is OPTIONAL.  If not
     specified, the mirror list will not need to be signed if mirror lists are
     being used.
 
