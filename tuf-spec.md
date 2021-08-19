@@ -1514,8 +1514,8 @@ it in the next step.
        file to non-volatile storage as FILENAME.EXT.
 
     4. **Check against snapshot metadata.** The hashes (if any), and
-       version number of the new DELEGATEE metadata file MUST match the trusted
-       snapshot metadata, if any.  This is done, in part, to prevent a mix-and-match
+       version number (if any) of the new DELEGATEE metadata file MUST match the
+       trusted snapshot metadata.  This is done, in part, to prevent a mix-and-match
        attack by man-in-the-middle attackers. If the new DELEGATEE metadata file
        does not match, abort the update cycle, and report the failure.
 
