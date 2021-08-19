@@ -1494,12 +1494,10 @@ it in the next step.
   2. Otherwise, recursively search the list of delegations in
      order of appearance.
 
-    1. Abort the update cycle, and report the failure.
-
-    2. Let DELEGATEE denote
+    1. Let DELEGATEE denote
        the current target role DELEGATOR is delegating to.
 
-    3. **Download the DELEGATEE targets metadata file**, up to either
+    2. **Download the DELEGATEE targets metadata file**, up to either
        the number of bytes specified in the snapshot metadata file, or some Z
        number of bytes. The value for Z is set by the authors of the application
        using TUF. For example, Z may be tens of kilobytes. IF DELEGATEE cannot be
@@ -1513,16 +1511,21 @@ it in the next step.
        in the snapshot metadata file.  In either case, the client MUST write the
        file to non-volatile storage as FILENAME.EXT.
 
-    4. **Check against snapshot metadata.** The hashes (if any), and
-       version number (if any) of the new DELEGATEE metadata file MUST match the
-       trusted snapshot metadata.  This is done, in part, to prevent a mix-and-match
+    3. **Check against snapshot role's hash.** The hashes of the new DELEGATEE
+       metadata file MUST match the hashes, if any, listed in the trusted
+       snapshot metadata.  This is done, in part, to prevent a mix-and-match
        attack by man-in-the-middle attackers. If the new DELEGATEE metadata file
        does not match, abort the update cycle, and report the failure.
 
-    5. **Check for an arbitrary software attack.** The new DELEGATEE
+    4. **Check for an arbitrary software attack.** The new DELEGATEE
        metadata file MUST have been signed by a threshold of keys specified in the
        DELEGATOR metadata file.  If the new DELEGATEE metadata file is not signed
        as required, abort the update cycle, and report the failure.
+
+    5. **Check against snapshot role's version**. The version number of the new
+       DELEGATEE metadata file MUST match the version number, if any, listed in
+       the trusted snapshot metadata. If the versions do not match, discard it,
+       abort the update cycle, and report the failure.
 
     6. **Check for a freeze attack.** The expiration timestamp in new
        DELEGATEE metadata file MUST be higher than the fixed update start time.
