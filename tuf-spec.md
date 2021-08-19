@@ -1494,12 +1494,7 @@ it in the next step.
   2. Otherwise, recursively search the list of delegations in
      order of appearance.
 
-    1. If the current delegation is a multi-role delegation,
-       recursively visit each delegated role, and check that each has signed
-       exactly the
-       same non-custom metadata (i.e., length and hashes) about the target (or
-       the lack of any such metadata). Otherwise, abort the update cycle, and
-       report the failure.
+    1. Abort the update cycle, and report the failure.
 
     2. Let DELEGATEE denote
        the current target role DELEGATOR is delegating to.
