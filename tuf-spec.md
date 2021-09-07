@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.23
+Text Macro: VERSION 1.0.24
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -692,9 +692,11 @@ The "signed" portion of <a>root.json</a> is as follows:
 
   : <dfn>CONSISTENT_SNAPSHOT</dfn>
   ::
-    A boolean indicating whether the repository supports
-    consistent snapshots.  Section [[#consistent-snapshots]] goes into more
-    detail on the consequences of enabling this setting on a repository.
+    An OPTIONAL boolean indicating whether the repository supports
+    consistent snapshots. This field is OPTIONAL for backwards compatibility with
+    old metadata. New implementations SHOULD include it. Section
+    [[#consistent-snapshots]] goes into more detail on the consequences of
+    enabling this setting on a repository.
 
   : <dfn for="role">VERSION</dfn>
   ::
@@ -980,7 +982,8 @@ as is described for the <a>root.json</a> file.
     <a>TARGETPATH</a>.  The application may use this information to guide
     download decisions.
 
-<dfn>DELEGATIONS</dfn> is an object whose format is the following:
+<dfn>DELEGATIONS</dfn> is an OPTIONAL object and if defined it has the following
+format:
 
 <pre highlight="json">
 {
@@ -1024,9 +1027,8 @@ as is described for the <a>root.json</a> file.
     package that are not made by the delegated party or its descendants to be
     ignored.
 
-In order to discuss target paths, a role MUST specify only one of the
-<a>"path_hash_prefixes"</a> or <a for="delegation-role">"paths"</a> attributes,
-each of which we discuss next.
+The <a>"path_hash_prefixes"</a> and <a for="delegation-role">"paths"</a>
+attributes are OPTIONAL, if used, exactly one of them should be set.
 
   : <dfn>"path_hash_prefixes"</dfn>
   ::
