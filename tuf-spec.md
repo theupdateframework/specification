@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.21
+Text Macro: VERSION 1.0.22
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -1007,7 +1007,7 @@ as is described for the <a>root.json</a> file.
   ::
     A string giving the name of the delegated role.  For example, "projects".
     The rolename MUST be unique in the delegations object: multiple roles with
-    the same rolename are not allowed within a <dfn>DELEGATIONS</dfn>.
+    the same rolename are not allowed within a <a>DELEGATIONS</a>.
 
   : <dfn>TERMINATING</dfn>
   ::
