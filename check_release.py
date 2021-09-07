@@ -88,13 +88,26 @@ def main():
   header are higher than in the master branch, i.e. were bumped. """
 
   # Check that the current branch is based off of the master branch
+  current_branch = os.environ["GITHUB_REF"].lstrip("refs/")
   try:
     subprocess.run(
       shlex.split("git merge-base --is-ancestor origin/master {}".format(
-        os.environ["GITHUB_REF"].lstrip("refs/"))), check=True)
+        current_branch)), check=True)
 
   except subprocess.CalledProcessError as e:
     raise SpecError("make sure the current branch is based off of master")
+
+  # Only proceed if the spec itself was changed
+  git_run = subprocess.run(shlex.split(
+    "git diff --name-only origin/master {}".format(current_branch)),
+                           capture_output=True, check=True, text=True)
+  modified_files = git_run.stdout.split() or []
+
+  if SPEC_NAME not in modified_files:
+    print("*"*68)
+    print("{} not modified, skipping version and date check.".format(SPEC_NAME))
+    print("*"*68)
+    return
 
   # Read the first few lines from the updated specification document and
   # extract date and version from spec file header in the current branch
