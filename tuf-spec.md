@@ -490,8 +490,8 @@ A delegated role file is located at:
 # Document formats # {#document-formats}
 
 All of the formats described below include the ability to add more
-key-value fields to dictionary objects for backwards-compatible format
-changes.  Implementers who encounter undefined key-value pairs in the format
+attribute-value fields to objects for backwards-compatible format changes.
+Implementers who encounter undefined attribute-value pairs in the format
 must include the data when calculating hashes or verifying signatures and must
 preserve the data when re-serializing. If a backwards incompatible format change
 is needed, a new filename can be used.
