@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.21
+Text Macro: VERSION 1.0.22
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -709,7 +709,7 @@ The "signed" portion of <a>root.json</a> is as follows:
   ::
     One of "root", "snapshot", "targets", "timestamp", or "mirrors".
     A role for each of "root", "snapshot", "timestamp", and "targets" MUST be
-    specified in the key list. The role of "mirror" is OPTIONAL.  If not
+    specified in the roles object. The role of "mirror" is OPTIONAL.  If not
     specified, the mirror list will not need to be signed if mirror lists are
     being used.
 
@@ -1007,7 +1007,7 @@ as is described for the <a>root.json</a> file.
   ::
     A string giving the name of the delegated role.  For example, "projects".
     The rolename MUST be unique in the delegations object: multiple roles with
-    the same rolename are not allowed within a <dfn>DELEGATIONS</dfn>.
+    the same rolename are not allowed within a <a>DELEGATIONS</a>.
 
   : <dfn>TERMINATING</dfn>
   ::
@@ -1281,8 +1281,7 @@ it in the next step.
   somehow be able to establish a trusted line of continuity to the latest set
   of keys (see [[#key-management-and-migration]]).  To do so, the client MUST
   download intermediate root metadata files, until the latest available one is
-  reached.  Therefore, it MUST temporarily turn on consistent snapshots in
-  order to download *versioned* root metadata files as described next.
+  reached.
 
 2. Let N denote the version number of the trusted root metadata
   file.
