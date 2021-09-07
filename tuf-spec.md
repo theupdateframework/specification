@@ -1400,7 +1400,7 @@ it in the next step.
   of the new snapshot metadata file MUST match the hashes, if any, listed in
   the trusted timestamp metadata.  This is done, in part, to prevent a
   mix-and-match attack by man-in-the-middle attackers. It is safe to check the
-  hashes before the signatures, because the hashes comes from the timestamp
+  hashes before the signatures, because the hashes come from the timestamp
   role, which we have already verified in the previous step; it is also a quick
   way to reject bad metadata. If the hashes do not match, discard the
   new snapshot metadata, abort the update cycle, and report the failure.
