@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.22
+Text Macro: VERSION 1.0.24
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -490,9 +490,11 @@ A delegated role file is located at:
 # Document formats # {#document-formats}
 
 All of the formats described below include the ability to add more
-attribute-value fields for backwards-compatible format changes.  If
-a backwards incompatible format change is needed, a new filename can
-be used.
+attribute-value fields to objects for backwards-compatible format changes.
+Implementers who encounter undefined attribute-value pairs in the format
+must include the data when calculating hashes or verifying signatures and must
+preserve the data when re-serializing. If a backwards incompatible format change
+is needed, a new filename can be used.
 
 ## Metaformat ## {#metaformat}
 
@@ -711,7 +713,7 @@ The "signed" portion of <a>root.json</a> is as follows:
   ::
     One of "root", "snapshot", "targets", "timestamp", or "mirrors".
     A role for each of "root", "snapshot", "timestamp", and "targets" MUST be
-    specified in the key list. The role of "mirror" is OPTIONAL.  If not
+    specified in the roles object. The role of "mirror" is OPTIONAL.  If not
     specified, the mirror list will not need to be signed if mirror lists are
     being used.
 
@@ -1010,7 +1012,7 @@ format:
   ::
     A string giving the name of the delegated role.  For example, "projects".
     The rolename MUST be unique in the delegations object: multiple roles with
-    the same rolename are not allowed within a <dfn>DELEGATIONS</dfn>.
+    the same rolename are not allowed within a <a>DELEGATIONS</a>.
 
   : <dfn>TERMINATING</dfn>
   ::
@@ -1283,8 +1285,7 @@ it in the next step.
   somehow be able to establish a trusted line of continuity to the latest set
   of keys (see [[#key-management-and-migration]]).  To do so, the client MUST
   download intermediate root metadata files, until the latest available one is
-  reached.  Therefore, it MUST temporarily turn on consistent snapshots in
-  order to download *versioned* root metadata files as described next.
+  reached.
 
 2. Let N denote the version number of the trusted root metadata
   file.
