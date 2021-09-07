@@ -3,7 +3,7 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS
 Abstract: A framework for securing software update systems.
-Date: 2021-07-13
+Date: 2021-09-07
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Datadog
 Editor: Joshua Lock, VMware
@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.20
+Text Macro: VERSION 1.0.21
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -529,6 +529,8 @@ All signed metadata objects have the format:
       ::
         The identifier of the key signing the <a for="role">ROLE</a> object,
         which is a hexdigest of the SHA-256 hash of the canonical form of the key.
+        The keyid MUST be unique in the "signatures" array: multiple
+        signatures with the same keyid are not allowed.
 
       : <dfn>SIGNATURE</dfn>
       ::
@@ -1004,6 +1006,8 @@ as is described for the <a>root.json</a> file.
   : <dfn>ROLENAME</dfn>
   ::
     A string giving the name of the delegated role.  For example, "projects".
+    The rolename MUST be unique in the delegations object: multiple roles with
+    the same rolename are not allowed within a <dfn>DELEGATIONS</dfn>.
 
   : <dfn>TERMINATING</dfn>
   ::
