@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.24
+Text Macro: VERSION 1.0.25
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -1399,9 +1399,11 @@ it in the next step.
 2. **Check against timestamp role's snapshot hash**. The hashes
   of the new snapshot metadata file MUST match the hashes, if any, listed in
   the trusted timestamp metadata.  This is done, in part, to prevent a
-  mix-and-match attack by man-in-the-middle attackers.  If the hashes do not
-  match, discard the new snapshot metadata, abort the update cycle, and report
-  the failure.
+  mix-and-match attack by man-in-the-middle attackers. It is safe to check the
+  hashes before the signatures, because the hashes come from the timestamp
+  role, which we have already verified in the previous step; it is also a quick
+  way to reject bad metadata. If the hashes do not match, discard the
+  new snapshot metadata, abort the update cycle, and report the failure.
 
 3. **Check for an arbitrary software attack**. The new snapshot
   metadata file MUST have been signed by a threshold of keys specified in the
@@ -1448,9 +1450,11 @@ it in the next step.
 2. **Check against snapshot role's targets hash**. The hashes
   of the new targets metadata file MUST match the hashes, if any, listed in the
   trusted snapshot metadata.  This is done, in part, to prevent a mix-and-match
-  attack by man-in-the-middle attackers.  If the new targets metadata file does
-  not match, discard the new target metadata, abort the update cycle, and
-  report the failure.
+  attack by man-in-the-middle attackers. It is safe to check the hashes before
+  the signatures, because the hashes come from the snapshot role, which we have
+  already verified in the previous step; it is also a quick way to reject bad
+  metadata. If the new targets metadata file does not match, discard the new
+  target metadata, abort the update cycle, and report the failure.
 
 3. **Check for an arbitrary software attack**. The new targets
   metadata file MUST have been signed by a threshold of keys specified in the
