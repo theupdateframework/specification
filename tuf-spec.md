@@ -3,7 +3,7 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS
 Abstract: A framework for securing software update systems.
-Date: 2021-05-31
+Date: 2021-09-07
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Datadog
 Editor: Joshua Lock, VMware
@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.20
+Text Macro: VERSION 1.0.22
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -529,6 +529,8 @@ All signed metadata objects have the format:
       ::
         The identifier of the key signing the <a for="role">ROLE</a> object,
         which is a hexdigest of the SHA-256 hash of the canonical form of the key.
+        The keyid MUST be unique in the "signatures" array: multiple
+        signatures with the same keyid are not allowed.
 
       : <dfn>SIGNATURE</dfn>
       ::
@@ -1007,6 +1009,8 @@ format:
   : <dfn>ROLENAME</dfn>
   ::
     A string giving the name of the delegated role.  For example, "projects".
+    The rolename MUST be unique in the delegations object: multiple roles with
+    the same rolename are not allowed within a <dfn>DELEGATIONS</dfn>.
 
   : <dfn>TERMINATING</dfn>
   ::
@@ -1038,21 +1042,30 @@ attributes are OPTIONAL, if used, exactly one of them should be set.
 
   : <dfn for="delegation-role">"paths"</dfn>
   ::
-    A list of strings, where each string describes a path that the role is
-    trusted to provide.  Clients MUST check that a target is in one of the
-    trusted paths of all roles in a delegation chain, not just in a trusted
-    path of the role that describes the target file.  <dfn>PATHPATTERN</dfn>
-    can include shell-style wildcards and supports the Unix filename pattern
-    matching convention.  Its format may either indicate a path to a single
-    file, or to multiple paths with the use of shell-style wildcards.  For
-    example, the path pattern "targets/*.tgz" would match file paths
-    "targets/foo.tgz" and "targets/bar.tgz", but not "targets/foo.txt".
-    Likewise, path pattern "foo-version-?.tgz" matches "foo-version-2.tgz" and
-    "foo-version-a.tgz", but not "foo-version-alpha.tgz".
+    A list of strings, where each string is a <a>PATHPATTERN</a> describing a
+    path that the delegated role is trusted to provide.  Clients MUST check that
+    a target is in one of the trusted paths of all roles in a delegation chain,
+    not just in a trusted path of the role that describes the target file.
+
+    <dfn>PATHPATTERN</dfn> supports the Unix shell pattern matching convention
+    for paths ([glob](https://man7.org/linux/man-pages/man7/glob.7.html)bing
+    pathnames). Its format may either indicate a path to a single file, or to
+    multiple files with the use of shell-style wildcards (`*` or `?`).
     To avoid surprising behavior when matching targets with <a>PATHPATTERN</a>,
-    it is RECOMMENDED that <a>PATHPATTERN</a> uses the forward slash (/) as
-    directory separator and does not start with a directory separator, akin to
-    <a>TARGETPATH</a>.
+    it is RECOMMENDED that <a>PATHPATTERN</a> uses the forward slash (`/`) as
+    directory separator and does not start with a directory separator, as is
+    also recommended for <a>TARGETPATH</a>. A path separator in a path SHOULD
+    NOT be matched by a wildcard in the <a>PATHPATTERN</a>.
+
+    Some example <a>PATHPATTERN</a>s and expected matches:
+    * a <a>PATHPATTERN</a> of `"targets/*.tgz"` would match file paths
+      `"targets/foo.tgz"` and `"targets/bar.tgz"`, but not `"targets/foo.txt"`.
+    * a <a>PATHPATTERN</a> of `"foo-version-?.tgz"` matches
+      `"foo-version-2.tgz"` and `"foo-version-a.tgz"`, but not
+      `"foo-version-alpha.tgz"`.
+    * a <a>PATHPATTERN</a> of `"*.tgz"` would match `"foo.tgz"` and `"bar.tgz"`,
+      but not `"targets/foo.tgz"`
+    * a <a>PATHPATTERN</a> of `"foo.tgz"` would match only `"foo.tgz"`
 
 
 Prioritized delegations allow clients to resolve conflicts between delegated
