@@ -691,7 +691,7 @@ The "signed" portion of <a>root.json</a> is as follows:
   : <dfn>CONSISTENT_SNAPSHOT</dfn>
   ::
     An OPTIONAL boolean indicating whether the repository supports
-    consistent snapshots. This field is OPTIONAL for backward compatibility with
+    consistent snapshots. This field is OPTIONAL for backwards compatibility with
     old metadata. New implementations SHOULD include it. Section
     [[#consistent-snapshots]] goes into more detail on the consequences of
     enabling this setting on a repository.
