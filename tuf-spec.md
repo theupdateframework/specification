@@ -1334,25 +1334,15 @@ it in the next step.
   listed metadata version number (possibly MAX_INT) is greater than the new valid
   version.  To recover from a fast-forward attack after the repository has been
   compromised and recovered, certain metadata files need to be deleted as
-  specified in this section. If a delegated targets file is subjected to a
+  specified in this section. If a targets file is subjected to a
   fast-forward attack, the snapshot role's keys should be replaced. Please see
   [the Mercury paper](https://ssl.engineering.nyu.edu/papers/kuppusamy-mercury-usenix-2017.pdf)
   for more details on fast-forward attacks.
 
-    1. **Targets recovery** If a threshold of targets keys have been
-    removed in the new trusted root metadata compared to the previous trusted
-    root metadata, delete the old top-level targets and snapshot metadata
-    files. Note that this only applies to top-level targets metadata whose
-    keys are listed in root metadata.
-
-    2. **Snapshot recovery** If a threshold of snapshot keys have
-    been removed in the new trusted root metadata compared to the previous
-    trusted root metadata, delete the old snapshot and timestamp metadata
+    1. **Snapshot recovery** If the trusted snapshot metadata cannot be
+    validating using a threshold of snapshot keys from the new trusted root
+    metadata, delete the trusted snapshot and timestamp metadata
     files.
-
-    3. **Timestamp recovery** If a threshold of timestamp keys have
-    been removed from the new trusted root metadata compared to the previous
-    trusted root metadata, delete the old timestamp metadata file.
 
 12. **Set whether consistent snapshots are used as per the trusted**
     root metadata file (see [[#file-formats-root]]).
