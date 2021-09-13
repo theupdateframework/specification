@@ -1340,7 +1340,7 @@ it in the next step.
   for more details on fast-forward attacks.
 
     1. **Snapshot recovery** If the trusted snapshot metadata cannot be
-    validating using a threshold of snapshot keys from the new trusted root
+    validated using a threshold of snapshot keys from the new trusted root
     metadata, delete the trusted snapshot and timestamp metadata
     files.
 
