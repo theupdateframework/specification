@@ -3,7 +3,7 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS
 Abstract: A framework for securing software update systems.
-Date: 2021-08-12
+Date: 2021-09-13
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Datadog
 Editor: Joshua Lock, VMware
@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.21
+Text Macro: VERSION 1.0.26
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -490,9 +490,11 @@ A delegated role file is located at:
 # Document formats # {#document-formats}
 
 All of the formats described below include the ability to add more
-attribute-value fields for backwards-compatible format changes.  If
-a backwards incompatible format change is needed, a new filename can
-be used.
+attribute-value fields to objects for backwards-compatible format changes.
+Implementers who encounter undefined attribute-value pairs in the format
+must include the data when calculating hashes or verifying signatures and must
+preserve the data when re-serializing. If a backwards incompatible format change
+is needed, a new filename can be used.
 
 ## Metaformat ## {#metaformat}
 
@@ -529,6 +531,8 @@ All signed metadata objects have the format:
       ::
         The identifier of the key signing the <a for="role">ROLE</a> object,
         which is a hexdigest of the SHA-256 hash of the canonical form of the key.
+        The keyid MUST be unique in the "signatures" array: multiple
+        signatures with the same keyid are not allowed.
 
       : <dfn>SIGNATURE</dfn>
       ::
@@ -688,9 +692,11 @@ The "signed" portion of <a>root.json</a> is as follows:
 
   : <dfn>CONSISTENT_SNAPSHOT</dfn>
   ::
-    A boolean indicating whether the repository supports
-    consistent snapshots.  Section [[#consistent-snapshots]] goes into more
-    detail on the consequences of enabling this setting on a repository.
+    An OPTIONAL boolean indicating whether the repository supports
+    consistent snapshots. This field is OPTIONAL for backwards compatibility with
+    old metadata. New implementations SHOULD include it. Section
+    [[#consistent-snapshots]] goes into more detail on the consequences of
+    enabling this setting on a repository.
 
   : <dfn for="role">VERSION</dfn>
   ::
@@ -707,7 +713,7 @@ The "signed" portion of <a>root.json</a> is as follows:
   ::
     One of "root", "snapshot", "targets", "timestamp", or "mirrors".
     A role for each of "root", "snapshot", "timestamp", and "targets" MUST be
-    specified in the key list. The role of "mirror" is OPTIONAL.  If not
+    specified in the roles object. The role of "mirror" is OPTIONAL.  If not
     specified, the mirror list will not need to be signed if mirror lists are
     being used.
 
@@ -976,7 +982,8 @@ as is described for the <a>root.json</a> file.
     <a>TARGETPATH</a>.  The application may use this information to guide
     download decisions.
 
-<dfn>DELEGATIONS</dfn> is an object whose format is the following:
+<dfn>DELEGATIONS</dfn> is an OPTIONAL object and if defined it has the following
+format:
 
 <pre highlight="json">
 {
@@ -1004,6 +1011,8 @@ as is described for the <a>root.json</a> file.
   : <dfn>ROLENAME</dfn>
   ::
     A string giving the name of the delegated role.  For example, "projects".
+    The rolename MUST be unique in the delegations object: multiple roles with
+    the same rolename are not allowed within a <a>DELEGATIONS</a>.
 
   : <dfn>TERMINATING</dfn>
   ::
@@ -1018,9 +1027,8 @@ as is described for the <a>root.json</a> file.
     package that are not made by the delegated party or its descendants to be
     ignored.
 
-In order to discuss target paths, a role MUST specify only one of the
-<a>"path_hash_prefixes"</a> or <a for="delegation-role">"paths"</a> attributes,
-each of which we discuss next.
+The <a>"path_hash_prefixes"</a> and <a for="delegation-role">"paths"</a>
+attributes are OPTIONAL, if used, exactly one of them should be set.
 
   : <dfn>"path_hash_prefixes"</dfn>
   ::
@@ -1277,8 +1285,7 @@ it in the next step.
   somehow be able to establish a trusted line of continuity to the latest set
   of keys (see [[#key-management-and-migration]]).  To do so, the client MUST
   download intermediate root metadata files, until the latest available one is
-  reached.  Therefore, it MUST temporarily turn on consistent snapshots in
-  order to download *versioned* root metadata files as described next.
+  reached.
 
 2. Let N denote the version number of the trusted root metadata
   file.
@@ -1399,9 +1406,11 @@ it in the next step.
 2. **Check against timestamp role's snapshot hash**. The hashes
   of the new snapshot metadata file MUST match the hashes, if any, listed in
   the trusted timestamp metadata.  This is done, in part, to prevent a
-  mix-and-match attack by man-in-the-middle attackers.  If the hashes do not
-  match, discard the new snapshot metadata, abort the update cycle, and report
-  the failure.
+  mix-and-match attack by man-in-the-middle attackers. It is safe to check the
+  hashes before the signatures, because the hashes come from the timestamp
+  role, which we have already verified in the previous step; it is also a quick
+  way to reject bad metadata. If the hashes do not match, discard the
+  new snapshot metadata, abort the update cycle, and report the failure.
 
 3. **Check for an arbitrary software attack**. The new snapshot
   metadata file MUST have been signed by a threshold of keys specified in the
@@ -1447,9 +1456,11 @@ it in the next step.
 2. **Check against snapshot role's targets hash**. The hashes
   of the new targets metadata file MUST match the hashes, if any, listed in the
   trusted snapshot metadata.  This is done, in part, to prevent a mix-and-match
-  attack by man-in-the-middle attackers.  If the new targets metadata file does
-  not match, discard the new target metadata, abort the update cycle, and
-  report the failure.
+  attack by man-in-the-middle attackers. It is safe to check the hashes before
+  the signatures, because the hashes come from the snapshot role, which we have
+  already verified in the previous step; it is also a quick way to reject bad
+  metadata. If the new targets metadata file does not match, discard the new
+  target metadata, abort the update cycle, and report the failure.
 
 3. **Check for an arbitrary software attack**. The new targets
   metadata file MUST have been signed by a threshold of keys specified in the

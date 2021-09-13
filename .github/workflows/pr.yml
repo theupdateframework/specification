@@ -6,15 +6,35 @@ on:
 
 jobs:
   main:
-    name: Check date and version are updated
+    name: Sanity checks before a PR merge
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
         with:
           fetch-depth: 0 # we want all refs for the --is-ancestor check
+
       - name: Set up Python
         uses: actions/setup-python@dc73133d4da04e56a135ae2246682783cc7c7cb6
         with:
           python-version: 3.x
+
+      - name: Find pip cache dir
+        id: pip-cache
+        run: echo "::set-output name=dir::$(pip cache dir)"
+
+      - name: pip cache
+        uses: actions/cache@26968a09c0ea4f3e233fdddbafd1166051a095f6
+        with:
+          # Use the os dependent pip cache directory found above
+          path: ${{ steps.pip-cache.outputs.dir }}
+          # A match with 'key' counts as cache hit
+          key: ${{ runner.os }}-pip-
+
+      - name: Ensure changes build
+        run: |
+          python -m pip install bikeshed
+          mkdir build && cd build
+          make -f ../Makefile spec
+
       - name: Check date and version
         run: python check_release.py
