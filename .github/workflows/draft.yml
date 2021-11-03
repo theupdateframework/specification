@@ -27,7 +27,7 @@ jobs:
         key: ${{ runner.os }}-pip-
 
     - name: Clone
-      uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+      uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
 
     - name: Build specification
       run: |
@@ -36,7 +36,7 @@ jobs:
         make -f ../Makefile draft
 
     - name: Switch branch
-      uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+      uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
       with:
         ref: gh-pages
         clean: false
