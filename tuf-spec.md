@@ -3,7 +3,7 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS
 Abstract: A framework for securing software update systems.
-Date: 2021-09-07
+Date: 2021-09-13
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Datadog
 Editor: Joshua Lock, VMware
@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.25
+Text Macro: VERSION 1.0.26
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -1334,15 +1334,22 @@ it in the next step.
   report the potential freeze attack.  On the next update cycle, begin at step
   [[#update-root]] and version N of the root metadata file.
 
-11. **If the timestamp and / or snapshot keys have been rotated, then delete the
-  trusted timestamp and snapshot metadata files.** This is done
-  in order to recover from fast-forward attacks after the repository has been
-  compromised and recovered. A *fast-forward attack* happens when attackers
-  arbitrarily increase the version numbers of: (1) the timestamp metadata, (2)
-  the snapshot metadata, and / or (3) the targets, or a delegated targets,
-  metadata file in the snapshot metadata. Please see [the Mercury
-  paper](https://theupdateframework.io/papers/prevention-rollback-attacks-atc2017.pdf)
-  for more details.
+11. **Fast-forward attack recovery** A _fast-forward attack_ happens
+  when attackers arbitrarily increase the version numbers in any of the
+  timestamp, snapshot, targets, or delegated targets metadata. The attacker's goal
+  is to cause clients to refuse to update the metadata later because the attacker's
+  listed metadata version number (possibly MAX_INT) is greater than the new valid
+  version.  To recover from a fast-forward attack after the repository has been
+  compromised and recovered, certain metadata files need to be deleted as
+  specified in this section. If a targets file is subjected to a
+  fast-forward attack, the snapshot role's keys should be replaced. Please see
+  [the Mercury paper](https://ssl.engineering.nyu.edu/papers/kuppusamy-mercury-usenix-2017.pdf)
+  for more details on fast-forward attacks.
+
+    1. **Snapshot recovery** If the trusted snapshot metadata cannot be
+    validated using a threshold of snapshot keys from the new trusted root
+    metadata, delete the trusted snapshot and timestamp metadata
+    files.
 
 12. **Set whether consistent snapshots are used as per the trusted**
     root metadata file (see [[#file-formats-root]]).
@@ -1416,10 +1423,10 @@ it in the next step.
   in the trusted timestamp metadata.  If the versions do not match, discard the
   new snapshot metadata, abort the update cycle, and report the failure.
 
-5. **Check for a rollback attack**. The version number of the targets
-  metadata file, and all delegated targets metadata files, if any, in the
-  trusted snapshot metadata file, if any, MUST be less than or equal to its
-  version number in the new snapshot metadata file. Furthermore, any targets
+5. **Check for a rollback attack**. The version number of all targets metadata
+  files in the
+  trusted snapshot metadata file, if any, MUST be less than or equal to their
+  version numbers in the new snapshot metadata file. Furthermore, any targets
   metadata filename that was listed in the trusted snapshot metadata file, if
   any, MUST continue to be listed in the new snapshot metadata file.  If any of
   these conditions are not met, discard the new snapshot metadata file, abort
@@ -1430,7 +1437,6 @@ it in the next step.
   If so, the new snapshot metadata file becomes the trusted snapshot metadata
   file.  If the new snapshot metadata file is expired, discard it, abort the
   update cycle, and report the potential freeze attack.
-
 
 7. **Persist snapshot metadata**. The client MUST write the file to
   non-volatile storage as FILENAME.EXT (e.g. snapshot.json).
@@ -1475,10 +1481,9 @@ it in the next step.
 6. **Persist targets metadata**. The client MUST write the file to
   non-volatile storage as FILENAME.EXT (e.g. targets.json).
 
-7. **Perform a pre-order depth-first search for metadata about the
-  desired target, beginning with the top-level targets role.** Note: If
-  any metadata requested in steps 5.6.7.1 - 5.6.7.2 cannot be downloaded nor
-  validated, end the search and report that the target cannot be found.
+7. **Perform a preorder depth-first search for metadata about the
+  desired target.** Let DELEGATOR refer to the current
+  top-level targets metadata role.
 
   1. If this role has been visited before, then skip this role
      (so that cycles in the delegation graph are avoided).  Otherwise, if an
@@ -1490,13 +1495,53 @@ it in the next step.
   2. Otherwise, recursively search the list of delegations in
      order of appearance.
 
-    1. If the current delegation is a terminating delegation,
+    1. Let DELEGATEE denote
+       the current target role DELEGATOR is delegating to.
+
+    2. **Download the DELEGATEE targets metadata file**, up to either
+       the number of bytes specified in the snapshot metadata file, or some Z
+       number of bytes. The value for Z is set by the authors of the application
+       using TUF. For example, Z may be tens of kilobytes. IF DELEGATEE cannot be
+       found, end the search and report the target cannot be found.  If
+       consistent snapshots are not used (see Section
+       [[#consistent-snapshots]]), then the filename used
+       to download the targets metadata file is of the fixed form FILENAME.EXT
+       (e.g., delegated_role.json).  Otherwise, the filename is of the form
+       VERSION_NUMBER.FILENAME.EXT (e.g., 42.delegated_role.json), where
+       VERSION_NUMBER is the version number of the DELEGATEE metadata file listed
+       in the snapshot metadata file.  In either case, the client MUST write the
+       file to non-volatile storage as FILENAME.EXT.
+
+    3. **Check against snapshot role's hash.** The hashes of the new DELEGATEE
+       metadata file MUST match the hashes, if any, listed in the trusted
+       snapshot metadata.  This is done, in part, to prevent a mix-and-match
+       attack by man-in-the-middle attackers. If the new DELEGATEE metadata file
+       does not match, abort the update cycle, and report the failure.
+
+    4. **Check for an arbitrary software attack.** The new DELEGATEE
+       metadata file MUST have been signed by a threshold of keys specified in the
+       DELEGATOR metadata file.  If the new DELEGATEE metadata file is not signed
+       as required, abort the update cycle, and report the failure.
+
+    5. **Check against snapshot role's version**. The version number of the new
+       DELEGATEE metadata file MUST match the version number, if any, listed in
+       the trusted snapshot metadata. If the versions do not match, discard it,
+       abort the update cycle, and report the failure.
+
+    6. **Check for a freeze attack.** The expiration timestamp in new
+       DELEGATEE metadata file MUST be higher than the fixed update start time.
+       If so, the new DELEGATEE file becomes the trusted DELEGATEE
+       file. If the new DELEGATEE metadata file is expired, abort the update
+       cycle, and report the potential freeze attack.
+
+    7. If the current delegation is a terminating delegation,
        then jump to step [[#fetch-target]].
 
-    2. Otherwise, if the current delegation is a
-       non-terminating delegation, continue processing the next delegation, if
-       any. Stop the search, and jump to step [[#fetch-target]] as soon as a delegation
-       returns a result.
+    8. Otherwise, if the current delegation is a non-terminating
+       delegation, continue processing the next delegation, if any, by repeating
+       the preorder depth-first search with the DELEGATEE as the DELEGATOR.
+       Stop the search, and jump to step [[#fetch-target]] as soon as a
+       delegation returns a result.
 
 ## Fetch target ## {#fetch-target}
 
