@@ -1604,7 +1604,8 @@ Timestamp metadata (timestamp.EXT) MUST be written to non-volatile storage
 without a version prefix whenever it is updated. This is required because
 timestamp metadata is the only metadata file that may be requested without known
 version numbers.  It is OPTIONAL for an implementation to write identical copies
-at VERSION_NUMBER.timestamp.EXT for record-keeping purposes.
+of timestamp.EXT to the respective VERSION_NUMBER.timestamp.EXT for
+record-keeping purposes.
 
 Most importantly, metadata file formats SHALL NOT be updated to refer to the
 names of metadata or target files with their consistent snapshot prefix
