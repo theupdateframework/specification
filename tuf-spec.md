@@ -3,7 +3,7 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS
 Abstract: A framework for securing software update systems.
-Date: 2021-09-07
+Date: 2021-09-21
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Datadog
 Editor: Joshua Lock, VMware
@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.25
+Text Macro: VERSION 1.0.26
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -1585,49 +1585,45 @@ without interrupting that client.
 We now explain how a repository should write metadata and targets to
 produce self-contained consistent snapshots.
 
-Simply put, TUF should write every metadata file as such: if the
-file had the original name of filename.ext, then it should be written to
-non-volatile storage as version_number.filename.ext, where version_number
-is an integer.
+Simply put, every metadata file MUST be named as such: if the
+file had the original name of FILENAME.EXT, then it MUST be written to
+non-volatile storage as VERSION_NUMBER.FILENAME.EXT, where VERSION_NUMBER
+is the integer version number listed in the metadata file.
 
-On the other hand, consistent target files should be written to
-non-volatile storage as digest.filename.ext.  This means that if the
+On the other hand, consistent target files MUST be written to
+non-volatile storage as HASH.FILENAME.EXT.  This means that if the
 referrer metadata lists N cryptographic hashes of the referred file, then
-there must be N identical copies of the referred file, where each file will
+there MUST be N identical copies of the referred file, where each file will
 be distinguished only by the value of the digest in its filename. The
 modified filename need not include the name of the cryptographic hash
 function used to produce the digest because, on a read, the choice of
 function follows from the selection of a digest (which includes the name of
 the cryptographic function) from all digests in the referred file.
 
-Additionally, the timestamp metadata (timestamp.json) should also be
-written to non-volatile storage whenever it is updated. It is OPTIONAL for
-an implementation to write identical copies at
-version_number.timestamp.json for record-keeping purposes, because a
-cryptographic hash of the timestamp metadata is usually not known in
-advance. The same step applies to the root metadata (root.json), although
-an implementation must write both root.json and version_number.root.json
-because it is possible to download root metadata both with and without
-known version numbers. These steps are required because these are the only
-metadata files that may be requested without known version numbers.
+Timestamp metadata (timestamp.EXT) MUST be written to non-volatile storage
+without a version prefix whenever it is updated. This is required because
+timestamp metadata is the only metadata file that may be requested without known
+version numbers.  It is OPTIONAL for an implementation to write an identical copy
+of timestamp.EXT to the respective VERSION_NUMBER.timestamp.EXT for
+record-keeping purposes.
 
-Most importantly, no metadata file format must be updated to refer to the
-names of metadata or target files with their version numbers included. In
-other words, if a metadata file A refers to another metadata file B as
-filename.ext, then the filename must remain as filename.ext and not
-version_number.filename.ext. This rule is in place so that metadata signed
-by roles with offline keys will not be forced to sign for the metadata file
-whenever it is updated. In the next subsection, we will see how clients
-will reproduce the name of the intended file.
+Most importantly, metadata file formats SHALL NOT be updated to refer to the
+names of metadata or target files with their consistent snapshot prefix
+included. In other words, if a metadata file A refers to another metadata file B
+as FILENAME.EXT, then the filename listed in the metadata MUST remain as
+FILENAME.EXT and not VERSION_NUMBER.FILENAME.EXT. This rule is in place so that
+metadata signed by roles with offline keys will not be forced to sign for the
+metadata file whenever it is updated. In the next subsection, we will see how
+clients will reproduce the name of the intended file.
 
-Finally, the root metadata should write the Boolean "consistent_snapshot"
-attribute at the root level of its keys of attributes. If consistent
-snapshots are not written by the repository, then the attribute may either
-be left unspecified or be set to the False value.  Otherwise, it must be
-set to the True value.
+Finally, when consistent snapshots are written by the repository the root
+metadata MUST write the boolean <a>CONSISTENT_SNAPSHOT</a> attribute at the root
+level of its keys of attributes set to the true value. If consistent snapshots
+are not written by the repository, then the attribute MAY either be left
+unspecified or be set to the false value.
 
 Regardless of whether consistent snapshots are ever used or not, all
-released versions of root metadata files should always be provided
+released versions of root metadata files MUST always be provided
 so that outdated clients can update to the latest available root.
 
 
