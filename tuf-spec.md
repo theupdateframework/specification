@@ -430,6 +430,13 @@ a repository are not specified by the framework.  The names of these files
 and directories are completely at the discretion of the application using
 the framework.
 
+However, when <a>CONSISTENT_SNAPSHOT</a>s are in use, there is a RECOMMENDED
+mechanism for naming target files on the repository (see
+[[#consistent-snapshots]]). If an application using the framework does not
+follow these recommendations, but wishes to support self-contained consistent
+snapshots the application MUST ensure that target files are persisted in a way
+where each target file can be uniquely and consistently addressed.
+
 ### Metadata files ### {#metadata-files}
 
 The filenames and directory structure of repository metadata are strictly
