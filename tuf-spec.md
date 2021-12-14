@@ -216,13 +216,13 @@ when a client is unable to update.
 
 ### TUF Augmentation Proposal (TAP) support ### {#tuf-augmentation-proposal-tap-support}
 
-This major version (1.x.y) of the specification adheres to the following TAPS:
+This major version (1.x.y) of the specification adheres to the following TAPs:
 
 - [TAP 6](https://github.com/theupdateframework/taps/blob/master/tap6.md):
     Include specification version in metadata
 - [TAP 9](https://github.com/theupdateframework/taps/blob/master/tap9.md):
     Mandatory Metadata signing schemes
-- [Tap 10](https://github.com/theupdateframework/taps/blob/master/tap10.md):
+- [TAP 10](https://github.com/theupdateframework/taps/blob/master/tap10.md):
     Remove native support for compressed metadata
 - [TAP 11](https://github.com/theupdateframework/taps/blob/master/tap11.md):
     Using POUFs for Interoperability
