@@ -14,7 +14,7 @@ jobs:
           fetch-depth: 0 # we want all refs for the --is-ancestor check
 
       - name: Set up Python
-        uses: actions/setup-python@dc73133d4da04e56a135ae2246682783cc7c7cb6
+        uses: actions/setup-python@f38219332975fe8f9c04cca981d674bf22aea1d3
         with:
           python-version: 3.x
 
