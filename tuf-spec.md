@@ -399,7 +399,7 @@ publicly available in the [TAP directory](https://github.com/theupdateframework/
 
 An application uses the framework to interact with one or more repositories.
 A repository is a conceptual source of target files of interest to the
-application.  Each repository MAY have one or more mirrors which are the actual
+application.  Each repository MAY have one or more mirrors as the
 providers of files to be downloaded.  For example, each mirror may specify a
 different host where files can be downloaded from over HTTP.
 
