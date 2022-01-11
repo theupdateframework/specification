@@ -216,13 +216,13 @@ when a client is unable to update.
 
 ### TUF Augmentation Proposal (TAP) support ### {#tuf-augmentation-proposal-tap-support}
 
-This major version (1.x.y) of the specification adheres to the following TAPS:
+This major version (1.x.y) of the specification adheres to the following TAPs:
 
 - [TAP 6](https://github.com/theupdateframework/taps/blob/master/tap6.md):
     Include specification version in metadata
 - [TAP 9](https://github.com/theupdateframework/taps/blob/master/tap9.md):
     Mandatory Metadata signing schemes
-- [Tap 10](https://github.com/theupdateframework/taps/blob/master/tap10.md):
+- [TAP 10](https://github.com/theupdateframework/taps/blob/master/tap10.md):
     Remove native support for compressed metadata
 - [TAP 11](https://github.com/theupdateframework/taps/blob/master/tap11.md):
     Using POUFs for Interoperability
@@ -399,7 +399,7 @@ publicly available in the [TAP directory](https://github.com/theupdateframework/
 
 An application uses the framework to interact with one or more repositories.
 A repository is a conceptual source of target files of interest to the
-application.  Each repository has one or more mirrors which are the actual
+application.  Each repository MAY have one or more mirrors as the
 providers of files to be downloaded.  For example, each mirror may specify a
 different host where files can be downloaded from over HTTP.
 
@@ -429,6 +429,13 @@ The filenames and the directory structure of target files available from
 a repository are not specified by the framework.  The names of these files
 and directories are completely at the discretion of the application using
 the framework.
+
+However, when <a>CONSISTENT_SNAPSHOT</a>s are in use, there is a RECOMMENDED
+mechanism for naming target files on the repository (see
+[[#consistent-snapshots]]). If an application using the framework does not
+follow these recommendations, but wishes to support self-contained consistent
+snapshots the application MUST ensure that target files are persisted in a way
+where each target file can be uniquely and consistently addressed.
 
 ### Metadata files ### {#metadata-files}
 
