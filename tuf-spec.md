@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.27
+Text Macro: VERSION 1.0.28
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -1312,8 +1312,7 @@ it in the next step.
   the trusted root metadata file (version N), and (2) a threshold of keys
   specified in the new root metadata file being validated (version N+1).  If
   version N+1 is not signed as required, discard it, abort the update cycle,
-  and report the signature failure.  On the next update cycle, begin at step
-  [[#update-root]] and version N of the root metadata file.
+  and report the signature failure.
 
 5. **Check for a rollback attack.** The version number of the trusted
   root metadata file (version N) MUST be less than or equal to the version
@@ -1321,8 +1320,7 @@ it in the next step.
   checking that the version number signed in the new root metadata file is
   indeed N+1.  If the version of the new root metadata file is less than the
   trusted metadata file, discard it, abort the update cycle, and report the
-  rollback attack.  On the next update cycle, begin at step [[#update-root]]
-  and version N of the root metadata file.
+  rollback attack.
 
 6. Note that the expiration of the new (intermediate) root metadata
   file does not matter yet, because we will check for it in step 5.3.10.
@@ -1338,8 +1336,7 @@ it in the next step.
 10. **Check for a freeze attack.** The expiration timestamp in the
   trusted root metadata file MUST be higher than the fixed update start time.
   If the trusted root metadata file has expired, abort the update cycle,
-  report the potential freeze attack.  On the next update cycle, begin at step
-  [[#update-root]] and version N of the root metadata file.
+  report the potential freeze attack.
 
 11. **If the timestamp and / or snapshot keys have been rotated, then delete the
   trusted timestamp and snapshot metadata files.** This is done
