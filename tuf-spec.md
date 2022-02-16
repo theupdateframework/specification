@@ -1315,11 +1315,11 @@ it in the next step.
   and report the signature failure.
 
 5. **Check for a rollback attack.** The version number of the trusted
-  root metadata file (version N) MUST be less than or equal to the version
+  root metadata file (version N) MUST be less than the version
   number of the new root metadata file (version N+1). Effectively, this means
   checking that the version number signed in the new root metadata file is
-  indeed N+1.  If the version of the new root metadata file is less than the
-  trusted metadata file, discard it, abort the update cycle, and report the
+  indeed N+1.  If the version of the new root metadata file is less than or equal
+  to the version of the trusted metadata file, discard it, abort the update cycle, and report the
   rollback attack.
 
 6. Note that the expiration of the new (intermediate) root metadata
@@ -1368,9 +1368,9 @@ it in the next step.
 3. **Check for a rollback attack.**
 
   1. The version number of the trusted timestamp metadata file, if
-    any, MUST be less than or equal to the version number of the new timestamp
-    metadata file.  If the new timestamp metadata file is older than the
-    trusted timestamp metadata file, discard it, abort the update cycle, and
+    any, MUST be less than the version number of the new timestamp
+    metadata file.  If the new timestamp metadata file is less than or equal to
+    the trusted timestamp metadata file, discard it, abort the update cycle, and
     report the potential rollback attack.
 
   2. The version number of the snapshot metadata file in the
