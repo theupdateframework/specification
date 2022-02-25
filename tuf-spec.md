@@ -1318,9 +1318,10 @@ it in the next step.
   root metadata file (version N) MUST be less than the version
   number of the new root metadata file (version N+1). Effectively, this means
   checking that the version number signed in the new root metadata file is
-  indeed N+1.  If the version of the new root metadata file is less than or equal
-  to the version of the trusted metadata file, discard it, abort the update cycle, and report the
-  rollback attack.
+  indeed N+1. If the version of the new root metadata file is less than the version
+  of the trusted metadata file, discard it, abort the update cycle, and report the
+  rollback attack. In case they are equal, again discard the new root metadata, but
+  proceed the update cycle with the already trusted root metadata.
 
 6. Note that the expiration of the new (intermediate) root metadata
   file does not matter yet, because we will check for it in step 5.3.10.
@@ -1361,7 +1362,7 @@ it in the next step.
 
 2. **Check for an arbitrary software attack.** The new timestamp
   metadata file MUST have been signed by a threshold of keys specified in the
-  trusted root metadata file.  If the new timestamp metadata file is not
+  trusted root metadata file. If the new timestamp metadata file is not
   properly signed, discard it, abort the update cycle, and report the signature
   failure.
 
@@ -1369,13 +1370,17 @@ it in the next step.
 
   1. The version number of the trusted timestamp metadata file, if
     any, MUST be less than the version number of the new timestamp
-    metadata file.  If the new timestamp metadata file is less than or equal to
-    the trusted timestamp metadata file, discard it, abort the update cycle, and
-    report the potential rollback attack.
+    metadata file. If the new timestamp metadata version is less than the trusted
+    timestamp metadata version, discard it, abort the update cycle, and
+    report the potential rollback attack. In case they are equal, discard the new
+    timestamp metadata and abort the update cycle. This is normal and it
+    shouldn't raise any error. The reason for aborting the update process is that
+    there shouldn't be any changes in the content of this, or any other metadata
+    files too, considering it has the same version as the already trusted one.
 
   2. The version number of the snapshot metadata file in the
     trusted timestamp metadata file, if any, MUST be less than or equal to its
-    version number in the new timestamp metadata file.  If not, discard the new
+    version number in the new timestamp metadata file. If not, discard the new
     timestamp metadata file, abort the update cycle, and report the failure.
 
 4. **Check for a freeze attack.** The expiration timestamp in the
