@@ -200,7 +200,7 @@ when a client is unable to update.
 + **Wrong software installation.**  An attacker cannot provide a file
   (trusted or untrusted) that is not the one the client wanted.
 
-### Goals for PKI ### {#goals-for-pki}
+### Goals for PKI (Public key infrastructure) ### {#goals-for-pki}
 
 * Software update systems using the framework's client code interface should
   never have to directly manage keys.
