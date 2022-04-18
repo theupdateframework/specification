@@ -3,7 +3,7 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS
 Abstract: A framework for securing software update systems.
-Date: 2021-12-14
+Date: 2022-04-08
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Datadog
 Editor: Joshua Lock, VMware
@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.28
+Text Macro: VERSION 1.0.29
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -200,7 +200,7 @@ when a client is unable to update.
 + **Wrong software installation.**  An attacker cannot provide a file
   (trusted or untrusted) that is not the one the client wanted.
 
-### Goals for PKI ### {#goals-for-pki}
+### Goals for PKI (Public key infrastructure) ### {#goals-for-pki}
 
 * Software update systems using the framework's client code interface should
   never have to directly manage keys.
