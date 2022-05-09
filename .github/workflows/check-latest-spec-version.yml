@@ -19,12 +19,12 @@ jobs:
               owner: "theupdateframework",
               repo: "specification"
             });
-            const spec_version = release.data.tag_name
+            const latest_version = release.data.tag_name
             const supported_version = "${{ inputs.tuf-version }}"
             const repo = context.repo.owner + "/" + context.repo.repo
-            if (spec_version != supported_version) {
+            if (latest_version != supported_version) {
               console.log(
-                "The latest TUF specification version (" + spec_version + ") does not match with the version that " + repo + " supports (" +
+                "The latest TUF specification version (" + latest_version + ") does not match with the version that " + repo + " supports (" +
                   supported_version + ")"
               )
               const issues = await github.rest.search.issuesAndPullRequests({
@@ -36,12 +36,14 @@ jobs:
                 await github.rest.issues.create({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  title: "TUF specification has a new version - " + spec_version,
-                  body: "Hey, it seems there's a newer version of the TUF specification - [" + spec_version +
-                        "](https://github.com/theupdateframework/specification/blob/" + spec_version + "/tuf-spec.md)" +
+                  title: "TUF specification has a new version - " + latest_version,
+                  body: "Hey, it seems there's a newer version of the TUF specification - [" + latest_version +
+                        "](https://github.com/theupdateframework/specification/blob/" + latest_version + "/tuf-spec.md)" +
                         "\n\n" + 
-                        "For comparison, the version which [" + repo + "](https://github.com/" + repo + ") state it supports is - [" + supported_version +
+                        "The version which [" + repo + "](https://github.com/" + repo + ") state it supports is - [" + supported_version +
                         "](https://github.com/theupdateframework/specification/blob/" + supported_version + "/tuf-spec.md)" + 
+                        "\n\n" +
+                        "The following is a comparison of what changed between the two versions - [Compare " + supported_version + " to " + latest_version +"](https://github.com/theupdateframework/specification/compare/" + supported_version + "..." + latest_version + ")" +
                         "\n\n" +
                         "Please review the newer version and address the changes."
                 })
@@ -49,7 +51,7 @@ jobs:
               }
             } else {
               console.log(
-                "The latest TUF specification version (" + spec_version + ") matches with the version that " + repo + " supports (" +
+                "The latest TUF specification version (" + latest_version + ") matches with the version that " + repo + " supports (" +
                   supported_version + ")"
               )
             }
