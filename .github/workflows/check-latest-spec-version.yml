@@ -1,3 +1,28 @@
+# Description:
+# This is a reusable workflow that can be used by projects to keep track of
+# new TUF specification releases. It automatically opens an issue to notify
+# the project in case the released version is different from what the project
+# state it supports.
+#
+# Usage:
+# The following is an example of how to use the workflow.
+#
+# Create a yml file inside the project's ".github/workflows/" directory with the following content:
+# on:
+#   schedule:
+#     - cron: "0 13 * * *"
+#   workflow_dispatch:
+# name: Specification version check
+# jobs:
+#   # Get the latest TUF specification release and open an issue (if needed)
+#   specification-bump-check:
+#     permissions:
+#       contents: read
+#       issues: write
+#     uses: theupdateframework/specification/.github/workflows/check-latest-spec-version.yml@master
+#     with:
+#       tuf-version: "v1.0.29" # Should be updated to the version the project supports either manually or extracted automatically. You can see how python-tuf did that as an example.
+#
 on:
   workflow_call:
     inputs:
