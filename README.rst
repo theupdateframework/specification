@@ -69,7 +69,7 @@ the project in case the released version is different from what the project
 state it supports.
 
 The workflow, along with an example of how to use it, can be found at - `.github/workflows/check-latest-spec-version.yml
-<https://github.com/theupdateframework/specification/blob/master/.github/workflows/check-latest-spec-version.yml>`_.
+</.github/workflows/check-latest-spec-version.yml>`_.
 
 Acknowledgements
 ----------------
