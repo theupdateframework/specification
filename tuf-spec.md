@@ -1368,20 +1368,24 @@ it in the next step.
 
 3. **Check for a rollback attack.**
 
-  1. The version number of the trusted timestamp metadata file, if
-    any, MUST be less than the version number of the new timestamp
-    metadata file. If the new timestamp metadata version is less than the trusted
-    timestamp metadata version, discard it, abort the update cycle, and
-    report the potential rollback attack. In case they are equal, discard the new
-    timestamp metadata and abort the update cycle. This is normal and it
-    shouldn't raise any error. The reason for aborting the update process is that
-    there shouldn't be any changes in the content of this, or any other metadata
-    files too, considering it has the same version as the already trusted one.
+  1. The version number of the trusted timestamp metadata file, if any, MUST be
+     less than the version number of the new timestamp metadata file. If the
+     new timestamp metadata version is less than the trusted timestamp metadata
+     version, discard it, abort the update cycle, and report the potential
+     rollback attack. In case they are equal, discard the new timestamp
+     metadata and abort the update cycle. This is normal and it shouldn't raise
+     any error. The reason for aborting the update process is that there
+     shouldn't be any changes in the content of this, or any other metadata
+     files too, considering it has the same version as the already trusted one.
 
-  2. The version number of the snapshot metadata file in the
-    trusted timestamp metadata file, if any, MUST be less than or equal to its
-    version number in the new timestamp metadata file. If not, discard the new
-    timestamp metadata file, abort the update cycle, and report the failure.
+  2. The new timestamp metadata file MUST only contain the description of the
+     snapshot metadata file.  If not, discard the new snapshot metadata file,
+     abort the cycle, and report the failure.
+
+  3. The version number of the snapshot metadata file in the trusted timestamp
+     metadata file, if any, MUST be less than or equal to its version number in
+     the new timestamp metadata file.  If not, discard the new timestamp
+     metadata file, abort the update cycle, and report the failure.
 
 4. **Check for a freeze attack.** The expiration timestamp in the
   new timestamp metadata file MUST be higher than the fixed update start time.
@@ -1425,14 +1429,20 @@ it in the next step.
   in the trusted timestamp metadata.  If the versions do not match, discard the
   new snapshot metadata, abort the update cycle, and report the failure.
 
-5. **Check for a rollback attack**. The version number of the targets
-  metadata file, and all delegated targets metadata files, if any, in the
-  trusted snapshot metadata file, if any, MUST be less than or equal to its
-  version number in the new snapshot metadata file. Furthermore, any targets
-  metadata filename that was listed in the trusted snapshot metadata file, if
-  any, MUST continue to be listed in the new snapshot metadata file.  If any of
-  these conditions are not met, discard the new snapshot metadata file, abort
-  the update cycle, and report the failure.
+5. **Check for a rollback attack**.
+
+  1. The new snapshot metadata file MUST contain the description of the targets
+     metadata file.  If not, discard the new snapshot metadata file, abort the
+     cycle, and report the failure.
+
+  2. The version number of the targets metadata file, and all delegated targets
+     metadata files, if any, in the trusted snapshot metadata file, if any,
+     MUST be less than or equal to its version number in the new snapshot
+     metadata file. Furthermore, any targets metadata filename that was listed
+     in the trusted snapshot metadata file, if any, MUST continue to be listed
+     in the new snapshot metadata file.  If any of these conditions are not
+     met, discard the new snapshot metadata file, abort the update cycle, and
+     report the failure.
 
 6. **Check for a freeze attack**. The expiration timestamp in the
   new snapshot metadata file MUST be higher than the fixed update start time.
