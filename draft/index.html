@@ -12,7 +12,7 @@
  *   - .toc for the Table of Contents (<ol class="toc">)
  *     + <span class="secno"> for the section numbers
  *   - #toc for the Table of Contents (<nav id="toc">)
- *   - ul.index for Indices (<a href="#ref">term</a><span>, in §N.M</span>)
+ *   - ul.index for Indices (<a href="#ref">term</a><span>, in § N.M</span>)
  *   - table.index for Index Tables (e.g. for properties or elements)
  *
  * Structural Markup
@@ -1487,8 +1487,8 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 800b43329, updated Tue May 25 14:13:32 2021 -0700" name="generator">
-  <meta content="bb5232dc767fc0538979929b6afd35ac6a82458c" name="document-revision">
+  <meta content="Bikeshed version fb1e763a4, updated Tue Mar 1 13:13:50 2022 -0800" name="generator">
+  <meta content="b8d16e941162e41363d86ee67e37a7fc5ed476c5" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -1729,6 +1729,16 @@ figcaption:not(.no-marker)::before {
 }
 
 .dfn-paneled { cursor: pointer; }
+</style>
+<style>/* style-issues */
+
+a[href].issue-return {
+    float: right;
+    float: inline-end;
+    color: var(--issueheading-text);
+    font-weight: bold;
+    text-decoration: none;
+}
 </style>
 <style>/* style-md-lists */
 
@@ -2039,7 +2049,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">The Update Framework Specification</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content"> Version: 1.0.19 <br> Last modified: <time class="dt-updated" datetime="2021-05-27">27 May 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content"> Version: 1.0.30 <br> Last modified: <time class="dt-updated" datetime="2022-04-28">28 April 2022</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>Feedback:
@@ -2073,7 +2083,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
        <ol class="toc">
         <li><a href="#goals-for-implementation"><span class="secno">1.5.1</span> <span class="content">Goals for implementation</span></a>
         <li><a href="#goals-to-protect-against-specific-attacks"><span class="secno">1.5.2</span> <span class="content">Goals to protect against specific attacks</span></a>
-        <li><a href="#goals-for-pki"><span class="secno">1.5.3</span> <span class="content">Goals for PKI</span></a>
+        <li><a href="#goals-for-pki"><span class="secno">1.5.3</span> <span class="content">Goals for PKI (Public key infrastructure)</span></a>
         <li><a href="#tuf-augmentation-proposal-tap-support"><span class="secno">1.5.4</span> <span class="content">TUF Augmentation Proposal (TAP) support</span></a>
        </ol>
      </ol>
@@ -2309,7 +2319,7 @@ software update systems use to sign files).</p>
      <p><strong>Wrong software installation.</strong> An attacker cannot provide a file
 (trusted or untrusted) that is not the one the client wanted.</p>
    </ul>
-   <h4 class="heading settled" data-level="1.5.3" id="goals-for-pki"><span class="secno">1.5.3. </span><span class="content">Goals for PKI</span><a class="self-link" href="#goals-for-pki"></a></h4>
+   <h4 class="heading settled" data-level="1.5.3" id="goals-for-pki"><span class="secno">1.5.3. </span><span class="content">Goals for PKI (Public key infrastructure)</span><a class="self-link" href="#goals-for-pki"></a></h4>
    <ul>
     <li data-md>
      <p>Software update systems using the framework’s client code interface should
@@ -2325,7 +2335,7 @@ delegate full or limited trust to another role.</p>
 be derived from keys outside of the framework.</p>
    </ul>
    <h4 class="heading settled" data-level="1.5.4" id="tuf-augmentation-proposal-tap-support"><span class="secno">1.5.4. </span><span class="content">TUF Augmentation Proposal (TAP) support</span><a class="self-link" href="#tuf-augmentation-proposal-tap-support"></a></h4>
-   <p>This major version (1.x.y) of the specification adheres to the following TAPS:</p>
+   <p>This major version (1.x.y) of the specification adheres to the following TAPs:</p>
    <ul>
     <li data-md>
      <p><a href="https://github.com/theupdateframework/taps/blob/master/tap6.md">TAP 6</a>:
@@ -2334,7 +2344,7 @@ be derived from keys outside of the framework.</p>
      <p><a href="https://github.com/theupdateframework/taps/blob/master/tap9.md">TAP 9</a>:
   Mandatory Metadata signing schemes</p>
     <li data-md>
-     <p><a href="https://github.com/theupdateframework/taps/blob/master/tap10.md">Tap 10</a>:
+     <p><a href="https://github.com/theupdateframework/taps/blob/master/tap10.md">TAP 10</a>:
   Remove native support for compressed metadata</p>
     <li data-md>
      <p><a href="https://github.com/theupdateframework/taps/blob/master/tap11.md">TAP 11</a>:
@@ -2485,7 +2495,7 @@ publicly available in the <a href="https://github.com/theupdateframework/taps/tr
    <h2 class="heading settled" data-level="3" id="the-repository"><span class="secno">3. </span><span class="content">The repository</span><a class="self-link" href="#the-repository"></a></h2>
    <p>An application uses the framework to interact with one or more repositories.
 A repository is a conceptual source of target files of interest to the
-application.  Each repository has one or more mirrors which are the actual
+application.  Each repository MAY have one or more mirrors as the
 providers of files to be downloaded.  For example, each mirror may specify a
 different host where files can be downloaded from over HTTP.</p>
    <p>The mirrors can be full or partial mirrors as long as the application-side
@@ -2513,6 +2523,11 @@ to sign/provide.</p>
 a repository are not specified by the framework.  The names of these files
 and directories are completely at the discretion of the application using
 the framework.</p>
+   <p>However, when <a data-link-type="dfn" href="#consistent_snapshot" id="ref-for-consistent_snapshot">CONSISTENT_SNAPSHOT</a>s are in use, there is a RECOMMENDED
+mechanism for naming target files on the repository (see <a href="#consistent-snapshots">§ 6.2 Consistent snapshots</a>). If an application using the framework does not
+follow these recommendations, but wishes to support self-contained consistent
+snapshots the application MUST ensure that target files are persisted in a way
+where each target file can be uniquely and consistently addressed.</p>
    <h4 class="heading settled" data-level="3.1.2" id="metadata-files"><span class="secno">3.1.2. </span><span class="content">Metadata files</span><a class="self-link" href="#metadata-files"></a></h4>
    <p>The filenames and directory structure of repository metadata are strictly
 defined.  All metadata filenames will have an extension (EXT) based on the
@@ -2564,9 +2579,11 @@ delegating target role.</p>
    </dl>
    <h2 class="heading settled" data-level="4" id="document-formats"><span class="secno">4. </span><span class="content">Document formats</span><a class="self-link" href="#document-formats"></a></h2>
    <p>All of the formats described below include the ability to add more
-attribute-value fields for backwards-compatible format changes.  If
-a backwards incompatible format change is needed, a new filename can
-be used.</p>
+attribute-value fields to objects for backwards-compatible format changes.
+Implementers who encounter undefined attribute-value pairs in the format
+must include the data when calculating hashes or verifying signatures and must
+preserve the data when re-serializing. If a backwards incompatible format change
+is needed, a new filename can be used.</p>
    <h3 class="heading settled" data-level="4.1" id="metaformat"><span class="secno">4.1. </span><span class="content">Metaformat</span><a class="self-link" href="#metaformat"></a></h3>
    <p>Implementers of TUF may use any data format for metadata files as long as
 all fields in this specification are included and TUF clients are able to
@@ -2594,7 +2611,9 @@ object, we use the "canonical JSON" subdialect as described at <a href="http://w
     <dt data-md><dfn class="dfn-paneled" data-dfn-for="role" data-dfn-type="dfn" data-noexport id="role-keyid">KEYID</dfn>
     <dd data-md>
      <p>The identifier of the key signing the <a data-link-type="dfn" href="#role-role" id="ref-for-role-role①">ROLE</a> object,
-which is a hexdigest of the SHA-256 hash of the canonical form of the key.</p>
+which is a hexdigest of the SHA-256 hash of the canonical form of the key.
+The keyid MUST be unique in the "signatures" array: multiple
+signatures with the same keyid are not allowed.</p>
     <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="signature">SIGNATURE</dfn>
     <dd data-md>
      <p>A hex-encoded signature of the canonical form of the metadata for <a data-link-type="dfn" href="#role-role" id="ref-for-role-role②">ROLE</a>.</p>
@@ -2692,7 +2711,7 @@ this file.</p>
 <pre class="highlight"><c- p>{</c->
   <c- f>"_type"</c-> <c- p>:</c-> <c- u>"root"</c-><c- p>,</c->
   <c- f>"spec_version"</c-> <c- p>:</c-> <a data-link-type="dfn" href="#spec_version" id="ref-for-spec_version">SPEC_VERSION</a><c- p>,</c->
-  <c- f>"consistent_snapshot"</c-><c- p>:</c-> <a data-link-type="dfn" href="#consistent_snapshot" id="ref-for-consistent_snapshot">CONSISTENT_SNAPSHOT</a><c- p>,</c->
+  <c- f>"consistent_snapshot"</c-><c- p>:</c-> <a data-link-type="dfn" href="#consistent_snapshot" id="ref-for-consistent_snapshot①">CONSISTENT_SNAPSHOT</a><c- p>,</c->
   <c- f>"version"</c-> <c- p>:</c-> <a data-link-type="dfn" href="#role-version" id="ref-for-role-version">VERSION</a><c- p>,</c->
   <c- f>"expires"</c-> <c- p>:</c-> <a data-link-type="dfn" href="#expires" id="ref-for-expires">EXPIRES</a><c- p>,</c->
   <c- f>"keys"</c-> <c- p>:</c-> <c- p>{</c->
@@ -2723,9 +2742,10 @@ Adopters are free to determine what is considered a match (e.g., the version
 number exactly, or perhaps only the major version number (major.minor.fix).</p>
     <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="consistent_snapshot">CONSISTENT_SNAPSHOT</dfn>
     <dd data-md>
-     <p>A boolean indicating whether the repository supports
-consistent snapshots.  Section <a href="#consistent-snapshots">§ 6.2 Consistent snapshots</a> goes into more
-detail on the consequences of enabling this setting on a repository.</p>
+     <p>An OPTIONAL boolean indicating whether the repository supports
+consistent snapshots. This field is OPTIONAL for backwards compatibility with
+old metadata. New implementations SHOULD include it. Section <a href="#consistent-snapshots">§ 6.2 Consistent snapshots</a> goes into more detail on the consequences of
+enabling this setting on a repository.</p>
     <dt data-md><dfn class="dfn-paneled" data-dfn-for="role" data-dfn-type="dfn" data-noexport id="role-version">VERSION</dfn>
     <dd data-md>
      <p>An integer that is greater than 0.  Clients MUST NOT replace a
@@ -2739,7 +2759,7 @@ expired file.</p>
     <dd data-md>
      <p>One of "root", "snapshot", "targets", "timestamp", or "mirrors".
 A role for each of "root", "snapshot", "timestamp", and "targets" MUST be
-specified in the key list. The role of "mirror" is OPTIONAL.  If not
+specified in the roles object. The role of "mirror" is OPTIONAL.  If not
 specified, the mirror list will not need to be signed if mirror lists are
 being used.</p>
     <dt data-md><dfn class="dfn-paneled" data-dfn-for="root" data-dfn-type="dfn" data-noexport id="root-keyid">KEYID</dfn>
@@ -2926,7 +2946,7 @@ the metadata at <a data-link-type="dfn" href="#snapshot-metapath" id="ref-for-sn
   (<a data-link-type="dfn" href="#keys" id="ref-for-keys"><c- f>"keys"</c-></a><c- p>:</c-> <c- p>{</c->
     <a data-link-type="dfn" href="#root-keyid" id="ref-for-root-keyid②">KEYID</a> <c- p>:</c-> <a data-link-type="dfn" href="#key" id="ref-for-key①">KEY</a><c- p>,</c->
     ... <c- p>},</c->
-  <a data-link-type="dfn" href="#delegations" id="ref-for-delegations"><c- f>"delegations"</c-></a> <c- p>:</c-> <c- p>[</c-> <a data-link-type="dfn" href="#delegation" id="ref-for-delegation">DELEGATION</a><c- p>,</c-> ... <c- p>]</c->)
+  <a data-link-type="dfn"><c- f>"delegations"</c-></a> <c- p>:</c-> <c- p>[</c-> <a data-link-type="dfn" href="#delegations" id="ref-for-delegations">DELEGATION</a><c- p>,</c-> ... <c- p>]</c->)
 <c- p>}</c->
 </pre>
    <p><a data-link-type="dfn" href="#spec_version" id="ref-for-spec_version④">SPEC_VERSION</a>, <a data-link-type="dfn" href="#role-version" id="ref-for-role-version④">VERSION</a>, <a data-link-type="dfn" href="#expires" id="ref-for-expires④">EXPIRES</a>, <a data-link-type="dfn" href="#root-keyid" id="ref-for-root-keyid③">KEYID</a>, and <a data-link-type="dfn" href="#key" id="ref-for-key②">KEY</a> are the same as is described for the <a data-link-type="dfn" href="#rootjson" id="ref-for-rootjson③">root.json</a> file.</p>
@@ -2973,10 +2993,9 @@ download decisions.</p>
      <p>A list of the public keys to verify signatures of delegated targets roles.
 Revocation and replacement of delegated targets roles keys is done by
 changing the keys in this field in the delegating role’s metadata.</p>
-    <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="delegations">"delegations"</dfn>
-    <dd data-md>
-     <p>A list of <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="delegation">DELEGATION</dfn> objects whose format is the following:</p>
    </dl>
+   <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="delegations">DELEGATIONS</dfn> is an OPTIONAL object and if defined it has the following
+format:</p>
 <pre class="highlight"><c- p>{</c->
   <c- f>"name"</c-><c- p>:</c-> <a data-link-type="dfn" href="#delegation_name" id="ref-for-delegation_name">DELEGATION_NAME</a><c- p>,</c->
   (<a data-link-type="dfn" href="#path_hash_prefixes" id="ref-for-path_hash_prefixes"><c- f>"path_hash_prefixes"</c-></a> <c- p>:</c-> <c- p>[</c-> <a data-link-type="dfn" href="#hex_digest" id="ref-for-hex_digest">HEX_DIGEST</a><c- p>,</c-> ... <c- p>]</c-> |
@@ -2997,8 +3016,7 @@ changing the keys in this field in the delegating role’s metadata.</p>
     <dd data-md>
      <p>A string giving the name of the delegation.</p>
    </dl>
-   <p>In order to discuss target paths, a role MUST specify only one of the <a data-link-type="dfn" href="#path_hash_prefixes" id="ref-for-path_hash_prefixes①">"path_hash_prefixes"</a> or <a data-link-type="dfn" href="#delegation-role-paths" id="ref-for-delegation-role-paths①">"paths"</a> attributes, each of which we
-discuss next.</p>
+   <p>The <a data-link-type="dfn" href="#path_hash_prefixes" id="ref-for-path_hash_prefixes①">"path_hash_prefixes"</a> and <a data-link-type="dfn" href="#delegation-role-paths" id="ref-for-delegation-role-paths①">"paths"</a> attributes are OPTIONAL, if used, exactly one of them should be set.</p>
    <dl>
     <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="path_hash_prefixes">"path_hash_prefixes"</dfn>
     <dd data-md>
@@ -3012,19 +3030,31 @@ in <a data-link-type="dfn" href="#path_hash_prefixes" id="ref-for-path_hash_pref
 targets into separate bins identified by consistent hashing.</p>
     <dt data-md><dfn class="dfn-paneled" data-dfn-for="delegation-role" data-dfn-type="dfn" data-noexport id="delegation-role-paths">"paths"</dfn>
     <dd data-md>
-     <p>A list of strings, where each string describes a path that the role is
-trusted to provide.  Clients MUST check that a target is in one of the
-trusted paths of all roles in a delegation chain, not just in a trusted
-path of the role that describes the target file. <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="pathpattern">PATHPATTERN</dfn> can include shell-style wildcards and supports the Unix filename pattern
-matching convention.  Its format may either indicate a path to a single
-file, or to multiple paths with the use of shell-style wildcards.  For
-example, the path pattern "targets/*.tgz" would match file paths
-"targets/foo.tgz" and "targets/bar.tgz", but not "targets/foo.txt".
-Likewise, path pattern "foo-version-?.tgz" matches "foo-version-2.tgz" and
-"foo-version-a.tgz", but not "foo-version-alpha.tgz".
-To avoid surprising behavior when matching targets with <a data-link-type="dfn" href="#pathpattern" id="ref-for-pathpattern①">PATHPATTERN</a>,
-it is RECOMMENDED that <a data-link-type="dfn" href="#pathpattern" id="ref-for-pathpattern②">PATHPATTERN</a> uses the forward slash (/) as
-directory separator and does not start with a directory separator, akin to <a data-link-type="dfn" href="#targetpath" id="ref-for-targetpath⑧">TARGETPATH</a>.</p>
+     <p>A list of strings, where each string is a <a data-link-type="dfn" href="#pathpattern" id="ref-for-pathpattern①">PATHPATTERN</a> describing a
+path that the delegated role is trusted to provide.  Clients MUST check that
+a target is in one of the trusted paths of all roles in a delegation chain,
+not just in a trusted path of the role that describes the target file.</p>
+     <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="pathpattern">PATHPATTERN</dfn> supports the Unix shell pattern matching convention
+for paths (<a href="https://man7.org/linux/man-pages/man7/glob.7.html">glob</a>bing
+pathnames). Its format may either indicate a path to a single file, or to
+multiple files with the use of shell-style wildcards (<code>*</code> or <code>?</code>).
+To avoid surprising behavior when matching targets with <a data-link-type="dfn" href="#pathpattern" id="ref-for-pathpattern②">PATHPATTERN</a>,
+it is RECOMMENDED that <a data-link-type="dfn" href="#pathpattern" id="ref-for-pathpattern③">PATHPATTERN</a> uses the forward slash (<code>/</code>) as
+directory separator and does not start with a directory separator, as is
+also recommended for <a data-link-type="dfn" href="#targetpath" id="ref-for-targetpath⑧">TARGETPATH</a>. A path separator in a path SHOULD
+NOT be matched by a wildcard in the <a data-link-type="dfn" href="#pathpattern" id="ref-for-pathpattern④">PATHPATTERN</a>.</p>
+     <p>Some example <a data-link-type="dfn" href="#pathpattern" id="ref-for-pathpattern⑤">PATHPATTERN</a>s and expected matches:</p>
+     <ul>
+      <li data-md>
+       <p>a <a data-link-type="dfn" href="#pathpattern" id="ref-for-pathpattern⑥">PATHPATTERN</a> of <code>"targets/*.tgz"</code> would match file paths <code>"targets/foo.tgz"</code> and <code>"targets/bar.tgz"</code>, but not <code>"targets/foo.txt"</code>.</p>
+      <li data-md>
+       <p>a <a data-link-type="dfn" href="#pathpattern" id="ref-for-pathpattern⑦">PATHPATTERN</a> of <code>"foo-version-?.tgz"</code> matches <code>"foo-version-2.tgz"</code> and <code>"foo-version-a.tgz"</code>, but not <code>"foo-version-alpha.tgz"</code>.</p>
+      <li data-md>
+       <p>a <a data-link-type="dfn" href="#pathpattern" id="ref-for-pathpattern⑧">PATHPATTERN</a> of <code>"*.tgz"</code> would match <code>"foo.tgz"</code> and <code>"bar.tgz"</code>,
+but not <code>"targets/foo.tgz"</code></p>
+      <li data-md>
+       <p>a <a data-link-type="dfn" href="#pathpattern" id="ref-for-pathpattern⑨">PATHPATTERN</a> of <code>"foo.tgz"</code> would match only <code>"foo.tgz"</code></p>
+     </ul>
     <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="terminating">TERMINATING</dfn>
     <dd data-md>
      <p>A boolean indicating whether subsequent delegations should be considered.</p>
@@ -3043,7 +3073,9 @@ delegation. The delegated targets roles for a given delegation are listed
 in its "roles" field.</p>
     <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="rolename">ROLENAME</dfn>
     <dd data-md>
-     <p>A string giving the name of the delegated role.  For example, "projects".</p>
+     <p>A string giving the name of the delegated role.  For example, "projects".
+The rolename MUST be unique in the delegations object: multiple roles with
+the same rolename are not allowed within a <a data-link-type="dfn" href="#delegations" id="ref-for-delegations①">DELEGATIONS</a>.</p>
    </dl>
    <p>Prioritization exists both for delegations and delegated targets roles. That
 is, if delegations handle overlapping targets paths, clients MUST consider
@@ -3179,8 +3211,8 @@ repository.</p>
     <c- p>{</c-> <c- f>"urlbase"</c-> <c- p>:</c-> <a data-link-type="dfn" href="#urlbase" id="ref-for-urlbase">URLBASE</a><c- p>,</c->
       <c- f>"metapath"</c-> <c- p>:</c-> <a data-link-type="dfn" href="#mirrors-metapath" id="ref-for-mirrors-metapath">METAPATH</a><c- p>,</c->
       <c- f>"targetspath"</c-> <c- p>:</c-> <a data-link-type="dfn" href="#targetspath" id="ref-for-targetspath">TARGETSPATH</a><c- p>,</c->
-      <c- f>"metacontent"</c-> <c- p>:</c-> <c- p>[</c-> <a data-link-type="dfn" href="#pathpattern" id="ref-for-pathpattern③">PATHPATTERN</a> ... <c- p>]</c-> <c- p>,</c->
-      <c- f>"targetscontent"</c-> <c- p>:</c-> <c- p>[</c-> <a data-link-type="dfn" href="#pathpattern" id="ref-for-pathpattern④">PATHPATTERN</a> ... <c- p>]</c-> <c- p>,</c->
+      <c- f>"metacontent"</c-> <c- p>:</c-> <c- p>[</c-> <a data-link-type="dfn" href="#pathpattern" id="ref-for-pathpattern①⓪">PATHPATTERN</a> ... <c- p>]</c-> <c- p>,</c->
+      <c- f>"targetscontent"</c-> <c- p>:</c-> <c- p>[</c-> <a data-link-type="dfn" href="#pathpattern" id="ref-for-pathpattern①①">PATHPATTERN</a> ... <c- p>]</c-> <c- p>,</c->
       (<c- f>"custom"</c-> <c- p>:</c-> <c- p>{</c-> ... <c- p>}</c->) <c- p>}</c->
     <c- p>,</c-> ... <c- p>]</c->
 <c- p>}</c->
@@ -3198,7 +3230,7 @@ as is described for the <a data-link-type="dfn" href="#rootjson" id="ref-for-roo
     <dd data-md>
      <p>A string giving the location from which to retrieve target files. <a data-link-type="dfn" href="#targetspath" id="ref-for-targetspath①">TARGETSPATH</a> will be a relative path to <a data-link-type="dfn" href="#urlbase" id="ref-for-urlbase②">URLBASE</a>.</p>
    </dl>
-   <p>The lists of <a data-link-type="dfn" href="#pathpattern" id="ref-for-pathpattern⑤">PATHPATTERN</a> for "metacontent" and "targetscontent" describe the
+   <p>The lists of <a data-link-type="dfn" href="#pathpattern" id="ref-for-pathpattern①②">PATHPATTERN</a> for "metacontent" and "targetscontent" describe the
 metadata files and target files available from the mirror.</p>
    <p>The order of the list of mirrors is important.  For any file to be
 downloaded, whether it is a metadata file or a target file, the framework on
@@ -3233,8 +3265,7 @@ it in the next step.</p>
 somehow be able to establish a trusted line of continuity to the latest set
 of keys (see <a href="#key-management-and-migration">§ 6.1 Key management and migration</a>).  To do so, the client MUST
 download intermediate root metadata files, until the latest available one is
-reached.  Therefore, it MUST temporarily turn on consistent snapshots in
-order to download <em>versioned</em> root metadata files as described next.</p>
+reached.</p>
     <li data-md>
      <p>Let N denote the version number of the trusted root metadata
 file.</p>
@@ -3254,15 +3285,16 @@ metadata file MUST have been signed by: (1) a threshold of keys specified in
 the trusted root metadata file (version N), and (2) a threshold of keys
 specified in the new root metadata file being validated (version N+1).  If
 version N+1 is not signed as required, discard it, abort the update cycle,
-and report the signature failure.  On the next update cycle, begin at step <a href="#update-root">§ 5.3 Update the root role</a> and version N of the root metadata file.</p>
+and report the signature failure.</p>
     <li data-md>
      <p><strong>Check for a rollback attack.</strong> The version number of the trusted
-root metadata file (version N) MUST be less than or equal to the version
+root metadata file (version N) MUST be less than the version
 number of the new root metadata file (version N+1). Effectively, this means
 checking that the version number signed in the new root metadata file is
-indeed N+1.  If the version of the new root metadata file is less than the
-trusted metadata file, discard it, abort the update cycle, and report the
-rollback attack.  On the next update cycle, begin at step <a href="#update-root">§ 5.3 Update the root role</a> and version N of the root metadata file.</p>
+indeed N+1. If the version of the new root metadata file is less than the version
+of the trusted metadata file, discard it, abort the update cycle, and report the
+rollback attack. In case they are equal, again discard the new root metadata, but
+proceed the update cycle with the already trusted root metadata.</p>
     <li data-md>
      <p>Note that the expiration of the new (intermediate) root metadata
 file does not matter yet, because we will check for it in step 5.3.10.</p>
@@ -3278,7 +3310,7 @@ non-volatile storage as FILENAME.EXT (e.g. root.json).</p>
      <p><strong>Check for a freeze attack.</strong> The expiration timestamp in the
 trusted root metadata file MUST be higher than the fixed update start time.
 If the trusted root metadata file has expired, abort the update cycle,
-report the potential freeze attack.  On the next update cycle, begin at step <a href="#update-root">§ 5.3 Update the root role</a> and version N of the root metadata file.</p>
+report the potential freeze attack.</p>
     <li data-md>
      <p><strong>If the timestamp and / or snapshot keys have been rotated, then delete the
 trusted timestamp and snapshot metadata files.</strong> This is done
@@ -3302,7 +3334,7 @@ used to download the timestamp metadata file is of the fixed form FILENAME.EXT
     <li data-md>
      <p><strong>Check for an arbitrary software attack.</strong> The new timestamp
 metadata file MUST have been signed by a threshold of keys specified in the
-trusted root metadata file.  If the new timestamp metadata file is not
+trusted root metadata file. If the new timestamp metadata file is not
 properly signed, discard it, abort the update cycle, and report the signature
 failure.</p>
     <li data-md>
@@ -3310,14 +3342,18 @@ failure.</p>
      <ol>
       <li data-md>
        <p>The version number of the trusted timestamp metadata file, if
-any, MUST be less than or equal to the version number of the new timestamp
-metadata file.  If the new timestamp metadata file is older than the
-trusted timestamp metadata file, discard it, abort the update cycle, and
-report the potential rollback attack.</p>
+any, MUST be less than the version number of the new timestamp
+metadata file. If the new timestamp metadata version is less than the trusted
+timestamp metadata version, discard it, abort the update cycle, and
+report the potential rollback attack. In case they are equal, discard the new
+timestamp metadata and abort the update cycle. This is normal and it
+shouldn’t raise any error. The reason for aborting the update process is that
+there shouldn’t be any changes in the content of this, or any other metadata
+files too, considering it has the same version as the already trusted one.</p>
       <li data-md>
        <p>The version number of the snapshot metadata file in the
 trusted timestamp metadata file, if any, MUST be less than or equal to its
-version number in the new timestamp metadata file.  If not, discard the new
+version number in the new timestamp metadata file. If not, discard the new
 timestamp metadata file, abort the update cycle, and report the failure.</p>
      </ol>
     <li data-md>
@@ -3347,9 +3383,11 @@ metadata file.</p>
      <p><strong>Check against timestamp role’s snapshot hash</strong>. The hashes
 of the new snapshot metadata file MUST match the hashes, if any, listed in
 the trusted timestamp metadata.  This is done, in part, to prevent a
-mix-and-match attack by man-in-the-middle attackers.  If the hashes do not
-match, discard the new snapshot metadata, abort the update cycle, and report
-the failure.</p>
+mix-and-match attack by man-in-the-middle attackers. It is safe to check the
+hashes before the signatures, because the hashes come from the timestamp
+role, which we have already verified in the previous step; it is also a quick
+way to reject bad metadata. If the hashes do not match, discard the
+new snapshot metadata, abort the update cycle, and report the failure.</p>
     <li data-md>
      <p><strong>Check for an arbitrary software attack</strong>. The new snapshot
 metadata file MUST have been signed by a threshold of keys specified in the
@@ -3395,9 +3433,11 @@ metadata file listed in the snapshot metadata file.</p>
      <p><strong>Check against snapshot role’s targets hash</strong>. The hashes
 of the new targets metadata file MUST match the hashes, if any, listed in the
 trusted snapshot metadata.  This is done, in part, to prevent a mix-and-match
-attack by man-in-the-middle attackers.  If the new targets metadata file does
-not match, discard the new target metadata, abort the update cycle, and
-report the failure.</p>
+attack by man-in-the-middle attackers. It is safe to check the hashes before
+the signatures, because the hashes come from the snapshot role, which we have
+already verified in the previous step; it is also a quick way to reject bad
+metadata. If the new targets metadata file does not match, discard the new
+target metadata, abort the update cycle, and report the failure.</p>
     <li data-md>
      <p><strong>Check for an arbitrary software attack</strong>. The new targets
 metadata file MUST have been signed by a threshold of keys specified in the
@@ -3526,44 +3566,40 @@ without interrupting that client.</p>
    <h4 class="heading settled" data-level="6.2.1" id="writing-consistent-snapshots"><span class="secno">6.2.1. </span><span class="content">Writing consistent snapshots</span><a class="self-link" href="#writing-consistent-snapshots"></a></h4>
    <p>We now explain how a repository should write metadata and targets to
 produce self-contained consistent snapshots.</p>
-   <p>Simply put, TUF should write every metadata file as such: if the
-file had the original name of filename.ext, then it should be written to
-non-volatile storage as version_number.filename.ext, where version_number
-is an integer.</p>
-   <p>On the other hand, consistent target files should be written to
-non-volatile storage as digest.filename.ext.  This means that if the
+   <p>Simply put, every metadata file MUST be named as such: if the
+file had the original name of FILENAME.EXT, then it MUST be written to
+non-volatile storage as VERSION_NUMBER.FILENAME.EXT, where VERSION_NUMBER
+is the integer version number listed in the metadata file.</p>
+   <p>On the other hand, consistent target files MUST be written to
+non-volatile storage as HASH.FILENAME.EXT.  This means that if the
 referrer metadata lists N cryptographic hashes of the referred file, then
-there must be N identical copies of the referred file, where each file will
+there MUST be N identical copies of the referred file, where each file will
 be distinguished only by the value of the digest in its filename. The
 modified filename need not include the name of the cryptographic hash
 function used to produce the digest because, on a read, the choice of
 function follows from the selection of a digest (which includes the name of
 the cryptographic function) from all digests in the referred file.</p>
-   <p>Additionally, the timestamp metadata (timestamp.json) should also be
-written to non-volatile storage whenever it is updated. It is OPTIONAL for
-an implementation to write identical copies at
-version_number.timestamp.json for record-keeping purposes, because a
-cryptographic hash of the timestamp metadata is usually not known in
-advance. The same step applies to the root metadata (root.json), although
-an implementation must write both root.json and version_number.root.json
-because it is possible to download root metadata both with and without
-known version numbers. These steps are required because these are the only
-metadata files that may be requested without known version numbers.</p>
-   <p>Most importantly, no metadata file format must be updated to refer to the
-names of metadata or target files with their version numbers included. In
-other words, if a metadata file A refers to another metadata file B as
-filename.ext, then the filename must remain as filename.ext and not
-version_number.filename.ext. This rule is in place so that metadata signed
-by roles with offline keys will not be forced to sign for the metadata file
-whenever it is updated. In the next subsection, we will see how clients
-will reproduce the name of the intended file.</p>
-   <p>Finally, the root metadata should write the Boolean "consistent_snapshot"
-attribute at the root level of its keys of attributes. If consistent
-snapshots are not written by the repository, then the attribute may either
-be left unspecified or be set to the False value.  Otherwise, it must be
-set to the True value.</p>
+   <p>Timestamp metadata (timestamp.EXT) MUST be written to non-volatile storage
+without a version prefix whenever it is updated. This is required because
+timestamp metadata is the only metadata file that may be requested without known
+version numbers.  It is OPTIONAL for an implementation to write an identical copy
+of timestamp.EXT to the respective VERSION_NUMBER.timestamp.EXT for
+record-keeping purposes.</p>
+   <p>Most importantly, metadata file formats SHALL NOT be updated to refer to the
+names of metadata or target files with their consistent snapshot prefix
+included. In other words, if a metadata file A refers to another metadata file B
+as FILENAME.EXT, then the filename listed in the metadata MUST remain as
+FILENAME.EXT and not VERSION_NUMBER.FILENAME.EXT. This rule is in place so that
+metadata signed by roles with offline keys will not be forced to sign for the
+metadata file whenever it is updated. In the next subsection, we will see how
+clients will reproduce the name of the intended file.</p>
+   <p>Finally, when consistent snapshots are written by the repository the root
+metadata MUST write the boolean <a data-link-type="dfn" href="#consistent_snapshot" id="ref-for-consistent_snapshot②">CONSISTENT_SNAPSHOT</a> attribute at the root
+level of its keys of attributes set to the true value. If consistent snapshots
+are not written by the repository, then the attribute MAY either be left
+unspecified or be set to the false value.</p>
    <p>Regardless of whether consistent snapshots are ever used or not, all
-released versions of root metadata files should always be provided
+released versions of root metadata files MUST always be provided
 so that outdated clients can update to the latest available root.</p>
    <h4 class="heading settled" data-level="6.2.2" id="reading-consistent-snapshots"><span class="secno">6.2.2. </span><span class="content">Reading consistent snapshots</span><a class="self-link" href="#reading-consistent-snapshots"></a></h4>
    <p>See <a href="#detailed-client-workflow">§ 5 Detailed client workflow</a> for more details.</p>
@@ -3756,95 +3792,94 @@ to have incorrect clocks.</p>
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
-   <li><a href="#consistent_snapshot">CONSISTENT_SNAPSHOT</a><span>, in §4.3</span>
-   <li><a href="#custom">CUSTOM</a><span>, in §4.5</span>
-   <li><a href="#date-time">date-time</a><span>, in §4.2</span>
-   <li><a href="#delegation">DELEGATION</a><span>, in §4.5</span>
-   <li><a href="#delegation_name">DELEGATION_NAME</a><span>, in §4.5</span>
-   <li><a href="#delegations">"delegations"</a><span>, in §4.5</span>
+   <li><a href="#consistent_snapshot">CONSISTENT_SNAPSHOT</a><span>, in § 4.3</span>
+   <li><a href="#custom">CUSTOM</a><span>, in § 4.5</span>
+   <li><a href="#date-time">date-time</a><span>, in § 4.2</span>
+   <li><a href="#delegation_name">DELEGATION_NAME</a><span>, in § 4.5</span>
+   <li><a href="#delegations">DELEGATIONS</a><span>, in § 4.5</span>
    <li>
     "ecdsa-sha2-nistp256"
     <ul>
-     <li><a href="#keytype-ecdsa-sha2-nistp256">dfn for keytype</a><span>, in §4.2</span>
-     <li><a href="#scheme-ecdsa-sha2-nistp256">dfn for scheme</a><span>, in §4.2</span>
+     <li><a href="#keytype-ecdsa-sha2-nistp256">dfn for keytype</a><span>, in § 4.2</span>
+     <li><a href="#scheme-ecdsa-sha2-nistp256">dfn for scheme</a><span>, in § 4.2</span>
     </ul>
    <li>
     "ed25519"
     <ul>
-     <li><a href="#keytype-ed25519">dfn for keytype</a><span>, in §4.2</span>
-     <li><a href="#scheme-ed25519">dfn for scheme</a><span>, in §4.2</span>
+     <li><a href="#keytype-ed25519">dfn for keytype</a><span>, in § 4.2</span>
+     <li><a href="#scheme-ed25519">dfn for scheme</a><span>, in § 4.2</span>
     </ul>
-   <li><a href="#expires">EXPIRES</a><span>, in §4.3</span>
-   <li><a href="#hash">HASH</a><span>, in §4.4</span>
+   <li><a href="#expires">EXPIRES</a><span>, in § 4.3</span>
+   <li><a href="#hash">HASH</a><span>, in § 4.4</span>
    <li>
     HASHES
     <ul>
-     <li><a href="#metapath-hashes">dfn for metapath</a><span>, in §4.4</span>
-     <li><a href="#targets-obj-hashes">dfn for targets-obj</a><span>, in §4.5</span>
+     <li><a href="#metapath-hashes">dfn for metapath</a><span>, in § 4.4</span>
+     <li><a href="#targets-obj-hashes">dfn for targets-obj</a><span>, in § 4.5</span>
     </ul>
-   <li><a href="#hex_digest">HEX_DIGEST</a><span>, in §4.5</span>
-   <li><a href="#key">KEY</a><span>, in §4.2</span>
+   <li><a href="#hex_digest">HEX_DIGEST</a><span>, in § 4.5</span>
+   <li><a href="#key">KEY</a><span>, in § 4.2</span>
    <li>
     KEYID
     <ul>
-     <li><a href="#role-keyid">dfn for role</a><span>, in §4.2</span>
-     <li><a href="#root-keyid">dfn for root</a><span>, in §4.3</span>
+     <li><a href="#role-keyid">dfn for role</a><span>, in § 4.2</span>
+     <li><a href="#root-keyid">dfn for root</a><span>, in § 4.3</span>
     </ul>
-   <li><a href="#keys">"keys"</a><span>, in §4.5</span>
-   <li><a href="#keytype">KEYTYPE</a><span>, in §4.2</span>
-   <li><a href="#keyval">KEYVAL</a><span>, in §4.2</span>
+   <li><a href="#keys">"keys"</a><span>, in § 4.5</span>
+   <li><a href="#keytype">KEYTYPE</a><span>, in § 4.2</span>
+   <li><a href="#keyval">KEYVAL</a><span>, in § 4.2</span>
    <li>
     LENGTH
     <ul>
-     <li><a href="#metapath-length">dfn for metapath</a><span>, in §4.4</span>
-     <li><a href="#targets-obj-length">dfn for targets-obj</a><span>, in §4.5</span>
+     <li><a href="#metapath-length">dfn for metapath</a><span>, in § 4.4</span>
+     <li><a href="#targets-obj-length">dfn for targets-obj</a><span>, in § 4.5</span>
     </ul>
-   <li><a href="#metafiles">METAFILES</a><span>, in §4.4</span>
+   <li><a href="#metafiles">METAFILES</a><span>, in § 4.4</span>
    <li>
     METAPATH
     <ul>
-     <li><a href="#mirrors-metapath">dfn for mirrors</a><span>, in §4.7</span>
-     <li><a href="#snapshot-metapath">dfn for snapshot</a><span>, in §4.4</span>
+     <li><a href="#mirrors-metapath">dfn for mirrors</a><span>, in § 4.7</span>
+     <li><a href="#snapshot-metapath">dfn for snapshot</a><span>, in § 4.4</span>
     </ul>
-   <li><a href="#mirrorsjson">mirrors.json</a><span>, in §4.7</span>
-   <li><a href="#num_roles">NUM_ROLES</a><span>, in §4.5</span>
-   <li><a href="#path_hash_prefixes">"path_hash_prefixes"</a><span>, in §4.5</span>
-   <li><a href="#pathpattern">PATHPATTERN</a><span>, in §4.5</span>
-   <li><a href="#delegation-role-paths">"paths"</a><span>, in §4.5</span>
+   <li><a href="#mirrorsjson">mirrors.json</a><span>, in § 4.7</span>
+   <li><a href="#num_roles">NUM_ROLES</a><span>, in § 4.5</span>
+   <li><a href="#path_hash_prefixes">"path_hash_prefixes"</a><span>, in § 4.5</span>
+   <li><a href="#pathpattern">PATHPATTERN</a><span>, in § 4.5</span>
+   <li><a href="#delegation-role-paths">"paths"</a><span>, in § 4.5</span>
    <li>
     PUBLIC
     <ul>
-     <li><a href="#keyval-ecdsa-public">dfn for keyval-ecdsa</a><span>, in §4.2</span>
-     <li><a href="#keyval-ed25519-public">dfn for keyval-ed25519</a><span>, in §4.2</span>
-     <li><a href="#keyval-rsa-public">dfn for keyval-rsa</a><span>, in §4.2</span>
+     <li><a href="#keyval-ecdsa-public">dfn for keyval-ecdsa</a><span>, in § 4.2</span>
+     <li><a href="#keyval-ed25519-public">dfn for keyval-ed25519</a><span>, in § 4.2</span>
+     <li><a href="#keyval-rsa-public">dfn for keyval-rsa</a><span>, in § 4.2</span>
     </ul>
    <li>
     ROLE
     <ul>
-     <li><a href="#role-role">dfn for role</a><span>, in §4.2</span>
-     <li><a href="#root-role">dfn for root</a><span>, in §4.3</span>
+     <li><a href="#role-role">dfn for role</a><span>, in § 4.2</span>
+     <li><a href="#root-role">dfn for root</a><span>, in § 4.3</span>
     </ul>
-   <li><a href="#rolename">ROLENAME</a><span>, in §4.5</span>
-   <li><a href="#rootjson">root.json</a><span>, in §4.3</span>
-   <li><a href="#keytype-rsa">"rsa"</a><span>, in §4.2</span>
-   <li><a href="#scheme-rsassa-pss-sha256">"rsassa-pss-sha256"</a><span>, in §4.2</span>
-   <li><a href="#scheme">SCHEME</a><span>, in §4.2</span>
-   <li><a href="#signature">SIGNATURE</a><span>, in §4.2</span>
-   <li><a href="#snapshotjson">snapshot.json</a><span>, in §4.4</span>
-   <li><a href="#spec_version">SPEC_VERSION</a><span>, in §4.3</span>
-   <li><a href="#targetpath">TARGETPATH</a><span>, in §4.5</span>
-   <li><a href="#targets-obj-targets">TARGETS</a><span>, in §4.5</span>
-   <li><a href="#targetsjson">targets.json</a><span>, in §4.5</span>
-   <li><a href="#targetspath">TARGETSPATH</a><span>, in §4.7</span>
-   <li><a href="#terminating">TERMINATING</a><span>, in §4.5</span>
-   <li><a href="#threshold">THRESHOLD</a><span>, in §4.3</span>
-   <li><a href="#timestampjson">timestamp.json</a><span>, in §4.6</span>
-   <li><a href="#urlbase">URLBASE</a><span>, in §4.7</span>
+   <li><a href="#rolename">ROLENAME</a><span>, in § 4.5</span>
+   <li><a href="#rootjson">root.json</a><span>, in § 4.3</span>
+   <li><a href="#keytype-rsa">"rsa"</a><span>, in § 4.2</span>
+   <li><a href="#scheme-rsassa-pss-sha256">"rsassa-pss-sha256"</a><span>, in § 4.2</span>
+   <li><a href="#scheme">SCHEME</a><span>, in § 4.2</span>
+   <li><a href="#signature">SIGNATURE</a><span>, in § 4.2</span>
+   <li><a href="#snapshotjson">snapshot.json</a><span>, in § 4.4</span>
+   <li><a href="#spec_version">SPEC_VERSION</a><span>, in § 4.3</span>
+   <li><a href="#targetpath">TARGETPATH</a><span>, in § 4.5</span>
+   <li><a href="#targets-obj-targets">TARGETS</a><span>, in § 4.5</span>
+   <li><a href="#targetsjson">targets.json</a><span>, in § 4.5</span>
+   <li><a href="#targetspath">TARGETSPATH</a><span>, in § 4.7</span>
+   <li><a href="#terminating">TERMINATING</a><span>, in § 4.5</span>
+   <li><a href="#threshold">THRESHOLD</a><span>, in § 4.3</span>
+   <li><a href="#timestampjson">timestamp.json</a><span>, in § 4.6</span>
+   <li><a href="#urlbase">URLBASE</a><span>, in § 4.7</span>
    <li>
     VERSION
     <ul>
-     <li><a href="#metapath-version">dfn for metapath</a><span>, in §4.4</span>
-     <li><a href="#role-version">dfn for role</a><span>, in §4.3</span>
+     <li><a href="#metapath-version">dfn for metapath</a><span>, in § 4.4</span>
+     <li><a href="#role-version">dfn for role</a><span>, in § 4.3</span>
     </ul>
   </ul>
   <aside class="dfn-panel" data-for="role-role">
@@ -3975,7 +4010,9 @@ to have incorrect clocks.</p>
   <aside class="dfn-panel" data-for="consistent_snapshot">
    <b><a href="#consistent_snapshot">#consistent_snapshot</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-consistent_snapshot">4.3. File formats: root.json</a>
+    <li><a href="#ref-for-consistent_snapshot">3.1.1. Target files</a>
+    <li><a href="#ref-for-consistent_snapshot①">4.3. File formats: root.json</a>
+    <li><a href="#ref-for-consistent_snapshot②">6.2.1. Writing consistent snapshots</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="role-version">
@@ -4123,13 +4160,7 @@ to have incorrect clocks.</p>
   <aside class="dfn-panel" data-for="delegations">
    <b><a href="#delegations">#delegations</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-delegations">4.5. File formats: targets.json and delegated target roles</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="delegation">
-   <b><a href="#delegation">#delegation</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-delegation">4.5. File formats: targets.json and delegated target roles</a>
+    <li><a href="#ref-for-delegations">4.5. File formats: targets.json and delegated target roles</a> <a href="#ref-for-delegations①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="delegation_name">
@@ -4159,8 +4190,8 @@ to have incorrect clocks.</p>
   <aside class="dfn-panel" data-for="pathpattern">
    <b><a href="#pathpattern">#pathpattern</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-pathpattern">4.5. File formats: targets.json and delegated target roles</a> <a href="#ref-for-pathpattern①">(2)</a> <a href="#ref-for-pathpattern②">(3)</a>
-    <li><a href="#ref-for-pathpattern③">4.7. File formats: mirrors.json</a> <a href="#ref-for-pathpattern④">(2)</a> <a href="#ref-for-pathpattern⑤">(3)</a>
+    <li><a href="#ref-for-pathpattern">4.5. File formats: targets.json and delegated target roles</a> <a href="#ref-for-pathpattern①">(2)</a> <a href="#ref-for-pathpattern②">(3)</a> <a href="#ref-for-pathpattern③">(4)</a> <a href="#ref-for-pathpattern④">(5)</a> <a href="#ref-for-pathpattern⑤">(6)</a> <a href="#ref-for-pathpattern⑥">(7)</a> <a href="#ref-for-pathpattern⑦">(8)</a> <a href="#ref-for-pathpattern⑧">(9)</a> <a href="#ref-for-pathpattern⑨">(10)</a>
+    <li><a href="#ref-for-pathpattern①⓪">4.7. File formats: mirrors.json</a> <a href="#ref-for-pathpattern①①">(2)</a> <a href="#ref-for-pathpattern①②">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="terminating">
