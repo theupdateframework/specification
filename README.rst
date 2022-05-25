@@ -66,7 +66,7 @@ Keep track of new TUF releases
 There's a reusable workflow that can be used by projects to keep track of
 new TUF specification releases. It automatically opens an issue to notify
 the project in case the released version is different from what the project
-state it supports.
+states it supports.
 
 The workflow, along with an example of how to use it, can be found at - `.github/workflows/check-latest-spec-version.yml
 </.github/workflows/check-latest-spec-version.yml>`_.

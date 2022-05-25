@@ -2,7 +2,7 @@
 # This is a reusable workflow that can be used by projects to keep track of
 # new TUF specification releases. It automatically opens an issue to notify
 # the project in case the released version is different from what the project
-# state it supports.
+# states it supports.
 #
 # Usage:
 # The following is an example of how to use the workflow.
@@ -64,9 +64,9 @@ jobs:
                   title: "TUF specification has a new version - " + latest_version,
                   body: "Hey, it seems there's a newer version of the TUF specification - [" + latest_version +
                         "](https://github.com/theupdateframework/specification/blob/" + latest_version + "/tuf-spec.md)" +
-                        "\n\n" + 
-                        "The version which [" + repo + "](https://github.com/" + repo + ") state it supports is - [" + supported_version +
-                        "](https://github.com/theupdateframework/specification/blob/" + supported_version + "/tuf-spec.md)" + 
+                        "\n\n" +
+                        "The version which [" + repo + "](https://github.com/" + repo + ") states it supports is - [" + supported_version +
+                        "](https://github.com/theupdateframework/specification/blob/" + supported_version + "/tuf-spec.md)" +
                         "\n\n" +
                         "The following is a comparison of what changed between the two versions - [Compare " + supported_version + " to " + latest_version +"](https://github.com/theupdateframework/specification/compare/" + supported_version + "..." + latest_version + ")" +
                         "\n\n" +
