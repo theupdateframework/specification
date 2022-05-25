@@ -69,12 +69,11 @@ This project is managed by the Linux Foundation under the Cloud Native
 Computing Foundation. The consensus builder for the TUF specification is
 `Prof. Justin Cappos <https://ssl.engineering.nyu.edu/personalpages/jcappos/>`_
 of the `Secure Systems Lab <https://ssl.engineering.nyu.edu/>`_ at
-`New York University <https://engineering.nyu.edu>`_. Maintainers include
-`Sebastien Awwad <https://github.com/awwad>`_ of
-`CONDA <https://docs.conda.io/en/latest/>`_ and
-`Lukas Pühringer <https://github.com/lukpueh/>`_ of
-`NYU's Secure Systems Lab <https://ssl.engineering.nyu.edu/>`_. Contributors
-and maintainers are governed by the
+`New York University <https://engineering.nyu.edu>`_.
+The `maintainers <./MAINTAINERS.md>`_ are comprised of collaborators from
+academia and industry.
+
+Contributors and maintainers are governed by the
 `CNCF Community Code of Conduct <https://github.com/cncf/foundation/blob/master/code-of-conduct.md>`_.
 
 We'd like to thank
