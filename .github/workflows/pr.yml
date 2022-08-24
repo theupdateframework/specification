@@ -17,22 +17,11 @@ jobs:
         uses: actions/setup-python@b55428b1882923874294fa556849718a1d7f2ca5
         with:
           python-version: 3.x
-
-      - name: Find pip cache dir
-        id: pip-cache
-        run: echo "::set-output name=dir::$(pip cache dir)"
-
-      - name: pip cache
-        uses: actions/cache@a7c34adf76222e77931dedbf4a45b2e4648ced19
-        with:
-          # Use the os dependent pip cache directory found above
-          path: ${{ steps.pip-cache.outputs.dir }}
-          # A match with 'key' counts as cache hit
-          key: ${{ runner.os }}-pip-
+          cache: pip
 
       - name: Ensure changes build
         run: |
-          python -m pip install bikeshed
+          python -m pip install -r requirements.txt
           mkdir build && cd build
           make -f ../Makefile spec
 
