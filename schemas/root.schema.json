@@ -1,0 +1,181 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "required": ["signatures", "signed"],
+  "additionalProperties": false,
+  "properties": {
+    "signatures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["keyid", "sig"],
+        "additionalProperties": false,
+        "properties": {
+          "keyid": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "sig": {
+            "type": "string",
+            "minLength": 1024,
+            "maxLength": 1024,
+            "pattern": "^[a-f0-9]{1024}$"
+          }
+        }
+      }
+    },
+    "signed": {
+      "type": "object",
+      "required": ["_type", "consistent_snapshot", "expires", "keys", "roles", "spec_version", "version"],
+      "additionalProperties": false,
+      "properties": {
+        "_type": {
+          "enum": ["root"]
+        },
+        "consistent_snapshot": {
+          "type": "boolean"
+        },
+        "expires": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "keys": {
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": {
+            "^[0-9a-f]{64}$": {
+              "type": "object",
+              "required": ["keyid_hash_algorithms", "keytype", "keyval", "scheme"],
+              "additionalProperties": false,
+              "properties": {
+                "keyid_hash_algorithms": {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "sha256",
+                      "sha512"
+                    ]
+                  }
+                },
+                "keytype": {
+                  "enum": ["rsa"]
+                },
+                "keyval": {
+                  "type": "object",
+                  "required": ["public"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "public": {
+                      "type": "string",
+                      "pattern": "^-----BEGIN PUBLIC KEY-----"
+                    }
+                  }
+                },
+                "scheme": {
+                  "enum": ["rsassa-pss-sha256"]
+                }
+              }
+            }
+          }
+        },
+        "roles": {
+          "type": "object",
+          "required": ["root", "snapshot", "targets", "timestamp"],
+          "additionalProperties": false,
+          "properties": {
+            "root": {
+              "type": "object",
+              "required": ["keyids", "threshold"],
+              "additionalProperties": false,
+              "properties": {
+                "keyids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 64,
+                    "maxLength": 64,
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "threshold": {
+                  "type": "number",
+                  "minimum": 1
+                }
+              }
+            },
+            "snapshot": {
+              "type": "object",
+              "required": ["keyids", "threshold"],
+              "additionalProperties": false,
+              "properties": {
+                "keyids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 64,
+                    "maxLength": 64,
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "threshold": {
+                  "type": "number",
+                  "minimum": 1
+                }
+              }
+            },
+            "targets": {
+              "type": "object",
+              "required": ["keyids", "threshold"],
+              "additionalProperties": false,
+              "properties": {
+                "keyids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 64,
+                    "maxLength": 64,
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "threshold": {
+                  "type": "number",
+                  "minimum": 1
+                }
+              }
+            },
+            "timestamp": {
+              "type": "object",
+              "required": ["keyids", "threshold"],
+              "additionalProperties": false,
+              "properties": {
+                "keyids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 64,
+                    "maxLength": 64,
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "threshold": {
+                  "type": "number",
+                  "minimum": 1
+                }
+              }
+            }
+          }
+        },
+        "spec_version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]$"
+        },
+        "version": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

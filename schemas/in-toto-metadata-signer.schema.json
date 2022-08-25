@@ -1,0 +1,168 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "signatures": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "keyid": {
+              "type": "string",
+              "minLength": 64,
+              "maxLength": 64,
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "sig": {
+              "type": "string",
+              "minLength": 1024,
+              "maxLength": 1024,
+              "pattern": "^[a-f0-9]{1024}$"
+            }
+          },
+          "required": [
+            "keyid",
+            "sig"
+          ]
+        }
+      ]
+    },
+    "signed": {
+      "type": "object",
+      "properties": {
+        "_type": {
+          "enum": ["targets"]
+        },
+        "delegations": {
+          "type": "object",
+          "properties": {
+            "keys": {
+              "type": "object",
+              "additionalProperties": false,
+              "patternProperties": {
+                "^[a-f0-9]{64}$": {
+                  "type": "object",
+                  "properties": {
+                    "keyid_hash_algorithms": {
+                      "type": "array",
+                      "items": {
+                        "enum": [
+                          "sha256",
+                          "sha512"
+                        ]
+                      }
+                    },
+                    "keytype": {
+                      "enum": ["rsa"]
+                    },
+                    "keyval": {
+                      "type": "object",
+                      "properties": {
+                        "public": {
+                          "type": "string",
+                          "pattern": "^-----BEGIN PUBLIC KEY-----"
+                        }
+                      },
+                      "required": [
+                        "public"
+                      ]
+                    },
+                    "scheme": {
+                      "enum": ["rsassa-pss-sha256"]
+                    }
+                  },
+                  "required": [
+                    "keyid_hash_algorithms",
+                    "keytype",
+                    "keyval",
+                    "scheme"
+                  ]
+                }
+              }
+            },
+            "roles": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "keyids": {
+                      "type": "array",
+                      "items": [
+                        {
+                          "type": "string",
+                          "minLength": 64,
+                          "maxLength": 64,
+                          "pattern": "^[a-f0-9]{64}$"
+                        }
+                      ]
+                    },
+                    "name": {
+                      "type": "string",
+                      "pattern": "^in-toto-metadata-signer-[0-9a-f]$"
+                    },
+                    "paths": {
+                      "type": "array",
+                      "items": [
+                        {
+                          "type": "string",
+                          "pattern": "^in-toto-metadata/[0-9a-f]\\*/\\*\\.link$"
+                        }
+                      ]
+                    },
+                    "terminating": {
+                      "type": "boolean"
+                    },
+                    "threshold": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  },
+                  "required": [
+                    "keyids",
+                    "name",
+                    "paths",
+                    "terminating",
+                    "threshold"
+                  ]
+                }
+              ]
+            }
+          },
+          "required": [
+            "keys",
+            "roles"
+          ]
+        },
+        "expires": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "spec_version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "targets": {
+          "type": "object"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "_type",
+        "delegations",
+        "expires",
+        "spec_version",
+        "targets",
+        "version"
+      ]
+    }
+  },
+  "required": [
+    "signatures",
+    "signed"
+  ]
+}

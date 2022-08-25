@@ -1,0 +1,704 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "signatures": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "keyid": {
+              "type": "string",
+              "minLength": 64,
+              "maxLength": 64,
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "sig": {
+              "type": "string",
+              "minLength": 1024,
+              "maxLength": 1024,
+              "pattern": "^[a-f0-9]{1024}$"
+            }
+          },
+          "required": [
+            "keyid",
+            "sig"
+          ]
+        }
+      ]
+    },
+    "signed": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "_type": {
+          "enum": ["snapshot"]
+        },
+        "expires": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "meta": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "in-toto-metadata-signer-0.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "in-toto-metadata-signer-1.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "in-toto-metadata-signer-2.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "in-toto-metadata-signer-3.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "in-toto-metadata-signer-4.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "in-toto-metadata-signer-5.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "in-toto-metadata-signer-6.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "in-toto-metadata-signer-7.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "in-toto-metadata-signer-8.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "in-toto-metadata-signer-9.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "in-toto-metadata-signer-a.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "in-toto-metadata-signer-b.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "in-toto-metadata-signer-c.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "in-toto-metadata-signer-d.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "in-toto-metadata-signer-e.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "in-toto-metadata-signer-f.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "in-toto-metadata-signer.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "targets.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-a.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-b.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-c.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-d.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-e.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-f.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-g.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-h.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-i.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-j.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-k.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-l.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-m.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-n.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-o.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-p.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-q.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-r.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-s.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-t.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-u.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-v.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-w.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-x.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-y.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer-z.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            },
+            "wheels-signer.json": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "version"
+              ]
+            }
+          },
+          "required": [
+            "in-toto-metadata-signer-0.json",
+            "in-toto-metadata-signer-1.json",
+            "in-toto-metadata-signer-2.json",
+            "in-toto-metadata-signer-3.json",
+            "in-toto-metadata-signer-4.json",
+            "in-toto-metadata-signer-5.json",
+            "in-toto-metadata-signer-6.json",
+            "in-toto-metadata-signer-7.json",
+            "in-toto-metadata-signer-8.json",
+            "in-toto-metadata-signer-9.json",
+            "in-toto-metadata-signer-a.json",
+            "in-toto-metadata-signer-b.json",
+            "in-toto-metadata-signer-c.json",
+            "in-toto-metadata-signer-d.json",
+            "in-toto-metadata-signer-e.json",
+            "in-toto-metadata-signer-f.json",
+            "in-toto-metadata-signer.json",
+            "targets.json",
+            "wheels-signer-a.json",
+            "wheels-signer-b.json",
+            "wheels-signer-c.json",
+            "wheels-signer-d.json",
+            "wheels-signer-e.json",
+            "wheels-signer-f.json",
+            "wheels-signer-g.json",
+            "wheels-signer-h.json",
+            "wheels-signer-i.json",
+            "wheels-signer-j.json",
+            "wheels-signer-k.json",
+            "wheels-signer-l.json",
+            "wheels-signer-m.json",
+            "wheels-signer-n.json",
+            "wheels-signer-o.json",
+            "wheels-signer-p.json",
+            "wheels-signer-q.json",
+            "wheels-signer-r.json",
+            "wheels-signer-s.json",
+            "wheels-signer-t.json",
+            "wheels-signer-u.json",
+            "wheels-signer-v.json",
+            "wheels-signer-w.json",
+            "wheels-signer-x.json",
+            "wheels-signer-y.json",
+            "wheels-signer-z.json",
+            "wheels-signer.json"
+          ]
+        },
+        "spec_version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]$"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "_type",
+        "expires",
+        "meta",
+        "spec_version",
+        "version"
+      ]
+    }
+  },
+  "required": [
+    "signatures",
+    "signed"
+  ]
+}
