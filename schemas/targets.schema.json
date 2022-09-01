@@ -50,6 +50,10 @@
         },
         "targets": {
           "type": "object"
+        },
+        "version": {
+          "type": "integer",
+          "minValue": 1
         }
       },
       "required": [
