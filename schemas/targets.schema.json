@@ -92,17 +92,47 @@
         },
         "targets": {
           "type": "object",
-          "additionalProperties": true,
-          "properties": {
-            "hashes": {
-              "type": "object"
-            },
-            "length": {
-              "type": "integer",
-              "minLength": 1
-            },
-            "custom": {
-              "type": "object"
+          "additionalProperties": false,
+          "patternProperties": {
+            ".+": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "custom": {
+                  "type": "object"
+                },
+                "hashes": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "sha256": {
+                      "type": "string",
+                      "minLength": 64,
+                      "maxLength": 64,
+                      "pattern": "^[a-f0-9]{64}$"
+                    },
+                    "sha512": {
+                      "type": "string",
+                      "minLength": 128,
+                      "maxLength": 128,
+                      "pattern": "^[a-f0-9]{128}$"
+                    }
+                  },
+                  "required": [
+                    "sha256",
+                    "sha512"
+                  ]
+                },
+                "length": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "custom",
+                "hashes",
+                "length"
+              ]
             }
           }
         },
