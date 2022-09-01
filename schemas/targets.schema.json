@@ -49,7 +49,21 @@
           "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$"
         },
         "targets": {
-          "type": "object"
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "hashes": {
+              "type": "object"
+            },
+            "length": {
+              "type": "integer",
+              "minLength": 1,
+            },
+            "custom": {
+              "type": "object"
+            }
+          },
+          "required": ["hashes", "length"]
         },
         "version": {
           "type": "integer",
