@@ -69,12 +69,13 @@
                   "properties": {
                     "public": {
                       "type": "string",
-                      "pattern": "^-----BEGIN PUBLIC KEY-----"
+                      "minLength": 1
                     }
                   }
                 },
                 "scheme": {
-                  "enum": ["rsassa-pss-sha256"]
+                  "type": "string",
+                  "minLength": 1
                 }
               }
             }
