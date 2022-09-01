@@ -52,6 +52,13 @@
                 "version": {
                   "type": "integer",
                   "minimum": 1
+                },
+                "length": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "hashes": {
+                  "type": "object"
                 }
               },
               "required": [
