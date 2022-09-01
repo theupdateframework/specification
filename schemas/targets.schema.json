@@ -63,7 +63,7 @@
                   },
                   "threshold": {
                     "type": "integer",
-                    "minLength": 1
+                    "minimum": 1
                   },
                   "path_hash_prefixes": {
                     "type": "string",
@@ -138,7 +138,7 @@
         },
         "version": {
           "type": "integer",
-          "minValue": 1
+          "minimum": 1
         }
       },
       "required": [
