@@ -28,7 +28,7 @@
     },
     "signed": {
       "type": "object",
-      "required": ["_type", "consistent_snapshot", "expires", "keys", "roles", "spec_version", "version"],
+      "required": ["_type", "expires", "keys", "roles", "spec_version", "version"],
       "additionalProperties": false,
       "properties": {
         "_type": {
