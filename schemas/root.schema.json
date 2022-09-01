@@ -86,6 +86,24 @@
           "required": ["root", "snapshot", "targets", "timestamp"],
           "additionalProperties": false,
           "properties": {
+            "mirror": {
+              "type": "object",
+              "required": ["keyids", "threshold"],
+              "additionalProperties": false,
+              "properties": {
+                "keyids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "threshold": {
+                  "type": "number",
+                  "minimum": 1
+                }
+              }
+            },
             "root": {
               "type": "object",
               "required": ["keyids", "threshold"],
