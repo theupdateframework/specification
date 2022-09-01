@@ -92,20 +92,19 @@
         },
         "targets": {
           "type": "object",
-          "additionalProperties": false,
+          "additionalProperties": true,
           "properties": {
             "hashes": {
               "type": "object"
             },
             "length": {
               "type": "integer",
-              "minLength": 1,
+              "minLength": 1
             },
             "custom": {
               "type": "object"
             }
-          },
-          "required": ["hashes", "length"]
+          }
         },
         "version": {
           "type": "integer",
