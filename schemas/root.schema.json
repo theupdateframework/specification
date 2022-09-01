@@ -173,7 +173,7 @@
         },
         "version": {
           "type": "number",
-          "minimum": 0
+          "minimum": 1
         }
       }
     }
