@@ -38,7 +38,49 @@
           "enum": ["targets"]
         },
         "delegations": {
-          "type": "object"
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "keys": {
+              "type": "object"
+            },
+            "roles": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "keyids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "threshold": {
+                    "type": "integer",
+                    "minLength": 1
+                  },
+                  "path_hash_prefixes": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "paths": {
+                    "type": "array",
+                    "minLength": 1
+                  },
+                  "terminating": {
+                    "type": "boolean"
+                  }
+                },
+                "required": ["name", "keyids", "threshold", "paths", "terminating"]
+              }
+            }
+          }
         },
         "expires": {
           "type": "string",
