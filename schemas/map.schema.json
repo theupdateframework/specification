@@ -1,91 +1,55 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
-  "required": ["signatures", "signed"],
+  "required": ["repositories", "mapping"],
   "additionalProperties": false,
   "properties": {
-    "signatures": {
-      "type": "array",
+    "repositories": {
+      "type": "object",
       "items": {
         "type": "object",
-        "required": ["keyid", "sig"],
-        "additionalProperties": false,
-        "properties": {
-          "keyid": {
-            "type": "string",
-            "minLength": 64,
-            "maxLength": 64,
-            "pattern": "^[a-f0-9]{64}$"
-          },
-          "sig": {
-            "type": "string",
-            "minLength": 1024,
-            "maxLength": 1024,
-            "pattern": "^[a-f0-9]{1024}$"
+        "patternProperties": {
+          ".+": {
+            "type": "object",
+            "items": {
+              "type": "string",
+              "minimum": 1
+            }
           }
         }
       }
     },
-    "signed": {
-      "type": "object",
-      "required": ["_type", "repositories", "mapping", "spec_version", "version"],
-      "additionalProperties": false,
-      "properties": {
-        "_type": {
-          "enum": ["map"]
-        },
-        "repositories": {
-          "type": "object",
-          "items": {
-            "type": "object",
-            "patternProperties": {
-              ".+": {
-                "type": "object",
-                "items": {
-                  "type": "string",
-                  "minimum": 1
-                }
-              }
+    "mapping": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["paths", "repositories", "threshold", "terminating"],
+        "properties": {
+          "paths": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
             }
-          }
-        },
-        "mapping": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": ["paths", "repositories", "threshold", "terminating"],
-          "properties": {
-            "paths": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1
-              }
-            },
-            "repositories": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1
-              }
-            },
-            "threshold": {
-              "type": "integer",
-              "minimum": 1
-            },
-            "terminating": {
-              "type": "boolean"
+          },
+          "repositories": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
             }
+          },
+          "threshold": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "terminating": {
+            "type": "boolean"
           }
-        },
-        "spec_version": {
-          "type": "string",
-          "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$"
-        },
-        "version": {
-          "type": "number",
-          "minimum": 1
         }
       }
     }
   }
 }
+  
