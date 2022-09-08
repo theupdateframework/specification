@@ -47,18 +47,9 @@
           "patternProperties": {
             "^[0-9a-f]{64}$": {
               "type": "object",
-              "required": ["keyid_hash_algorithms", "keytype", "keyval", "scheme"],
+              "required": ["keytype", "keyval", "scheme"],
               "additionalProperties": false,
               "properties": {
-                "keyid_hash_algorithms": {
-                  "type": "array",
-                  "items": {
-                    "enum": [
-                      "sha256",
-                      "sha512"
-                    ]
-                  }
-                },
                 "keytype": {
                   "enum": ["rsa"]
                 },
