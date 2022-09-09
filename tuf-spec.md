@@ -1023,12 +1023,13 @@ format:
 
   : <dfn>TERMINATING</dfn>
   ::
-    A boolean indicating whether subsequent delegations should be considered.
+    A boolean indicating whether subsequent delegations should be considered
+    if a matching target is not found in this delegation.
 
     As explained in the [Diplomat paper
     ](https://theupdateframework.io/papers/protect-community-repositories-nsdi2016.pdf),
     terminating delegations instruct the client not to consider future trust
-    statements that match the delegation's pattern, which stops the delegation
+    statements that match this delegation's pattern, which stops the delegation
     processing once this delegation (and its descendants) have been processed.
     A terminating delegation for a package causes any further statements about a
     package that are not made by the delegated party or its descendants to be
