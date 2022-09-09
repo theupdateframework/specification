@@ -1315,14 +1315,11 @@ it in the next step.
   version N+1 is not signed as required, discard it, abort the update cycle,
   and report the signature failure.
 
-5. **Check for a rollback attack.** The version number of the trusted
-  root metadata file (version N) MUST be less than the version
-  number of the new root metadata file (version N+1). Effectively, this means
-  checking that the version number signed in the new root metadata file is
-  indeed N+1. If the version of the new root metadata file is less than the version
-  of the trusted metadata file, discard it, abort the update cycle, and report the
-  rollback attack. In case they are equal, again discard the new root metadata, but
-  proceed the update cycle with the already trusted root metadata.
+5. **Check for a rollback attack.** The version number of the new root
+  metadata (version N+1) MUST be exactly the version in the trusted root
+  metadata (version N) incremented by one, that is precisely N+1.
+  If the version of the new root metadata file is not N+1, discard it,
+  abort the update cycle, and report the rollback attack.
 
 6. Note that the expiration of the new (intermediate) root metadata
   file does not matter yet, because we will check for it in step 5.3.10.
