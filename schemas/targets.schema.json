@@ -125,7 +125,6 @@
                 }
               },
               "required": [
-                "custom",
                 "hashes",
                 "length"
               ]
