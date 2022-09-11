@@ -19,9 +19,7 @@
           },
           "sig": {
             "type": "string",
-            "minLength": 1024,
-            "maxLength": 1024,
-            "pattern": "^[a-f0-9]{1024}$"
+            "minLength": 1
           }
         }
       }
