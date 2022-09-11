@@ -63,11 +63,7 @@
                       "maxLength": 128,
                       "pattern": "^[a-f0-9]{128}$"
                     }
-                  },
-                  "required": [
-                    "sha256",
-                    "sha512"
-                  ]
+                  }
                 },
                 "length": {
                   "type": "integer",
