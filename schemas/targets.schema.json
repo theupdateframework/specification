@@ -40,7 +40,33 @@
           "additionalProperties": false,
           "properties": {
             "keys": {
-              "type": "object"
+              "type": "object",
+              "patternProperties": {
+                "^[0-9a-f]{64}$": {
+                  "type": "object",
+                  "required": ["keytype", "keyval", "scheme"],
+                  "additionalProperties": true,
+                  "properties": {
+                    "keytype": {
+                      "enum": ["rsa", "ed25519", "ecdsa-sha2-nistp256"]
+                    },
+                    "keyval": {
+                      "type": "object",
+                      "required": ["public"],
+                      "additionalProperties": false,
+                      "properties": {
+                        "public": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    },
+                    "scheme": {
+                      "enum": ["rsassa-pss-sha256", "ed25519", "ecdsa-sha2-nistp256"]
+                    }
+                  }
+                }
+              }
             },
             "roles": {
               "type": "array",
