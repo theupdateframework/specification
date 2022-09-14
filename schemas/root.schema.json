@@ -1,0 +1,190 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "required": ["signatures", "signed"],
+  "additionalProperties": false,
+  "properties": {
+    "signatures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["keyid", "sig"],
+        "additionalProperties": false,
+        "properties": {
+          "keyid": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "sig": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "signed": {
+      "type": "object",
+      "required": ["_type", "expires", "keys", "roles", "spec_version", "version"],
+      "additionalProperties": false,
+      "properties": {
+        "_type": {
+          "enum": ["root"]
+        },
+        "consistent_snapshot": {
+          "type": "boolean"
+        },
+        "expires": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+        },
+        "keys": {
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": {
+            "^[0-9a-f]{64}$": {
+              "type": "object",
+              "required": ["keytype", "keyval", "scheme"],
+              "additionalProperties": true,
+              "properties": {
+                "keytype": {
+                  "enum": ["rsa", "ed25519", "ecdsa-sha2-nistp256"]
+                },
+                "keyval": {
+                  "type": "object",
+                  "required": ["public"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "public": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                "scheme": {
+                  "enum": ["rsassa-pss-sha256", "ed25519", "ecdsa-sha2-nistp256"]
+                }
+              }
+            }
+          }
+        },
+        "roles": {
+          "type": "object",
+          "required": ["root", "snapshot", "targets", "timestamp"],
+          "additionalProperties": false,
+          "properties": {
+            "mirror": {
+              "type": "object",
+              "required": ["keyids", "threshold"],
+              "additionalProperties": false,
+              "properties": {
+                "keyids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 64,
+                    "maxLength": 64,
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "threshold": {
+                  "type": "number",
+                  "minimum": 1
+                }
+              }
+            },
+            "root": {
+              "type": "object",
+              "required": ["keyids", "threshold"],
+              "additionalProperties": false,
+              "properties": {
+                "keyids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 64,
+                    "maxLength": 64,
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "threshold": {
+                  "type": "number",
+                  "minimum": 1
+                }
+              }
+            },
+            "snapshot": {
+              "type": "object",
+              "required": ["keyids", "threshold"],
+              "additionalProperties": false,
+              "properties": {
+                "keyids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 64,
+                    "maxLength": 64,
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "threshold": {
+                  "type": "number",
+                  "minimum": 1
+                }
+              }
+            },
+            "targets": {
+              "type": "object",
+              "required": ["keyids", "threshold"],
+              "additionalProperties": false,
+              "properties": {
+                "keyids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 64,
+                    "maxLength": 64,
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "threshold": {
+                  "type": "number",
+                  "minimum": 1
+                }
+              }
+            },
+            "timestamp": {
+              "type": "object",
+              "required": ["keyids", "threshold"],
+              "additionalProperties": false,
+              "properties": {
+                "keyids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 64,
+                    "maxLength": 64,
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "threshold": {
+                  "type": "number",
+                  "minimum": 1
+                }
+              }
+            }
+          }
+        },
+        "spec_version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$"
+        },
+        "version": {
+          "type": "number",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

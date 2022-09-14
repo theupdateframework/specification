@@ -3,7 +3,7 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS
 Abstract: A framework for securing software update systems.
-Date: 2022-04-28
+Date: 2022-09-15
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Datadog
 Editor: Joshua Lock, VMware
@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.30
+Text Macro: VERSION 1.0.31
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -515,6 +515,10 @@ The examples in this document use a subset of the JSON object format, with
 floating-point numbers omitted.  When calculating the digest of an
 object, we use the "canonical JSON" subdialect as described at [Canonical JSON](
 http://wiki.laptop.org/go/Canonical_JSON).
+
+Users of TUF can use JSON schema files available in [theupdateframework/specification
+repository](https://github.com/theupdateframework/specification/tree/master/schemas)
+to validate TUF JSON files.
 
 ## File formats: general principles ## {#file-formats-general-principles}
 

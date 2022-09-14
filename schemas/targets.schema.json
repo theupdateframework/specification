@@ -1,0 +1,178 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "signatures": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "keyid": {
+              "type": "string",
+              "minLength": 64,
+              "maxLength": 64,
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "sig": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "keyid",
+            "sig"
+          ]
+        }
+      ]
+    },
+    "signed": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "_type": {
+          "enum": ["targets"]
+        },
+        "delegations": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "keys": {
+              "type": "object",
+              "patternProperties": {
+                "^[0-9a-f]{64}$": {
+                  "type": "object",
+                  "required": ["keytype", "keyval", "scheme"],
+                  "additionalProperties": true,
+                  "properties": {
+                    "keytype": {
+                      "enum": ["rsa", "ed25519", "ecdsa-sha2-nistp256"]
+                    },
+                    "keyval": {
+                      "type": "object",
+                      "required": ["public"],
+                      "additionalProperties": false,
+                      "properties": {
+                        "public": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    },
+                    "scheme": {
+                      "enum": ["rsassa-pss-sha256", "ed25519", "ecdsa-sha2-nistp256"]
+                    }
+                  }
+                }
+              }
+            },
+            "roles": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "keyids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 64,
+                      "maxLength": 64,
+                      "pattern": "^[a-f0-9]{64}$"
+                    }
+                  },
+                  "threshold": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "path_hash_prefixes": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "paths": {
+                    "type": "array",
+                    "minLength": 1
+                  },
+                  "terminating": {
+                    "type": "boolean"
+                  }
+                },
+                "required": ["name", "keyids", "threshold", "paths", "terminating"]
+              }
+            }
+          }
+        },
+        "expires": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+        },
+        "spec_version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$"
+        },
+        "targets": {
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": {
+            ".+": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "custom": {
+                  "type": "object"
+                },
+                "hashes": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "sha256": {
+                      "type": "string",
+                      "minLength": 64,
+                      "maxLength": 64,
+                      "pattern": "^[a-f0-9]{64}$"
+                    },
+                    "sha512": {
+                      "type": "string",
+                      "minLength": 128,
+                      "maxLength": 128,
+                      "pattern": "^[a-f0-9]{128}$"
+                    }
+                  }
+                },
+                "length": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "hashes",
+                "length"
+              ]
+            }
+          }
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "_type",
+        "expires",
+        "spec_version",
+        "targets",
+        "version"
+      ]
+    }
+  },
+  "required": [
+    "signatures",
+    "signed"
+  ]
+}

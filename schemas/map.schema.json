@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "required": ["repositories", "mapping"],
+  "additionalProperties": false,
+  "properties": {
+    "repositories": {
+      "type": "object",
+      "items": {
+        "type": "object",
+        "patternProperties": {
+          ".+": {
+            "type": "object",
+            "items": {
+              "type": "string",
+              "minimum": 1
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["paths", "repositories", "threshold", "terminating"],
+        "properties": {
+          "paths": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "repositories": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "threshold": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "terminating": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}
+  
