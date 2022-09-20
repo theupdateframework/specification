@@ -3,7 +3,7 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS
 Abstract: A framework for securing software update systems.
-Date: 2022-04-28
+Date: 2022-09-09
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Datadog
 Editor: Joshua Lock, VMware
@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.30
+Text Macro: VERSION 1.0.31
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -1023,12 +1023,13 @@ format:
 
   : <dfn>TERMINATING</dfn>
   ::
-    A boolean indicating whether subsequent delegations should be considered.
+    A boolean indicating whether subsequent delegations should be considered
+    if a matching target is not found in this delegation.
 
     As explained in the [Diplomat paper
     ](https://theupdateframework.io/papers/protect-community-repositories-nsdi2016.pdf),
     terminating delegations instruct the client not to consider future trust
-    statements that match the delegation's pattern, which stops the delegation
+    statements that match this delegation's pattern, which stops the delegation
     processing once this delegation (and its descendants) have been processed.
     A terminating delegation for a package causes any further statements about a
     package that are not made by the delegated party or its descendants to be
@@ -1314,14 +1315,11 @@ it in the next step.
   version N+1 is not signed as required, discard it, abort the update cycle,
   and report the signature failure.
 
-5. **Check for a rollback attack.** The version number of the trusted
-  root metadata file (version N) MUST be less than the version
-  number of the new root metadata file (version N+1). Effectively, this means
-  checking that the version number signed in the new root metadata file is
-  indeed N+1. If the version of the new root metadata file is less than the version
-  of the trusted metadata file, discard it, abort the update cycle, and report the
-  rollback attack. In case they are equal, again discard the new root metadata, but
-  proceed the update cycle with the already trusted root metadata.
+5. **Check for a rollback attack.** The version number of the new root
+  metadata (version N+1) MUST be exactly the version in the trusted root
+  metadata (version N) incremented by one, that is precisely N+1.
+  If the version of the new root metadata file is not N+1, discard it,
+  abort the update cycle, and report the rollback attack.
 
 6. Note that the expiration of the new (intermediate) root metadata
   file does not matter yet, because we will check for it in step 5.3.10.
