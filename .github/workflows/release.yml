@@ -24,13 +24,13 @@ jobs:
       id: prevver
       run: |
         prev_version=`git tag | sort -V -r | head -n 1 | cut -c 2-`
-        echo "::set-output name=prev_version::$(echo -n $prev_version)"
+        echo "prev_version=$prev_version" >> $GITHUB_OUTPUT
 
     - name: Get version
       id: getver
       run: |
         spec_version=`grep -oP 'VERSION \K(\d+\.\d+\.\d+)' tuf-spec.md`
-        echo "::set-output name=spec_version::$(echo -n $spec_version)"
+        echo "spec_version=$spec_version" >> $GITHUB_OUTPUT
 
     - name: Make release
       if: steps.getver.outputs.spec_version != steps.prevver.outputs.prev_version
