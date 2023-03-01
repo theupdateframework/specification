@@ -937,7 +937,7 @@ The "signed" portion of <dfn>targets.json</dfn> is as follows:
   "spec_version" : <a>SPEC_VERSION</a>,
   "version" : <a for="role">VERSION</a>,
   "expires" : <a>EXPIRES</a>,
-  "targets" : <a>TARGETS</a>,
+  "targets" : <a for="targets-obj">TARGETS</a>,
   ("delegations" : <a>DELEGATIONS</a>)
 }
 </pre>
@@ -971,8 +971,9 @@ as is described for the <a>root.json</a> file.
     definition](https://url.spec.whatwg.org/#path-relative-url-string) in the
     WHATWG URL specification.
 
-    It is allowed to have a <a>TARGETS</a> object with no <a>TARGETPATH</a>
-    elements.  This can be used to indicate that no target files are available.
+    It is allowed to have a <a for="targets-obj">TARGETS</a> object with no
+    <a>TARGETPATH</a> elements.  This can be used to indicate that no target
+    files are available.
 
   : <dfn for="targets-obj">LENGTH</dfn>
   ::
@@ -1652,9 +1653,9 @@ when adding targets to the repository, or updating existing targets.
 
 ### Update targets metadata ### {#update-targets-metadata}
 
-1. Add the new (or update an existing) <a>TARGETS</a> object in the relevant
-   targets metadata (either the top-level targets metadata, or a delegated
-   targets metadata).
+1. Add the new (or update an existing) <a for="targets-obj">TARGETS</a> object
+   in the relevant targets metadata (either the top-level targets metadata, or
+   a delegated targets metadata).
 2. Increment the <a for="role">VERSION</a> number in the updated targets
    metadata.
 3. Sign the updated targets metadata with at least a <a>THRESHOLD</a> of keys
