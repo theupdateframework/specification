@@ -545,8 +545,9 @@ All signed metadata objects have the format:
       ::
         A hex-encoded signature of the canonical form of the metadata for <a for="role">ROLE</a>.
 
+## File formats: keys ## {#file-formats-keys}
 
-All <dfn>KEY</dfn>s have the format:
+All <dfn>KEY</dfn> objects have the format:
 
 <pre highlight="json">
 {
@@ -653,6 +654,8 @@ The <dfn for="keytype">"ecdsa"</dfn> format is:
   : <dfn for="keyval-ecdsa">PUBLIC</dfn>
   ::
     PEM format and a string.
+
+## File formats: date-time ## {#file-formats-date-time}
 
 Metadata <dfn>date-time</dfn> follows the ISO 8601 standard.  The expected
 format of the combined date and time string is "YYYY-MM-DDTHH:MM:SSZ".  Time is
