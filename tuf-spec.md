@@ -560,7 +560,7 @@ All <dfn>KEY</dfn>s have the format:
       ::
         A string denoting a public key signature system, such as <a
         for="keytype">"rsa"</a>, <a for="keytype">"ed25519"</a>, and <a
-        for="keytype">"ecdsa-sha2-nistp256"</a>.
+        for="keytype">"ecdsa"</a>.
 
       : <dfn>SCHEME</dfn>
       ::
@@ -572,9 +572,21 @@ All <dfn>KEY</dfn>s have the format:
       ::
         A dictionary containing the public portion of the key.
 
-The reference implementation defines three signature schemes, although TUF
-is not restricted to any particular signature scheme, key type, or
-cryptographic library:
+The reference implementation defines three <a>KEYTYPE</a>s:
+<a for="keytype">"rsa"</a>, <a for="keytype">"ed25519"</a>, and
+<a for="keytype">"ecdsa"</a>; and three signature <a>SCHEME</a>s:
+<a for="scheme">"rsassa-pss-sha256"</a>, <a for="scheme">"ed25519"</a>, and
+<a for="scheme">"ecdsa-sha2-nistp256"</a>. These are documented below.
+
+TUF is not restricted to any particular signature <a>SCHEME</a>s,
+<a>KEYTYPE</a>s, or cryptographic library. Adopters can define and use any
+particular <a>KEYTYPE</a>, signing <a>SCHEME</a>, and cryptographic library.
+
+Implementing the <a>KEYTYPE</a>s and <a>SCHEME</a>s below is RECOMMENDED for
+all implementations, as this enables interoperability. Conversely,
+implementations SHOULD NOT implement the <a>KEYTYPE</a>s and <a>SCHEME</a>s
+that are defined in a different manner than specified, so as to avoid confusion
+across implementations.
 
   : <dfn for="scheme">"rsassa-pss-sha256"</dfn>
   ::
@@ -593,11 +605,6 @@ cryptographic library:
     and SHA-256 hashing.
     [https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm
     ](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm)
-
-We define three keytypes below: <a for="keytype">"rsa"</a>, <a
-for="keytype">"ed25519"</a>, and <a for="keytype">"ecdsa-sha2-nistp256"</a>, but adopters
-can define and use any particular keytype, signing scheme, and cryptographic
-library.
 
 The <dfn for="keytype">"rsa"</dfn> format is:
 
@@ -631,11 +638,11 @@ The <dfn for="keytype">"ed25519"</dfn> format is:
   ::
     64-byte hex encoded string.
 
-The <dfn for="keytype">"ecdsa-sha2-nistp256"</dfn> format is:
+The <dfn for="keytype">"ecdsa"</dfn> format is:
 
 <pre highlight="json">
 {
-  "keytype" : <a for="keytype">"ecdsa-sha2-nistp256"</a>,
+  "keytype" : <a for="keytype">"ecdsa"</a>,
   "scheme" : <a for="scheme">"ecdsa-sha2-nistp256"</a>,
   "keyval" : {
     "public" : <a for="keyval-ecdsa">PUBLIC</a>
