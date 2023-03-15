@@ -518,6 +518,8 @@ http://wiki.laptop.org/go/Canonical_JSON).
 
 ## File formats: general principles ## {#file-formats-general-principles}
 
+### Object format ### {#file-formats-object-format}
+
 All signed metadata objects have the format:
 
 <pre highlight="json">
@@ -545,7 +547,7 @@ All signed metadata objects have the format:
       ::
         A hex-encoded signature of the canonical form of the metadata for <a for="role">ROLE</a>.
 
-## File formats: keys ## {#file-formats-keys}
+### Key objects ### {#file-formats-keys}
 
 All <dfn>KEY</dfn> objects have the format:
 
@@ -655,7 +657,7 @@ The <dfn for="keytype">"ecdsa"</dfn> format is:
   ::
     PEM format and a string.
 
-## File formats: date-time ## {#file-formats-date-time}
+### Date-time ### {#file-formats-date-time}
 
 Metadata <dfn>date-time</dfn> follows the ISO 8601 standard.  The expected
 format of the combined date and time string is "YYYY-MM-DDTHH:MM:SSZ".  Time is
