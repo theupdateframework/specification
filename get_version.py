@@ -5,7 +5,7 @@
   get_version.py
 
 <Author>
-  Joshua Lock <jlock@vmware.com>
+  Joshua Lock
 
 <Started>
   Feb 2, 2021
