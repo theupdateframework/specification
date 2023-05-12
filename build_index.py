@@ -5,7 +5,7 @@
   build_index.py
 
 <Author>
-  Joshua Lock <jlock@vmware.com>
+  Joshua Lock
 
 <Started>
   Feb 1, 2021
