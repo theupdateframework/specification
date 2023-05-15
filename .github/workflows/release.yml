@@ -9,7 +9,7 @@ jobs:
     name: Make and publish spec release
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write # required to publish (tag) a release 
     steps:
     - name: Clone main
       uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
