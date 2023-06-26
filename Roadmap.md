@@ -35,3 +35,11 @@ Which of these should block releases?
 * TAP 3 & 4, work on implementations
 * Implement TAP 13 in go-tuf
 * All implementations should catch up to 1.x.y by $MONTH and $DATE?
+
+## Implementation roadmaps
+
+The following are links to roadmaps for various TUF implementations. These roadmaps are maintained by the projects. If you have a TUF implementation, feel free to open a pr to add it here.
+
+* **python-tuf**: 
+* **go-tuf**: https://github.com/orgs/theupdateframework/projects/3
+* ...
