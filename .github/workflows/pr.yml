@@ -9,7 +9,7 @@ jobs:
     name: Sanity checks before a PR merge
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744
         with:
           fetch-depth: 0 # we want all refs for the --is-ancestor check
 
