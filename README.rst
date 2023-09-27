@@ -23,12 +23,9 @@ sending an email, or by reporting an issue in the `specification repo
 License
 -------
 
-This work is `dual-licensed <https://en.wikipedia.org/wiki/Multi-licensing>`_
-and distributed under the (1) MIT License and (2) Apache License, Version 2.0.
-Please see `LICENSE-MIT.txt
-<https://github.com/theupdateframework/specification/blob/master/LICENSE-MIT.txt>`_
-and `LICENSE-APACHE.txt
-<https://github.com/theupdateframework/specification/blob/master/LICENSE-APACHE.txt>`_.
+This work is distributed under the Community Specification License
+Please see `LICENSE.md
+<https://github.com/theupdateframework/specification/blob/master/LICENSE.md>`_.
 
 Versioning
 ----------
