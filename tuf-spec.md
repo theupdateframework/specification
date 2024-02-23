@@ -1098,11 +1098,13 @@ attributes are OPTIONAL, if used, exactly one of them should be set.
     * a <a>PATHPATTERN</a> of `"foo/*"` matches `"foo/bar.tgz"` but not
       `"foo/baz/bar.tgz"`, `"foo/bar/baz/bar.tgz"`, and so on.
 
-    Note: It is important to understand the functioning of path patterns to
-    avoid mistaken assumptions that can lead to a false sense of security. For
-    example, an assumption that `"foo/*"` applies recursively to all files in
-    subdirectories of `foo` in a terminating delegation could allow a subsequent
-    delegated role that should not be trusted to sign for a target.
+    Note: As each <PATHPATTERN> describes the paths that a delegated role is
+    trusted to provide, it is important to understand the functioning of path
+    patterns to avoid mistaken assumptions that can lead to a false sense of
+    security. For example, an assumption that `"foo/*"` applies recursively to
+    all files in subdirectories of `foo` in a terminating delegation could allow
+    a subsequent delegated role that should not be trusted to sign for a target
+    in a subdirectory of `foo`.
 
 
 
