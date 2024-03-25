@@ -11,3 +11,4 @@
 * Joshua Lock ([joshuagl](https://github.com/joshuagl))
 * Marina Moore ([mnm678](https://github.com/mnm678))
 * Lukas Pühringer ([lukpueh](https://github.com/lukpueh))
+* John Kjell ([jkjell](https://github.com/jkjell))
