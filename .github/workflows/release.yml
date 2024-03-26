@@ -12,7 +12,7 @@ jobs:
       contents: write # required to publish (tag) a release 
     steps:
     - name: Clone main
-      uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
+      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       with:
         fetch-depth: 0
 
@@ -30,14 +30,14 @@ jobs:
 
     - name: Set up Python
       if: steps.getver.outputs.spec_version != steps.prevver.outputs.prev_version
-      uses: actions/setup-python@0a5c61591373683505ea898e09a3ea4f39ef2b9c
+      uses: actions/setup-python@0a5c61591373683505ea898e09a3ea4f39ef2b9c # v5.0.0
       with:
         python-version: '3.10'
         cache: 'pip'
 
     - name: Make release
       if: steps.getver.outputs.spec_version != steps.prevver.outputs.prev_version
-      uses: actions/create-release@0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e
+      uses: actions/create-release@0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e # v1.1.4
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -54,7 +54,7 @@ jobs:
 
     - name: Switch branch
       if: steps.getver.outputs.spec_version != steps.prevver.outputs.prev_version
-      uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
+      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       with:
         ref: gh-pages
         clean: false
