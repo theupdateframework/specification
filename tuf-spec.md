@@ -3,7 +3,7 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS
 Abstract: A framework for securing software update systems.
-Date: 2023-04-14
+Date: 2024-02-23
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Datadog
 Editor: Joshua Lock, Verizon
@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.33
+Text Macro: VERSION 1.0.34
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -1093,8 +1093,19 @@ attributes are OPTIONAL, if used, exactly one of them should be set.
       `"foo-version-2.tgz"` and `"foo-version-a.tgz"`, but not
       `"foo-version-alpha.tgz"`.
     * a <a>PATHPATTERN</a> of `"*.tgz"` would match `"foo.tgz"` and `"bar.tgz"`,
-      but not `"targets/foo.tgz"`
-    * a <a>PATHPATTERN</a> of `"foo.tgz"` would match only `"foo.tgz"`
+      but not `"targets/foo.tgz"`.
+    * a <a>PATHPATTERN</a> of `"foo.tgz"` would match only `"foo.tgz"`.
+    * a <a>PATHPATTERN</a> of `"foo/*"` matches `"foo/bar.tgz"` but not
+      `"foo/baz/bar.tgz"`, `"foo/bar/baz/bar.tgz"`, and so on.
+
+    Note: As each <PATHPATTERN> describes the paths that a delegated role is
+    trusted to provide, it is important to understand the functioning of path
+    patterns to avoid mistaken assumptions that can lead to a false sense of
+    security. For example, an assumption that `"foo/*"` applies recursively to
+    all files in subdirectories of `foo` in a terminating delegation could allow
+    a subsequent delegated role that should not be trusted to sign for a target
+    in a subdirectory of `foo`.
+
 
 
 Prioritized delegations allow clients to resolve conflicts between delegated
