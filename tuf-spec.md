@@ -1725,7 +1725,7 @@ when adding targets to the repository, or updating existing targets.
    filename is prefixed with the <a for="role">VERSION</a> number if consistent
    snapshots are enabled for the repository.
 
-### delegation removal ### {#deleting-delegation}
+### Delete delegation ### {#deleting-delegation}
 
 If there is a delegatee you want to delete, you should delete:
 
