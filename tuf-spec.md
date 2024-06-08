@@ -1725,6 +1725,18 @@ when adding targets to the repository, or updating existing targets.
    filename is prefixed with the <a for="role">VERSION</a> number if consistent
    snapshots are enabled for the repository.
 
+### delegation removal ### {#deleting-delegation}
+
+If there is a delegatee you want to delete, you should delete:
+
+1. The targets only the delegatee is responsible for.
+2. The delegatee's targets metadata.
+3. The delegation off any delegator's targets metadata.
+
+But keep the snapshot metadata about (2) around until timestamp/snapshot needs to be reset (e.g., due to a fast-forward attack, as described in Section [5.3.11][[#update-root]] of the spec).
+
+(3) can safely be updated in the snapshot(as described in Section [6.3.2][[#update-snapshot-metadata]] of the spec) metadata so long as it doesn't rollback itself.
+
 # Future directions and open questions # {#future-directions-and-open-questions}
 
 ## Support for bogus clocks ## {#support-for-bogus-clocks}
