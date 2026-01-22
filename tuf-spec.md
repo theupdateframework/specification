@@ -749,10 +749,9 @@ The "signed" portion of <a>root.json</a> is as follows:
     <a for="role">KEYID</a> represented in this key list and in other files,
     only one unique key has that <a for="role">KEYID</a>.
 
-  : <dfn>THRESHOLD</dfn>
-  ::
-    A positive integer number of keys (>=1) of that role whose signatures are required in
-    order to consider a file as being properly signed by that role.
+    As before the THRESHOLD must be a positive integer number of keys (>=1) of 
+    that role whose signatures are required in order to consider a file as being 
+    properly signed by that role.
 
 <div class='example' id='example-root.json'>
 A <a>root.json</a> example file:
