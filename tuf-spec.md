@@ -3,7 +3,7 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS
 Abstract: A framework for securing software update systems.
-Date: 2026-01-19
+Date: 2026-01-22
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Apple
 Editor: Joshua Lock, Verizon
@@ -996,7 +996,7 @@ as is described for the <a>root.json</a> file.
     as key and <a>HASH</a> as defined for <a>METAFILES</a>.  For example:
     `{ "sha256": HASH, ... }`.
 
-  : <dfn>CUSTOM</a>
+  : <dfn>CUSTOM</dfn>
   ::
     An object.  If defined, the elements and values of the <a>CUSTOM</a> object
     will be made available to the client application.  The format of the
@@ -1271,7 +1271,7 @@ as is described for the <a>root.json</a> file.
     A string giving the location from which to retrieve metadata files.
     <a for="mirrors">METAPATH</a> will be a relative path to <a>URLBASE</a>.
 
-  : <dfn>TARGETSPATH</a>
+  : <dfn>TARGETSPATH</dfn>
   ::
     A string giving the location from which to retrieve target files.
     <a>TARGETSPATH</a> will be a relative path to <a>URLBASE</a>.
