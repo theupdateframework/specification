@@ -1588,11 +1588,11 @@ should be encrypted and stored, and so it is left to implementers of
 this document to decide how best to secure them.
 
 To replace a compromised root key or any other top-level role key, the root
-role signs a new root.json file that lists the updated trusted keys for the
-role.  When replacing root keys, an application will sign the new root.json
-file with both the new and old root keys. Any time such a change is
-required, the root.json file is versioned and accessible by version number,
-e.g., 3.root.json.
+role signs a new <a>root.json</a> file that lists the updated trusted keys for
+the role. When replacing root keys, an application will sign the new
+<a>root.json</a> file with both the new and old root keys. Any time such a
+change is required, the <a>root.json</a> file is versioned and accessible by
+version number (e.g., 3.root.json).
 
 Clients that have outdated root keys can update to the latest set of trusted
 root keys, by incrementally downloading all intermediate root metadata
