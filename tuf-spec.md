@@ -3,7 +3,7 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS
 Abstract: A framework for securing software update systems.
-Date: 2026-01-22
+Date: 2026-03-28
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Apple
 Editor: Joshua Lock, Verizon
@@ -1612,8 +1612,15 @@ versions. See step [[#update-root]]  of the client application workflow for more
 
 Note that an attacker, who controls the repository, can launch freeze
 attacks by withholding new root metadata. The attacker does not need to
-compromise root keys to do so. However, these freeze attacks are limited by
-the expiration time of the latest root metadata available to the client.
+compromise root keys to do so.
+Such freeze attacks are limited by the expiration time of the latest root
+metadata available to the client, but given the expiration time of the root
+metadata is usually set to be very long (in order to limit the usage of such
+important keys) this is not a large hurdle for attackers.
+In order to make such attacks detectable by clients, repository operators
+should always replace all timestamp keys each time a new version of the root
+metadata is created. Doing this will narrow the window of a root metadata
+freeze attack to the expiry of timestamp.EXT (which is usually very short).
 
 To replace a delegated developer key, the role that delegated to that key
 just replaces that key with another in the signed metadata where the
