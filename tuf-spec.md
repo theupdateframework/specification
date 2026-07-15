@@ -513,7 +513,7 @@ The chosen data format should be documented in the POUF of the implementation.
 The examples in this document use a subset of the JSON object format, with
 floating-point numbers omitted.  When calculating the digest of an
 object, we use the "canonical JSON" subdialect as described at [Canonical JSON](
-http://wiki.laptop.org/go/Canonical_JSON).
+https://web.archive.org/web/20251209150702/http://wiki.laptop.org/go/Canonical_JSON).
 
 ## File formats: general principles ## {#file-formats-general-principles}
 
