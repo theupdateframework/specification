@@ -3,7 +3,7 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS
 Abstract: A framework for securing software update systems.
-Date: 2026-01-22
+Date: 2026-07-15
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Apple
 Editor: Joshua Lock, Verizon
