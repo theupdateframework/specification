@@ -91,3 +91,11 @@ under Grant Nos. CNS-1345049 and CNS-0959138. Any opinions, findings, and
 conclusions or recommendations expressed in this material are those of the
 author(s) and do not necessarily reflect the views of the National Science
 Foundation.
+
+Governance & Licensing
+----------------------
+
+- `Scope <governance/02-scope.md>`_
+- `Notices <governance/03-notices.md>`_
+- `License <governance/04-license.md>`_
+- `Governance <governance/05-governance.md>`_
