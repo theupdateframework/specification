@@ -3,12 +3,12 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS
 Abstract: A framework for securing software update systems.
-Date: 2024-02-23
+Date: 2026-07-15
 Editor: Justin Cappos, NYU
-Editor: Trishank Karthik Kuppusamy, Datadog
+Editor: Trishank Karthik Kuppusamy, Apple
 Editor: Joshua Lock, Verizon
-Editor: Marina Moore, NYU
-Editor: Lukas Pühringer, NYU
+Editor: Marina Moore, Edera
+Editor: Lukas Pühringer, Eclipse
 Repository: theupdateframework/specification
 Mailing List: https://groups.google.com/forum/?fromgroups#!forum/theupdateframework
 Indent: 2
@@ -16,13 +16,12 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.34
+Text Macro: VERSION 1.0.35
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
 across any inconsistencies or experience any difficulty, do let us know by
-sending an email to our [mailing list](
-  https://groups.google.com/forum/?fromgroups#!forum/theupdateframework),
+messaging us on the [CNCF slack](https://communityinviter.com/apps/cloud-native/cncf) channel #tuf,
 or by reporting an issue in the [specification repo](
   https://github.com/theupdateframework/specification/issues).
 
@@ -514,7 +513,7 @@ The chosen data format should be documented in the POUF of the implementation.
 The examples in this document use a subset of the JSON object format, with
 floating-point numbers omitted.  When calculating the digest of an
 object, we use the "canonical JSON" subdialect as described at [Canonical JSON](
-http://wiki.laptop.org/go/Canonical_JSON).
+https://web.archive.org/web/20251209150702/http://wiki.laptop.org/go/Canonical_JSON).
 
 ## File formats: general principles ## {#file-formats-general-principles}
 
@@ -750,10 +749,9 @@ The "signed" portion of <a>root.json</a> is as follows:
     <a for="role">KEYID</a> represented in this key list and in other files,
     only one unique key has that <a for="role">KEYID</a>.
 
-  : <dfn>THRESHOLD</dfn>
-  ::
-    An integer number of keys of that role whose signatures are required in
-    order to consider a file as being properly signed by that role.
+    As before the THRESHOLD must be a positive integer number of keys (>=1) of 
+    that role whose signatures are required in order to consider a file as being 
+    properly signed by that role.
 
 <div class='example' id='example-root.json'>
 A <a>root.json</a> example file:
@@ -997,7 +995,7 @@ as is described for the <a>root.json</a> file.
     as key and <a>HASH</a> as defined for <a>METAFILES</a>.  For example:
     `{ "sha256": HASH, ... }`.
 
-  : <dfn>CUSTOM</a>
+  : <dfn>CUSTOM</dfn>
   ::
     An object.  If defined, the elements and values of the <a>CUSTOM</a> object
     will be made available to the client application.  The format of the
@@ -1039,6 +1037,12 @@ format:
     A string giving the name of the delegated role.  For example, "projects".
     The rolename MUST be unique in the delegations object: multiple roles with
     the same rolename are not allowed within a <a>DELEGATIONS</a>.
+
+  : <dfn>THRESHOLD</dfn>
+  ::
+    A positive integer number of keys (>=1) of that role whose signatures are required in
+    order to consider a file as being properly signed by that role.  See the notes on 
+    <a>THRESHOLD</a> counting in the relevant steps of [[#detailed-client-workflow]].
 
   : <dfn>TERMINATING</dfn>
   ::
@@ -1118,6 +1122,7 @@ of the second delegation, the metadata of the second delegation will override
 that of the third one, etc. In order to accommodate prioritized
 delegations, the "roles" key in the <a>DELEGATIONS</a> object above points to an array
 of delegated roles, rather than to a hash table.
+
 
 The metadata files for delegated target roles has the same format as the
 top-level <a>targets.json</a> metadata file.
@@ -1276,7 +1281,7 @@ as is described for the <a>root.json</a> file.
     A string giving the location from which to retrieve metadata files.
     <a for="mirrors">METAPATH</a> will be a relative path to <a>URLBASE</a>.
 
-  : <dfn>TARGETSPATH</a>
+  : <dfn>TARGETSPATH</dfn>
   ::
     A string giving the location from which to retrieve target files.
     <a>TARGETSPATH</a> will be a relative path to <a>URLBASE</a>.
