@@ -6,7 +6,7 @@ Abstract: A framework for securing software update systems.
 Date: 2026-07-15
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Apple
-Editor: Joshua Lock, Verizon
+Editor: Joshua Lock, University of Lincoln
 Editor: Marina Moore, Edera
 Editor: Lukas Pühringer, Eclipse
 Repository: theupdateframework/specification
