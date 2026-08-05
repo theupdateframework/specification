@@ -749,9 +749,11 @@ The "signed" portion of <a>root.json</a> is as follows:
     <a for="role">KEYID</a> represented in this key list and in other files,
     only one unique key has that <a for="role">KEYID</a>.
 
-    As before the THRESHOLD must be a positive integer number of keys (>=1) of 
-    that role whose signatures are required in order to consider a file as being 
-    properly signed by that role.
+  : <dfn>THRESHOLD</dfn>
+    A positive integer number of keys (>=1) of that role whose signatures are
+    required in order to consider a file as being properly signed by that role.
+    See the notes on <a>THRESHOLD</a> counting in the relevant steps of
+    [[#detailed-client-workflow]].
 
 <div class='example' id='example-root.json'>
 A <a>root.json</a> example file:
@@ -1029,20 +1031,14 @@ format:
 }
 </pre>
 
-  <a for="root">KEYID</a> and <a>KEY</a> are the same as is described for the
-  <a>root.json</a> file.
+  <a for="root">KEYID</a>, <a>KEY</a> and <a>THRESHOLD</a> are the same as is
+  described for the <a>root.json</a> file.
 
   : <dfn>ROLENAME</dfn>
   ::
     A string giving the name of the delegated role.  For example, "projects".
     The rolename MUST be unique in the delegations object: multiple roles with
     the same rolename are not allowed within a <a>DELEGATIONS</a>.
-
-  : <dfn>THRESHOLD</dfn>
-  ::
-    A positive integer number of keys (>=1) of that role whose signatures are required in
-    order to consider a file as being properly signed by that role.  See the notes on 
-    <a>THRESHOLD</a> counting in the relevant steps of [[#detailed-client-workflow]].
 
   : <dfn>TERMINATING</dfn>
   ::
