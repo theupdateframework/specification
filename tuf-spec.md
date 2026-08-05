@@ -1090,7 +1090,7 @@ attributes are OPTIONAL, if used, exactly one of them should be set.
     also recommended for <a>TARGETPATH</a>. A path separator in a path SHOULD
     NOT be matched by a wildcard in the <a>PATHPATTERN</a>.
 
-    Note: As each <PATHPATTERN> describes the paths that a delegated role is
+    Note: As each <a>PATHPATTERN</a> describes the paths that a delegated role is
     trusted to provide, it is important to understand the functioning of path
     patterns to avoid mistaken assumptions that can lead to a false sense of
     security. For example, an assumption that `"foo/*"` applies recursively to
