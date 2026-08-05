@@ -1045,8 +1045,8 @@ format:
     A boolean indicating whether subsequent delegations should be considered
     if a matching target is not found in this delegation.
 
-    As explained in the [Diplomat paper
-    ](https://theupdateframework.io/papers/protect-community-repositories-nsdi2016.pdf),
+    As explained in the [Diplomat paper]
+    (https://theupdateframework.io/papers/protect-community-repositories-nsdi2016.pdf),
     terminating delegations instruct the client not to consider future trust
     statements that match this delegation's pattern, which stops the delegation
     processing once this delegation (and its descendants) have been processed.
@@ -1335,9 +1335,10 @@ it in the next step.
   validated (version N+1).  When computing the <a>THRESHOLD</a> each
   <a>KEY</a> MUST only contribute one <a>SIGNATURE</a>. That is, each
   <a>SIGNATURE</a> which is counted towards the <a>THRESHOLD</a> MUST have
-  a unique <a>KEYID</a>. Even if a <a>KEYID</a> is listed more than once in the
-  "signatures" list a client MUST NOT count more than one verified
-  <a>SIGNATURE</a> from that <a>KEYID</a> towards the <a>THRESHOLD</a>.
+  a unique <a for="root">KEYID</a>. Even if a <a for="root">KEYID</a> is listed
+  more than once in the "signatures" list a client MUST NOT count more than one
+  verified <a>SIGNATURE</a> from that <a for="root">KEYID</a> towards the
+  <a>THRESHOLD</a>.
   If version N+1 is not signed as required, discard it, abort the update cycle,
   and report the signature failure.  On the next update cycle, begin at step
   [[#update-root]] and version N of the root metadata file.
@@ -1390,11 +1391,11 @@ it in the next step.
   in the trusted root metadata file.  When computing the <a>THRESHOLD</a> each
   <a>KEY</a> MUST only contribute one <a>SIGNATURE</a>. That is, each
   <a>SIGNATURE</a> which is counted towards the <a>THRESHOLD</a> MUST have
-  a unique <a>KEYID</a>. Even if a <a>KEYID</a> is listed more than once in the
-  "signatures" list a client MUST NOT count more than one verified
-  <a>SIGNATURE</a> from that <a>KEYID</a> towards the <a>THRESHOLD</a>.  If the
-  new timestamp metadata file is not properly signed, discard it, abort the
-  update cycle, and report the signature failure.
+  a unique <a for="root">KEYID</a>. Even if a <a for="root">KEYID</a> is listed
+  more than once in the "signatures" list a client MUST NOT count more than one
+  verified <a>SIGNATURE</a> from that <a for="root">KEYID</a> towards the
+  <a>THRESHOLD</a>.  If the new timestamp metadata file is not properly signed,
+  discard it, abort the update cycle, and report the signature failure.
 
 3. **Check for a rollback attack.**
 
@@ -1449,11 +1450,12 @@ it in the next step.
   the trusted root metadata file.  When computing the <a>THRESHOLD</a> each
   <a>KEY</a> MUST only contribute one <a>SIGNATURE</a>. That is, each
   <a>SIGNATURE</a> which is counted towards the <a>THRESHOLD</a> MUST have
-  a unique <a>KEYID</a>. Even if a <a>KEYID</a> is listed more than once in the
-  "signatures" list a client MUST NOT count more than one verified
-  <a>SIGNATURE</a> from that <a>KEYID</a> towards the <a>THRESHOLD</a>.  If the
-  new snapshot metadata file is not signed as required, discard it, abort the
-  update cycle, and report the signature failure.
+  a unique <a for="root">KEYID</a>. Even if a <a for="root">KEYID</a> is listed
+  more than once in the "signatures" list a client MUST NOT count more than one
+  verified <a>SIGNATURE</a> from that <a for="root">KEYID</a> towards the
+  <a>THRESHOLD</a>.  If the new snapshot metadata file is not signed as
+  required, discard it, abort the update cycle, and report the signature
+  failure.
 
 4. **Check against timestamp role's snapshot version**. The version
   number of the new snapshot metadata file MUST match the version number listed
@@ -1505,11 +1507,11 @@ it in the next step.
   in the trusted root metadata file.  When computing the <a>THRESHOLD</a> each
   <a>KEY</a> MUST only contribute one <a>SIGNATURE</a>. That is, each
   <a>SIGNATURE</a> which is counted towards the <a>THRESHOLD</a> MUST have a
-  unique <a>KEYID</a>. Even if a <a>KEYID</a> is listed more than once in the
-  "signatures" list a client MUST NOT count more than one verified
-  <a>SIGNATURE</a> from that <a>KEYID</a> towards the <a>THRESHOLD</a>.  If the
-  new targets metadata file is not signed as required, discard it, abort the
-  update cycle, and report the failure.
+  unique <a for="root">KEYID</a>. Even if a <a for="root">KEYID</a> is listed
+  more than once in the "signatures" list a client MUST NOT count more than one
+  verified <a>SIGNATURE</a> from that <a for="root">KEYID</a> towards the
+  <a>THRESHOLD</a>.  If the new targets metadata file is not signed as
+  required, discard it, abort the update cycle, and report the failure.
 
 4. **Check against snapshot role's targets version**. The version
   number of the new targets metadata file MUST match the version number listed
