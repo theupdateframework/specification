@@ -1086,6 +1086,14 @@ attributes are OPTIONAL, if used, exactly one of them should be set.
     also recommended for <a>TARGETPATH</a>. A path separator in a path SHOULD
     NOT be matched by a wildcard in the <a>PATHPATTERN</a>.
 
+    Note: As each <a>PATHPATTERN</a> describes the paths that a delegated role is
+    trusted to provide, it is important to understand the functioning of path
+    patterns to avoid mistaken assumptions that can lead to a false sense of
+    security. For example, an assumption that `"foo/*"` applies recursively to
+    all files in subdirectories of `foo` in a terminating delegation could allow
+    a subsequent delegated role that should not be trusted to sign for a target
+    in a subdirectory of `foo`.
+
     Some example <a>PATHPATTERN</a>s and expected matches:
     * a <a>PATHPATTERN</a> of `"targets/*.tgz"` would match file paths
       `"targets/foo.tgz"` and `"targets/bar.tgz"`, but not `"targets/foo.txt"`.
@@ -1093,8 +1101,12 @@ attributes are OPTIONAL, if used, exactly one of them should be set.
       `"foo-version-2.tgz"` and `"foo-version-a.tgz"`, but not
       `"foo-version-alpha.tgz"`.
     * a <a>PATHPATTERN</a> of `"*.tgz"` would match `"foo.tgz"` and `"bar.tgz"`,
-      but not `"targets/foo.tgz"`
-    * a <a>PATHPATTERN</a> of `"foo.tgz"` would match only `"foo.tgz"`
+      but not `"targets/foo.tgz"`.
+    * a <a>PATHPATTERN</a> of `"foo.tgz"` would match only `"foo.tgz"`.
+    * a <a>PATHPATTERN</a> of `"foo/*"` matches `"foo/bar.tgz"` but not
+      `"foo/baz/bar.tgz"`, `"foo/bar/baz/bar.tgz"`, and so on.
+
+
 
 
 Prioritized delegations allow clients to resolve conflicts between delegated
