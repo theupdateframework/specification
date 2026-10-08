@@ -3,7 +3,7 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS
 Abstract: A framework for securing software update systems.
-Date: 2026-08-05
+Date: 2026-10-08
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Apple
 Editor: Joshua Lock, University of Lincoln
@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.36
+Text Macro: VERSION 1.0.37
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -1527,17 +1527,19 @@ it in the next step.
 6. **Persist targets metadata**. The client MUST write the file to
   non-volatile storage as FILENAME.EXT (e.g. targets.json).
 
-7. **Perform a pre-order depth-first search for metadata about the
-  desired target, beginning with the top-level targets role.** Note: If
-  any metadata requested in steps 5.6.7.1 - 5.6.7.2 cannot be downloaded nor
-  validated, end the search and report that the target cannot be found.
+7. **Perform a pre-order depth-first search for metadata about the desired
+  target, beginning with the top-level targets role**, taking note of the
+  delegation path taken when walking into each role. Note: If any metadata
+  requested in steps 5.6.7.1 - 5.6.7.2 cannot be downloaded nor validated, end
+  the search and report that the target cannot be found.
 
-  1. If this role has been visited before, then skip this role
-     (so that cycles in the delegation graph are avoided).  Otherwise, if an
-     application-specific maximum number of roles have been visited, then go to
-     step [[#fetch-target]] (so that attackers cannot cause the client to waste excessive
-     bandwidth or time).  Otherwise, if this role contains metadata about the
-     desired target, then go to step [[#fetch-target]].
+  1. If this role has been visited before in the delegation path used to reach
+     this role, then skip this role (so that cycles in the delegation graph are
+     avoided). Otherwise, if an application-specific maximum number of roles
+     have been visited, then go to step [[#fetch-target]] (so that attackers
+     cannot cause the client to waste excessive bandwidth or time). Otherwise,
+     if this role contains metadata about the desired target, then go to step
+     [[#fetch-target]].
 
   2. Otherwise, recursively search the list of delegations in
      order of appearance.
