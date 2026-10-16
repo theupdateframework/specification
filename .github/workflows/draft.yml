@@ -10,13 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Set up Python
-      uses: actions/setup-python@0a5c61591373683505ea898e09a3ea4f39ef2b9c
+      uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
       with:
         python-version: '3.14'
         cache: pip
 
     - name: Clone
-      uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
+      uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
 
     - name: Build specification
       run: |
@@ -25,7 +25,7 @@ jobs:
         make -f ../Makefile draft
 
     - name: Switch branch
-      uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
+      uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
       with:
         ref: gh-pages
         clean: false
