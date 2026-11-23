@@ -1403,11 +1403,13 @@ it in the next step.
     any, MUST be less than the version number of the new timestamp
     metadata file. If the new timestamp metadata version is less than the trusted
     timestamp metadata version, discard it, abort the update cycle, and
-    report the potential rollback attack. In case they are equal, discard the new
-    timestamp metadata and abort the update cycle. This is normal and it
-    shouldn't raise any error. The reason for aborting the update process is that
-    there shouldn't be any changes in the content of this, or any other metadata
-    files too, considering it has the same version as the already trusted one.
+    report the potential rollback attack. In case they are equal, discard the
+    new timestamp metadata and continue the update cycle with the trusted
+    timestamp metadata. This is normal and it shouldn't raise any error. In
+    this case skip step 5.4.3.2 and step 5.4.5, as there is nothing new to
+    compare or persist, but the trusted timestamp metadata file MUST still be
+    checked for a freeze attack as in step 5.4.4 before going to step
+    [[#update-snapshot]].
 
   2. The version number of the snapshot metadata file in the
     trusted timestamp metadata file, if any, MUST be less than or equal to its
