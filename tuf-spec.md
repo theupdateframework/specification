@@ -3,7 +3,7 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS
 Abstract: A framework for securing software update systems.
-Date: 2026-10-08
+Date: 2026-11-22
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Apple
 Editor: Joshua Lock, University of Lincoln
@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.37
+Text Macro: VERSION 1.0.38
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -525,7 +525,7 @@ All signed metadata objects have the format:
 {
   "signed" : <a for="role">ROLE</a>,
   "signatures" : [
-    { "keyid" : <a for="role">KEYID</a>,
+    { "keyid" : <a>KEYID</a>,
       "sig" : <a>SIGNATURE</a> }
       , ... ]
 }
@@ -535,10 +535,9 @@ All signed metadata objects have the format:
       ::
         A dictionary whose "_type" field describes the role type.
 
-      : <dfn for="role">KEYID</dfn>
+      : "keyid"
       ::
-        The identifier of the key signing the <a for="role">ROLE</a> object,
-        which is a hexdigest of the SHA-256 hash of the canonical form of the key.
+        The <a>KEYID</a> of the key signing the <a for="role">ROLE</a> object.
         The keyid MUST be unique in the "signatures" array: multiple
         signatures with the same keyid are not allowed.
 
@@ -547,7 +546,7 @@ All signed metadata objects have the format:
         A hex-encoded signature of the canonical form of the metadata for <a for="role">ROLE</a>.
 
 Note: The "signatures" list SHOULD only contain one <a>SIGNATURE</a> per
-<a for="role">KEYID</a>. This helps prevent multiple signatures by the same key
+<a>KEYID</a>. This helps prevent multiple signatures by the same key
 being counted erroneously towards the minimum <a>THRESHOLD</a> indicating valid
 metadata. <a>THRESHOLD</a> counting is further described in the relevant steps
 of [[#detailed-client-workflow]].
@@ -579,6 +578,14 @@ All <dfn>KEY</dfn> objects have the format:
       : <dfn>KEYVAL</dfn>
       ::
         A dictionary containing the public portion of the key.
+
+Each <a>KEY</a> is referred to by its <dfn>KEYID</dfn>, the hexdigest of the
+SHA-256 hash of the canonical form of the <a>KEY</a> object. A <a>KEYID</a>
+MUST be correct for the <a>KEY</a> it identifies. Clients MUST calculate each
+<a>KEYID</a> listed alongside a <a>KEY</a> (in <a>root.json</a> and in
+<a>DELEGATIONS</a>) to verify this is correct for the associated key. Clients
+MUST ensure that for any <a>KEYID</a> represented in a key list and in other
+files, only one unique key has that <a>KEYID</a>.
 
 The reference implementation defines three <a>KEYTYPE</a>s:
 <a for="keytype">"rsa"</a>, <a for="keytype">"ed25519"</a>, and
@@ -688,13 +695,13 @@ The "signed" portion of <a>root.json</a> is as follows:
   "version" : <a for="role">VERSION</a>,
   "expires" : <a>EXPIRES</a>,
   "keys" : {
-    <a for="root">KEYID</a> : <a>KEY</a>,
+    <a>KEYID</a> : <a>KEY</a>,
     ...
   },
   "roles" : {
     <a for="root">ROLE</a> : {
       "keyids" : [
-        <a for="root">KEYID</a>,
+        <a>KEYID</a>,
         ...
       ] ,
       "threshold" : <a>THRESHOLD</a>
@@ -741,19 +748,13 @@ The "signed" portion of <a>root.json</a> is as follows:
     specified, the mirror list will not need to be signed if mirror lists are
     being used.
 
-  : <dfn for="root">KEYID</dfn>
-  ::
-    A <a for="role">KEYID</a>, which MUST be correct for the specified KEY.
-    Clients MUST calculate each <a for="role">KEYID</a> to verify this is
-    correct for the associated key.  Clients MUST ensure that for any
-    <a for="role">KEYID</a> represented in this key list and in other files,
-    only one unique key has that <a for="role">KEYID</a>.
-
   : <dfn>THRESHOLD</dfn>
     A positive integer number of keys (>=1) of that role whose signatures are
     required in order to consider a file as being properly signed by that role.
     See the notes on <a>THRESHOLD</a> counting in the relevant steps of
     [[#detailed-client-workflow]].
+
+  <a>KEYID</a> and <a>KEY</a> are described in [[#file-formats-keys]].
 
 <div class='example' id='example-root.json'>
 A <a>root.json</a> example file:
@@ -1014,13 +1015,13 @@ format:
 <pre highlight="json">
 {
   "keys" : {
-      <a for="role">KEYID</a> : <a>KEY</a>,
+      <a>KEYID</a> : <a>KEY</a>,
       ...
   },
   "roles" : [
     {
       "name": <a>ROLENAME</a>,
-      "keyids" : [ <a for="role">KEYID</a>, ... ] ,
+      "keyids" : [ <a>KEYID</a>, ... ] ,
       "threshold" : <a>THRESHOLD</a>,
       (<a>"path_hash_prefixes"</a> : [ <a>HEX_DIGEST</a>, ... ] |
       <a for="delegation-role">"paths"</a> : [ <a>PATHPATTERN</a>, ... ]),
@@ -1031,7 +1032,7 @@ format:
 }
 </pre>
 
-  <a for="root">KEYID</a>, <a>KEY</a> and <a>THRESHOLD</a> are the same as is
+  <a>KEYID</a>, <a>KEY</a> and <a>THRESHOLD</a> are the same as is
   described for the <a>root.json</a> file.
 
   : <dfn>ROLENAME</dfn>
@@ -1335,9 +1336,9 @@ it in the next step.
   validated (version N+1).  When computing the <a>THRESHOLD</a> each
   <a>KEY</a> MUST only contribute one <a>SIGNATURE</a>. That is, each
   <a>SIGNATURE</a> which is counted towards the <a>THRESHOLD</a> MUST have
-  a unique <a for="root">KEYID</a>. Even if a <a for="root">KEYID</a> is listed
+  a unique <a>KEYID</a>. Even if a <a>KEYID</a> is listed
   more than once in the "signatures" list a client MUST NOT count more than one
-  verified <a>SIGNATURE</a> from that <a for="root">KEYID</a> towards the
+  verified <a>SIGNATURE</a> from that <a>KEYID</a> towards the
   <a>THRESHOLD</a>.
   If version N+1 is not signed as required, discard it, abort the update cycle,
   and report the signature failure.  On the next update cycle, begin at step
@@ -1391,9 +1392,9 @@ it in the next step.
   in the trusted root metadata file.  When computing the <a>THRESHOLD</a> each
   <a>KEY</a> MUST only contribute one <a>SIGNATURE</a>. That is, each
   <a>SIGNATURE</a> which is counted towards the <a>THRESHOLD</a> MUST have
-  a unique <a for="root">KEYID</a>. Even if a <a for="root">KEYID</a> is listed
+  a unique <a>KEYID</a>. Even if a <a>KEYID</a> is listed
   more than once in the "signatures" list a client MUST NOT count more than one
-  verified <a>SIGNATURE</a> from that <a for="root">KEYID</a> towards the
+  verified <a>SIGNATURE</a> from that <a>KEYID</a> towards the
   <a>THRESHOLD</a>.  If the new timestamp metadata file is not properly signed,
   discard it, abort the update cycle, and report the signature failure.
 
@@ -1450,9 +1451,9 @@ it in the next step.
   the trusted root metadata file.  When computing the <a>THRESHOLD</a> each
   <a>KEY</a> MUST only contribute one <a>SIGNATURE</a>. That is, each
   <a>SIGNATURE</a> which is counted towards the <a>THRESHOLD</a> MUST have
-  a unique <a for="root">KEYID</a>. Even if a <a for="root">KEYID</a> is listed
+  a unique <a>KEYID</a>. Even if a <a>KEYID</a> is listed
   more than once in the "signatures" list a client MUST NOT count more than one
-  verified <a>SIGNATURE</a> from that <a for="root">KEYID</a> towards the
+  verified <a>SIGNATURE</a> from that <a>KEYID</a> towards the
   <a>THRESHOLD</a>.  If the new snapshot metadata file is not signed as
   required, discard it, abort the update cycle, and report the signature
   failure.
@@ -1507,9 +1508,9 @@ it in the next step.
   in the trusted root metadata file.  When computing the <a>THRESHOLD</a> each
   <a>KEY</a> MUST only contribute one <a>SIGNATURE</a>. That is, each
   <a>SIGNATURE</a> which is counted towards the <a>THRESHOLD</a> MUST have a
-  unique <a for="root">KEYID</a>. Even if a <a for="root">KEYID</a> is listed
+  unique <a>KEYID</a>. Even if a <a>KEYID</a> is listed
   more than once in the "signatures" list a client MUST NOT count more than one
-  verified <a>SIGNATURE</a> from that <a for="root">KEYID</a> towards the
+  verified <a>SIGNATURE</a> from that <a>KEYID</a> towards the
   <a>THRESHOLD</a>.  If the new targets metadata file is not signed as
   required, discard it, abort the update cycle, and report the failure.
 
