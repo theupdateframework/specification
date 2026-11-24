@@ -3,7 +3,7 @@ Title: The Update Framework Specification
 Shortname: TUF
 Status: LS
 Abstract: A framework for securing software update systems.
-Date: 2026-10-08
+Date: 2026-11-24
 Editor: Justin Cappos, NYU
 Editor: Trishank Karthik Kuppusamy, Apple
 Editor: Joshua Lock, University of Lincoln
@@ -16,7 +16,7 @@ Boilerplate: copyright no, conformance no
 Local Boilerplate: header yes
 Markup Shorthands: css no, markdown yes
 Metadata Include: This version off, Abstract off
-Text Macro: VERSION 1.0.37
+Text Macro: VERSION 1.0.40
 </pre>
 
 Note: We strive to make the specification easy to implement, so if you come
@@ -739,7 +739,9 @@ The "signed" portion of <a>root.json</a> is as follows:
     A role for each of "root", "snapshot", "timestamp", and "targets" MUST be
     specified in the roles object. The role of "mirror" is OPTIONAL.  If not
     specified, the mirror list will not need to be signed if mirror lists are
-    being used.
+    being used. Each role in the roles object MUST list at least one keyid in
+    "keyids", otherwise no signature could ever count towards its
+    <a>THRESHOLD</a>.
 
   : <dfn for="root">KEYID</dfn>
   ::
